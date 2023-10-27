@@ -1,0 +1,4 @@
+{
+    "Prompts": {"0":"This is a test","1":"Hello, this is testing embeddings","2":"Hello, my name is Brody Roberts"},
+    "List_method" :{"0":"prompt0","1":"prompt1","2":"prompt2"}
+}
