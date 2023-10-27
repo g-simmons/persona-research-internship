@@ -1,0 +1,715 @@
+SparseLA := module()
+option package;
+export randsp,spmat,sprank,spranka,multmmp,multmmp1,savesp,loadsp;
+local issorted,indords,sparsecopy,prunesp,elim;
+
+    indords := proc(E,N)
+        sig := sort([seq([E[i,1],E[i,2]],i=1..N)],output=permutation);
+        sig1 := Vector(sig,datatype=integer[4]);
+        sig := sort([seq([E[i,2],E[i,1]],i=1..N)],output=permutation);
+        sig2 := Vector(sig,datatype=integer[4]);
+        return sig1,sig2;
+    end proc;
+
+    sparsecopy0 := proc(E1::Array(datatype=integer[4]),E2::Array(datatype=integer[4]),N::integer[4],l::integer[4])
+        for i from 1 to N do
+            for j from 1 to l do
+                E2[i,j] := E1[i,j];
+            end do;
+        end do;
+    end proc;
+
+    sparsecopy0 := Compiler:-Compile(sparsecopy0);
+
+    sparsecopy := proc(E1,E2,N)
+        l := Dimension(E1)[2];
+        sparsecopy0(E1,E2,N,l);
+        return;
+    end proc;
+
+    prunesp := proc(E::Array(datatype=integer[4]),N::integer[4])
+        N1 := 0;
+        for i from 1 to N do
+            if(E[i,3]=0) then
+                next;
+            end if;
+            N1 := N1+1;
+            E[N1,1] := E[i,1];
+            E[N1,2] := E[i,2];
+            E[N1,3] := E[i,3];
+        end do;
+        return N1;
+    end proc;
+
+    prunesp := Compiler:-Compile(prunesp);
+
+    issorted := proc(J::Array(datatype=integer[4]),N::integer[4])
+        for i from 1 to N-1 do
+            if(J[i]>J[i+1]) then
+                return false;
+            end if;
+        end do;
+        return true;
+    end proc;
+
+    issorted := Compiler:-Compile(issorted);
+
+    spmat0 := proc(E::Array(datatype=integer[4]),sig1::Array(datatype=integer[4]),sig2::Array(datatype=integer[4]),R0::Array(datatype=integer[4]),R::Array(datatype=integer[4]),C0::Array(datatype=integer[4]),C::Array(datatype=integer[4]),rowpivs::Array(datatype=integer[4]),colpivs::Array(datatype=integer[4]),rowsizes::Array(datatype=integer[4]),colsizes::Array(datatype=integer[4]),m::integer[4],n::integer[4],N::integer[4])
+        for k0 from 1 to N do
+            k := sig1[k0];
+            i := E[k,1];
+            j := E[k,2];
+            c := E[k,3];
+            k1 := R0[i,2];
+            k2 := R0[i,1];
+            if(k1=0) then
+                R0[i,2] := k;
+            end if;
+            if(k2<>0) then
+                R[k2,2] := k;
+                R[k,1] := k2;
+            end if;
+            R0[i,1] := k;
+        end do;
+        for k0 from 1 to N do
+            k := sig2[k0];
+            i := E[k,1];
+            j := E[k,2];
+            c := E[k,3];
+            k1 := C0[j,2];
+            k2 := C0[j,1];
+            if(k1=0) then
+                C0[j,2] := k;
+            end if;
+            if(k2<>0) then
+                C[k2,2] := k;
+                C[k,1] := k2;
+            end if;
+            C0[j,1] := k;
+        end do;
+        for i from 1 to m do
+            k := R0[i,2];
+            p := 0;
+            s := 0;
+            if(k>0) then
+                p := E[k,2];
+                while(k<>0) do
+                    s := s+1;
+                    k := R[k,2];
+                end do;
+            end if;
+            rowpivs[i] := p;
+            rowsizes[i] := s;
+        end do;
+        for j from 1 to n do
+            l := C0[j,2];
+            p := 0;
+            s := 0;
+            if(l>0) then
+                p := E[l,1];
+                while(l<>0) do
+                    s := s+1;
+                    l := C[l,2];
+                end do;
+            end if;
+            colpivs[j] := p;
+            colsizes[j] := s;
+        end do;
+    end proc;
+
+    spmat0 := Compiler:-Compile(spmat0);
+
+    spmat1 := proc(i::integer[4],R0::Array(datatype=integer[4]),R::Array(datatype=integer[4]),E::Array(datatype=integer[4]),a::integer[4],J::Array(datatype=integer[4]),V::Array(datatype=integer[4]))
+        k := R0[i,2];
+        N1 := 0;
+        while(k<>0) do
+            N1 := N1+1;
+            J[N1] := E[k,a];
+            V[N1] := E[k,3];
+            k := R[k,2];
+        end do;
+        return N1;
+    end proc;
+
+    spmat1 := Compiler:-Compile(spmat1);
+
+    spmat3 := proc(rowinds::integer[4],colinds::integer[4],R0::Array(datatype=integer[4]),R::Array(datatype=integer[4]),C0::Array(datatype=integer[4]),C::Array(datatype=integer[4]),E::Array(datatype=integer[4]),A::Array(datatype=integer[4]),m1::integer[4],n1::integer[4],K1::Array(datatype=integer[4]),L1::Array(datatype=integer[4]))
+        for i from 1 to m1 do
+            for j from 1 to n1 do
+                A[i,j] := 0;
+            end do;
+        end do;
+        for i0 from 1 to m1 do
+            i := rowinds[i0];
+            K1[i0] := R0[i,2];
+        end do;
+        for j0 from 1 to n1 do
+            j := colinds[j0];
+            L1[j0] := C0[j,2];
+        end do;
+        for i0 from 1 to m1 do
+            i := rowinds[i0];
+            for j0 from 1 to n1 do
+                j := colinds[j0];
+                c := A[i0,j0];
+                k := K1[i0];
+                l := L1[j0];
+                i1 := 0;
+                j1 := 0;
+                while(true) do
+                    if(k=0) then
+                        break;
+                    end if;
+                    j1 := E[k,2];
+                    if(j1>=j) then
+                        break;
+                    end if;
+                    k := R[k,2];
+                end do;
+                while(true) do
+                    if(l=0) then
+                        break;
+                    end if;
+                    i1 := E[l,1];
+                    if(i1>=i) then
+                        break;
+                    end if;
+                    l := C[l,2];
+                end do;
+                if(i=i1 and j=j1) then
+                    if(k<>l) then
+                        error "not same row/column";
+                    end if;
+                    A[i0,j0] := E[k,3];
+                end if;
+            end do;
+        end do;
+    end proc;
+
+    spmat3 := Compiler:-Compile(spmat3);
+
+    spmat4 := proc(rowinds::integer[4],colinds::integer[4],A::Array(datatype=integer[4]),R0::Array(datatype=integer[4]),R::Array(datatype=integer[4]),C0::Array(datatype=integer[4]),C::Array(datatype=integer[4]),ord::Array(datatype=integer[4]),ord1::Array(datatype=integer[4]),E::Array(datatype=integer[4]),m1::integer[4],n1::integer[4],N::integer[4],K1::Array(datatype=integer[4]),L1::Array(datatype=integer[4]))
+        N1 := N;
+        for i0 from 1 to m1 do
+            i := rowinds[i0];
+            K1[i0] := R0[i,2];
+        end do;
+        for j0 from 1 to n1 do
+            j := colinds[j0];
+            L1[j0] := C0[j,2];
+        end do;
+        for i0 from 1 to m1 do
+            i := rowinds[i0];
+            for j0 from 1 to n1 do
+                j := colinds[j0];
+                c := A[i0,j0];
+                k := K1[i0];
+                l := L1[j0];
+                i1 := 0;
+                j1 := 0;
+                while(true) do
+                    if(k=0) then
+                        break;
+                    end if;
+                    j1 := E[k,2];
+                    if(j1>=j) then
+                        break;
+                    end if;
+                    k := R[k,2];
+                end do;
+                while(true) do
+                    if(l=0) then
+                        break;
+                    end if;
+                    i1 := E[l,1];
+                    if(i1>=i) then
+                        break;
+                    end if;
+                    l := C[l,2];
+                end do;
+                if(i=i1 and j=j1) then
+                    if(k<>l) then
+                        error "not same row/column";
+                    end if;
+                    E[k,3] := c;
+                    if(c=0) then
+                        k1 := R[k,1];
+                        k2 := R[k,2];
+                        if(k1=0) then
+                            R0[i,2] := k2;
+                        else
+                            R[k1,2] := k2;
+                        end if;
+                        if(k2=0) then
+                            R0[i,1] := k1;
+                        else
+                            R[k2,1] := k1;
+                        end if;
+                        l1 := C[l,1];
+                        l2 := C[l,2];
+                        if(l1=0) then
+                            C0[j,2] := l2;
+                        else
+                            C[l1,2] := l2;
+                        end if;
+                        if(l2=0) then
+                            C0[j,1] := l1;
+                        else
+                            C[l2,1] := l1;
+                        end if;
+                        N2 := ord[N1];
+                        a1 := ord1[k];
+                        b1 := ord1[N2];
+                        ord1[k] := b1;
+                        ord1[N2] := a1;
+                        ord[a1] := N2;
+                        ord[b1] := k;
+                        N1 := N1-1;
+                    end if;
+                    K1[i0] := R[k,2];
+                    L1[j0] := C[l,2];
+                else
+                    if(c<>0) then
+                        N1 := N1+1;
+                        b1 := ord[N1];
+
+                        E[b1,1] := i;
+                        E[b1,2] := j;
+                        E[b1,3] := c;
+                        k2 := k;
+                        if(k2=0) then
+                            k1 := R0[i,1];
+                        else
+                            k1 := R[k2,1];
+                        end if;
+                        R[b1,1] := k1;
+                        R[b1,2] := k2;
+                        if(k1=0) then
+                            R0[i,2] := b1;
+                        else
+                            R[k1,2] := b1;
+                        end if;
+                        if(k2=0) then
+                            R0[i,1] := b1;
+                        else
+                            R[k2,1] := b1;
+                        end if;
+                        l2 := l;
+                        if(l2=0) then
+                            l1 := C0[j,1];
+                        else
+                            l1 := C[l2,1];
+                        end if;
+                        C[b1,1] := l1;
+                        C[b1,2] := l2;
+                        if(l1=0) then
+                            C0[j,2] := b1;
+                        else
+                            C[l1,2] := b1;
+                        end if;
+                        if(l2=0) then
+                            C0[j,1] := b1;
+                        else
+                            C[l2,1] := b1;
+                        end if;
+                        K1[i0] := k;
+                        L1[j0] := l;
+                    end if;
+                end if;
+            end do;
+        end do;
+        return N1;
+    end proc;
+
+    spmat4 := Compiler:-Compile(spmat4);
+
+    spmat5 := proc(rowinds::Array(datatype=integer[4]),colinds::Array(datatype=integer[4]),R0::Array(datatype=integer[4]),R::Array(datatype=integer[4]),C0::Array(datatype=integer[4]),C::Array(datatype=integer[4]),E::Array(datatype=integer[4]),rowpivs::Array(datatype=integer[4]),colpivs::Array(datatype=integer[4]),rowsizes::Array(datatype=integer[4]),colsizes::Array(datatype=integer[4]),m1::integer[4],n1::integer[4])
+        for i from 1 to m1 do
+            i1 := rowinds[i];
+            k := R0[i1,2];
+            p := 0;
+            s := 0;
+            if(k>0) then
+                p := E[k,2];
+                while(k<>0) do
+                    s := s+1;
+                    k := R[k,2];
+                end do;
+            end if;
+            rowpivs[i1] := p;
+            rowsizes[i1] := s;
+        end do;
+        for j from 1 to n1 do
+            j1 := colinds[j];
+            l := C0[j1,2];
+            p := 0;
+            s := 0;
+            if(l>0) then
+                p := E[l,1];
+                while(l<>0) do
+                    s := s+1;
+                    l := C[l,2];
+                end do;
+            end if;
+            colpivs[j1] := p;
+            colsizes[j1] := s;
+        end do;
+    end proc;
+
+    spmat5 := Compiler:-Compile(spmat5);
+
+    spmat := proc(m,n)
+        md := module()
+        option object;
+        export m,n,ord,ord1,E,N,setelt,setelts,getrow,getrow1,getcol,getcol1,getsub,getsub1,setsub,setsub1,allocif,torec,init,R0,R,C0,C,K1,L1,rowpivs,colpivs,rowsizes,colsizes;
+        local ModulePrint,U1,V1;
+            ModulePrint::static := proc()
+                s := "%dx%d sparse matrix, %d nonzero elements";
+                return nprintf(s,m,n,N);
+            end proc;
+            torec::static := proc()
+                A := allocla[integer[4]]([m,n]);
+                for k0 from 1 to N do
+                    k := ord[k0];
+                    i,j,a := E[k,1],E[k,2],E[k,3];
+                    A[i,j] := a;
+                end do;
+                return A;
+            end proc;
+            getrow::static := proc(i)
+                N1 := getrow1(i,K1,V1);
+                return K1[1..N1],V1[1..N1];
+            end proc;
+            getrow1::static := proc(i,J,V)
+                return spmat1(i,R0,R,E,2,J,V);
+            end proc;
+            getcol::static := proc(j)
+                N1 := getcol1(j,L1,U1);
+                return L1[1..N1],U1[1..N1];
+            end proc;
+            getcol1::static := proc(j,J,V)
+                return spmat1(j,C0,C,E,1,J,V);
+            end proc;
+            getsub::static := proc(il,jl)
+            local m1,n1;
+                m1 := nops(il);
+                n1 := nops(jl);
+                rowinds := Vector(il,datatype=integer[4]);
+                colinds := Vector(jl,datatype=integer[4]);
+                A := allocla[integer[4]]([m1,n1]);
+                getsub1(rowinds,colinds,A,m1,n1);
+                return A;
+            end proc;
+            getsub1::static := proc(rowinds,colinds,A,m1,n1)
+                if(not issorted(rowinds,m1) or not issorted(colinds,n1)) then
+                    error "indices not sorted";
+                end if;
+                spmat3(rowinds,colinds,R0,R,C0,C,E,A,m1,n1,K1,L1);
+            end proc;
+            setsub::static := proc(il,jl,A)
+            local m1,n1;
+                m1 := nops(il);
+                n1 := nops(jl);
+                rowinds := Vector(il,datatype=integer[4]);
+                colinds := Vector(jl,datatype=integer[4]);
+                setsub1(rowinds,colinds,A,m1,n1);
+                return;
+            end proc;
+            setsub1::static := proc(rowinds,colinds,A,m1,n1)
+                if(not issorted(rowinds,m1) or not issorted(colinds,n1)) then
+                    error "indices not sorted";
+                end if;
+                allocif(N+m1*n1);
+                N := spmat4(rowinds,colinds,A,R0,R,C0,C,ord,ord1,E,m1,n1,N,K1,L1);
+                spmat5(rowinds,colinds,R0,R,C0,C,E,rowpivs,colpivs,rowsizes,colsizes,m1,n1);
+            end proc;
+            setelt::static := proc(i,j,c)
+                N := spmat3(i,j,c,R0,R,C0,C,ord,ord1,E,N);
+                return;
+            end proc;
+            setelts::static := proc(E1,N1:=Dimension(E1)[1])
+                allocif(N1);
+                N := N1;
+                sig1,sig2 := indords(E1,N1);
+                sparsecopy(E1,E,N);
+                N := spmat0(E,sig1,sig2,R0,R,C0,C,rowpivs,colpivs,rowsizes,colsizes,m,n,N);
+                return;
+            end proc;
+            setelts::static := proc(E1,N1:=Dimension(E1)[1])
+                allocif(N1);
+                N := N1;
+                sparsecopy(E1,E,N);
+                N := prunesp(E,N);
+                sig1,sig2 := indords(E,N);
+                spmat0(E,sig1,sig2,R0,R,C0,C,rowpivs,colpivs,rowsizes,colsizes,m,n,N);
+                return;
+            end proc;
+            allocif::static := proc(N1)
+                N0 := Dimension(E)[1];
+                if(N1<=N0) then
+                    return false;
+                end if;
+                M := 2^ceil(log(N1)/log(2));
+                E := rebuff(E,M);
+                R := rebuff(R,M);
+                C := rebuff(C,M);
+                ord := rebuff(ord,M);
+                ord1 := rebuff(ord1,M);
+                for i from N0+1 to M do
+                    ord[i] := i;
+                    ord1[i] := i;
+                end do;
+                printf("reallocated: %d\n",M);
+                return true;
+            end proc;
+            init::static := proc()
+                m,n := args;
+                M0 := 16;
+                N := 0;
+                E,R0,R,C0,C,K1,L1,U1,V1,rowpivs,colpivs,rowsizes,colsizes := allocla[integer[4]]([M0,3],[m,2],[M0,2],[n,2],[M0,2],m,n,m,n,m,n,m,n);
+                ord := Vector([seq(i,i=1..M0)],datatype=integer[4]);
+                ord1 := Vector([seq(i,i=1..M0)],datatype=integer[4]);
+            end proc;
+        end module;
+        md:-init(m,n);
+        return md;
+    end proc;
+
+    rebuff0 := proc(E::Array(datatype=integer[4]),E1::Array(datatype=integer[4]),M::integer[4],l::integer[4])
+        for i from 1 to M do
+            for j from 1 to l do
+                E1[i,j] := E[i,j];
+            end do;
+        end do;
+    end proc;
+
+    rebuff0 := Compiler:-Compile(rebuff0);
+
+    rebuff1 := proc(U::Array(datatype=integer[4]),U1::Array(datatype=integer[4]),M::integer[4])
+        for i from 1 to M do
+            U1[i] := U[i];
+        end do;
+    end proc;
+
+    rebuff1 := Compiler:-Compile(rebuff1);
+
+    rebuff := proc(E,M)
+        if(nargs=3) then
+            N := args[3];
+            M0,N0 := Dimension(E);
+            if(M0>M or N0>N) then
+                error "not smaller1";
+            end if;
+            E1 := allocla[integer[4]]([M,N]);
+            rebuff0(E,E1,M0,N0);
+            return E1;
+        elif(type(E,'Matrix')) then
+            M0,l := Dimension(E);
+            if(M0>=M) then
+                error "not smaller2";
+            end if;
+            E1 := allocla[integer[4]]([M,l]);
+            rebuff0(E,E1,M0,l);
+            return E1;
+        elif(type(E,'Vector')) then
+            M0 := Dimension(E);
+            if(M0>=M) then
+                error "not smaller3";
+            end if;
+            E1 := allocla[integer[4]](M);
+            rebuff1(E,E1,M0);
+            return E1;
+        end if;
+    end proc;
+
+    savesp := proc(S,fn)
+        fd := fopen(fn,WRITE);
+        m,n,N,E := S:-m,S:-n,S:-N,S:-E;
+        fprintf(fd,"%d,%d,%d\n",m,n,N);
+        for k from 1 to N do
+            fprintf(fd,"%d,%d,%d\n",E[k,1],E[k,2],E[k,3]);
+        end do;
+        fclose(fn);
+        return;
+    end proc;
+
+    loadsp := proc(fn)
+        fd := fopen(fn,READ);
+        m,n,N := parse(readline(fd));
+        S := spmat(m,n);
+        E := allocla[integer[4]]([N,3]);
+        for k from 1 to N do
+            s := readline(fn);
+            ans1 := [parse(s)];
+            E[k,1] := ans[1];
+            E[k,2] := ans[2];
+            E[k,3] := ans[3];
+        end do;
+        fclose(fn);
+        S:-setelts(E);
+        return S;
+    end proc;
+
+    randsp := proc(m,n,p)
+        ans := [];
+        for i from 1 to m do
+            for j from 1 to n do
+                a := rand() mod p;
+                if(a<>0) then
+                    ans := [op(ans),[i,j,a]];
+                end if;
+            end do;
+        end do;
+        E := Matrix(ans,datatype=integer[4]);
+        ans := spmat(m,n);
+        ans:-setelts(E);
+        return ans;
+    end proc;
+
+    sprank0 := proc(J::Array(datatype=integer[4]),N::integer[4])
+        ans := 0;
+        c := Float(infinity);
+        for i from 1 to N do
+            if(J[i]>0 and J[i]<c) then
+                c := J[i];
+                ans := i;
+            end if;
+        end do;
+        return ans;
+    end proc;
+
+    sprank0 := Compiler:-Compile(sprank0);
+
+    sprank1 := proc(J1::Array(datatype=integer[4]),J2::Array(datatype=integer[4]),N)
+        ans := 0;
+        c := Float(infinity);
+        for i from 1 to N do
+            i1 := J2[i];
+            if(J1[i1]>0 and J1[i1]<c) then
+                c := J1[i1];
+                ans := i1;
+            end if;
+        end do;
+        return ans;
+    end proc;
+
+    sprank1 := Compiler:-Compile(sprank1);
+
+    sprank2 := proc(i,J::Array(datatype=integer[4]))
+        k := 1;
+        while(true) do
+            if(J[k]=i) then
+                return k;
+            end if;
+            k := k+1;
+        end do;
+    end proc;
+
+    sprank2 := Compiler:-Compile(sprank2);
+
+    elim0 := proc(c::integer[4],i0::integer[4],j0::integer[4],A::Array(datatype=integer[4]),p::integer[4],m::integer[4],n::integer[4])
+        for j from 1 to n do
+            a := A[i0,j];
+            A[i0,j] := a*c mod p;
+        end do;
+        for i from 1 to m do
+            if(i=i0) then
+                next;
+            end if;
+            b := A[i,j0];
+            for j from 1 to n do
+                a := A[i,j]-b*A[i0,j];
+                A[i,j] := a mod p;
+            end do;
+        end do;
+        for j from 1 to n do
+            A[i0,j] := 0;
+        end do;
+    end proc;
+
+    elim0 := Compiler:-Compile(elim0);
+
+    elim := proc(i0,j0,A,p,m,n)
+        c := A[i0,j0];
+        c := 1/c mod p;
+        elim0(c,i0,j0,A,p,m,n);
+        return;
+    end proc;
+
+#Implementation of the Algorithm from
+#"Computing the Rank of Large Sparse Matrices over Finite Fields"
+#by J.G. Dumas and Gilles Villard.
+#See also the bibliography from "Computing the alpha complex
+#using dual active set quadratic programming"
+#for full citation
+    sprank := proc(S,p)
+    local m1,n1;
+        E := S:-E[1..S:-N];
+        m,n := S:-m,S:-n;
+        A,I1,J1,U1,V1 := allocla[integer[4]]([16,16],m,n,m,n);
+        sp := spmat(m,n);
+        sp:-setelts(E);
+        pivs := sp:-rowpivs;
+        colsizes := sp:-colsizes;
+        ans := 0;
+        tt1 := 0.0;
+        tt2 := 0.0;
+        tt3 := 0.0;
+        while(sp:-N>0) do
+            tprint[1](ans,sp:-N,tt1,tt2,tt3);
+            i := sprank0(pivs,m);
+            n1 := sp:-getrow1(i,J1,V1);
+            j := sprank1(colsizes,J1,n1);
+            m1 := colsizes[j];
+            j0 := sprank2(j,J1);
+            sp:-getcol1(j,I1,U1);
+            i0 := sprank2(i,I1);
+            M,N := Dimension(A);
+            if(m1>M or n1>N) then
+                M1 := 2^ceil(log(max(m1,M))/log(2));
+                N1 := 2^ceil(log(max(n1,N))/log(2));
+                A := rebuff(A,M1,N1);
+                printf("reallocated: %dx%d\n",Dimension(A));
+            end if;
+            tt3 := time(sp:-getsub1(I1,J1,A,m1,n1));
+            tt2 := time(elim(i0,j0,A,p,m1,n1));
+            tt1 := time(sp:-setsub1(I1,J1,A,m1,n1));
+            ans := ans+1;
+        end do;
+        return ans;
+    end proc;
+
+#should agree with the above
+    spranka := proc(S,p)
+        m,n,N,E := S:-m,S:-n,S:-N,S:-E;
+        A := Matrix(m,n);
+        for k from 1 to N do
+            i,j,a := E[k,1],E[k,2],E[k,3];
+            A[i,j] := a mod p;
+        end do;
+        A1 := Modular:-Mod(p,A,integer[8]);
+        return Modular:-Rank(p,A1);
+    end proc;
+
+    multmmp1 := proc(A::Array(datatype=integer[4]),B::Array(datatype=integer[4]),C::Array(datatype=integer[4]),p::integer[4],l::integer[4],m::integer[4],n::integer[4])
+        for i from 1 to l do
+            for j from 1 to n do
+                c := 0;
+                for k from 1 to m do
+                    c := c+A[i,k]*B[k,j];
+                end do;
+                C[i,j] := c mod p;
+            end do;
+        end do;
+    end proc;
+
+    multmmp1 := Compiler:-Compile(multmmp1);
+
+    multmmp := proc(A,B,C,p)
+        l,m := Dimension(A);
+        m,n := Dimension(B);
+        multmmp1(A,B,C,p,l,m,n);
+        return;
+    end proc;
+
+end module;
