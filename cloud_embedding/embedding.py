@@ -1,6 +1,6 @@
 import cohere
 import pandas 
-import json
+
 
 # Cloud based embedding
 
@@ -23,7 +23,7 @@ def json_input_directory() -> dict:
 def json_output(embedding_list, prompt_list):
   df = pandas.DataFrame({'prompt': prompt_list,'prompt-embedding': embedding_list})
 
-# Save the DataFrame to a JSONL file
+  # Save the DataFrame to a JSONL file
   df.to_json('output.jsonl', orient='records', lines=True)
   
         
@@ -52,6 +52,5 @@ response = co.embed(
   model='small', 
 )
 
-# # print(len(list), "THIS IS THE SIZE OF THE LIST")
 json_output(response.embeddings, list)
 
