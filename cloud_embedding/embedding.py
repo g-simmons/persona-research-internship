@@ -18,15 +18,6 @@ def json_input_directory() -> dict:
 
     
     return dictionary
-
-# Creates json for output
-def json_output(embedding_list, prompt_list):
-  df = pandas.DataFrame({'prompt': prompt_list,'prompt-embedding': embedding_list})
-
-  # Save the DataFrame to a JSONL file
-  df.to_json('output.jsonl', orient='records', lines=True)
-  
-        
    
 
 # Put Json Data in list
@@ -39,6 +30,15 @@ def json_to_list(dict) -> list:
          # add to list to use for Cohere
          list.append(value)
   return list
+
+
+# Creates json for output
+def json_output(embedding_list, prompt_list):
+  #sets up the dictionary frame
+  df = pandas.DataFrame({'prompt': prompt_list,'prompt-embedding': embedding_list})
+
+  # Save the DataFrame to a JSONL file
+  df.to_json('output.jsonl', orient='records', lines=True)
 
 
 # Main ----------------------------------------------------------------------------------------
