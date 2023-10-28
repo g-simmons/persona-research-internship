@@ -20,30 +20,12 @@ def json_input_directory() -> dict:
     return dictionary
 
 # Creates json for output
-def json_output(list):
-    dict = {}
-    for i in range(0, len(list)):
-      string = "Prompt: " + str(i)
-      dict.update({string:list[i]})
-    
-#method using import Json
-    # # Serializing json
-    # json_object = json.dumps(dict, indent=4)
-    
-    # # Writing to sample.json
-    # with open("sample.json", "w") as outfile:
-    #     outfile.write(json_object)
+def json_output(embedding_list, prompt_list):
+  df = pandas.DataFrame({'prompt': prompt_list,'prompt-embedding': embedding_list})
 
-
-# Method using import Panda
-    # Convert the list to a DataFrame
-      df = pandas.DataFrame(dict)
-
-      # Specify the output file name
-      output_file = "output.json"
-
-      # Save the DataFrame as a JSON file
-      df.to_json(output_file, orient='records', lines=True)
+# Save the DataFrame to a JSONL file
+  df.to_json('output.jsonl', orient='records', lines=True)
+  
         
    
 
@@ -70,8 +52,6 @@ response = co.embed(
   model='small', 
 )
 
-json_output(response.embeddings)
+# # print(len(list), "THIS IS THE SIZE OF THE LIST")
+json_output(response.embeddings, list)
 
-
-
-https://github.com/g-simmons/persona-research-internship.git
