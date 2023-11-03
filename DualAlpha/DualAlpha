@@ -797,7 +797,7 @@ local drawpow,drawsv,metpair;
         end if;
         pl := [seq([P[i,1],P[i,2]],i=1..n)];
         ql := [seq(pl[i]-pl[1],i=2..n)];
-        rl := [seq(sqrt(q[1]^2+q[2]^2),q=ql)];
+        rl := [seq(sqrt(q[1]^2+q[2]^2 + .001),q=ql)];
         c0 := 1;
         i0,j0 := 0,0;
         for i from 1 to n-1 do
