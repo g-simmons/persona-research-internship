@@ -3,6 +3,10 @@ option package;
 export pdiag,randpd,getalpha,drawpd,pcell,pgraph,pcech,witmap,vectab,drawalpha;
 local drawpow,drawsv,metpair;
 
+# The 'pcell0' procedure computes matrices 'B' and 'U' based on input matrices: 'A',
+# 'V', 'pow', 'p0' and dimensions 'n' and 'm'
+# This procedure is also used to initialize data structures 
+
     pcell0 := proc(A::Array(datatype=float[8]),V::Array(datatype=float[8]),pow::Array(datatype=float[8]),p0::float[8],B::Array(datatype=float[8]),U::Array(datatype=float[8]),n,m)
         for i1 from 1 to n do
             for i2 from 1 to n do
@@ -21,7 +25,10 @@ local drawpow,drawsv,metpair;
 
     pcell0 := Compiler:-Compile(pcell0);
 
-#load the active set.
+# loads the active set and updates vector 'wit' based on input matrices: 'A',
+# 'V', 'll', 'active', 'wit' and dimensions 'n' and 'm'
+# It iteratively updates 'wit' and represents the boundary of a cell in the power diagram
+
     pcell1 := proc(A::Array(datatype=float[8]),V::Array(datatype=float[8]),ll::Array(datatype=float[8]),active::Array(datatype=integer[4]),wit::Array(datatype=float[8]),n::integer[4],m::integer[4])
         for j from 1 to m do
             wit[j] := V[j];
@@ -46,6 +53,10 @@ local drawpow,drawsv,metpair;
 #for the dual programming, while setface returns the filtered value
 #of a given face. if not greater than b, the representative is stored
 #in wit.
+
+# 'pcell' function is used to initialize and work with the power diagram
+# The objects returned are used for manipulating and analyzing the power cell
+
     pcell := proc(A,pow,p0)
         md := module()
         option object;
@@ -122,9 +133,9 @@ local drawpow,drawsv,metpair;
         return md;
     end proc;
 
-    #compute the maximum degree of any vertex in the graph which is the
-#nerve of the corresponding weighted ball covering, for
-#preprocessing.
+# The 'pcech0' procedure calculates the maximum degree of the vertex in the 
+# graph which represents the nerve of weighted ball coverings 
+
     pcech0 := proc(A::Array(datatype=float[8]),pow::Array(datatype=float[8]),a1::float[8],N::integer[4],m::integer[4])
         N1 := 0;
         for i1 from 1 to N do
@@ -160,7 +171,8 @@ local drawpow,drawsv,metpair;
     pcech0 := Compiler:-Compile(pcech0);
 
 #compute the above intersection graph by storing the neighbors to
-#every vertex into E.
+#every vertex into E (has information about pairs of vertices that intersect)
+ 
     pcech1 := proc(A::Array(datatype=float[8]),pow::Array(datatype=float[8]),a1::float[8],E::Array(datatype=integer[4]),R::Array(datatype=float[8]),W::Array(datatype=float[8]),N::integer[4],m::integer[4])
         N1 := 0;
         for i1 from 1 to N do
@@ -220,6 +232,8 @@ local drawpow,drawsv,metpair;
     end proc;
 
     pcech1 := Compiler:-Compile(pcech1);
+
+# 'pcech' function creates an object to represent a cech complex based on input data
 
     pcech := proc(A,pow,a1)
         printf("building the 1-skeleton of the cech complex...\n");
@@ -310,6 +324,10 @@ local drawpow,drawsv,metpair;
 
 #put the support of a vertex, i.e. the set of edges into the list
 #inds1, and the inverse indices into inds2
+
+# 'pdiag0' provides information about about vertices in a specific region
+# of the power diagram
+
     pdiag0 := proc(i::integer[4],A::Array(datatype=float[8]),pow::Array(datatype=float[8]),E::Array(datatype=integer[4]),a::float[8],R::Array(datatype=float[8]),inds1::Array(datatype=integer[4]),inds2::Array(datatype=integer[4]),A1::Array(datatype=float[8]),pow1::Array(datatype=float[8]),N::integer[4],m::integer[4],n1::integer[4])
         for k from 1 to N do
             inds2[k] := 0;
@@ -340,6 +358,8 @@ local drawpow,drawsv,metpair;
 #weight of [op(sig),i]. only loads equations when the cell is set. n1
 #is the maximum number of edges in the star of any vertex, which is
 #the maximum number of variables in any inequality.
+
+
     pdiag := proc(A,pow,a1)
         argl := [A,pow,a1];
         md := module()
@@ -482,8 +502,10 @@ local drawpow,drawsv,metpair;
         return Y,W;
     end proc;
 
-#witness map from X to R^m, which sends each simplex to its unique
+#witness map from simplicial complex 'X' to R^m, which sends each simplex to its unique
 #representative
+
+
     witmap := proc(X,m)
         md := module()
         option object;
@@ -529,6 +551,9 @@ local drawpow,drawsv,metpair;
         md:-init(X,m);
         return md;
     end proc;
+
+# The 'vectab' function creates a data structure that represents points in
+# R^m. It is used to store points and access values. It also contains methods for submatrices. 
 
     vectab := proc(m,typ)
         if(type(args[1],'Matrix')) then
@@ -660,6 +685,9 @@ local drawpow,drawsv,metpair;
         return md;
     end proc;
 
+# The 'drawpd' function is used to draw a shifted Voronoi diagram and power diagram
+# The inputs for this function are: list 'l', power vector 'pow', radius 'r' and constant 'h'
+
     drawpd := proc(L,pow,r,h)
         L1,L2,G := metpair[op(getsubs(procname))](L,true);
         n,m := Dimension(L1);
@@ -678,6 +706,8 @@ local drawpow,drawsv,metpair;
         return display(ans);
     end proc;
 
+# The 'drawpow' function is the same as 'drawpd'
+
     drawpow := proc(L,pow,r)
         L1,L2,G := metpair[op(getsubs(procname))](L,true);
         n,m := Dimension(L1);
@@ -685,9 +715,11 @@ local drawpow,drawsv,metpair;
         return drawcech[G](L1,V,args[4..nargs]);
     end proc;
 
-#draw the shifted voronoi diagram with vertices given by L, and L2=L1.G the dual
-#basis under some inner product given by a symmetric matrix G. taking
-#Lt=L gives the usual metric.
+# draw the shifted voronoi diagram with vertices given by L, and L2=L1.G the dual
+# basis under some inner product given by a symmetric matrix G. taking
+# Lt=L gives the usual metric. This procedure helps to calculate and visualize the
+# voronoi diagrams with shifted vertices
+
     drawsv := proc(L,pow,il,rng)
     uses LinearAlgebra;
     local x,y;
@@ -745,6 +777,8 @@ local drawpow,drawsv,metpair;
         return display(ans,view=[rng1,rng2]);
     end proc;
 
+# The 'linepoly' function is used to draw line segments between points in a polygon
+
     linepoly := proc(pl)
         n := nops(pl);
         ans := [];
@@ -754,6 +788,8 @@ local drawpow,drawsv,metpair;
         ans := [op(ans),line(pl[n],pl[1],args[2..nargs])];
         return ans;
     end proc;
+
+# The 'li2poly0' function is used to convert a set of linear inequalities into a polygon
 
     li2poly0 := proc(A::Array(datatype=float[8]),
                      V::Array(datatype=float[8]),
@@ -790,6 +826,9 @@ local drawpow,drawsv,metpair;
 
     li2poly0 := Compiler:-Compile(li2poly0);
 
+# The 'lin2poly' function creates a polygon from a set of linear inequalities
+# It also computes the intersection points of inequalities.
+
     li2poly := proc(A,V,N,P)
         n := li2poly0(A,V,N,P);
         if(n=0) then
@@ -814,6 +853,9 @@ local drawpow,drawsv,metpair;
         sig := sort(cl,`>`,output=permutation);
         return [pl[1],seq(pl[sig[i]+1],i=1..n-1)];
     end proc;
+
+# 'metpair' function handles pairing of matrices or vectors of different operations.
+# It uses geometric transformations.
 
     metpair := proc(A)
         if(type(A,'list')) then
@@ -843,6 +885,11 @@ local drawpow,drawsv,metpair;
         end if;
         return A1,A2,G;
     end proc;
+
+# 'drawcech' draws a cech cover of a point set with associated radii.
+# matrix 'A' has the points and vector 'V' has the radii. The cech cover is visualized
+# using by drawing circles at specified points with radii. It calculates
+# center 'p' of each circle and adds labels to points with non-negative radii.
 
     drawcech := proc(A,V)
     local x,y;
@@ -884,6 +931,9 @@ local drawpow,drawsv,metpair;
         end if;
         return display(ans);
     end proc;
+
+# 'getellipse' calculates ellipse paramaters for drawing circles. The orientation and scaling of 
+# the ellipse is based on matrix 'G' and radius 'r'
 
     getellipse := proc(p,G,r)
         U1,S1 := SingularValues(G,output=['U','S']);

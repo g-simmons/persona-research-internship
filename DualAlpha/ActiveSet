@@ -5,9 +5,24 @@
 #IEEE Transactions on Automatic Control, vol. 67,
 #no. 8, pp. 4362-4369, Aug. 2022
 
+# This code file contains procedures and variables related to an active set method
+# to solve a quadratic programming problem
+
 ActiveSet := module()
 option package;
 export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
+
+# dualalg0 is a procedure that takes various input arrays e.g. matrices and vectors.
+# The key steps of this procedure include:
+# initializing variables and arrays, computing the Cholesky decomposition of 'C0',
+# checking if 'C0' is singular by examining the diagonal elements of 'l0' and if any is 
+# smaller than the 'singtol' threshold, it returns 'objmax' 
+
+# Another important point to note is that: in the main loop of this code file
+# many linear equations are solved and their goal is to find the most violated
+# constraint within a feasible region. 'll' and 'ans1' are updated if the problem
+# is within the feasible design. If a constraint is violated, then vector 'p' is 
+# updated based on Cholesky factorization.
 
     dualalg0 := proc(C::Array(datatype=float[8]),
                      U::Array(datatype=float[8]),
@@ -179,6 +194,10 @@ export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
             end if;
             #if a0>0 then we need to move in the direction of p until a
             #wall is hit
+
+            # basically, if a0>0, then the solution needs to move in the direction
+            # of 'p' until it hits a constraint boundary 
+
             if(a0>0) then
             #find the coordinate which becomes negative first
                 #along the ray ll+t*p
@@ -266,6 +285,17 @@ export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
             else
                 #test to see if we have an optimal solution
                 #using the lagrange multipliers mm
+
+                # In this case, a0 is not greater than 0 and so, it checks
+                # whether the current solution is optimal by examining lagrange multipliers
+                # for each constraint and identifying the constraint that has the most violated 
+                # lagrange multipliers (indexed by 'k').
+
+                # If the most violated lagrange multiplier is non-negative, 
+                # the solution is optimal or the active set is at its maximum size
+                # If the lagrange multiplier is negative, the active set is expanded 
+                # by adding the corresponding constraint to the active set.
+                # This part is intended to handle singularity and feasibility conditions
                 k,c1 := 0,0.0;
                 for i from 1 to N do
                     mm[i] := -U[i];
@@ -322,6 +352,9 @@ export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
             ans := ans1;
         end do;
     end proc;
+
+# the dualalg1 procedure initializes variables for the active set and prints
+# detailed debugging information
 
     dualalg1 := proc(C,U,N,active,l0,l1,objmax,primtol,singtol,ll,mm,ll1,C0,R1,U0,D1,p,z,bb)
         print("dual active set algorithm verbose version");
@@ -646,6 +679,9 @@ export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
     #for debugging, comment out the previous line and uncomment this:
     #dualalg := dualalg1;
 
+# Both the 'kkt0' and 'kkt' procedures have conditions that must be satisfied 
+# for a solution to be optimal in a quadratic programming problem.
+
     kkt0 := proc(X0::Array(datatype=float[8]),
                  m::integer[4],
                  A::Array(datatype=float[8]),
@@ -692,7 +728,16 @@ export dualalg,dualalg1,dualalgalloc,kkt,primalqp,primalqp1,primalqp2,dualqp;
 #subject to:
 #A[i,..]HX<=V[i] for not i in il, and
 #A[i,..]HX=V[i] for i in il
+
+# The 'primalqp1' procedure creates an interface to solve quadratic programming
+# using dual active set methods
     primalqp := proc(H,X0,A,V,il)
+    # H : matrix representing the quadratic cost function
+    # X0 : initial guess for solution vector 
+    # A : matrix representing linear constraints
+    # V : vector representing right-hand side of constraints 
+    # il : list of indices representing equality constraints 
+
     uses Optimization;
         N,m := Dimension(A);
         jl := [op({seq(i,i=1..N)} minus {op(il)})];

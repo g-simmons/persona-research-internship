@@ -1,3 +1,5 @@
+# This code file is related to simplicial complexes and computational topology
+
 FiltPlex := module()
 option package;
 export cmptab,plex,subsimps,addlazy,getlazy,fplex,getskel,saveplex,sublev,loadplex,bdmat,getbetti;
