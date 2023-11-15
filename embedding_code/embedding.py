@@ -45,16 +45,13 @@ def embedding_checker(embeddings):
 
 
 # Find Json from input path
-def json_input_directory() -> dict:
+def json_input_directory() -> pandas.DataFrame:
     # directory/folder path
     dir_path = input("Enter directory for Json file: ")
     raw_dir_path = r'{}'.format(dir_path)
-    # puts Json Data in varaible
-    dictionary = pandas.read_json(raw_dir_path, lines=True)
-
-    #Implement Panderas checking the "dictionary" var in this function
-
-    return dictionary
+    # puts Json Data in variable
+    df = pandas.read_json(raw_dir_path, lines=True)
+    return df
    
 
 # Put Json Data in list
@@ -70,13 +67,11 @@ def json_to_list(dict) -> list:
 
 
 # Creates json for output
-def json_output(embedding_list, prompt_list) -> dict:
-  #sets up the dictionary frame
-
+def json_output(embedding_list, prompt_list):
+  # Set up the dictionary frame
   df = pandas.DataFrame({'prompt': prompt_list,'prompt_embedding': embedding_list})
   # Save the DataFrame to a JSONL file
   df.to_json('output.jsonl', orient='records', lines=True)
-  
   return df
 
 # Create local embedding function
@@ -106,6 +101,8 @@ def local_embedding(dict):
 
 # Save jsonl input into dictionary
 dict = json_input_directory()
+print(dict)
+# Check for input schema
 error_flag(dict, expected_input_schema, "INPUT SCHEMA ERROR")
 
 # Prompt to choose between local and cloud embedding
@@ -113,6 +110,7 @@ user_choice = input("Choose between local and cloud embedding: ")
 if(user_choice == 'local'):
   local_embedding(dict)
 elif(user_choice == 'cloud'):
+
   # Cloud embedding
   list = json_to_list(dict)
 
@@ -122,5 +120,3 @@ elif(user_choice == 'cloud'):
     model='small', 
   )
   output_dict = json_output(response.embeddings, list)
-
-
