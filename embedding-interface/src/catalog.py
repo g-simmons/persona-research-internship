@@ -25,8 +25,8 @@ class Catalog:
         Process Excel data and return a Pandas DataFrame 
 
         Args:
-            - name : name of Excel file in prompt folder
+            - name : name of Excel file in excel/excel_output folder
         """
-        excel_file_path = self.prompt / name
+        excel_file_path = self.prompt_out / name
         df =  pd.read_excel(excel_file_path)
         return df
