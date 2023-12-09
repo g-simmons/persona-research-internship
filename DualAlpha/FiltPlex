@@ -1008,9 +1008,4 @@ local ModuleLoad,plex0,plex1,plextype,stringlist;
             r2 := getbetti0(X,k+1,p);
         end if;
         dim1 := X:-numsimps(k)-r1;
-        dim2 := r2;
-        ans := dim1-dim2;
-        return ans;
-    end proc;
-
-end module;
+        dim2 := r

@@ -7,6 +7,8 @@
 
 # This code file contains procedures and variables related to an active set method
 # to solve a quadratic programming problem
+# Wikipedia link for active set methods: https://en.wikipedia.org/wiki/Active-set_method#:~:text=In%20mathematical%20optimization%2C%20the%20active,a%20simpler%20equality%2Dconstrained%20subproblem.
+
 
 ActiveSet := module()
 option package;
