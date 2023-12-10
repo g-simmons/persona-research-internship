@@ -11,37 +11,34 @@ from ast import literal_eval
 from sklearn.decomposition import PCA # Principal component Analysis
 from sklearn.manifold import TSNE # t-Stochastic Neighbor Embedding
 
-class Sentiment:
-    def __init__(self, sentiment_anl, df):
-        self.sentiment_anl = sentiment_anl.lower()
-        self.df = df
-    def textblob_get_sentiment(self,x) -> float:
-        """
-        Using textblob, return sentiment score of x.
+    
+def textblob_get_sentiment(x) -> float:
+    """
+    Using textblob, return sentiment score of x.
 
-        Args:
-            - x (str): prompt
-        """
-        return TextBlob(x).sentiment.polarity
+    Args:
+        - x (str): prompt
+    """
+    return TextBlob(x).sentiment.polarity
 
-    def vader_get_sentiment(self,x) -> float:
-        """
-        Using Vader, return sentiment score of x.
-        Args:
-            - x (str): prompt
-        """
-        # Create a SentimentIntensityAnalyzer Object
-        sid_obj = SentimentIntensityAnalyzer()
-        return sid_obj.polarity_scores(x)["compound"]
-    def get_full_prompt_sentiment(self):
-        """
-        Get sentiment score for full prompt
-        """
-        if(self.sentiment_anl == "vader"):
-            self.df["full_prompt_sentiment"] = self.df.full_prompt.apply(self.vader_get_sentiment)
-        elif(self.sentiment_anl == "textblob"):
-            self.df["full_prompt_sentiment"] = self.df.full_prompt.apply(self.textblob_get_sentiment)
-        return self.df
+def vader_get_sentiment(x) -> float:
+    """
+    Using Vader, return sentiment score of x.
+    Args:
+         - x (str): prompt
+    """
+    # Create a SentimentIntensityAnalyzer Object
+    sid_obj = SentimentIntensityAnalyzer()
+    return sid_obj.polarity_scores(x)["compound"]
+def get_full_prompt_sentiment(sentiment_anl,df):
+    """
+    Get sentiment score for full prompt
+    """
+    if(sentiment_anl == "vader"):
+        df["full_prompt_sentiment"] = df.full_prompt.apply(vader_get_sentiment)
+    elif(sentiment_anl == "textblob"):
+        df["full_prompt_sentiment"] = df.full_prompt.apply(textblob_get_sentiment)
+    return df
     
 def get_edited_column(x: pd.Series):
     """"
@@ -61,16 +58,17 @@ def get_edited_column(x: pd.Series):
 class Figure:
     def __init__(self, df, dim_red, sentiment_anl):
         # Assign generated embeddings from the DataFrame
-        self.embeddings = np.array(df.full_prompt_embedding[1:].apply(literal_eval).values)
         self.df = df
+        self.embeddings = df.full_prompt_embedding[1:].apply(literal_eval).values
+        self.embeddings = np.array(list(self.embeddings))
         self.dim_red = dim_red
         self.sentiment_anl = sentiment_anl.lower()
-        # Get edited columns
-        self.edited_col = self.df.apply(lambda x: get_edited_column(x), axis=1)[1:]
         # Mapping - True if category is edited, False if not
         self.df.is_acting_edited = self.df.is_acting_edited.map({"Yes": True, "No": False})
         self.df.is_cinematography_edited = self.df.is_cinematography_edited.map({"Yes": True, "No": False})
         self.df.is_direction_edited = self.df.is_direction_edited.map({"Yes": True, "No": False}) 
+        # Get edited columns
+        self.edited_col = self.df.apply(lambda x: get_edited_column(x), axis=1)[1:]
 
     def save_to_png(self, plot, file_name):
         """
@@ -82,7 +80,7 @@ class Figure:
         """
         # Set output directory to figures/
         output_dir = Catalog().figures
-        output_file_path = output_dir + file_name
+        output_file_path = output_dir / file_name
 
         # Get the underlying Matplotlib Figure object from the Seaborn plot
         figure = plot.get_figure()
@@ -95,12 +93,12 @@ class Figure:
         """
         Generate PCA figure
         """
-        self.pca = PCA(n_components = 2)
+        pca = PCA(n_components = 2)
         # Store pca embeddings in a seperate variable
-        self.embedding_pca = self.pca.fit_transform(self.embeddings)
+        embedding_pca = pca.fit_transform(self.embeddings)
         # DataFrame for embedding_pca
-        self.embedding_pca_df = pd.DataFrame(self.embedding_pca, columns=["PC1, PC2"])
-        self.pca_plot = sns.scatterplot(data=self.embedding_pca_df, x="PC1", y="PC2", hue=self.edited_col)
+        self.embedding_pca_df = pd.DataFrame(embedding_pca, columns=["PC1", "PC2"])
+        # self.pca_plot = sns.scatterplot(data=self.embedding_pca_df, x="PC1", y="PC2", hue=self.edited_col)
         # # Set the title as PCA for the plot
         # self.pca_plot.set_title("PCA")
         # # Save figure to a file using save_to_png method
@@ -110,10 +108,10 @@ class Figure:
         """
         Gerenate TSNE figure
         """
-        self.tsne = TSNE(n_components=2, perplexity=80, learning_rate=100,n_iter=1000)
-        self.embedding_tsne = self.tsne.fit_transform(self.embeddings)
+        tsne = TSNE(n_components=2, perplexity=80, learning_rate=100,n_iter=1000)
+        self.embedding_tsne = tsne.fit_transform(self.embeddings)
         self.embedding_tsne_df = pd.DataFrame(self.embedding_tsne, columns=["TSNE1", "TSNE2"])
-        self.tsne_plot = sns.scatterplot(data=self.embedding_tsne_df,x="TSNE1", y="TSNE2", hue=self.edited_col)
+        # self.tsne_plot = sns.scatterplot(data=self.embedding_tsne_df,x="TSNE1", y="TSNE2", hue=self.edited_col)
         # # Save the title as TSNE for the plot
         # self.tsne_plot.set_title("TSNE")
         # # Save figure to a file using save_to_png method
@@ -128,7 +126,7 @@ class Figure:
             self.data_x = "PC1"
             self.data_y = "PC2"
         elif (self.dim_red == 'tsne'):
-            self.data_plot = self.tsne_embedding_df
+            self.data_plot = self.embedding_tsne_df
             self.data_x = "TSNE1"
             self.data_y = "TSNE2"
     # Function to produce TextBlob figure with the corresponding dimensional reduction method
@@ -161,9 +159,8 @@ def main(e, d, s):
     catalog = Catalog()
     # Assign FINALOUTPUT Excel file into DataFrame
     df = catalog._process_excel(e)
-    sentiment = Sentiment(s, df)
     # Return full prompt sentiment and store it in df DataFrame
-    df.full_prompt_sentiment = sentiment.get_full_prompt_sentiment()
+    df = get_full_prompt_sentiment(s, df)
     # Assign figure as a variable
     figure = Figure(df=df, dim_red=d, sentiment_anl=s)
     # Get dimensional reduction data
