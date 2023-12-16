@@ -1,17 +1,17 @@
 import json
+from typing import Tuple
 import openai
-import pandas as pd
-from enum import Enum
+from contrastive_tda.schemas import TargetSentimentLevel, LLMEditedReview
+from itertools import product
 from contrastive_tda.catalog import Catalog
 from loguru import logger
 from dotenv import load_dotenv
 
 cat = Catalog()
 logs_path = cat.logs_path
+logger.add(logs_path / "gpt_edit_movie_reviews.log", format="{time} {level} {message}", level="DEBUG")
 
 load_dotenv()
-
-logger.add(logs_path / "gpt_edit_movie_reviews.log", format="{time} {level} {message}", level="DEBUG")
 
 PROMPT_TEMPLATE = """
 
@@ -62,26 +62,13 @@ TARGET SENTIMENT LEVEL: {target_sentiment_level}
 
 """
 
-
-class TargetSentimentLevel(Enum):
-    EXTREMELY_NEGATIVE = -1
-    VERY_NEGATIVE = -0.75
-    NEGATIVE = -0.5
-    SLIGHTLY_NEGATIVE = -0.25
-    NEUTRAL = 0
-    SLIGHTLY_POSITIVE = 0.25
-    POSITIVE = 0.5
-    VERY_POSITIVE = 0.75
-    EXTREMELY_POSITIVE = 1
-
-
 def get_edited_review(
     original_acting: str,
     original_direction: str,
     original_cinematography: str,
     edited_component: str,
     target_sentiment_level: TargetSentimentLevel,
-):
+) -> Tuple[str, str]:
     tools = [
         {
             "type": "function",
@@ -139,39 +126,39 @@ def main():
     catalog = Catalog()
     original_acting, original_direction, original_cinematography = catalog.load_original_movie_review_components()
 
-    replicates = range(500)
+    replicates = range(100)
 
     # erik suggested 10k examples
     # we have 9 sentiment levels, 3 components
     # so want roughly 10k/27 = 370 examples per sentiment level per component
     # lets try 10 replicates for now, plot it, then scale up if it looks like it's working.
 
-    for target_sentiment_level in TargetSentimentLevel:
-        logger.info(f"Generating examples for target sentiment level {target_sentiment_level.value}")
-        for target_component in ["acting", "direction", "cinematography"]:
-            logger.info(f"Generating examples for target component {target_component}")
-            for replicate in replicates:
-                logger.info(f"Generating example {replicate}")
-                edited_component, edited_text = get_edited_review(
-                    original_acting=original_acting,
-                    original_direction=original_direction,
-                    original_cinematography=original_cinematography,
-                    edited_component=target_component,
-                    target_sentiment_level=target_sentiment_level,
-                )
-                output = {
-                    "original_acting": original_acting,
-                    "original_direction": original_direction,
-                    "original_cinematography": original_cinematography,
-                    "edited_component": edited_component,
-                    "edited_acting": edited_text if edited_component == "acting" else original_acting,
-                    "edited_direction": edited_text if edited_component == "direction" else original_direction,
-                    "edited_cinematography": edited_text if edited_component == "cinematography" else original_cinematography,
-                    "target_sentiment_level": target_sentiment_level.value,
-                    "model_name": "gpt-4",
-                }
-                logger.debug(output)
-                catalog.append_llm_edited_review(output)
+    components = ["acting", "direction", "cinematography"]
+
+    for target_sentiment_level, target_component, replicate in product(TargetSentimentLevel, components, replicates):
+        logger.info(f"Generating examples for sentiment {target_sentiment_level.value}, component {target_component}, example {replicate}")
+
+        edited_component, edited_text = get_edited_review(
+            original_acting=original_acting,
+            original_direction=original_direction,
+            original_cinematography=original_cinematography,
+            edited_component=target_component,
+            target_sentiment_level=target_sentiment_level,
+        )
+
+        output = LLMEditedReview(
+            original_acting=original_acting,
+            original_direction=original_direction,
+            original_cinematography=original_cinematography,
+            edited_component=edited_component,
+            edited_acting=edited_text if edited_component == "acting" else original_acting,
+            edited_direction=edited_text if edited_component == "direction" else original_direction,
+            edited_cinematography=edited_text if edited_component == "cinematography" else original_cinematography,
+            target_sentiment_level=target_sentiment_level.value,
+            edit_model_name="gpt-4",
+        )
+        logger.debug(output)
+        catalog.append_llm_edited_review(output)
 
 
 if __name__ == "__main__":

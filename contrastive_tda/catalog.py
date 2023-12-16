@@ -1,5 +1,6 @@
 import json
 from typing import List, Union, Optional, Tuple
+from contrastive_tda.schemas import LLMEditedReview
 from pathlib import Path
 import pandas as pd
 from loguru import logger
@@ -46,18 +47,39 @@ class Catalog:
 
         return original_acting, original_direction, original_cinematography
     
-    def append_llm_edited_review(self, edited_review: dict):
+    def append_llm_edited_review(self, edited_review: LLMEditedReview):
         if not self.llm_edited_reviews_path.exists():
             self.llm_edited_reviews_path.parent.mkdir(parents=True, exist_ok=True)
             self.llm_edited_reviews_path.touch()
 
         with open(self.llm_edited_reviews_path, "a") as f:
-            json.dump(edited_review, f)
+            json.dump(edited_review.model_dump(), f)
             f.write("\n")
+        
+    def load_llm_edited_reviews(self) -> List[LLMEditedReview]:
+        with open(self.llm_edited_reviews_path, "r") as f:
+            lines = f.readlines()
+        
+        edited_reviews = []
+        for line in lines:
+            try:
+                edited_reviews.append(LLMEditedReview(**json.loads(line)))
+            except Exception as e:
+                logger.error(f"Error parsing line: {line}")
+                raise e
+
+        return edited_reviews
+        
     
-    def load_embedded_reviews(self):
-        pass
-    
-    def save_embedded_reviews(self, embedded_reviews: pd.DataFrame):
+    def save_embedded_manual_edited_reviews(self, embedded_reviews: pd.DataFrame):
         embedded_reviews.to_json(self.embedded_reviews_path, orient="records", lines=True)
+    
+
+    def load_embedded_manual_edited_reviews(self):
+        pass
+
+    def save_embedded_llm_edited_reviews(self, embedded_reviews: pd.DataFrame):
+        embedded_reviews.to_json(self.embedded_reviews_path, orient="records", lines=True)
+    
+    def load_embedded_llm_edited_reviews(self):
         pass
