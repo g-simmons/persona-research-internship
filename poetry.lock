@@ -4467,6 +4467,24 @@ files = [
 ]
 
 [[package]]
+name = "sonopy"
+version = "0.1.2"
+description = "A simple audio feature extraction library"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sonopy-0.1.2.tar.gz", hash = "sha256:d7cd2c055bf5f1183bb4d28af3a1188554aa5c8f1bdf8e2e89042d233a870c45"},
+]
+
+[package.dependencies]
+numpy = "*"
+scipy = "*"
+
+[package.extras]
+comparison = ["arriz", "librosa", "python_speech_features", "requests", "speechpy", "wavio"]
+example = ["arriz", "pylisten"]
+
+[[package]]
 name = "soupsieve"
 version = "2.5"
 description = "A modern CSS selector implementation for Beautiful Soup."
@@ -4772,6 +4790,23 @@ socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
+name = "vader"
+version = "0.0.3"
+description = "Fast voice activity detection with Python"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "vader-0.0.3-py3-none-any.whl", hash = "sha256:50e685da8284e9252aa3721ce2135f9e17f8165f7acfe880e24260a0caa00fb5"},
+    {file = "vader-0.0.3.tar.gz", hash = "sha256:821c5cf42771a1d0c26670f0d3410357bb255f7094d777f453439ceb098e5489"},
+]
+
+[package.dependencies]
+numpy = "*"
+scikit-learn = "*"
+scipy = "*"
+sonopy = "*"
+
+[[package]]
 name = "vine"
 version = "5.1.0"
 description = "Python promises."
@@ -5062,4 +5097,4 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "44861b8b0213522d43b485f11db8df4722ebedd029fca62154ee36cb43ad9721"
+content-hash = "d8a9e47074d050210c22b445440c5562d8c1102ffc64fa9f514333ebf920b8e7"
