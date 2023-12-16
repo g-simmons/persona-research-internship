@@ -30,6 +30,7 @@ def vader_get_sentiment(x) -> float:
     # Create a SentimentIntensityAnalyzer Object
     sid_obj = SentimentIntensityAnalyzer()
     return sid_obj.polarity_scores(x)["compound"]
+
 def get_full_prompt_sentiment(sentiment_anl,df):
     """
     Get sentiment score for full prompt
@@ -51,8 +52,6 @@ def get_edited_column(x: pd.Series):
         return "direction"
     elif x["is_cinematography_edited"]:
         return "cinematography"
-
-
 
 #TODO: Import Figure function from notebook and parameterize accordingly    
 class Figure:
@@ -79,7 +78,7 @@ class Figure:
         - file_name : Name of the file (based on the type of figure)
         """
         # Set output directory to figures/
-        output_dir = Catalog().figures
+        output_dir = Catalog().figures_path
         output_file_path = output_dir / file_name
 
         # Get the underlying Matplotlib Figure object from the Seaborn plot
@@ -89,6 +88,7 @@ class Figure:
         # Save the Matplotlib Figure to a file
         figure.savefig(output_file_path)
         print(f"Save to {output_dir}")
+
     def pca_figure(self):
         """
         Generate PCA figure
@@ -116,6 +116,7 @@ class Figure:
         # self.tsne_plot.set_title("TSNE")
         # # Save figure to a file using save_to_png method
         # self.save_to_png(self.tsne_plot, "TSNE")
+
     def dim_red_data(self):
         """  
         Return the corresponding data_x and data_y for figure based on dim_red 
@@ -129,6 +130,7 @@ class Figure:
             self.data_plot = self.embedding_tsne_df
             self.data_x = "TSNE1"
             self.data_y = "TSNE2"
+
     # Function to produce TextBlob figure with the corresponding dimensional reduction method
     def sentiment_figure(self):
         """
@@ -147,9 +149,6 @@ class Figure:
         self.save_to_png(self.sentiment_plot, f"{self.dim_red}_{self.sentiment_anl}")
 
 
-
-
-
 @click.command()
 @click.option("--e", type=str, help="Name of Excel file in excel_output")
 @click.option("--d", type=str, help="Dimensional Reduction Method")
@@ -158,7 +157,7 @@ class Figure:
 def main(e, d, s):
     catalog = Catalog()
     # Assign FINALOUTPUT Excel file into DataFrame
-    df = catalog._process_excel(e)
+    df = catalog.load_embedded_reviews()
     # Return full prompt sentiment and store it in df DataFrame
     df = get_full_prompt_sentiment(s, df)
     # Assign figure as a variable

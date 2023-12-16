@@ -6,9 +6,12 @@ from contrastive_tda.catalog import Catalog
 from loguru import logger
 from dotenv import load_dotenv
 
+cat = Catalog()
+logs_path = cat.logs_path
+
 load_dotenv()
 
-logger.add("gpt_edit_movie_reviews.log", format="{time} {level} {message}", level="DEBUG")
+logger.add(logs_path / "gpt_edit_movie_reviews.log", format="{time} {level} {message}", level="DEBUG")
 
 PROMPT_TEMPLATE = """
 
@@ -136,7 +139,7 @@ def main():
     catalog = Catalog()
     original_acting, original_direction, original_cinematography = catalog.load_original_movie_review_components()
 
-    replicates = range(10)
+    replicates = range(500)
 
     # erik suggested 10k examples
     # we have 9 sentiment levels, 3 components
