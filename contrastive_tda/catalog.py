@@ -2,6 +2,9 @@ import json
 from typing import List, Union, Optional, Tuple
 from pathlib import Path
 import pandas as pd
+from loguru import logger
+import pandas as pd
+from pathlib import Path
 
 def iter_validate(iterable, validator):
     for item in iterable:
@@ -21,7 +24,11 @@ class Catalog:
             base_path = Path(__file__).resolve().parent.parent
         self.base_path = base_path
         self.data_path = base_path / "data"
+        self.figures_path = base_path / "figures"
+        self.ipynb_path = base_path / "ipynb"
+        self.logs_path = base_path / "logs"
         self.llm_edited_reviews_path = self.data_path / "llm_edited_reviews/llm_edited_reviews.jsonl"
+        self.embedded_reviews_path = self.data_path / "embedded_reviews/embedded_reviews.jsonl"
     
     def load_movie_reviews_manual_edits(self) -> pd.DataFrame:
         original_data = pd.read_excel(self.data_path / "movie_reviews_manual_edits.xlsx")
@@ -47,3 +54,10 @@ class Catalog:
         with open(self.llm_edited_reviews_path, "a") as f:
             json.dump(edited_review, f)
             f.write("\n")
+    
+    def load_embedded_reviews(self):
+        pass
+    
+    def save_embedded_reviews(self, embedded_reviews: pd.DataFrame):
+        embedded_reviews.to_json(self.embedded_reviews_path, orient="records", lines=True)
+        pass
