@@ -40,7 +40,7 @@ def cloud_embedding(li) -> list:
   response = co.embed(
   li, #list generated from function json_to_list
   model='small')
-  return response
+  return response.embeddings[0]
 
 def embedding_data(embedding_method, df) -> pd.DataFrame:
     """
