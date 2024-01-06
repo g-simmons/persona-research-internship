@@ -1,0 +1,6 @@
+
+#!/bin/sh
+# Post-push Git hook to run 'dvc push'
+
+echo "Running 'dvc push' before 'git push'..."
+dvc push
