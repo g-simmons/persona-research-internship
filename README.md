@@ -7,16 +7,22 @@
 
 ## Installation
 
+Install dependencies using poetry:
+
+```bash
+poetry install
+```
+
 After cloning the repository, run the following command inside the repository folder to install the `contrastive_tda` package:
 
 ```bash
 pip install -e .
 ```
 
-Install dependencies using poetry:
+Installing development hooks
 
 ```bash
-poetry install
+make install_hooks
 ```
 
 ## Adding Dependencies to Poetry
