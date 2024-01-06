@@ -25,6 +25,15 @@ Installing development hooks
 make install_hooks
 ```
 
+This will install several "hooks" - scripts that run automatically when certain git commands are run.
+These are generally useful for maintaining code quality and consistency. 
+
+To run the commands without the hooks, you can use the `--no-verify` flag. For example, to commit without running the hooks, run the following command:
+
+```bash
+git commit --no-verify
+```
+
 ## Adding Dependencies to Poetry
 
 To add a dependency to poetry, run the following command:
