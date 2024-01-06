@@ -21,6 +21,7 @@ loguru = "^0.7.2"
 python-dotenv = "^1.0.0"
 cohere = "^4.39"
 llama-index = "^0.9.15.post2"
+pre-commit = "^3.6.0"
 
 
 [build-system]
