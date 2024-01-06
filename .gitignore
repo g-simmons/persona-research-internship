@@ -3,3 +3,4 @@ maple/DualAlpha/data/*.csv
 __pycache__/
 **/__pycache__/
 .env
+data/_old/
