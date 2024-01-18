@@ -1,0 +1,33 @@
+`SF/text/top` := TEXT(
+`   `,
+`FUNCTION:  top - convert a symmetric function to the p-basis`,
+`   `,
+`CALLING SEQUENCE:  top(f);  top(f,b);`,
+`   `,
+`PARAMETERS:  f = a symmetric function`,
+`             b = (optional) a basis name`,
+`   `,
+`SYNOPSIS:`,
+`  If f is any symmetric function, top(f) will convert f into a polynomial`,
+`  in the power-sum symmetric functions p1,p2,p3,..., with the result`,
+`  collected in 'distributed' form with respect to p1,p2,p3,..., and with`,
+`  'normal' applied to the coefficients.`,
+`   `,
+`  If a second argument b is specified, then f is assumed to be expressed `,
+`  solely in terms of the basis b. In particular, if b is not one of the `,
+`  predefined bases, this requires f to be linear in the members of b.`,
+`   `,
+`EXAMPLES:`,
+`  top(s[3,1,1],s);         yields        1/20*p1^5-1/4*p2^2*p1+1/5*p5`,
+`  top(36*h3*e3);           yields      p1^6+4*p3*p1^3-9*p2^2*p1^2+4*p3^2`,
+`   `,
+`SEE ALSO:  add_basis, dual_basis, toe, toh, tos`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/top`,
+  helpfile=HomeLib, text=`SF/text/top`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/top`:=`SF/text/top`:
+  save `help/SF/text/top`, cat(HomeLib,`/help/SF/text/top.m`);
+fi:
