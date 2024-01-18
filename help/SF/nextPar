@@ -1,0 +1,38 @@
+`SF/text/nextPar` := TEXT(
+`   `,
+`FUNCTION:  nextPar - generate the next partition in lexicographic order`,
+`   `,
+`CALLING SEQUENCE:  nextPar(mu);`,
+`   `,
+`PARAMETERS:  mu = a partition`,
+`   `,
+`SYNOPSIS:`,
+`  In the lexicographic ordering of partitions, mu precedes nu if there is`,
+`  some i >= 1 such that mu[1]=nu[1], ..., mu[i-1]=nu[i-1], and mu[i]>nu[i].`,
+`   `,
+`  Given a partition mu of size m, nextPar(mu) generates the next partition`,
+`  of m after mu in lexicographic order. If there is no such partition`,
+`  (i.e., mu=[1,...,1]), then NULL is returned.`,
+`   `,
+`  Note that this generates partitions of m in the same order as Par(m),`,
+`  but enables programming of significantly faster and more space-efficient`,
+`  loops for large m. For example,`,
+`   `,
+`    mu:=[20]; while mu<>NULL do f(mu); mu:=nextPar(mu) od;`,
+`   `,
+`  would apply procedure f to each partition of 20.`,
+`   `,
+`EXAMPLES:`,
+`  nextPar([4,1,1,1,1]);         yields               [3,3,2]`,
+`  nextPar([3,3,2]);             yields              [3,3,1,1]`,
+`   `,
+`SEE ALSO:  Par, conjugate, dominate, subPar`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/nextPar`,
+  helpfile=HomeLib, text=`SF/text/nextPar`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/nextPar`:=`SF/text/nextPar`:
+  save `help/SF/text/nextPar`, cat(HomeLib,`/help/SF/text/nextPar.m`);
+fi:
