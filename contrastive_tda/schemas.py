@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+#pydantic is a library for data validation
 
 class ManualEditedMovieReview(BaseModel):
     original_direction: str # text describing the direction of the film
@@ -19,6 +20,18 @@ class LLMEditedMovieReview(BaseModel):
     edited_acting: str # sentences describing the acting in a movie, possibly edited from original_acting
     edited_cinematography: str # sentences describing the cinematography in a movie, possibly edited from original_cinematography
     edited_component: str # component that was edited
+    full_prompt: str # concatenation of edited_acting, edited_direction, and edited_cinematography
+
+class LLMEditedMovieReviewEmbedded(BaseModel):
+    original_direction: str # text describing the direction of the film
+    original_acting: str # text describing the acting in the film
+    original_cinematography: str # text describing the cinematography in the film
+    edited_direction: str # sentences describing the direction of a movie, possibly edited from original_direction
+    edited_acting: str # sentences describing the acting in a movie, possibly edited from original_acting
+    edited_cinematography: str # sentences describing the cinematography in a movie, possibly edited from original_cinematography
+    edited_component: str # component that was edited
+    full_prompt: str # concatenation of edited_acting, edited_direction, and edited_cinematography
+    full_prompt_embedding: list[float] # embedding of full_prompt
 
 class SentimentScoredMovieReview(BaseModel):
     original_direction: str # text describing the direction of the film
