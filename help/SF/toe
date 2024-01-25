@@ -1,0 +1,33 @@
+`SF/text/toe` := TEXT(
+`   `,
+`FUNCTION:  toe - convert a symmetric function to the e-basis`,
+`   `,
+`CALLING SEQUENCE:  toe(f);  toe(f,b);`,
+`   `,
+`PARAMETERS:  f = a symmetric function`,
+`             b = (optional) a basis name`,
+`   `,
+`SYNOPSIS:`,
+`  If f is any symmetric function, toe(f) will convert f into a polynomial`,
+`  in the elementary symmetric functions e1,e2,e3,..., with the result`,
+`  collected in 'distributed' form with respect to e1,e2,e3,..., and with`,
+`  'normal' applied to the coefficients.`,
+`   `,
+`  If a second argument b is specified, then f is assumed to be expressed`,
+`  solely in terms of the basis b. In particular, if b is not one of the`,
+`  predefined bases, this requires f to be linear in the members of b.`,
+`   `,
+`EXAMPLES:`,
+`  toe(h1*e2*p2+s[2,1]*s[2]);   yields   2*e2*e1^3-e3*e1^2-3*e2^2*e1+e3*e2`,
+`  toe(s[3,1]+s[2,2],s);        yields          e2*e1^2-2*e1*e3+e4`,
+`   `,
+`SEE ALSO:  add_basis, dual_basis, toh, top, tos`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/toe`,
+  helpfile=HomeLib, text=`SF/text/toe`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/toe`:=`SF/text/toe`:
+  save `help/SF/text/toe`, cat(HomeLib,`/help/SF/text/toe.m`);
+fi:

@@ -1,0 +1,1095 @@
+%
+% This is a plain TeX file.
+%
+%\magnification=1200
+\hsize=5.4in \hoffset=0.55in
+\vsize=7.5in \voffset=0.75in
+
+\font\bold=cmbx12 scaled 1200  % 14pt bold roman
+
+% footnotes
+\font\footrm=cmr8   \font\sixrm=cmr8 at 6pt
+\font\eighti=cmmi8  \font\sixi=cmmi8 at 6pt
+\font\eightsy=cmsy8 \font\sixsy=cmsy8 at 6pt
+\font\eightit=cmti8
+\font\eightbf=cmbx8
+\font\eighttt=cmtt8
+
+\def\eightpoint{\def\rm{\fam0\footrm}%
+  \textfont0=\footrm \scriptfont0=\sixrm
+  \textfont1=\eighti  \scriptfont1=\sixi
+  \textfont2=\eightsy \scriptfont2=\sixsy
+  \def\tt{\fam\ttfam\eighttt}\textfont\ttfam=\eighttt
+  \def\it{\fam\itfam\eightit}\textfont\itfam=\eightit
+  \def\bf{\fam\bffam\eightbf}\textfont\bffam=\eightbf
+  \normalbaselineskip=10pt
+  \setbox\strutbox=\hbox{\vrule height7pt depth2pt width 0pt}%
+  \normalbaselines\rm}
+\def\myindent#1#2{\hskip #1pt\llap{\rm #2\hskip 2pt}\ignorespaces}
+
+\catcode`@=11
+\skip\footins=12pt plus 2pt minus 4pt
+\def\footnote#1{\edef\@sf{\spacefactor\the\spacefactor}#1\@sf
+   \insert\footins\bgroup\eightpoint
+   \interlinepenalty100 \let\par=\endgraf
+   \leftskip=\z@skip \rightskip=\z@skip
+   \splittopskip=10pt plus 1pt minus 1pt \floatingpenalty=20000
+   \vskip 2pt\myindent{4}{#1}\bgroup\strut\aftergroup\strut\egroup\let\next}
+\catcode`@=12
+
+\def\newpage{\vfill\eject}
+\def\mysec#1{\bigskip\centerline{\bf #1}\nobreak\par}
+\def\subsec#1{\medskip\noindent{\it #1}.\nobreak}
+\def\cite#1{[{\bf #1}]}
+\def\ttline#1{\line{\tt\qquad #1\hfil}}
+\def\sttline#1{\smallskip\line{\tt\qquad #1\hfil}\smallskip}
+\def\fnote#1#2{\footnote{${}^{#1}$}{#2}}
+\def\lb{{\char'173}}  % {
+\def\rb{{\char'175}}  % }
+\def\up{{\char'136}}  % ^
+\def\ul{{\char'137}}  % _
+\def\tw{{\char'176}}  % ~
+\def\bitem{\item{$\bullet$}}
+\def\SF{{\tt SF}}
+\def\homelib{/usr/local/maple/packages}
+\def\Q{{\bf Q}}
+\def\br#1{\langle #1\rangle}
+\def\arg#1{{\hbox{\it #1}}}
+
+\vglue 0.45in
+\centerline{\bold A Maple Package for Symmetric Functions}
+\medskip
+\centerline{\bf Version 2.4\fnote{*}{%
+  Version 2.4 is the Hermann Weyl Birthday Edition.}}
+\centerline{9 November 2005}
+\bigskip
+\centerline{John R. Stembridge\fnote{1}{This work has been
+  supported by NSF grants DMS--0070685 and DMS--0245385.}}
+\centerline{Department of Mathematics}
+\centerline{University of Michigan}
+\centerline{Ann Arbor, Michigan 48109--1043 USA}
+\medskip
+\centerline{email:\quad\tt jrs@umich.edu}
+\centerline{\tt www.math.lsa.umich.edu/\tw{}jrs}
+\bigskip\bigskip
+
+\centerline{\bf Contents}
+\item{1.} Introduction
+\item{2.} System Requirements
+\item{3.} Getting Started
+\item{4.} Definitions
+\item{5.} Data Structures
+\item{6.} Short Synopses of the Procedures
+\item{7.} Changelog
+\item{8.} Miscellany
+\item{9.} Copyleft
+\item{10.} References
+
+\mysec{1. Introduction}
+This document provides an introduction to Version 2.4 of \SF, a package
+of~25 Maple programs that create an environment for computations involving
+symmetric functions and related structures. Included are programs for
+manipulating partitions, for converting symmetric functions between
+various bases, for applying standard operations such as plethysm, tensor
+(Kronecker) and scalar products, as well as procedures for adding
+new bases to the package. These features make \SF{} especially useful
+for applications involving
+
+\bitem characters of $S_n$ and $GL_n$,
+\bitem classical invariant theory,
+\bitem Hall-Littlewood functions and Kostka-Foulkes polynomials,
+\bitem zonal polynomials for $GL_n/O_n$, and
+\bitem Macdonald's two-parameter symmetric functions.
+
+\subsec{What's New}
+Version~2.4 of \SF{} is a major rewrite of Version~2.3, but remains
+upward-compatible with it. The main benefit of this rewrite is that
+the high-level functions are dramatically faster and more
+space-efficient than the old ones. For example, converting a generic
+symmetric function of degree~30 with rational coefficients from
+power-sums to elementary symmetric functions takes just a few
+GHz-seconds\fnote{2}{A GHz-second represents 1 second of CPU time on a
+1~GHz processor.} in \SF~2.4, about 7 to 17 times faster than \SF~2.3
+(depending on the Maple version). Computing the Schur function
+decomposition of the plethysm $s_5[s_6]$ is about 4 to 6 times faster
+(roughly 10 GHz-seconds), and decomposing $p_1^8$ into Hall-Littlewood
+functions is about 35 to 45 times faster.
+
+A few of the procedures now support new options, and there is a
+new procedure {\tt nextPar} for constructing space-efficient loops
+through the set of partitions.
+
+For a more detailed account of the new features and improvements, see \S7.
+
+I still get reports from users that have obsolete versions of \SF,
+including versions from the Maple Share Library. These users should
+upgrade and take advantage of the vast improvements in the package that
+have been added since Version 2.0.
+
+\mysec{2. System Requirements}
+First, you must have some version of Maple
+$\br{\hbox{\tt http://www.maplesoft.com}}$.
+
+This version of \SF{} has been developed and tested on various Linux
+machines running Releases~3, 4, and~5 of Maple~V, Maple~6, Maple~7,
+Maple~9, and Maple~9.5. While I no longer have access to machines
+running the first two releases of Maple~V, and have not yet tried Maple~10,
+the package will probably work with these versions as well.
+
+Version~2.4 is packaged in two formats: one is a Unix {\tt tar}
+file (the ``Unix Edition''), and the second is a collection of plain text
+files that comprise the Vanilla Edition. Both editions are available for
+download from
+
+\sttline{$\langle$http://www.math.lsa.umich.edu/%
+\tw{}jrs/maple.html$\rangle$\rm .}
+
+The minor functional differences between these two editions are
+discussed in \S3. Users of Maple on Unix platforms have the choice of
+installing either edition of \SF. For everyone else, the Vanilla Edition
+is the only choice.
+
+\mysec{3. Getting Started}
+\subsec{Special Notes for the Unix Edition}
+The first step is to unpack the {\tt tar} file and follow the installation
+instructions in the provided {\tt READ\ul{}ME} file. If a system
+administrator has done the installation for you, and you aren't already a
+user of one of my packages, then you will need to find out the name of the
+directory where the package has been installed and edit an initialization
+file.
+
+For the purposes of this discussion, let's assume that the \SF{} package
+has been installed in the directory {\tt\homelib}. You can check this by
+verifying that {\tt\homelib} has a subdirectory named \SF. Next, you will
+need to create a file named {\tt .mapleinit} in your home directory.
+Or add to it, if you already have one. In this file you should insert the
+following two lines:
+
+\medskip
+\ttline{HomeLib:=`\homelib`:}
+\ttline{libname:=libname, HomeLib:}
+\medskip
+
+\noindent
+Be careful to correctly type both of the left quote-marks ({\tt `}).
+Each time Maple is invoked, these statements will define where the
+package is located. (For Maple~V Release~1, the syntax is slightly
+different---see the notes below.)
+
+You are now ready to run \SF. Simply enter the command {\tt with(SF)}
+during a Maple session. To access documentation about an individual
+function, use {\tt ?SF[\arg{function}]} or
+{\tt ?SF,\arg{function}}. The source code for \SF{} is located in
+
+\sttline{\homelib/SF/src\rm ,}
+
+\noindent and the raw text for the on-line help is located in
+
+\sttline{\homelib/help/SF\rm .}
+
+\noindent Additional files that provide applications and extensions of~\SF{}
+can be found in
+
+\sttline{\homelib/SF/examples\rm .}
+
+\subsec{Special Notes Regarding Maple V Release 1}
+The syntax for specifying the locations of external libraries is
+slightly different in Maple~V Release~1. The {\tt .mapleinit} file
+should instead have the lines
+\medskip
+\ttline{HomeLib:=`\homelib`:}
+\ttline{\ul{}liblist:=[HomeLib]:}
+\medskip
+
+\noindent Be careful to correctly type the left quote-marks ({\tt `})
+and underscore character ({\tt \ul{}}).
+
+Also, when the Unix Edition of \SF{} is installed with Release~1 of
+Maple~V, it is no longer the case that the help texts are integrated
+into the package. Instead, users should consult the HTML version of
+the help texts provided with the Vanilla Edition. (The mechanism for
+loading help for external functions is so primitive in Release~1 that
+it no longer makes sense to support it in~\SF.)
+
+\subsec{Special Notes for the Vanilla Edition}
+The Vanilla Edition consists primarily of a single text file that may
+be loaded into a Maple session via the {\tt read} command. It loads all
+of the package functions into the workspace, whereas the Unix Edition
+keeps clutter to a minimum by loading functions at the moment they are
+first used.
+
+When the Vanilla Edition is first loaded, the package functions
+may be used only via the long form
+
+\sttline{SF[\arg{function}](\arg{arguments})\rm .}
+
+\noindent Although \SF{} is not recognized by the Maple {\tt with}
+command, the Vanilla Edition provides a special command {\tt withSF()}
+that enables the use of the short forms
+
+\sttline{\arg{function}(\arg{arguments})\rm .}
+
+\noindent Similarly, {\tt withSF(\arg{arguments})} enables the short
+form for some subset of the package, modeling the expected behavior of
+{\tt with(SF,\arg{arguments})}.
+
+Documentation for the individual functions is not loaded when the
+package is loaded. Instead there is a separate HTML file containing all
+of the help texts cross-referenced with hyperlinks. Similarly, the suite
+of examples is provided as a directory of plain text files available
+for download.
+
+\newpage
+The remainder of this article presents an overview of the workings of the
+package, explaining the fundamental data structures and basic definitions.
+A one-line description of the purpose of each procedure is provided in \S6.
+For more detailed information about the individual commands, consult the
+on-line help.
+
+\mysec{4. Some Definitions}
+We begin with a brief review of some basic ingredients of the theory of
+symmetric functions. It is highly recommended, but not strictly necessary,
+that the reader be acquainted with the definitive treatment by
+Macdonald~\cite{7}. Other reasonable places to look are~\cite{1}
+(Appendix A), \cite{6}, \cite{9}, and~\cite{11} (Chapter~7), although
+some of these use notation that does not conform to Macdonald's.
+
+By a symmetric polynomial, we mean a polynomial $f=f(x_1,x_2,\ldots,x_n)$
+that is invariant under permutations of $x_1,\ldots,x_n$. The symmetric
+polynomials of course form a graded subring of the ring of polynomial
+functions of $x_1,\ldots,x_n$. By specialization (setting some of the
+$x_i=0$), one finds that for most purposes, the number of variables in a
+symmetric polynomial is irrelevant, as long as there are sufficiently many
+of them. Taking this idea to its logical extreme, one is led to consider
+symmetric ``polynomials'' in infinitely many variables,
+say $x_1,x_2,\ldots$.\fnote{3}{Strictly speaking, these are no longer
+polynomials, but formal power series.} These symmetric pseudo-polynomials,
+also known as symmetric functions, form a graded ring $\Lambda$. (For a
+mathematically rigorous definition, see~\cite{7}.)
+
+There are several families of symmetric functions that are of fundamental
+importance: the elementary symmetric functions $e_1,e_2,\ldots$, defined by
+$$
+e_r=\sum_{i_1<i_2<\cdots<i_r}x_{i_1}\!\cdots x_{i_r};
+$$
+the complete homogeneous symmetric functions $h_1,h_2,\ldots$, defined by
+$$
+h_r=\sum_{i_1\le i_2\le\cdots\le i_r}x_{i_1}\!\cdots x_{i_r};
+$$
+and the power-sum symmetric functions $p_1,p_2,\ldots$, defined by
+$$p_r=\sum_{i\ge1} x_i^r.$$
+
+The most basic result in the theory of symmetric functions is the fact that
+the elementary symmetric functions $e_1,e_2,\ldots$ are algebraically
+independent (over $\Q$, say) and generate the ring $\Lambda$. Consequently,
+the set of all monomials in the $e_r$'s form a vector space basis
+for~$\Lambda$. Since $e_r$ is homogeneous of degree $r$, it follows that the
+dimension of the $n$th graded component of $\Lambda$ is $p(n)$, the number
+of partitions of $n$ into a sum of positive integers (disregarding order).
+If $n=\lambda_1+\cdots+\lambda_l$ is such a partition, let us define
+$$
+e_\lambda:=e_{\lambda_1}\!\cdots e_{\lambda_l},
+$$
+so that as $\lambda$ varies over all partitions, the $e_\lambda$'s yield a
+basis for $\Lambda$.
+
+\goodbreak
+All of the above remarks apply equally well to the $h_r$'s and the $p_r$'s.
+In particular, the $h_\lambda$'s and $p_\lambda$'s each form bases
+for~$\Lambda$.
+
+There are two additional bases of $\Lambda$ of fundamental importance,
+the monomial symmetric functions $m_\lambda$ and the Schur
+functions $s_\lambda$. For the monomial symmetric functions,
+given a partition $\lambda=(\lambda_1,\ldots,\lambda_l)$, one has
+$$
+m_\lambda=\sum x_{i_1}^{\lambda_1}\!\cdots x_{i_l}^{\lambda_l},
+$$
+where the sum ranges over all {\it distinct} monomials whose exponent
+sequence is some permutation of $\lambda$. For the Schur functions, the
+briefest (and least motivated) definition is
+$$
+s_\lambda=\det[h_{\lambda_i-i+j}]_{1\le i,j\le l},
+$$
+with the conventions $h_0=1$ and $h_{-r}=0$ for $r>0$. The importance of
+Schur functions derives from their connection with the irreducible
+characters of the symmetric groups and general linear groups. (For more
+about this, see~\cite{1}, \cite{5}, or~\cite{7}.)
+
+There is one obvious distinction between the first three bases
+we defined ($e_\lambda$, $h_\lambda$, and~$p_\lambda$) and the last two
+($m_\lambda$ and $s_\lambda$): the latter are not {\it multiplicative.}
+That is, only in the former cases do we have a basis $b_\lambda$ such
+that $b_\lambda=b_{\lambda_1}b_{\lambda_2}\!\cdots$ whenever
+$\lambda=(\lambda_1,\lambda_2,\ldots)$.
+
+There is a natural scalar product on $\Lambda$ that is (over-)determined
+by the properties
+$$
+\br{h_\lambda,m_\mu}=z_\lambda^{-1}\br{p_\lambda,p_\mu}
+  =\br{s_\lambda,s_\mu}=\delta_{\lambda\mu},\eqno(1)
+$$
+where $z_\lambda:=a_1!\,1^{a_1}a_2!\,2^{a_2}\cdots$, using $a_i$ to
+denote the number of copies of $i$ in $\lambda$. In connection with this
+definition/assertion it is important to be aware that the transition
+matrix between Schur functions and monomial symmetric functions is
+triangular. In fact,
+$$
+s_\lambda=\sum_{\lambda\ge\mu}K_{\lambda,\mu}m_\mu\eqno(2)
+$$
+for certain scalars $K_{\lambda,\mu}$ (the Kostka numbers),
+where the notation `$\lambda\ge\mu$' indicates that $\lambda$ and
+$\mu$ must be related in the ``dominance'' partial order; i.e.,
+$$
+\lambda_1+\cdots+\lambda_i\ge\mu_1+\cdots+\mu_i
+  \ \hbox{for all $i\ge1$}.
+$$
+A consequence of~(1) and~(2) is that the Schur functions are the unique
+orthonormal basis of $\Lambda$ (relative to $\br{\ {,}\ }$) that one
+would obtain by linearly ordering the $m_\lambda$'s in any way consistent
+with the dominance order and applying the Gram-Schmidt algorithm.
+Alternatively, using the fact that $K_{\lambda,\lambda}=1$, one could
+characterize the Schur functions as the unique orthogonal basis
+of $\Lambda$ satisfying
+$$
+s_\lambda=m_\lambda+\hbox{ a linear combination of $m_\mu$ for }\mu<\lambda.
+$$
+
+This point of view provides a unified method for treating many other
+important families of symmetric functions. Indeed, there are a number of
+bases in the literature on symmetric functions that may be characterized
+(up to scalar multiples) by (i) orthogonality with respect to some scalar
+product, and (ii) having a triangular transition matrix with respect to
+the monomial symmetric functions in dominance order.
+
+The following is a list of examples of such bases. Note that in each case,
+the power sums $p_\lambda$ are orthogonal with respect to the relevant
+scalar product.
+
+\smallskip
+1. The Hall-Littlewood functions $H\!L_\lambda(t)$ (see Chapters II--IV
+of~\cite{7}). These are orthogonal relative to the scalar product
+$$
+\br{p_\lambda,p_\mu}_t:=\delta_{\lambda\mu}z_\lambda
+  \prod_{i\ge1}(1-t^{\lambda_i})^{-1}.
+$$
+Among the many interesting things encoded in this family of symmetric
+functions, one finds information about: (i) counting chains in the
+lattice of subgroups of finite abelian $p$-groups, (ii) the irreducible
+characters of $GL_n(q)$, and (iii) the Kostka-Foulkes polynomials
+(a $q$-analogue of the Kostka numbers).
+
+\smallskip
+2. The zonal polynomials $Z_\lambda$ (see~\cite{4}, \cite{12}, and Chapter
+VII of~\cite{7}). These are orthogonal relative to the scalar product
+$$
+\br{p_\lambda,p_\mu}_{\strut2}
+  :=2^{\ell(\lambda)}z_\lambda\delta_{\lambda\mu},
+$$
+where $\ell(\lambda)$ is the length (number of nonzero terms) of $\lambda$.
+If we specialize to $n$ variables $x_1,\ldots,x_n$, we obtain (after
+agreeing about questions of normalization) the spherical functions for
+the homogeneous space $GL_n/O_n$ of $n\times n$ real, symmetric positive
+definite matrices. (One identifies $x_1,\ldots,x_n$ as the eigenvalues of
+a positive definite matrix.)
+
+\smallskip
+3. The Jack symmetric functions $J_\lambda(\alpha)$ (see~\cite{10} and
+\S VI.10 of~\cite{7}). These are orthogonal relative to the scalar product
+$$
+\br{p_\lambda,p_\mu}_\alpha:=
+  \alpha^{\ell(\lambda)}z_\lambda\delta_{\lambda\mu}.
+$$
+One obtains the Schur functions if $\alpha=1$, and the
+zonal polynomials if $\alpha=2$.
+
+\smallskip
+4. Macdonald's two-parameter symmetric functions $P_\lambda(q,t)$
+(see~\cite{8} and Chapter~VI of~\cite{7}). These are orthogonal relative
+to the scalar product
+$$
+\br{p_\lambda,p_\mu}_{q,t}:=\delta_{\lambda\mu}z_\lambda
+  \prod_{i\ge1}{1-q^{\lambda_i}\over 1-t^{\lambda_i}},
+$$
+and have stimulated a vast amount of research (e.g., see~\cite{2}
+and~\cite{3}).
+
+\mysec{5. Some Data Structures}
+There are several data structures that play special roles in \SF.
+
+\subsec{Partitions}
+Many of the procedures in \SF{} are designed to accept partitions as
+input, or return partitions as output. For these purposes, a partition
+is defined to be a non-increasing list of zero or more positive integers.
+Thus {\tt [3,3,2,1,1]} is a partition, but {\tt [3,1,0]} and {\tt [1,1,2]}
+are not. The empty partition is {\tt [$\,$]}. Note that Maple's built-in
+{\tt combinat} package arranges the parts of partitions in
+non-decreasing order.
+
+The procedures {\tt Par}, {\tt subPar}, and {\tt dominate} are useful for
+generating lists of partitions satisfying various constraints.
+
+\subsec{Partition Orderings}
+There are two total orderings of the set of partitions that are
+important in~\SF. The lexicographic ordering\fnote{4}{We can think of
+at least four total orderings that could be called ``lexicographic.''}
+is defined by the rule that $\lambda>_L\mu$ if
+$$
+\lambda_1=\mu_1,\ \ldots,\ \lambda_{i-1}=\mu_{i-1},
+  \ \lambda_i>\mu_i\ \hbox{ for some $i\ge1$},
+$$
+and the conjugate-lexicographic ordering is defined by
+$$
+\lambda<_C\mu\quad\Leftrightarrow\quad\lambda'>_L\mu',
+$$
+where $\lambda'$ denotes the partition conjugate to $\lambda$;
+i.e., $\lambda'_i$ is the number of parts $\ge i$ in $\lambda$.
+
+\def\gL{\hbox to 18pt{\hfil$>_L$\hfil}}
+\def\gC{\hbox to 18pt{\hfil$>_C$\hfil}}
+
+These two orderings are quite similar, but note that for partitions of~6,
+we have
+$$\eqalign{
+6&\gL 51\gL 42\gL 411\gL 33\gL 321\gL 3111
+  \gL 222\gL 2211\gL 21111\gL 111111,\cr
+6&\gC 51\gC 42\gC 33\gC 411\gC 321\gC 222
+  \gC 3111\gC 2211\gC 21111\gC 111111.}
+$$
+Both orderings are refinements of the dominance order.
+
+The procedure {\tt Par} lists partitions of $n$ in lexicographic order,
+starting with {\tt [n]} and ending with {\tt [1,...,1]} (assuming $n>0$).
+Given a partition {\tt lambda} of $n$, the procedure call
+{\tt nextPar(lambda)} generates the next partition that appears after
+{\tt lambda} in the list {\tt Par(n)} (or {\tt NULL} if there is no such
+partition), and thus may be used to construct space-efficient partition
+loops. For example,
+
+\smallskip
+\ttline{lambda:=[30];}
+\ttline{while lambda <> NULL do}
+\ttline{\quad f(lambda):}
+\ttline{\quad lambda:=nextPar(lambda):}
+\ttline{end do:}
+\smallskip
+
+\noindent would apply the function {\tt f} to each partition of~30.
+
+\subsec{Bases}
+Every basis of the ring of symmetric functions that \SF{} understands has
+a Maple name associated with it. There are four such bases that are defined
+when \SF{} is first loaded. They and their names are:
+
+\smallskip
+\ttline{e\rm ,\quad for elementary symmetric functions;}
+\ttline{h\rm ,\quad for complete homogeneous symmetric functions;}
+\ttline{p\rm ,\quad for power-sum symmetric functions;}
+\ttline{s\rm ,\quad for Schur functions.}
+\smallskip
+
+\noindent Note that the monomial symmetric functions $m_\lambda$ are
+conspicuously absent from this list. However this is no great loss, since
+it is easy to add more bases (including the $m_\lambda$'s) to the repertoire
+of \SF. See the discussion below regarding ``Adding New Bases.''
+
+The first three bases in the above list are distinguished by the fact
+that they are multiplicative. If {\tt b} is the name of any such
+multiplicative basis (i.e., {\tt b=e}, {\tt h}, or {\tt p}), then the
+generators of the basis {\tt b} are denoted {\tt b1,b2,b3,...} by \SF,
+and the elements of the basis are monomials in these variables. Thus for
+example, the elementary symmetric functions $e_1,e_2,e_3,\ldots$ are
+expressed as {\tt e1,e2,e3,...}, and if $\lambda$ is the
+partition $(3211)$, then $e_\lambda$ may be expressed
+as {\tt e3*e2*e1\up2}. One implication of this is that the Maple names
+{\tt e1,e2,e3,...} and {\tt e} itself play a special role in \SF, and
+thus should not be assigned values by the user.  Similar remarks apply
+to {\tt h} and {\tt p}.
+
+On the other hand, if {\tt b} is the name of a non-multiplicative basis
+(e.g., {\tt b=s}), then the element of this basis indexed by the partition
+$\lambda=(i_1,i_2,\ldots,i_k)$ is expressed by \SF{} as the indexed
+variable {\tt b[i\ul{}1,i\ul{}2,...,i\ul{}k]}. Thus for example, the Schur
+functions $s_{3211}$, $s_5$ and $s_\emptyset$ are expressed as
+{\tt s[3,2,1,1]}, {\tt s[5]} and {\tt s[$\,$]}. Note that if {\tt lambda}
+is a partition, say {\tt lambda:=[3,3,1]}, then the Maple expression
+{\tt b[lambda]} evaluates to {\tt b[[3,3,1]]}, which is not a proper
+expression for an element of the basis~{\tt b}. Instead one should
+write {\tt b[op(lambda)]}.
+
+The \SF{} package uses a global variable, {\tt `SF/Bases`}, to track
+the set of symmetric function bases that have been defined in the current
+Maple session. In particular, when \SF{} is first loaded, the assignment
+
+\sttline{`SF/Bases`:=\lb e, h, p, s[$\,$]\rb}
+
+\noindent is used to initialize this variable. The reason that
+`{\tt s[$\,$]}' appears here, rather than `{\tt s}', is to indicate that
+the Schur function basis is not multiplicative.
+
+\subsec{Symmetric Functions}
+At the heart of the \SF{} package are four procedures {\tt toe},
+{\tt toh}, {\tt top}, and {\tt tos} that take as input any symmetric
+function and convert it `{\tt to}' an expression involving the bases
+{\tt e}, {\tt h}, {\tt p}, and {\tt s}, respectively.
+
+For the purposes of \SF, a symmetric function is defined to be any
+Maple expression that is a polynomial (i.e., of type {\tt polynom})
+with respect to the variables of all bases that have been defined.
+For each multiplicative basis {\tt b}, these variables
+are {\tt b1,b2,...}, and for each non-multiplicative basis {\tt b} these
+variables are {\tt b[i\ul{}1,...,i\ul{}k]},
+where {\tt [i\ul{}1,...,i\ul{}k]} ranges over all partitions. Of course,
+a symmetric function is also allowed to depend arbitrarily on other
+parameters. It should be emphasized that \SF{} {\it never} processes
+symmetric polynomials that are expressed explicitly in terms of dependent
+variables, such as $x_1,\ldots,x_n$.\fnote{5}{However, using the
+procedure {\tt evalsf}, it is possible to recover the explicit dependence
+of a symmetric function on the $x_i$'s.} Since the number of terms in
+a generic polynomial of this type is proportional to $n!$, any attempt
+to do arithmetic with these expressions would be doomed by exponential
+growth to work only with toy-sized problems.
+
+For example, {\tt (1+q*h3)\up2*s[2,2,1] - p2*s[4,2]\up3} is a valid
+symmetric function, but {\tt 1/(1-p1)} is not. Note also that unless
+`{\tt Z}' has already been defined as the name of a symmetric function
+basis, \SF{} will assume that variable names such as {\tt Z[2,2,1]}
+belong to the field of scalars.
+
+In many of the procedures of \SF{}, the user has the option of specifying
+as part of the input that a given symmetric function, say {\tt f}, is
+expressed entirely in terms of some particular basis {\tt b}. To be
+``expressed in terms of base {\tt b}'' means one of two things:
+(1) If {\tt b} is one of the non-multiplicative bases,
+it means that the only symmetric function variables that appear in the
+definition of {\tt f} are of the form {\tt b[i\ul{}1,...,i\ul{}k]},
+where {\tt [i\ul{}1,...,i\ul{}k]} ranges over all partitions,
+and that {\tt f} is a linear expression with respect to these variables.
+(2) If {\tt b} is one of the multiplicative bases, it simply means that
+the only symmetric function variables that appear in the definition
+of {\tt f} are {\tt b1,b2,b3,...}.
+
+Thus for example, if {\tt m} has been defined to be a (non-multiplicative)
+basis, then the expression {\tt m[2,1]*m[3,1,1]} is a valid symmetric
+function, but it is not considered to be ``expressed in base {\tt m}.''
+On the other hand, {\tt m[3]+q*m[2,1]+(1+q\up 2)*m[1,1,1]} is a valid
+expression in base {\tt m}.
+
+Since the Schur function basis {\tt s} is non-multiplicative, similar
+remarks ought to apply to it as well. However, due to the special nature
+of the algorithms we use to convert between Schur functions and other
+symmetric functions, we do not need to impose linearity on expressions
+designated to be expressed in base {\tt s}. Hence, in contrast to the
+previous example, \SF{} would tolerate being informed
+that {\tt s[2,1]*s[3,1,1]} is in base {\tt s}.
+
+\subsec{Scalar Products}
+In \SF, there are several procedures (see {\tt dual\ul{}basis},
+{\tt add\ul{}basis}, {\tt scalar}, and {\tt skew}) that involve
+computations in the ring of symmetric functions relative to some
+user-specified scalar product. The most basic of these is {\tt scalar},
+which is designed to compute the scalar product of two symmetric
+functions. As we saw in \S4, all of the useful scalar products
+on $\Lambda$ share the property that the power-sums $p_\lambda$ are
+orthogonal. To specify such a product, say $(\ {,}\ )$, the only
+additional information one would need is the value
+of $(p_\lambda,p_\lambda)$ for all partitions $\lambda$.
+
+For these reasons, \SF{} is designed so that the user specifies a scalar
+product by supplying a Maple procedure that accepts any partition
+$\lambda$ as input, and returns as output the desired value of
+$(p_\lambda,p_\lambda)$ (the assumption being that $(p_\lambda,p_\mu)=0$
+for $\lambda\ne\mu$). Thus for example, to compute the scalar product of
+two symmetric functions, one would call {\tt scalar} with three
+arguments---the first two being the symmetric functions, and the third
+being the name of the procedure that computes $(p_\lambda,p_\lambda)$.
+To be more specific, recall that the standard scalar product is defined
+by the property that $\br{p_\lambda,p_\lambda}=z_\lambda$ (see~(1)).
+One of the procedures of \SF{} is {\tt zee}, which returns the value
+of $z_\lambda$ for each partition $\lambda$. Hence to compute the
+standard scalar product of symmetric functions {\tt f} and {\tt g},
+one could use the command {\tt scalar(f,g,zee)}. One may also compute
+this via the command {\tt scalar(f,g)}, since the default is to use
+the standard scalar product if none is specified.
+
+It should be noted that {\tt zee} is designed to accept one or two
+additional optional arguments that facilitate the specification of scalar
+products other than the standard one. For example, the scalar product
+$\br{\ {,}\ }_t$ used in the definition of Hall-Littlewood symmetric
+functions (see \S4) could be specified by the procedure
+
+\sttline{zee\ul{}for\ul{}hall\ul{}littlewood
+  := lambda -> zee(lambda,0,t)\rm .}
+
+\subsec{Adding New Bases}
+There are two procedures in \SF, {\tt dual\ul{}basis} and
+{\tt add\ul{}basis}, that are designed to allow the user to introduce
+new symmetric function bases into \SF. The first of these,
+{\tt dual\ul{}basis}, takes any previously defined basis $b_\lambda$,
+together with a user-specified scalar product $(\ {,}\ )$, and adds
+to \SF{} the basis that is dual to $b_\lambda$; i.e., the unique basis
+$B_\lambda$ satisfying $(B_\lambda,b_\mu)=\delta_{\lambda\mu}$.
+The precise calling sequence is
+
+\sttline{dual\ul{}basis(B,b,scp);}
+
+\noindent where {\tt B} is a user-chosen name for the dual basis to be
+created, {\tt b} is the name of the previously-defined basis,
+and {\tt scp} is the scalar product; i.e., the procedure for computing
+$(p_\lambda,p_\lambda)$. If the scalar product is omitted, the default
+is to use the standard one.
+
+The net effect of such a procedure call is the following: First, the
+name {\tt B[$\,$]} is added to {\tt `SF/Bases`}, the global variable that
+keeps track of all bases that have been defined. Second, a new procedure
+named {\tt toB} is (silently) created. Its purpose is similar to the
+built-in procedures {\tt toe}, {\tt toh}, {\tt top} and {\tt tos}:
+it converts any given symmetric function into an expression in the
+{\tt B}-basis. The third effect is that the information defining this
+basis is saved in tables so that all previously defined
+`{\tt to}'-procedures are able to process symmetric function expressions
+involving the new basis {\tt B}.
+
+For example, probably the most common use of this feature is to define
+the monomial symmetric functions $m_\lambda$. Recall from~(1) that the
+$m_\lambda$'s are dual to the $h_\lambda$'s, relative to the standard
+scalar product. Thus to define the $m_\lambda$'s in \SF, one simply uses
+{\tt dual\ul{}basis(m,h)}. At this point, the new procedure {\tt tom}
+will be created, and the user is free to process symmetric function
+expressions involving the monomials {\tt m[i\ul{}1,...,i\ul{}k]}.
+
+\medskip
+The second mechanism for introducing new bases is {\tt add\ul{}basis}.
+This procedure is designed for symmetric function bases, such as those
+discussed in \S4, that may be characterized by
+orthogonality-plus-triangularity properties. More precisely, let us
+suppose that $(\ {,}\ )$ is a scalar product on $\Lambda$ for which
+$(p_\lambda,p_\mu)=0$ for $\lambda\ne\mu$. Given scalars $c_\lambda\ne0$,
+there is a unique basis $P_\lambda$ of $\Lambda$ that (i) is orthogonal
+relative to $(\ {,}\ )$, and (ii) satisfies
+$$
+P_\lambda=c_\lambda m_\lambda
+  +\hbox{ a linear combination of $m_\mu$ for }\mu<_C\lambda,
+$$
+where `$<_C$' denotes the conjugate-lexicographic ordering
+we defined earlier.
+
+We remark that for $n\ge1$, the $P_\lambda$'s indexed by partitions
+$\lambda$ with $\le n$ parts specialize to a basis for the ring of
+symmetric polynomials in $n$ variables. This is a special feature of
+the $<_C$-ordering and would not be valid in general if we had used the
+lexicographic ordering $<_L$ in our definition.\fnote{6}{However,
+it should be noted that the orthogonal bases that occur in applications,
+including all of the bases discussed in \S4, are not sensitive to how
+the partitions are ordered, provided that the ordering is a refinement
+of the dominance order.}
+
+If {\tt scp} and {\tt lterm} are Maple procedures for computing the
+scalar product $(p_\lambda,p_\lambda)$ and the desired ``leading term''
+$c_\lambda$ for each partition $\lambda$, then the procedure call
+
+\sttline{add\ul{}basis(P,scp,lterm);}
+
+\noindent defines {\tt P} to be the name of the symmetric function basis
+characterized by properties~(i) and~(ii) above. If the third argument
+{\tt lterm} is omitted, the default is to use $c_\lambda=1$. The effect
+of {\tt add\ul{}basis} is similar to {\tt dual\ul{}basis}: the name
+{\tt P[$\,$]} is added to {\tt `SF/Bases`}, a new procedure named
+{\tt toP} is created, and the defining information for the {\tt P}-basis
+is saved in tables so that all previously defined `{\tt to}'-procedures
+are able to process symmetric function expressions involving the new
+basis {\tt P}.
+
+In principle, the user should not need to be concerned about how \SF{}
+internally processes symmetric function expressions involving a basis
+created via {\tt add\ul{}basis}; however, in order to give a rough idea of
+the resources that are needed during such computations, a few remarks about
+the algorithms are in order. Suppose that {\tt P} is the name of a basis
+created by {\tt add\ul{}basis}. On the first occasion that \SF{} is asked
+to process a symmetric function involving, say {\tt P[3,3,2,1]}, the first
+step is to use the Gram-Schmidt algorithm to compute the expansion
+of {\tt P[3,3,2,1]} in terms of elementary symmetric functions,
+and cache the result in a Maple remember table. Given the recursive
+nature of the Gram-Schmidt algorithm, this means that the expansions
+of all ``earlier'' members of the basis (e.g., {\tt P[3,2,2,2]},
+{\tt P[3,2,2,1,1]}, etc.) will need to be computed first, or retrieved
+(if available) from a remember table. Thus, the first computation
+involving {\tt P[3,3,2,1]} may be slow, but subsequent computations will
+require only a quick table lookup.
+
+To temper the user's enthusiasm, note that several of the symmetric
+function bases discussed in \S4 depend on various free parameters such
+as $q,t$, and $\alpha$. In such cases, the Gram-Schmidt algorithm is
+forced to work over rational function fields. The complexity of arithmetic
+over such fields and the sheer size of the expressions involved mean that
+the adventurous user will severely test the capacity of Maple.
+For example, here are some benchmarks I obtained while running the
+Linux/x86 version of Maple~V Release~5. It takes about 5.6 GHz-sec
+and 3MB to build the remember table for the Hall-Littlewood functions
+of degree~9; for degree~12, it takes about 2 GHz-min and~7MB.
+For the Macdonald symmetric functions of degree~8, it takes about
+2 GHz-min and~13MB.\fnote{7}{However, by exploiting special features
+of Macdonald's symmetric functions it is possible to greatly accelerate
+the computation. Some Maple code for this is provided in the
+{\tt examples} directory of~\SF. Using this specially designed code,
+the same calculation takes about 18 GHz-sec and 6.6MB.}
+
+\subsec{Characters}
+There is a close relationship between characters of the symmetric
+group $S_n$ and the space of homogeneous symmetric functions of degree~$n$;
+several of the procedures of \SF{} (e.g., {\tt itensor}, {\tt plethysm},
+{\tt scalar}, {\tt skew} and {\tt tos}) have special significance in this
+context. (For details about this, see~\cite{5}, \cite{6}, or~\cite{7}.)
+Furthermore, there are two procedures, {\tt sf2char} and {\tt char2sf},
+that are designed to convert between symmetric functions and the symmetric
+group characters to which they correspond. For these purposes, a symmetric
+group character is defined to be a linear combination of Maple expressions
+of the form {\tt cl[i\ul{}1,...,i\ul{}k]}, where {\tt [i\ul{}1,...,i\ul{}k]}
+ranges over all partitions. Here `{\tt cl}' is a special name reserved by
+\SF{} to designate class functions on the symmetric group; the
+expression {\tt cl[i\ul{}1,...,i\ul{}k]} represents a function on the
+symmetric group that takes on the value 1 at any permutation of cycle-type
+$\lambda=(i_1,\ldots,i_k)$, and 0 otherwise. Thus for example, the Maple
+expression
+
+\sttline{3*cl[1,1,1,1] + cl[2,1,1] - cl[2,2] - cl[4]}
+
+\noindent represents the (possibly virtual) character of $S_4$ whose
+values are $3,1,-1$, and $-1$ on permutations whose respective cycle-types
+are $(1111),(211),(22)$, and $(4)$.
+
+\mysec{6. Short Synopses of the Procedures}
+Here is a brief indication of the purpose of each procedure in \SF.
+For the full details, including syntax, definitions and examples, consult
+the on-line help via the commands {\tt ?SF,\arg{function}} or
+{\tt ?SF[\arg{function}]}, or use the HTML document
+in the Vanilla Edition.
+
+\settabs\+\tt {\tt skew\ul{}shapes}\ \ &\cr
+\medskip
+\+\tt Par& list partitions\cr
+\+\tt add\ul{}basis& add an orthogonal basis to the set of known bases\cr
+\+\tt char2sf& convert (virtual) characters to symmetric functions\cr
+\+\tt conjugate& conjugate a partition\cr
+\+\tt dominate& list/test partitions dominated by another partition\cr
+\+\tt dual\ul{}basis& add a dual basis to the set of known bases\cr
+\+\tt evalsf& plethystic evaluation of symmetric functions\cr
+\+\tt hooks& hook lengths of a partition\cr
+\+\tt itensor& inner tensor product of symmetric functions\cr
+\+\tt jt\ul{}matrix& Jacobi-Trudi matrix of a (possibly skew) partition\cr
+\+\tt nextPar& generate the next partition in lexicographic order\cr
+\+\tt omega& apply the automorphism $\omega$ to a symmetric function\cr
+\+\tt plethysm& plethysm of symmetric functions\cr
+\+\tt scalar& scalar product of symmetric functions\cr
+\+\tt sf2char& convert symmetric functions to (virtual) characters\cr
+\+\tt skew& skew operation on symmetric functions\cr
+\+\tt stdeg& degree with respect to the standard grading\cr
+\+\tt subPar& list all subpartitions of a partition\cr
+\+\tt theta& apply the automorphism $\theta$ to a symmetric function\cr
+\+\tt toe& convert a symmetric function to the {\tt e}-basis\cr
+\+\tt toh& convert a symmetric function to the {\tt h}-basis\cr
+\+\tt top& convert a symmetric function to the {\tt p}-basis\cr
+\+\tt tos& convert a symmetric function to the Schur function basis\cr
+\+\tt varset& variable set of a symmetric function\cr
+\+\tt zee& squared norm of power sums\cr
+
+\medskip
+Here is a short summary of the contents of the {\tt examples}
+subdirectory. These files must be explicitly loaded by the user and
+contain both documentation and source code.
+
+\medskip
+\+\tt bases& annotated list of \SF-definitions for commonly used
+  symmetric functions\cr
+\+\tt graph& count unlabeled graphs via the Polya-Redfield method\cr
+\+\tt jacks& accelerated computation of Jack symmetric functions\cr
+\+\tt kfpoly& generate Kostka-Foulkes polynomials via rigged
+  configurations\cr
+\+\tt LR\ul{}rule& implementation of the Littlewood-Richardson rule\cr
+\+\tt macdonald& accelerated computation of Macdonald's symmetric
+  functions\cr
+\+\tt qt\ul{}kostka& compute the entries of the $q,t$-Kostka matrix\cr
+\+\tt seminormal& generate matrices for Young's seminormal representations
+  of $S_n$\cr
+\+\tt skew\ul{}shapes& generate all skew shapes of a given size\cr
+\+\tt tableaux& generate all standard Young tableaux of a given shape\cr
+
+\mysec{7. Changelog}
+\subsec{Version 2.4} The most significant improvements and additions are:
+
+\bitem Conversions among the {\tt e}, {\tt h}, and {\tt p} bases are
+more space-efficient and {\it much} faster.
+
+\bitem Calls to {\tt `solve/linear`} (now deprecated in Maple) have
+been eliminated.
+
+\bitem The procedure {\tt tos} for converting to Schur functions has
+been radically redesigned and is significantly faster. In particular,
+the Schur function support of a symmetric function is now inferred
+dynamically, and the running time is (roughly) governed by the number of
+terms in the output. In previous versions of \SF, an instance of {\tt tos}
+could be accelerated by optionally providing a partition list containing
+the support of the output; now, this option is ignored.
+
+\bitem The orthogonal bases created by {\tt add\ul{}basis} are now defined
+in terms of triangularity with respect to the conjugate-lexicographic
+order $<_C$, not the lexicographic order $<_L$ (see the definitions
+in \S5). This has no effect on computations involving the orthogonal bases
+discussed in \S4, but has the benefit that in all cases, the basis
+elements indexed by partitions with $\le n$ rows may be specialized to
+a basis for the ring of symmetric polynomials in $n$ variables.
+
+\bitem An optional flag may be provided to {\tt add\ul{}basis},
+indicating that the basis being created is known to be triangular with
+respect to all refinements of the dominance order. This information is
+used to accelerate the Gram-Schmidt algorithm.
+
+\bitem The `{\tt to}'-procedures created by {\tt add\ul{}basis}
+are now internally and externally similar to the new {\tt tos}.
+In particular, they now derive the support of the output dynamically,
+and ignore any user-provided information about this support. Also,
+they now allow the option of computing in the ring of symmetric
+polynomials in $n$ variables (i.e., modulo the ideal generated by
+$e_{n+1},e_{n+2},\ldots$).
+
+\bitem The procedures for converting to and from a basis created
+via {\tt dual\ul{}basis} have been redesigned. The old versions
+consumed large amounts of memory, and large instances could trigger
+crashes in old versions of Maple. The new versions are much more
+space-efficient, do not trigger crashes, and in most cases, are faster.
+
+\bitem The procedure {\tt dominate} may now be used to test whether
+two partitions are related in dominance order.
+
+\bitem The procedure {\tt nextPar} has been added to the package.
+
+\bitem The output of {\tt evalsf} is now filtered through {\tt normal}
+in all cases, even if the second argument is a symmetric function
+of degree~0.
+
+\bitem Most of the examples have been rewritten and are now faster and
+more space-efficient. Also, {\tt seminormal} now produces matrix entries
+with smaller denominators.
+
+\subsec{Version 2.3} In addition to the debut of the Vanilla Edition,
+the significant changes and new features in \SF{} are:
+
+\bitem Two new examples, {\tt jacks} and {\tt kfpoly} have been added.
+
+\bitem The example {\tt m\ul{}conjecture} has been deleted, on grounds
+of obsolescence~\cite{3}.
+
+\bitem Nearly all of the examples have been rewritten, with improved
+documentation, and (in some cases) minor changes in functionality.
+
+\bitem A bug in {\tt tos} and {\tt to}-procedures defined by
+{\tt add\ul{}basis} involving misuse of Maple's ``vector degree'' has
+been fixed. This bug could appear only in rare situations and would
+manifest itself by producing a Maple {\tt ERROR}. Many thanks to Mike
+Zabrocki $\br{\hbox{\tt zabrocki@math.uqam.ca}}$ for spotting the bug. 
+
+\bitem A minor bug in {\tt dominate} has been fixed. When asked to
+list partitions with at most $n$ parts dominated by a partition with
+more than $n$ parts, it now (correctly) returns an empty list.
+
+\bitem {\tt stdeg} has been restored. It had been downgraded to an
+internal role in Version~2.0.
+
+\subsec{Version 2.2} Aside from cosmetic improvements, the significant
+changes and new features in this version of \SF{} are:
+
+\bitem The procedure {\tt evalsf} has been enhanced. It is still
+upward-compatible with the old version, but is now capable of
+plethystic evaluations. See the help text.
+
+\bitem To minimize the chance of collision with user-defined names, the
+global variable {\tt Bases} has been renamed {\tt `SF/Bases`}.
+
+\bitem The example {\tt skew\ul{}shapes} has been added, and the
+example {\tt graphs} has been renamed {\tt graph}.
+
+\subsec{Version 2.1}
+There were no changes in functionality.
+
+\subsec{Version 2.0} The main changes affecting users upgrading
+from Versions~1.x are:
+
+\bitem Every basis-conversion procedure, such as {\tt toe}, {\tt toh},
+{\tt top} and {\tt tos} now returns as output an expression that is
+collected in `distributed' form (see the Maple documentation for
+{\tt collect}), with {\tt normal} applied to the coefficients.
+
+\bitem Every procedure in \SF{} that accepts symmetric functions is now
+able to correctly process non-homogeneous symmetric functions.
+
+\bitem The code for manipulating monomial symmetric functions (and
+in particular, {\tt tom}) is no longer built-in. It has been replaced by
+the more general {\tt dual\ul{}basis} construction.
+
+\bitem {\tt ch2p} and {\tt p2ch} have been replaced with {\tt char2sf} and
+{\tt sf2char}. The new procedures allow conversions between symmetric
+group characters and arbitrary symmetric functions, not just expressions
+in the power-sums.
+
+\bitem {\tt ibocaj} and {\tt jacobi} have been replaced by
+{\tt jt\ul{}matrix}.
+
+\bitem {\tt Par} no longer uses {\tt option remember}.
+
+\bitem {\tt stdeg} is now an internal procedure, renamed {\tt `SF/stdeg`}.
+ 
+\mysec{8. Miscellany}
+\subsec{Global Warning}
+The following names have been reserved for use by \SF{} and should not be
+assigned values by the user:
+
+\smallskip
+\item{1.} {\tt e,h,p,s}\quad (names of predefined bases).
+\item{2.} {\tt e1,h1,p1,e2,h2,p2,...}\quad (names of symmetric functions).
+\item{3.} {\tt cl}\quad (the name reserved for class functions on the
+  symmetric group).
+
+\subsec{Maple Variations}
+A new release of Maple often means fundamental changes in the underlying
+syntax. For example, the ditto operator changed from {\tt "} to {\tt \%}
+in Maple V Release~5, and the concatenation operator changed from {\tt .}
+to {\tt ||} in Maple 6. Although the source code for \SF{} has been
+completely updated to account for these changes, the reader should beware
+that there are a few instances in the documentation of individual functions
+where usage is explained in terms of the old syntax.
+
+\subsec{Object too large}
+Old versions of Maple (prior to Maple~6) have
+noticeable limits on the number of operands in a Maple object.
+On a 32-bit x86 CPU, computations involving generic symmetric functions
+of degree 35 will trigger an `{\tt object too large}' error in these
+versions of Maple. Later versions do not have these limitations.
+
+\subsec{Under the hood}
+I am frequently asked about the algorithm \SF{}
+uses to convert a symmetric function $f$ into Schur functions.
+The basic idea is that there is a total ordering of the set of
+$h$-monomials such that $h_\lambda$ is the ``first'' term of the
+Jacobi-Trudi $h$-expansion of $s_\lambda$. Thus we first convert $f$
+into an $h$-polynomial, and then extract the leading $h$-monomial from $f$,
+say $h_\lambda$. The coefficient of $h_\lambda$ in $f$ is also the
+coefficient of $s_\lambda$ in $f$; we then expand $s_\lambda$ into
+an $h$-polynomial via (say) the Jacobi-Trudi determinant, subtract
+the appropriate multiple of the $h$-expression for $s_\lambda$ from $f$
+so as to kill the leading term, and iterate.
+
+Notice that the main expense of this algorithm is the cost of
+converting $f$ and each $s_\lambda$ to the $h$-basis. The running time
+is strongly correlated with the number of distinct Schur functions in
+the output, and (unlike the implementations of {\tt tos} in older
+versions of \SF) there is no advantage in knowing the support of this
+output in advance.
+
+The `{\tt to}'-procedures created by {\tt add\ul{}basis} operate in
+a similar way.
+
+\subsec{More Hints}
+There is one case in which it is possible to use knowledge of the support
+of the output to improve the performance of a `{\tt to}'-procedure.
+Indeed, suppose that one intends to compute the {\tt B}-expansion of a
+symmetric function {\tt f}, where {\tt B} is a basis that was created
+by {\tt dual\ul{}basis}. If one can build in advance a list that
+includes every partition in the {\tt B}-support of {\tt f}, then the
+function call {\tt toB(f,\arg{partition list})} will be able to do
+the conversion by computing scalar products involving only the elements
+in the dual basis indexed by the given list, rather than involving all
+members of the dual basis.
+
+For example, the coefficient of $m_\mu$ in $s_\lambda$ is nonzero
+only if $\lambda$ dominates $\mu$ (see~(2)), so {\tt dominate([4,3,2,2])}
+is a partition list that contains the {\tt m}-support of {\tt s[4,3,2,2]}.
+As an experiment, try running the commands
+
+\smallskip
+\ttline{with(SF); dual\ul{}basis(m,h);}
+\ttline{parlist:=dominate([4,3,2,2]);}
+\ttline{tom(s[4,3,2,2], parlist);}
+\ttline{tom(s[4,3,2,2]);}
+\smallskip
+
+\noindent We find that the first call to {\tt tom} runs about 3 or 4 times
+faster than the second.
+
+\subsec{Bugs}
+Please send reports of reproducible bugs to my e-mail address on page~1.
+Be sure to include an example, preferably as small as possible.
+A common problem that is not a bug occurs when the user assigns
+values to the special names {\tt e}, {\tt h}, {\tt p}, {\tt s}, or {\tt m}
+(if {\tt m} is the name of a basis added during an \SF{} session).
+I've made this mistake myself on more than one occasion.
+
+\subsec{Compensation}
+If \SF{} proves to be useful in your own research, I would appreciate an
+acknowledgment of it in publications derived from that research.
+
+\subsec{Mailing list} I maintain a low-traffic, private mailing list for
+users of \SF{} and my other packages {\tt posets}, {\tt coxeter}, and
+{\tt weyl}. If you would like to be kept informed of new versions, new
+packages, or (gasp) bugs, please send me an e-mail message.
+
+\newpage
+\mysec{9. Copyleft}
+Copyleft \copyright 1993, 1998, 2001, 2005 by John R. Stembridge.
+
+Permission is granted to anyone to use, modify, or redistribute this
+software freely, subject to the following restrictions:\medskip
+
+\item{1.} The author accepts no responsibility for any consequences of this
+software and makes no guarantee that the software is free of defects.
+\smallskip
+\item{2.} The origin of this software must not be misrepresented, either by
+explicit claim or by omission.
+\smallskip
+\item{3.} This notice and the copyleft must be included in all copies or
+altered versions of this software.
+\smallskip
+\item{4.} This software may not be included or redistributed as part of any
+package to be sold for profit without the explicit written permission of the
+author.
+
+\mysec{10. References}
+{\frenchspacing\raggedbottom
+\def\myref#1{\smallskip\item{[{\bf #1}]}}
+\myref{1}
+  W. Fulton and J. Harris, ``Representation Theory. A First Course,''
+  Springer-Verlag, Berlin-New York, 1991.
+\myref{2}
+  A. M. Garsia and M. Haiman, A graded representation model for Macdonald's
+  polynomials, {\it Proc. Nat. Acad. Sci. U.S.A.} {\bf 90} (1993), 3607--3610.
+\myref{3}
+  M. Haiman, Hilbert schemes, polygraphs and the Macdonald positivity
+  conjecture, {\it J.~Amer. Math. Soc.} {\bf 14} (2001), 941--1006.
+\myref{4}
+  A. T. James, Zonal polynomials of the real positive definite symmetric
+  matrices, {\it Ann. of Math.} {\bf 74} (1961), 475--501.
+\myref{5}
+  G. D. James and A. Kerber, ``The Representation Theory of the Symmetric
+  Group,'' Addison-Wesley, Reading, MA, 1981.
+\myref{6}
+  D. E. Littlewood, ``The Theory of Group Characters,'' 2nd ed., Oxford Univ.
+  Press, Oxford, 1950.
+\myref{7}
+  I. G. Macdonald, ``Symmetric Functions and Hall Polynomials,'' 2nd ed.,
+  Oxford Univ. Press, Oxford, 1995.
+\myref{8}
+  I. G. Macdonald, A new class of symmetric functions, {\it Publ. I.R.M.A.
+  Strasbourg, Actes 20$^e$ S\'eminaire Lotharingien} (1988), 131--171.
+\myref{9}
+  B. E. Sagan, ``The Symmetric Group. Representations, Combinatorial
+  Algorithms, and Symmetric Functions,'' 2nd ed., Springer, New York, 2001.
+\myref{10}
+  R. P. Stanley, Some combinatorial properties of Jack symmetric functions,
+  {\it Adv. in Math.} {\bf 77} (1989), 76--115.
+\myref{11}
+  R. P. Stanley, ``Enumerative Combinatorics, Vol.~2,'' Cambridge Univ.
+  Press, Cambridge, 1999.
+\myref{12}
+  A. Takemura, ``Zonal Polynomials,'' Institute of Mathematical Statistics,
+  Hayward, CA, 1984.
+\par}
+\end

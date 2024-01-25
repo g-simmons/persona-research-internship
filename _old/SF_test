@@ -1,0 +1,194 @@
+#
+# Test file for SF 2.4
+#
+# This is a test suite that runs some basic checks
+# to see that the package is working properly.
+#
+# If you are using the unix version, run the shell command
+#   maple -q < SF_test | more
+# and check that the output is a stream of OKAY's.
+#
+# If you are using the vanilla version, start maple, load the package,
+# then load this file, and check that the output is a stream of OKAY's.
+#
+test:=proc(f,pr) local report;
+  assign(evaln(i),i+1); # subversively global
+  report:=proc(j) printf(`%3d  OKAY\n`,j) end;
+  if nargs=3 then
+    if f(op(args[2]))=args[3] then report(i) else args fi
+  elif nargs=4 then
+    if pr(f(op(args[3])))=args[4] then report(i) else args fi
+  elif nargs=5 then
+    if pr(op(args[3]))=args[4] then report(i) else args fi
+  fi
+end:
+i:=0:
+if assigned(withSF) then # we are using the vanilla edition
+  withSF() else with(SF) fi:
+
+# Par
+test(Par,[4], [[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]);
+test(Par,[7,2], [[7],[6,1],[5,2],[4,3]]);
+test(Par,[9,4,3], [[4,4,1],[4,3,2],[3,3,3]]);
+
+# conjugate
+test(conjugate,[[7,7,3,2,2,2,1]], [7,6,3,2,2,2,2]);
+
+# dominate
+test(dominate,[[2,2]], [[2,2],[2,1,1],[1,1,1,1]]);
+test(dominate,[[3,2,1],[2,2,2]], true);
+g:=[[3,2,1],[2,2,2],[3,1,1,1],[2,2,1,1]]:
+test(dominate,[[3,2,1],4], g);
+test(dominate,x->sort(x,dominate),[g],subsop(2=g[3],3=g[2],g),flag);
+
+# subPar
+test(subPar,[[2,2]], [[2,2],[2,1],[2],[1,1],[1],[]]);
+test(subPar,[[4,3,2],7], [[4,3],[4,2,1],[3,3,1],[3,2,2]]);
+
+# nextPar
+test(nextPar,[[4,1,1,1,1]], [3,3,2]);
+test(nextPar,[[3,3,2]], [3,3,1,1]);
+test(nextPar,proc() [args] end,[[1,1,1]],[]);
+
+# toe
+test(toe,[h1*e2*p2+s[2,1]*s[2]], 2*e2*e1^3-e3*e1^2-3*e2^2*e1+e3*e2);
+test(toe,[s[3,1]+s[2,2],s], e2*e1^2-2*e1*e3+e4);
+test(toe,[h5+p5+e5,nrows=3],2*e1^5-9*e1^3*e2+8*e3*e1^2+8*e2^2*e1-7*e3*e2);
+
+# toh
+test(toh,[e2^2+p2^2-2*e4], -4*h1*h3+3*h2^2+2*h4);
+test(toh,[s[4,3],s], h4*h3-h5*h2);
+
+# top
+test(top,[s[3,1,1],s], 1/20*p1^5-1/4*p2^2*p1+1/5*p5);
+test(top,[36*h3*e3], p1^6+4*p3*p1^3-9*p2^2*p1^2+4*p3^2);
+
+# jt_matrix
+test(jt_matrix,x->convert(x,listlist),[[4,2,1]],
+  [[h4,h5,h6],[h1,h2,h3],[0,1,h1]]);
+test(jt_matrix,x->convert(x,listlist),[[5,3,2],[3,2],q],
+  [[q2,q4,q7],[0,q1,q4],[0,0,q2]]);
+
+# tos
+test(tos,[h3*p2], s[5]+s[3,2]-s[3,1,1]);
+test(tos,[s[2,1]*s[2,2],s],
+  s[4,3]+s[4,2,1]+s[3,3,1]+s[3,2,2]+s[3,2,1,1]+s[2,2,2,1]);
+g:=linalg[det](jt_matrix([5,4,2,1],[3,2])):
+test(tos,[g,h,nrows=3],
+  s[5,2]+s[5,1,1]+2*s[4,3]+3*s[4,2,1]+2*s[3,3,1]+2*s[3,2,2]);
+test(tos,x->expand(normal((1-q^2)*x)),[h3*h2/(1+q)-h4*h1/(1-q)],
+  s[3,2]-2*q*s[5]-2*q*s[4,1]-s[3,2]*q);
+
+# hooks
+test(hooks,[[3,2,1]], [5,3,3,1,1,1]);
+test(hooks,[[3,2,1],z], (2*z+3)*(z+2)^2);
+test(hooks,[[3,1,1,1],q,t], (1-q^2*t^4)*(1-q*t)*(1-t)^2*(1-t^3)*(1-t^2));
+test(hooks,[[3,1,1,1],0,t], (1-t)^2*(1-t^3)*(1-t^2));
+
+# zee
+test(zee,[[3,3,2]], 36);
+test(zee,[[3,3,2],x], 36*x^3);
+test(zee,[[3,3,2],q,t], 36*(1-q^3)^2/(1-t^3)^2*(1-q^2)/(1-t^2));
+
+# varset
+test(varset,[(p1+p3)^3+p7^2,p], 7);
+g:=s[3,2]*s[2]*m[2,1]+h3*h1^2:
+test(varset,x->x[m],[g,{h,m[]}], [[2,1]]);
+test(varset,proc(x) local t; t:=x; t[s]:={op(t[s])}; {op(op(op(t)))} end,
+  [g],{h=3,e=0,s={[3,2],[2]},p=0});
+
+# scalar
+test(scalar,[s[3,2],h2*h1^3], 3);
+test(scalar,[s[3,1,1],e3*e2,s,e], 0);
+scp:=mu -> zee(mu,q^2,q):
+test(scalar,normal,[s[2,1],s[2,1],scp], q^3+2*q^2+2*q+1);
+dual_basis(m,h):
+test(scalar,factor,[m[3,1]+m[2,1],p3*(1+p1),m,p,scp],
+  factor(3*q*(q^3+1)));
+
+# theta
+test(theta,[s[3,1,1],z], 1/20*z^5*p1^5-1/4*z^3*p2^2*p1+1/5*z*p5);
+test(theta,x->factor(scalar(x,s[3,1])),[s[3,1],q^2,q], (q^2+q+1)^2);
+
+# itensor
+test(itensor,[s[2,1],s[3,2]], 0);
+test(itensor,[s[2,1],s[2,1],s], s[3]+s[2,1]+s[1,1,1]);
+test(itensor,[s[2,2],h2^2,s,h], 1/2*p2^2+1/2*p1^4);
+test(itensor,[e5,s[3,2],e,s,s], s[2,2,1]);
+
+# plethysm
+test(plethysm,[h3,h2,s], s[6]+s[4,2]+s[2,2,2]);
+test(plethysm,[p3,s[2,1]], 1/3*p3^3-1/3*p9);
+test(plethysm,[p3,s[2,1],p,s], 1/3*p3^3-1/3*p9);
+test(plethysm,[e3,e2,e,e,e], e4*e1^2-e1*e5-2*e4*e2+e6+e3^2);
+
+# skew
+test(skew,[e3,s[4,2]], 0);
+test(skew,toh,[p2,h6,p,h], h4);
+scp2:=mu -> zee(mu,0,t):
+test(skew,x->normal((1-t^2)*tos(x)),[p2,s[4,2],scp2], s[4]+s[2,2]);
+test(skew,tos,[(1+p2)*(1+p3),s[3,3,2]+s[3,1,1],p,s],
+  s[3,3,2]+s[3,3]-s[2,2,2]);
+
+# char2sf
+test(char2sf,[cl[3,2,2,1]], 1/24*p3*p2^2*p1);
+test(char2sf,[6*cl[1,1,1,1,1]-2*cl[2,2,1]+cl[5],s], s[3,1,1]);
+
+# sf2char
+test(sf2char,[(p1+p2)^2], 4*cl[2,1]+2*cl[1,1]+8*cl[2,2]);
+test(sf2char,[s[3,1],s], 3*cl[1,1,1,1]+cl[2,1,1]-cl[2,2]-cl[4]);
+
+# evalsf
+test(evalsf,expand,[e3,x+y+z+w], x*y*z+x*y*w+x*z*w+y*z*w);
+test(evalsf,factor,[s[2,2],1/(1-q)], factor(q^2/(1-q)^4/(q^2+q+1)/(q+1)^2));
+test(evalsf,factor,[h2,(a-b)/(1-q)], factor((a-b)*(a-q*b)/(1-q)^2/(1+q)));
+test(evalsf,tos,[h2,e3],s[2,2,2]+s[2,1,1,1,1]);
+test(evalsf,x->expand(tos(x)),[e3,(1+t)*p1],
+  expand(t*(1+t)*s[2,1]+(1+t+t^2+t^3)*s[1,1,1]));
+
+# homog_cmps
+test(`SF/homog_cmps`,x->{op(x)}, [s[4,2]+p2+m[3,1,1]],
+  {[m[3,1,1],5],[p2,2],[s[4,2],6]});
+
+# stdeg
+test(stdeg,[s[4,2]*p2*m[3,1,1]+h10], 13);
+test(stdeg,[s[4,2]*p2*m[3,1,1]+h10,s[]], 6);
+
+# dual_basis
+test(dual_basis,tom,[s[2,2,1],s,dominate([2,2,1])],
+  m[2,2,1]+2*m[2,1,1,1]+5*m[1,1,1,1,1], flag);
+test(dual_basis,tos,[m[2,2]+m[3,1],m],
+  s[3,1]-2*s[2,1,1]+3*s[1,1,1,1],flag);
+dual_basis(S,s,scp2):
+test(dual_basis,x->expand((-t+t^2)*e1^3+(1-t^3)*e2*e1+(-1+t^3)*e3-x),
+  [toe(S[2,1])], 0,flag);
+test(dual_basis,toS,[e2*e1*(1-t)^2*(1-t^2),e],
+  t*S[3]+(t+1)*S[2,1]+S[1,1,1],flag);
+
+# dualize
+test(dualize,top,[(1+m[3,1])*(1+2*m[2,2])],
+  p3*p1*p2^2+p1*p3-p4*p1*p3+p2^2-p4*p2^2+1+p4^2-2*p4,flag);
+test(dualize,x->subs(p1=1,p2=2,t=3,top(x)),
+  [(1+S[3,1])*(1+t*S[2,1])],315-1170*p3-140*p4+520*p4*p3,flag);
+
+# add_basis
+add_basis(HL,scp2,'dominant'):
+test(add_basis, expand, [toHL(s[2,2],s)],
+  expand(HL[2,2]+t*HL[2,1,1]+(t^4+t^2)*HL[1,1,1,1]),flag);
+test(add_basis, proc() normal(scalar(args)) end,
+  [(1-t)*HL[2,2],(1-t^2)*HL[2,2],scp2], 1, flag);
+add_basis(Z, mu -> zee(mu,2), mu -> hooks(mu,2)):
+test(add_basis,toZ,[p1^4,nrows=3],
+  8/15*Z[2,1,1]+2/15*Z[2,2]+4/21*Z[3,1]+1/105*Z[4], flag);
+test(add_basis,top,[Z[3]], p1^3+6*p1*p2+8*p3, flag);
+
+# omega
+test(omega,[h3*p4+e2], -e3*p4+h2);
+test(omega,[m[3,2],m], -p5-p3*p2);
+dual_basis(f,e):
+test(omega,[m[3,2],m,f], f[3,2]);
+test(omega,expand,[HL[3,1]*p1],
+  expand(((t^3+t^2+t+1)*h4-h3*h1+h2*h1^2-(t+1)*h2^2)*p1));
+
+if assigned(withSF) then printf(`if OKAY, restart Maple\n`) else quit fi:
+
