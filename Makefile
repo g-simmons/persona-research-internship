@@ -1,4 +1,5 @@
 LLM_EDIT_MOVIE_REVIEWS = contrastive_tda/llm_edit_movie_reviews.py
+EMBED_MANUAL_EDITED_MOVIE_REVIEWS = contrastive_tda/manual_edit_movie_reviews.py
 EMBED_LLM_EDITED_MOVIE_REVIEWS = contrastive_tda/llm_edit_movie_reviews.py
 
 llm_edited_movie_reviews: $(LLM_EDIT_MOVIE_REVIEWS)
@@ -6,8 +7,11 @@ llm_edited_movie_reviews: $(LLM_EDIT_MOVIE_REVIEWS)
 
 # embed_llm_edited_reviews:
 
-embed_manual_edited_reviews: $()
-	poetry run python $()
+embed_manual_edited_reviews: $(EMBED_MANUAL_EDITED_MOVIE_REVIEWS)
+	poetry run python $(EMBED_MANUAL_EDITED_MOVIE_REVIEWS)
+
+embed_llm_edited_reviews: $(EMBED_LLM_EDITED_MOVIE_REVIEWS)
+	poetry run python $(EMBED_LLM_EDITED_MOVIE_REVIEWS)
 
 install_hooks: 
 	mkdir -p .git/hooks

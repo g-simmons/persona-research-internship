@@ -1,7 +1,27 @@
 import pandas as pd
 from pathlib import Path
 from contrastive_tda.schemas import ManualEditedMovieReview, LLMEditedMovieReview, LLMEditedMovieReviewEmbedded
-from typing import List
+from typing import List, Union
+import json
+from pathlib import Path
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure, SubFigure
+from matplotlib.transforms import Bbox
+from seaborn.axisgrid import FacetGrid
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from typing import List, Tuple, Optional, Literal, Union, Dict, Any
+
+from itertools import combinations
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.text import Annotation
+from matplotlib.transforms import Transform
+import seaborn as sns
+
+
 
 # kedro
 
@@ -31,7 +51,7 @@ class Catalog: # job is to load and save data
         df = pd.read_excel(self.manual_movie_reviews_path)
         return [ManualEditedMovieReview(**row) for row in df.to_dict(orient="records")] # type: ignore
     
-    def load_llm_edited_movie_reviews(self,as_df=False) -> List[LLMEditedMovieReview]:
+    def load_llm_edited_movie_reviews(self,as_df=False) -> Union[List[LLMEditedMovieReview],pd.DataFrame]:
         """
         as_df: if True, return a Pandas DataFrame, else return a list of LLMEditedMovieReview objects
         """
@@ -42,10 +62,29 @@ class Catalog: # job is to load and save data
         else:
             return [LLMEditedMovieReview(**row) for row in df.to_dict(orient="records")] # type: ignore
     
-    def save_llm_edited_movie_reviews_embedded(self, df: pd.DataFrame) -> None:
-        # data validation
-        df.apply(lambda x: LLMEditedMovieReviewEmbedded(**x), axis=1)
-        df.to_json(self.llm_movie_reviews_embedded_path, orient="records", lines=True)
+    def save_llm_edited_movie_reviews_embedded(self, data: Union[pd.DataFrame,List[LLMEditedMovieReviewEmbedded]]) -> None:
+        if not self.llm_movie_reviews_embedded_path.parent.exists():
+            self.llm_movie_reviews_embedded_path.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(data, pd.DataFrame):
+            # data validation
+            df.apply(lambda x: LLMEditedMovieReviewEmbedded(**x), axis=1)
+            df.to_json(self.llm_movie_reviews_embedded_path, orient="records", lines=True)
+        else:
+            # data validation
+            [LLMEditedMovieReviewEmbedded(**row.model_dump()) for row in data]
+            with open(self.llm_movie_reviews_embedded_path, 'w') as f:
+                for row in data:
+                    json.dump(row.model_dump(), f)
+                    f.write('\n')
+    
+    def load_llm_edited_movie_reviews_embedded(self, as_df=False) -> Union[List[LLMEditedMovieReviewEmbedded],pd.DataFrame]:
+        """
+        as_df: if True, return a Pandas DataFrame, else return a list of LLMEditedMovieReviewEmbedded objects
+        """
+        df = pd.read_json(self.llm_movie_reviews_embedded_path, lines=True)
+        items = [LLMEditedMovieReviewEmbedded(**row) for row in df.to_dict(orient="records")] # type: ignore
+        return pd.DataFrame([i.model_dump() for i in items]) if as_df else items
+
         
 
     def _process_excel(self, input_path: str) -> pd.DataFrame:
@@ -58,3 +97,32 @@ class Catalog: # job is to load and save data
         excel_file_path = self.prompt_out / input_path
         df =  pd.read_excel(excel_file_path)
         return df
+    
+    def savefig(
+        self,
+        fig,
+        figure_name,
+        formats: List[str] = ["svg", "png"],
+        dpi=600,
+        bbox_inches="tight",
+        overwrite=True,
+        # data=pd.DataFrame,
+    ):
+        while not isinstance(fig, Figure):
+            if isinstance(fig, SubFigure):
+                fig = fig.figure
+            elif isinstance(fig, FacetGrid):
+                fig = fig.figure
+            elif isinstance(fig, Axes):
+                fig = fig.get_figure()
+
+        fig.tight_layout()
+
+        outfolder = Path(self.figures / figure_name)
+        if not outfolder.exists() or overwrite:
+            for format in formats:
+                outpath = outfolder / f"{Path(figure_name).stem}.{format}"
+                if not outpath.parent.exists():
+                    outpath.parent.mkdir(exist_ok=True, parents=True)
+                fig.savefig(outpath, format=format, bbox_inches=bbox_inches, dpi=dpi)
+
