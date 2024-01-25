@@ -1,0 +1,46 @@
+#
+# Symmetric Functions package: SF version 2.4, unix edition.
+# This version/edition has been tested on
+#   Maple V R3, R4, R5, Maple 6, Maple 7, Maple 9, and Maple 9.5.
+#
+# This is a csh script that compiles each procedure and help file
+# in the SF package into the '.m' format.
+#
+# You'll need to edit the definitions of these shell variables:
+#   homelib -> the directory containing the 'SF' directory
+#   MAPLE   -> the startup script for command-line maple
+#
+set homelib = /usr/local/maple/packages
+set MAPLE = /usr/local/bin/maple
+#
+# Now from a command line, run the shell command
+#
+#    csh COMPILE.SF
+#
+#--------no further customization below this line-------------
+#  
+set SFlist = (Par add_basis char2sf conjugate dominate dual_basis evalsf \
+  hooks itensor jt_matrix nextPar omega plethysm scalar sf2char skew stdeg \
+  subPar theta toe toh top tos varset zee SF)
+set internals = (added dualize homog_cmps jt_det to_ehp tools verify)
+
+if !(-x $MAPLE) then
+  echo "Can't run maple! Compilation aborted."
+  exit 1
+endif
+if !(-d $homelib/SF) then
+  echo "Can't find SF! Compilation aborted."
+  exit 1
+endif
+
+if !(-d $homelib/help/text) then
+  mkdir $homelib/help/text
+endif
+if !(-d $homelib/help/SF/text) then
+  mkdir $homelib/help/SF/text
+endif
+foreach file ($internals $SFlist)
+  echo $file
+  $MAPLE -q < $homelib/SF/src/$file
+end
+
