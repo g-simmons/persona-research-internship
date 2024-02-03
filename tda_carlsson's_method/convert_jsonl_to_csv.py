@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import os 
 
-jsonl_file_path = "/Users/riab/Documents/persona-research-internship/data/dim_reduced_movie_reviews/all_data_2.jsonl"
+jsonl_file_path = "/Users/riab/Documents/persona-research-internship/data/llm_edited_reviews_embedded/llm_edited_reviews_embedded.jsonl"
 
 file_data = [] # initialize list to store data 
 
@@ -20,5 +20,5 @@ directory_to_save_file = "/Users/riab/Documents/persona-research-internship/data
 os.makedirs(directory_to_save_file, exist_ok=True)
 
 # save the DataFrame to a csv file in directory created above 
-csv_file_path = os.path.join(directory_to_save_file, 'all_data_2.csv')
+csv_file_path = os.path.join(directory_to_save_file, 'llm_edited_reviews_embedded.csv')
 df.to_csv(csv_file_path, index=False, header=["full_prompt_embedding"])
