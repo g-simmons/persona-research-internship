@@ -1,0 +1,660 @@
+Plex := module()
+option package;
+export fplex,skeleton,saveplex,loadplex,subplex,oneskel,ccomps,bary,star,addlazy,getlazy,getlink,partab,flazy,simpmat,lazytab,getho,bdmat,getbetti,spbetti;
+local ModuleLoad,lazy,simptab;
+
+    ModuleLoad := proc()
+    global `type/FPlex`;
+        `type/FPlex` := proc(K)
+            if(whattype(K)='FPlex') then
+                return true;
+            else
+                return false;
+            end if;
+        end proc;
+        return;
+    end proc;
+
+    #filtered simplicial complex object. get the simplices of degree k
+#using X[k], or all simplices with X[]. evaluated the persistence
+#value with X([i0,...,ik]). add new ones using 'addsimps' or '&+'.
+    fplex := proc(verts)
+        argl := [verts];
+        md := module()
+        option object;
+        export verts,n,dim,`?[]`,`whattype`,contains,wt,getsimps,getweights,getsub,setsimps,setsimp,adjoin,adjsub,getinds,tosimp,gettab,settab,getsize,inds;
+        local ModuleApply,ModulePrint,ModuleCopy,init,wt0;
+            ModulePrint::static := proc()
+                if(dim=-1) then
+                    s := "empty filtered complex on %d labels";
+                    return nprintf(s,n);
+                end if;
+                s := "%d-dimensional complex on %d labels, sizes [";
+                s := cat(s,seq("%d,",k=0..dim-1),"%d\]");
+                return nprintf(s,dim,n,seq(getsize(k),k=0..dim));
+            end proc;
+            getsize::static := proc(k)
+                return numelems(gettab(k));
+            end proc;
+            ModuleApply::static := proc()
+                if(type(args[1],'list')) then
+                    return wt(args[1]);
+                elif(type(args[1],'numeric')) then
+                    return getsub(args[1]);
+                else
+                    error;
+                end if;t
+            end proc;
+            ModuleCopy::static := proc(X1,X2)
+                forget(X1:-gettab);
+                for k from 0 to X2:-dim do
+                    X1:-settab(k,X2:-gettab(k));
+                end do;
+                return;
+            end proc;
+            `whattype`::static := proc()
+                return 'FPlex';
+            end proc;
+            `?[]`::static := proc()
+                return getsimps(op(args[2]));
+            end proc;
+            gettab::static := proc(k)
+            option remember;
+                if(k=-1) then
+                    return table([[]=-Float(infinity)]);
+                elif(k>=dim) then
+                    dim := k;
+                end if;
+                return table();
+            end proc;
+            settab::static := proc(k,tab)
+                gettab(k) := simptab(args[2..nargs]);
+                if(numelems(gettab(k))<>0) then
+                    dim := max(dim,k);
+                end if;
+                return;
+            end proc;
+            contains::static := proc()
+                for sig in args do
+                    if(wt(sig)=Float(infinity)) then
+                        return false;
+                    end if;
+                end do;
+                return true;
+            end proc;
+            wt::static := proc(sig)
+                il := getinds(sig);
+                return wt0(il);
+            end proc;
+            wt0::static := proc(il)
+                k := nops(il)-1;
+                if(k>dim) then
+                    return Float(infinity);
+                end if;
+                tab := gettab(k);
+                if(not assigned(tab[il])) then
+                    return Float(infinity);
+                else
+                    return tab[il];
+                end if;
+            end proc;
+            getinds::static := proc(sig)
+                return [op({seq(inds[x],x=sig)})];
+            end proc;
+            tosimp::static := proc(sig)
+                return verts[getinds(sig)];
+            end proc;
+            getsimps0::static := proc(kl)
+                if(nargs=0 or args[1]=..) then
+                    return getsimps0(0..dim);
+                end if;
+                ans := [];
+                for k in kl do
+                    if(k>dim) then
+                        next;
+                    end if;
+                    tab := gettab(k);
+                    ill := sort(map(op,[indices(tab)]));
+                    ans := [op(ans),op(ill)];
+                end do;
+                return ans;
+            end proc;
+            getsimps::static := proc()
+                ill := getsimps0(args);
+                return [seq(verts[il],il=ill)];
+            end proc;
+            getweights::static := proc()
+                ill := getsimps0(args);
+                return [seq(verts[il]=wt0(il),il=ill)];
+            end proc;
+            getsub::static := proc(c)
+                ill := getsimps0();
+                ans := [];
+                for il in ill do
+                    a := wt0(il);
+                    if(a<=c) then
+                        ans := [op(ans),verts[il]=a];
+                    end if;
+                end do;
+                return ans;
+            end proc;
+            setsimp::static := proc(il,a)
+                k := nops(il)-1;
+                tab := gettab(k);
+                tab[il] := a;
+            end proc;
+            setsimps::static := proc()
+                for e in args do
+                    sig,a := op(e);
+                    il := getinds(sig);
+                    setsimp(il,a);
+                end do;
+            end proc;
+            adjoin::static := proc()
+                for e in args do
+                    sig,a := op(e);
+                    il := getinds(sig);
+                    for jl in powerset(il) do
+                        setsimp(jl,min(a,wt0(jl)));
+                    end do;
+                end do;
+                return;
+            end proc;
+            adjsub := proc()
+                for e in args do
+                    sig,a := op(e);
+                    il := getinds(sig);
+                    l := nops(il);
+                    jll := [seq([op(il[1..j-1]),op(il[j+1..l])],j=1..l)];
+                    c := max(a,seq(wt0(jl),jl=jll));
+                    setsimp(il,c);
+                end do;
+                return;
+            end proc;
+            init::static := proc(verts)
+                thismodule:-verts := convert(verts,'list');
+                n := nops(thismodule:-verts);
+                inds := invtab(verts);
+                dim := -1;
+                return;
+            end proc;
+            init(op(argl));
+        end module;
+        return md;
+    end proc;
+
+    invtab := proc(labs)
+        ans := table();
+        if(type(labs,'list')) then
+            n := nops(labs);
+        elif(type(labs,'Vector')) then
+            n := Dimension(V);
+        end if;
+        for i from 1 to n do
+            ans[labs[i]] := i;
+        end do;
+        return eval(ans);
+    end proc;
+
+    simptab := proc()
+        if(type(args[1],'table')) then
+            return copy(args[1]);
+        elif(type(args[1],'Matrix')) then
+            A,W := args;
+            n,m := Dimension(A);
+            return table([seq([seq(A[i,j],j=1..m)]=W[i],i=1..n)]);
+        else
+            return table(args);
+        end if;
+    end proc;
+
+    getlazy := proc(X,k1,k2)
+        if(type(args[1],'table')) then
+            return lazytab(args);
+        elif(whattype(args[1])='FPlex' and nargs=2) then
+            if(type(args[2],`..`) or type(args[2],'list')) then
+                return getlazy(X,op(args[2]));
+            end if;
+            return getlazy(X,1,k1);
+        end if;
+        X1 := Object(X);
+        for k from k1 to k2-1 do
+            tab := X1:-gettab(k);
+            tab1 := lazytab(tab,k);
+            if(numelems(tab1)=0) then
+                break;
+            end if;
+            X1:-settab(k+1,tab1);
+            X1:-dim := k+1;
+        end do;
+        return X1;
+    end proc;
+
+    lazytab := proc(tab,k)
+        l := k+1;
+        tab0 := table();
+        for sig in map(op,[indices(tab)]) do
+            sig0 := sig[1..l-1];
+            if(not assigned(tab0[sig0])) then
+                tab0[sig0] := [];
+            end if;
+            tab0[sig0] := [op(tab0[sig0]),sig[l]];
+        end do;
+        ans := table();
+        for sig in map(op,[indices(tab0)]) do
+            il := sort(tab0[sig]);
+            m := nops(il);
+            for i1 from 1 to m do
+                for i2 from i1+1 to m do
+                    sig1 := [op(sig),il[i1],il[i2]];
+                    c := -Float(infinity);
+                    for a from 1 to l+1 do
+                        sig2 := [seq(sig1[j],j=1..a-1),seq(sig1[j],j=a+1..l+1)];
+                        if(not assigned(tab[sig2])) then
+                            c := Float(infinity);
+                            break;
+                        end if;
+                        c := max(c,tab[sig2]);
+                    end do;
+                    if(c<Float(infinity)) then
+                        ans[sig1] := c;
+                    end if;
+                end do;
+            end do;
+        end do;
+        return eval(ans);
+    end proc;
+
+    simpmat := proc(X,k)
+        if(type(args[1],'table')) then
+            tab := args[1];
+        elif(whattype(args[1])=`FPlex`) then
+            tab := X:-gettab(k);
+        else
+            error;
+        end if;
+        sigl := sort(map(op,[indices(tab)]));
+        if(nops(sigl)=0) then
+            return Matrix(0,k+1,datatype=integer[4]),Vector(0,datatype=float[8]);
+        end if;
+        E := Matrix(sigl,datatype=integer[4]);
+        R := Vector([seq(tab[sig],sig=sigl)],datatype=float[8]);
+        return E,R;
+    end proc;
+
+    saveplex := proc(X,fn)
+        fd := fopen(fn,WRITE);
+        d := X:-dim;
+        verts := X:-verts;
+        n := nops(verts);
+        fprintf(fd,"%d\n",n);
+        for k from 0 to d do
+            s := cat(seq("%d,",i=1..k),"%d,%f\n");
+            sigl := X[k];
+            for sig in sigl do
+                r := X(sig);
+                sig1 := [op(sig)];
+                fprintf(fd,s,op(sig1),r);
+            end do;
+        end do;
+        fclose(fn);
+        return;
+    end proc;
+
+    saveplex1 := proc(X,fn)
+        fd := fopen(fn,WRITE);
+        k1 := X:-dim;
+        s := cat(seq("%d\n",i=1..k1),"%d,%f\n");
+        for k from 0 to k1 do
+            sigl := X[k];
+            for sig in sigl do
+                r := X(sig);
+                sig1 := [op(sig),seq(-1,i=k+1..k1)];
+                fprintf(fd,s,op(sig1),r);
+            end do;
+        end do;
+        fclose(fn);
+        return;
+    end proc;
+
+    loadplex := proc(fn)
+        fd := fopen(fn,READ);
+        n := parse(readline(fd));
+        X := fplex([seq(i,i=1..n)]);
+        while(true) do
+            s := readline(fn);
+            if(s=0) then
+                break;
+            end if;
+            ans1 := [parse(s)];
+            l := nops(ans1);
+            X:-adjsub(ans1[1..l-1]=ans1[l]);
+        end do;
+        fclose(fn);
+        return X;
+    end proc;
+
+    skeleton := proc(X,dim)
+    uses combinat;
+        if(dim=-1) then
+            return [];
+        end if;
+        if(type(X,'FilteredComplex')) then
+            ans := plex();
+            for k from 0 to dim do
+                for e in X[k] do
+                    ans:-addsimps(e=X(e));
+                end do;
+            end do;
+            return ans;
+        elif(type(X,`list`)) then
+            n := nops(X);
+            return [seq(X[sig],sig=choose([seq(i,i=1..n)],dim+1))];
+        end if;
+    end proc;
+
+    getlink := proc(X)
+        if(not type(procname,indexed)) then
+            return getlink[0..X:-dim](args);
+        elif(nops(procname)=1) then
+            return getlink[op(procname),Float(infinity)](args);
+        end if;
+        k,b := op(procname);
+        if(not type(k,'numeric')) then
+            ans := [];
+            for k1 in k do
+                ans := [op(ans),getlink[k1,b](args)];
+            end do;
+            return op(ans);
+        end if;
+        sigl := X[k];
+        if(nargs=2) then
+            S := args[2];
+        else
+            S := X[k];
+        end if;
+        l := k+1;
+        tab := table();
+        for sig in sigl do
+            if(b<>Float(infinity) and X(sig)>b) then
+                next;
+            end if;
+            for i from 1 to l do
+                x := sig[i];
+                sig1 := sig[[seq(j,j=1..i-1),seq(j,j=i+1..l)]];
+                if(assigned(tab[x])) then
+                    tab[x] := [op(tab[x]),sig1];
+                else
+                    tab[x] := [sig1];
+                end if;
+            end do;
+        end do;
+        return tab;
+    end proc;
+
+    subplex0 := proc(X,r)
+        dim := X:-dim;
+        ans := plex();
+        for k from 0 to dim do
+            el := [];
+            for sig in X[k] do
+                r1 := X(sig);
+                if(r1<r) then
+                    el := [op(el),sig=r1];
+                end if;
+            end do;
+            ans:-addsimps(op(el));
+        end do;
+        return ans;
+    end proc;
+
+    subplex1 := proc(X,il)
+        n := nops(il);
+        tab := table();
+        for k from 1 to n do
+            tab[il[k]] := k;
+        end do;
+        dim := X:-dim;
+        ans := plex();
+        for k from 0 to dim do
+            el := [];
+            for sig in X[k] do
+                sig1 := [seq(tab[i],i=sig)];
+                flag := true;
+                for i in sig do
+                    if(not assigned(tab[i])) then
+                        flag := false;
+                        break;
+                    end if;
+                end do;
+                if(flag) then
+                    ans:-addsimps(sig1=X(sig));
+                end if;
+            end do;
+        end do;
+        return ans;
+    end proc;
+
+    subplex := proc()
+        if(type(args[2],'numeric')) then
+            return subplex0(args);
+        elif(type(args[2],'list')) then
+            return subplex1(args);
+        else
+            error;
+        end if;
+    end proc;
+
+    bary := proc(X,dim)
+        if(nargs=1) then
+            return bary1(X,X:-dim);
+        end if;
+        ans := plex();
+        sigl := X[];
+        for sig in sigl do
+            r := X(sig);
+            xl := simpchains(sig);
+            for x in xl do
+                print(x);
+                ans:-addsimps(x=r);
+            end do;
+        end do;
+        return ans;
+    end proc;
+
+    simpchains := proc(sig,k)
+        if(nargs=1) then
+            ans := [];
+            for i from 0 to nops(sig)+1 do
+                sigll := simpchains(sig,i);
+                for sigl in sigll do
+                    ans := [op(ans),sigl];
+                end do;
+            end do;
+            return ans;
+        end if;
+        return simpchains0(sig,k+1);
+    end proc;
+
+    simpchains0 := proc(sig,l2)
+        l1 := nops(sig);
+        if(l1<l2) then
+            return [];
+        elif(l2=1) then
+            return [[sig]];
+        end if;
+        ans1 := simpchains1(l1,l2);
+        return [seq([seq(sig[sig1],sig1=sigl)],sigl=ans1)];
+    end proc;
+
+    simpchains1 := proc(l1,l2)
+    option remember;
+        ans := [];
+        sig := [seq(j,j=1..l1)];
+        P := powerset(sig)[1..2^l1-1];
+        for sig1 in P do
+            sigll := simpchains0(sig1,l2-1);
+            for sigl in sigll do
+                ans1 := [op(sigl),sig];
+                ans := [op(ans),ans1];
+            end do;
+        end do;
+        return ans;
+    end proc;
+
+    star := proc(sig,X,d)
+        sigl := [seq(op(X[k]),k=0..d)];
+        Y := fplex(X:-verts);
+        for sig1 in sigl do
+            if({op(sig)} subset {op(sig1)}) then
+                Y:-adjoin(sig1=X(sig1));
+            end if;
+        end do;
+        return Y;
+    end proc;
+
+    boundmat0 := proc(B::Array(datatype=integer[4]),S1::Array(datatype=integer[4]),S2::Array(datatype=integer[4]),N1::integer[4],N2::integer[4],k::integer[4],J1::Array(datatype=integer[4]),J2::Array(datatype=integer[4]))
+        l1 := k;
+        l2 := k+1;
+        for i1 from 1 to N1 do
+            for j from 1 to l1 do
+                J1[j] := S1[i1,j];
+            end do;
+            for i2 from 1 to N2 do
+                for j from 1 to l2 do
+                    J2[j] := S2[i2,j];
+                end do;
+                j := 0;
+                j1 := 1;
+                for j2 from 1 to l2 do
+                    if(J2[j2]=J1[j1]) then
+                        j1 := j1+1;
+                    else
+                        j := j1;
+                    end if;
+                end do;
+                if(j1=l2) then
+                    B[i1,i2] := (-1)^(j-1);
+                end if;
+            end do;
+        end do;
+    end proc;
+
+    boundmat0 := Compiler:-Compile(boundmat0);
+
+    sboundmat0 := proc(E::Array(datatype=integer[4]),S1::Array(datatype=integer[4]),S2::Array(datatype=integer[4]),N1::integer[4],N2::integer[4],k::integer[4],J1::Array(datatype=integer[4]),J2::Array(datatype=integer[4]),p::integer[4])
+        l1 := k;
+        l2 := k+1;
+        N := 0;
+        for i1 from 1 to N1 do
+            #tprint[10](i1,N1);
+            for j from 1 to l1 do
+                J1[j] := S1[i1,j];
+            end do;
+            for i2 from 1 to N2 do
+                for j from 1 to l2 do
+                    J2[j] := S2[i2,j];
+                end do;
+                j := 0;
+                j1 := 1;
+                for j2 from 1 to l2 do
+                    if(J2[j2]=J1[j1]) then
+                        j1 := j1+1;
+                    else
+                        j := j1;
+                    end if;
+                end do;
+                if(j1=l2) then
+                    N := N+1;
+                    E[N,1] := i1;
+                    E[N,2] := i2;
+                    a := ((-1)^(j-1));
+                    if(p<>0) then
+                        a := a mod p;
+                    end if;
+                    E[N,3] := a;
+                end if;
+            end do;
+        end do;
+    end proc;
+
+    sboundmat0 := Compiler:-Compile(sboundmat0);
+
+    bdmat := proc(X,k)
+    local x;
+        if(not type(procname,indexed)) then
+            return bdmat[false](args);
+        end if;
+        sparse := op(procname);
+        S1 := simpmat(X,k-1)[1];
+        S2 := simpmat(X,k)[1];
+        N1 := Dimension(S1)[1];
+        N2 := Dimension(S2)[1];
+        if(nargs=3) then
+            p := args[3];
+        else
+            p := 0;
+        end if;
+        printf("calculating boundary matrix...\n");
+        if(sparse=true) then
+            E,J1,J2 := allocla[integer[4]]([(k+1)*N2,3],k+1,k+1);
+            sboundmat0(E,S1,S2,N1,N2,k,J1,J2,p);
+            S := spmat(Dimension(S1)[1],Dimension(S2)[1]);
+            S:-setelts(E);
+            return S;
+        else
+            B,J1,J2 := allocla[integer[4]]([N1,N2],k+1,k+1);
+            boundmat0(B,S1,S2,N1,N2,k,J1,J2);
+            if(p<>0) then
+                map[inplace](x->x mod p,B);
+            end if;
+            return B;
+        end if;
+    end proc;
+
+#rank of the boundary matrix, non-sparse
+    getbetti0 := proc(X,k,p)
+    option remember;
+    uses Modular;
+        if(X:-getsize(k)=0 or X:-getsize(k-1)=0) then
+            return 0;
+        end if;
+        B := bdmat[false](X,k,p);
+        B1 := Mod(p,Matrix(B,datatype=integer[8]),integer[8]);
+        return Rank(p,B1);
+    end proc;
+
+#rank of the boundary matrix, sparse method
+    getbetti1 := proc(X,k,p)
+    option remember;
+        if(X:-getsize(k)=0 or X:-getsize(k-1)=0) then
+            return 0;
+        end if;
+        S := bdmat[true](X,k,p);
+        return sprank(S,p);
+    end proc;
+
+    getbetti := proc(X,k,p)
+        if(not type(procname,indexed)) then
+            return procname[false](args);
+        elif(type(k,`..`)) then
+            return [seq(procname(X,k1,p),k1=k)];
+        end if;
+        sparse := op(procname);
+        if(sparse=true) then
+            r1 := getbetti1(X,k,p);
+            r2 := getbetti1(X,k+1,p);
+        else
+            r1 := getbetti0(X,k,p);
+            r2 := getbetti0(X,k+1,p);
+        end if;
+        dim1 := X:-getsize(k)-r1;
+        dim2 := r2;
+        ans := dim1-dim2;
+        if(k=0) then
+            ans := ans+1;
+        end if;
+        return ans;
+    end proc;
+
+end module;

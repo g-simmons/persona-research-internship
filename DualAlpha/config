@@ -1,0 +1,448 @@
+read("charsn"):
+
+sampconf3a := proc()
+    sigl := [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]];
+    while(true) do
+        t1 := randf(0,2*Pi);
+        t2 := randf(0,2*Pi);
+        u := [cos(t2),sin(t2)];
+        v := [cos(t1),sin(t1)];
+        p := -(u+v)/3;
+        q := p+u;
+        r := p+v;
+        if(add((u[i]-v[i])^2,i=1..2)>=1) then
+            return [p,q,r][randelt(sigl)];
+        end if;
+    end do;
+end proc;
+
+#generate N mean-centered points in Conf_3(R^2)<=R^4<=R^6
+sampconf3 := proc(N)
+    ans := allocla[float[8]]([N,6]);
+    for i from 1 to N do
+        tprint[10](nprintf("generating points...%d/%d",i,N));
+        xl := map(op,sampconf3a());
+        for j from 1 to 6 do
+            ans[i,j] := xl[j];
+        end do;
+    end do;
+    return ans;
+end proc;
+
+sampconf4a := proc()
+    while(true) do
+        t1,t2,t3 := randf(0,2*Pi),randf(0,2*Pi),randf(0,2*Pi);
+        u := [cos(t1),sin(t1)];
+        v := [cos(t2),sin(t2)];
+        w := [cos(t3),sin(t3)];
+        p := (-3*u-2*v-w)/4;
+        q := p+u;
+        r := q+v;
+        s := r+w;
+        if(add((p[i]-r[i])^2,i=1..2)<1) then
+            next;
+        elif(add((p[i]-s[i])^2,i=1..2)<1) then
+            next;
+        elif(add((q[i]-s[i])^2,i=1..2)<1) then
+            next;
+        end if;
+        return [p,q,r,s][randperm(4)];
+    end do;
+end proc;
+
+sampconf4b := proc()
+    while(true) do
+        t1,t2,t3 := randf(0,2*Pi),randf(0,2*Pi),randf(0,2*Pi);
+        u := [cos(t1),sin(t1)];
+        v := [cos(t2),sin(t2)];
+        w := [cos(t3),sin(t3)];
+        p := -(u+v+w)/4;
+        q := p+u;
+        r := p+v;
+        s := p+w;
+        if(add((q[i]-r[i])^2,i=1..2)<1) then
+            next;
+        elif(add((q[i]-s[i])^2,i=1..2)<1) then
+            next;
+        elif(add((r[i]-s[i])^2,i=1..2)<1) then
+            next;
+        end if;
+        return [p,q,r,s][randperm(4)];
+    end do;
+end proc;
+
+#generate N mean-centered points in Conf_4(R^2)<=R^6<=R^8
+sampconf4 := proc(N)
+    ans := allocla[float[8]]([2*N,8]);
+    for i from 1 to N do
+        tprint[10](nprintf("generating type A points...%d/%d",i,N));
+        xl := map(op,sampconf4a());
+        for j from 1 to 8 do
+            ans[i,j] := xl[j];
+        end do;
+    end do;
+    for i from N+1 to 2*N do
+        tprint[10](nprintf("generating type B points...%d/%d",i,N));
+        xl := map(op,sampconf4b());
+        for j from 1 to 8 do
+            ans[i,j] := xl[j];
+        end do;
+    end do;
+    return ans;
+end proc;
+
+drawconf := proc(V,ord:=true)
+    if(type(V,'Matrix')) then
+        m,n := Dimension(V);
+        return display([seq(drawconf(V[i]),i=1..m)]);
+    elif(type(V,'list')) then
+        n := nops(V);
+    elif(type(V,'Vector')) then
+        n := Dimension(V);
+    end if;
+    n := n/2;
+    if(ord) then
+        cl := [blue,red,green,brown,seq(black,i=5..n)];
+    else
+        cl := [seq(black,i=1..n)];
+    end if;
+    ans := [];
+    for i from 1 to n do
+        p := [V[2*i-1],V[2*i]];
+        for j from i+1 to n do
+            q := [V[2*j-1],V[2*j]];
+            r := sqrt((p[1]-q[1])^2+(p[2]-q[2])^2);
+            if(abs(r-1)<.00001) then
+                ans := [op(ans),line(p,q,linestyle=dash)];
+            end if;
+        end do;
+    end do;
+    ans := [op(ans),seq(point([V[2*i-1],V[2*i]],symbol=solidcircle,color=cl[i]),i=1..n)];
+    return display(ans,view=[-2..2,-2..2]);
+end proc;
+
+tikzconf := proc(V,ord:=true)
+    s := "\\begin{tikzpicture}\n";
+    if(type(V,'Matrix')) then
+        m,n := Dimension(V);
+        for i from 1 to m do
+            s := cat(s,tikzconf0(convert(V[i],'list'),ord));
+        end do;
+        return s;
+    elif(type(V,'list')) then
+        n := nops(V);
+    elif(type(V,'Vector')) then
+        n := Dimension(V);
+    end if;
+    s := cat(s,tikzconf0(convert(V,'list'),ord));
+    s := cat(s,"\\end{tikzpicture}\n");
+    printf(s);
+end proc;
+
+tikzconf0 := proc(xl,ord)
+    n := nops(xl)/2;
+    if(ord) then
+        cl := ["blue","red","green","brown",seq("black",i=5..n)];
+    else
+        cl := [seq("black",i=1..n)];
+    end if;
+    s := "";
+    for i from 1 to n do
+        p := [xl[2*i-1],xl[2*i]];
+        for j from i+1 to n do
+            q := [xl[2*j-1],xl[2*j]];
+            r := sqrt((p[1]-q[1])^2+(p[2]-q[2])^2);
+            if(abs(r-1)<.00001) then
+                s := cat(s,nprintf("\\draw[black,semithick,densely dashed](%f,%f)--(%f,%f);\n",xl[2*i-1],xl[2*i],xl[2*j-1],xl[2*j]));
+            end if;
+        end do;
+    end do;
+    for i from 1 to n do
+        s := cat(s,nprintf(cat("\\filldraw[",cl[i],"] (%f,%f) circle (1.000000pt);\n"),xl[2*i-1],xl[2*i]));
+    end do;
+    return s;
+end proc;
+
+greedyland0 := proc(A1::Array(datatype=float[8]),A2::Array(datatype=float[8]),J::Array(datatype=integer[4]),V::Array(datatype=float[8]),N::integer[4],m::integer[4],n::integer[4])
+    if(n=0) then
+        k := rand() mod N+1;
+        r1 := Float(infinity);
+    else;
+        k := 0;
+        r1 := 0.0;
+        for i from 1 to N do
+            if(V[i]>r1) then
+                r1 := V[i];
+                k := i;
+            end if;
+        end do;
+    end if;
+    for i from 1 to N do
+        c := 0.0;
+        for j from 1 to m do
+            c := c+(A1[k,j]-A1[i,j])*(A2[k,j]-A2[i,j]);
+        end do;
+        V[i] := min(V[i],sqrt(max(c,0.0)));
+    end do;
+    J[n+1] := k;
+    return r1;
+end proc;
+
+greedyland0 := Compiler:-Compile(greedyland0);
+
+greedyland := proc(A,del)
+    if(type(A,'list')) then
+        A1,A2 := op(A);
+    else
+        A1,A2 := A,A;
+    end if;
+    N,m := Dimension(A);
+    V := allocla(N);
+    ArrayTools:-Fill(Float(infinity),V);
+    J := allocla[integer[4]](N);
+    tprint[0]("finding landmarks");
+    for n from 0 to N-1 do
+        r := greedyland0(A1,A2,J,V,N,m,n);
+            tprint[5]("%d landmarks, %f/%f",n,r,del);
+        if(r<del) then
+            break;
+        end if;
+    end do;
+    il := convert(J[1..n],'list');
+    ans := A[il,..];
+    if(type(procname,indexed) and op(procname)=true) then
+        ans := ans,il;
+    end if;
+    return ans;
+end proc;
+
+confland0 := proc(A::Array(datatype=float[8]),J::Array(datatype=integer[4]),V::Array(datatype=float[8]),N::integer[4],m::integer[4],n::integer[4],S::Array(datatype=integer[4]))
+    N1 := 1;
+    for i from 1 to floor(m/2) do
+        N1 := N1*i;
+    end do;
+    if(n=0) then
+        k := rand() mod N+1;
+        r1 := Float(infinity);
+    else;
+        k := 0;
+        r1 := 0.0;
+        for i from 1 to N do
+            if(V[i]>r1) then
+                r1 := V[i];
+                k := i;
+            end if;
+        end do;
+    end if;
+    for i from 1 to N do
+        for i1 from 1 to N1 do
+            c := 0.0;
+            for j from 1 to m do
+                j1 := S[i1,j];
+                c := c+(A[k,j]-A[i,j1])*(A[k,j]-A[i,j1]);
+            end do;
+            V[i] := min(V[i],sqrt(max(c,0.0)));
+        end do;
+    end do;
+    J[n+1] := k;
+    return r1;
+end proc;
+
+confland0 := Compiler:-Compile(confland0);
+
+#generate max of min landmarks which contain all symmetric group orbits
+confland := proc(A,del)
+    N,m := Dimension(A);
+    n := m/2;
+    sigl := getsn(n);
+    sigl1 := [seq([seq(op([2*sig[i]-1,2*sig[i]]),i=1..n)],sig=sigl)];
+    S := Matrix(sigl1,datatype=integer[4]);
+    V := allocla(N);
+    ArrayTools:-Fill(Float(infinity),V);
+    J := allocla[integer[4]](N);
+    tprint[0]("finding landmarks");
+    for n from 0 to N-1 do
+        r := confland0(A,J,V,N,m,n,S);
+        tprint[5]("%d landmarks, %f/%f",n,r,del);
+        if(r<del) then
+            break;
+        end if;
+    end do;
+    il := convert(J[1..n],'list');
+    ans := A[il,..];
+    if(type(procname,indexed) and op(procname)=true) then
+        ans := ans,il;
+    end if;
+    return ans;
+end proc;
+
+diagsn := proc(n)
+uses combinat;
+    sigl := [[seq(i,i=1..n)]];
+    for i from 1 to n!-1 do
+        sigl := [op(sigl),nextperm(sigl[i])];
+    end do;
+    sigl1 := [seq([seq(op([2*sig[i]-1,2*sig[i]]),i=1..n)],sig=sigl)];
+    return Matrix(sigl1,datatype=integer[4]);
+end proc;
+
+#the numbers (N,r1,r2,d)=(100000,.3,.35,4) are good choices
+confpd3 := proc(N,r1)
+    A1 := sampconf3(N);
+    A2 := confland(A1,r1);
+    S := diagsn(3);
+    sigl := [seq([seq(S[i,j],j=1..6)],i=1..6)];
+    A3 := Matrix([seq(seq([A2[i,sig]],sig=sigl),i=1..Dimension(A2)[1])],datatype=float[8]);
+    return A3;
+end proc;
+
+confplex3 := proc(N,r1,r2,d)
+    A := confpd3(N,r1);
+    return getalpha(A3,r2,d);
+end proc;
+
+#the numbers (N,r1,r2,d)=(100000,.3,.35,4) are good choices
+confpd4 := proc(N,r1)
+local k1;
+    A1 := sampconf4(N);
+    A2 := confland(A1,r1);
+    S := diagsn(4);
+    sigl := [seq([seq(S[i,j],j=1..8)],i=1..24)];
+    A3 := Matrix([seq(seq([A2[i,sig]],sig=sigl),i=1..Dimension(A2)[1])],datatype=float[8]);
+    return A3;
+end proc;
+
+confplex4 := proc(N,r1,r2,d)
+    A := confpd(N,r1);
+	return getalpha(A,r2,d);
+end proc;
+
+uconf := proc(X,n)
+local k1;
+    d := X:-dim;
+    N := nops(X[0])/n!;
+    X1 := fplex([seq(i,i=1..N)]);
+    for k from 0 to d do
+        sigl := X[k];
+        for sig in sigl do
+            X1:-adjsub(map(k1->ceil(k1/n!),sig)=X(sig));
+        end do;
+    end do;
+    return X1;
+end proc;
+
+actconf := proc(sig,il)
+    n := nops(sig);
+    sigl := getsn(n);
+    sigi := invperm(sig);
+    ans := [];
+    l := nops(il);
+    for j from 1 to l do
+        i := il[j];
+        i0 := ((i-1) mod n!)+1;
+        sig0 := sigl[i0];
+        sig1 := sig0[sigi];
+        i1 := indperm(sig1);
+        ans := [op(ans),i-i0+i1];
+    end do;
+    return ans;
+end proc;
+
+conforbs := proc(ill,n)
+    sigl := getsn(n);
+    ans := [];
+    for il in ill do
+        i0 := ((il[1]-1) mod n!)+1;
+        if(i0=1) then
+            ans := [op(ans),[seq(actconf(sig,il),sig=sigl)]];
+        end if;
+    end do;
+    return ans;
+end proc;
+
+frobcoeff := proc(ill1,ill2,n)
+    l := nops(ill2);
+    il2 := ill2[1];
+    for il1 in ill1 do
+        if({op(il1)} subset {op(il2)}) then
+            for a from 1 to l do
+                x := il2[a];
+                if(not x in il1) then
+                    i := (il1[1]-1) mod n!+1;
+                    sig := getsn(n)[i];
+                    return sig,(-1)^(a-1);
+                end if;
+            end do;
+        end if;
+    end do;
+    return [],0;
+end proc;
+
+bdconf := proc(X,k,mu)
+option remember;
+    n := convert(mu,`+`);
+    m := dimrep(mu);
+    K1,K2,A1,A2 := allocla[integer[4]](m,m,[m,m],[m,m]);
+    illl1 := conforbs(X[k-1],n);
+    illl2 := conforbs(X[k],n);
+    N1 := nops(illl1);
+    N2 := nops(illl2);
+    printf("preparing invariants...%d,%d\n",N1,N2);
+    S := spmat(m*N1,m*N2);
+    ans := {};
+    for a1 from 1 to N1 do
+        tprint[10](nprintf("%d,%d",a1,N1));
+        ill1 := illl1[a1];
+        for a2 from 1 to N2 do
+            ill2 := illl2[a2];
+            sig,c := frobcoeff(ill1,ill2,n);
+            if(c=0) then
+                next;
+            end if;
+            A1 := irrep[mu](sig);
+            for i from 1 to m do
+                for j from 1 to m do
+                    A2[i,j] := c*A1[i,j];
+                end do;
+            end do;
+            for i from 1 to m do
+                K1[i] := m*(a1-1)+i;
+                K2[i] := m*(a2-1)+i;
+            end do;
+            S:-setsub1(K1,K2,A2,m,m);
+        end do;
+    end do;
+    return S;
+end proc;
+
+frobconf0 := proc(X,mu,d,p)
+option remember;
+    n := convert(mu,`+`);
+    ans1 := [0];
+    for k from 1 to d+1 do
+        S := bdconf(X,k,mu);
+        printf("beginning rank...\n");
+        r := sprank(S,p);
+        printf("rank: %d\n",r);
+        ans1 := [op(ans1),r];
+    end do;
+    ans2 := [seq(X:-numsimps(k),k=0..d+1)];
+    l := dimrep(mu);
+    ans := [seq((ans2[i]*l/n!-ans1[i]-ans1[i+1]),i=1..d+1)];
+    return ans;
+end proc;
+
+frobconf := proc(X,n,d,p)
+    if(type(n,'list')) then
+        return frobconf0(args);
+    end if;
+    pl := Par(n);
+    ans := 0;
+    for mu in pl do
+        ans1 := frobconf0(X,mu,d,p);
+        ans2 := add(t^(k-1)*ans1[k],k=1..nops(ans1));
+        ans := ans+ans2*s[op(mu)];
+    end do;
+    return ans;
+end proc;
+
