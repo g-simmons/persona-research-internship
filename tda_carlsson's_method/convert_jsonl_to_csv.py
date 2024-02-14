@@ -46,6 +46,8 @@ orig = pd.DataFrame(file_data)
 
 # # ["full_prompt_embedding"]
 df = pd.DataFrame(orig["full_prompt_embedding"].tolist())
-df["sentiment"] = 1 # TODO compute actual sentiment scores
+#df["sentiment"] = 1 # TODO compute actual sentiment scores
 
-df.to_csv("../data/llm_edited_reviews_embedded/llm_edited_reviews_embedded.csv", index=False)
+#df.to_csv("../data/llm_edited_reviews_embedded/llm_edited_reviews_embedded.csv", index=False)
+
+print(df["sentiment"])
