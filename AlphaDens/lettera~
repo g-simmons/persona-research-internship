@@ -1,0 +1,12 @@
+im2mat := proc(im)
+    m,n,k := arrdim(im);
+    A := matf(m,n);
+    for i from 1 to m do
+        for j from 1 to n do
+            if(im[i,j,1]<.5) then
+                A[i,j] := 1.0;
+            end if;
+        end do;
+    end do;
+    return A;
+end proc;
