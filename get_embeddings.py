@@ -5,6 +5,7 @@ import openai
 import jsonlines
 from dotenv import load_dotenv
 import os
+from pathlib import Path
 
 embedding_model = "text-embedding-3-small"
 embedding_encoding = "cl100k_base"
@@ -38,4 +39,9 @@ df["embedding"] = df.user_input.apply(lambda x: get_embedding(x, model=embedding
 
 
 
-df.to_json(lines=True, orient="records", path_or_buf="embeddings.jsonl")
+
+outpath = Path("data/hackaprompt_embeddings/embeddings.jsonl")
+if not outpath.parent.exists():
+   outpath.parent.mkdir(exist_ok=True)
+
+df.to_json(lines=True, orient="records", path_or_buf="data/hackaprompt_embeddings/embeddings.jsonl")
