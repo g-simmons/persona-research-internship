@@ -3,6 +3,8 @@
 import pandas as pd
 import openai
 import jsonlines
+from dotenv import load_dotenv
+import os
 
 embedding_model = "text-embedding-3-small"
 embedding_encoding = "cl100k_base"
@@ -24,8 +26,8 @@ df = df.head(top_n * 2)  # first cut to first 2k entries, assuming less than hal
 df = df[df.token_count <= max_tokens].head(top_n)
 
 
-
-client = openai.OpenAI(api_key="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")
+load_dotenv()
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def get_embedding(text, model = embedding_model):
     text = text.replace("\n", " ")
