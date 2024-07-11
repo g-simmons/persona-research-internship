@@ -1,0 +1,364 @@
+is about
+definition
+plural term
+taxonomic disambiguation
+term used in octopoda
+term used in squid
+source
+synonym_type_property
+has_alternative_id
+has_broad_synonym
+database_cross_reference
+has_exact_synonym
+has_narrow_synonym
+has_obo_format_version
+has_related_synonym
+has_synonym_type
+in_subset
+shorthand
+obo-source
+part_of
+has part
+homologous_to
+develops from
+capable_of
+adjacent to
+aboral to
+continuous_with
+dorsal_to
+proximal_to
+secretes
+surrounded_by
+surrounds
+trait of
+ventral_to
+depicts
+eyelid
+accessory nidamental gland
+cephalopod eye
+circumoral appendage bud
+accessory gland complex
+acetabulum
+adult stage
+main nidamental gland
+anal flap
+anterior salivary gland
+antitragus
+areolar spot
+arm
+arm formula
+arm IV
+armature of the arms
+a-seriation
+autotomy plane
+basal shelf
+beak
+beak step
+branchial canal
+brachial crown
+brachial lobe of brain
+branchial gland
+branchial heart
+brachial photophore
+brachial pillar
+cephalopod brain
+brooding
+buccal connective
+buccal crown
+buccal mass
+buccal membrane
+buccal sucker
+bursa copulatrix
+caecal sac
+caecum
+calcareous
+calamus
+cement body
+carpal sucker
+carpal knob
+carpus
+carpal locking apparatus
+cartilaginous tubercle
+cephalic cartilage
+cephalic vein
+chitin
+chromatophore
+circularis muscle
+cirrate male reproductive system
+cirrate octopod measurements
+arm cirrus
+cephalopod coelom
+collar
+photophore color filter
+conus
+conus field
+cornea
+counterillumination
+crest of hectocotylus
+crop
+ctenoglossan radula
+cupped coil
+cusp
+cuttlebone
+dactylus
+demersal
+demibranch
+diel vertical migration
+digestive gland
+digestive gland duct appendages (digda)
+distal oviduct
+doratopsis stage
+dorsal mantle cavity
+efferent vein
+efferent nerve
+egg mass
+ejaculatory apparatus
+end organ
+epithelial pigmentation
+eye pore
+eyelid sinus
+fin angle
+fin attachment
+fin cartilage
+fin length
+fin lobe
+fin position
+fin shape
+fin
+foveola
+obsolete free fin lobe
+funnel
+funnel groove
+funnel-mantle locking-apparatus
+funnel organ
+funnel retractor muscle
+funnel valve
+gill
+gill lamella
+gladius
+half-orange gill
+hatchling stage
+head-mantle fusion
+hectocotylus
+heterodont radula
+homodont radula
+obsolete holotype
+hook
+horizontal arm septum
+sucker ring
+inferior frontal lobe system
+infundibilum
+ink sac
+jet propulsion
+keel
+lateral funnel adductor muscle
+lateral membrane of arm IV
+lateral-line analogue
+photophore lens
+light guides
+ligula
+lip
+living chamber
+locking-apparatus of tentacular stalk
+mantle locking-apparatus
+mantle length
+mantle septum
+manus of tentacular club
+mature stage
+molluscan foot
+neck
+Needham&apos;s sac
+nephridial coelom
+nidamental gland
+nuchal cartilage
+nuchal crest
+nuchal membrane
+nuchal organ
+nuchal region
+occipital crest
+occipital fold
+occipital membrane
+cephalopod olfactory organ
+ontogenetic descent
+optic lobe of brain
+outer statocyst capsule
+oviducal gland
+paralarval stage
+cephalopod penis
+photocyte
+photophore
+photophore location
+photosensitive vesicle
+posterior buccal lobe
+posterior lip gland
+posterior salivary gland
+primary conus
+protective membrane
+proximal and distal fields
+pseudomorph
+obsolete recent
+photophore reflector
+cephalopod radula
+renal appendage
+rachis
+rostrum
+saddle
+saddle-shaped
+sagittate fin
+scales and tubercule
+secondary conus
+secondary eyelid
+secondary fin
+secondary web
+semelparous
+semicrescent plate
+sepioid gill
+shell sac
+side pocket
+siphuncle
+sperm mass
+spermatangia
+cephalopod spermathecum
+spermatophore
+stalk of tentacle
+stalked eye
+cephalopod statocyst
+stellate ganglion
+cephalopod stomach
+stylet
+subadult stage
+sucker
+sucker series
+sucker stalk
+sucker teeth
+superior buccal lobes
+superocular cirri
+suprabrachial commissure
+cephalopod swimbladder
+tentacle
+tentacle absence
+tentacle pad
+tentacle pocket
+tentacle thickness
+terminal fin
+terminal pad
+trabecula
+tragus
+truncate tooth
+cephalopod tubercule
+gladius vane
+ventral eyelid
+ventral shield
+vesicular tissue
+visceral nucleus
+visceral sac
+visceropericardial coelom
+water pore
+web
+web nodule
+white body
+wing
+leucophore
+ink
+primary oviduct
+cephalopod ovary
+photosensitive vesicle of cephalic cartilage
+photosensitive vesicle of stellate ganglion
+obsolete brachial photophore
+tentacular club
+optic nerve bundle
+lobe of brain
+lobe of nervous system
+buccal lobe
+subesophageal mass of brain
+middle subesophageal mass of brain
+posterior subesophageal mass of brain
+supraesophageal mass of brain
+cephalopod trait
+basal lobe of brain
+superior frontal lobe system
+vertical frontal lobe system
+anal photophore
+collection of suckers
+transverse row of suckers
+circumoral appendage segment
+circumoral appendage
+cephalopod size
+buccal membrane support
+bullet-shaped mantle
+extrategumental chromatophore
+chromatophore field
+tegumental chromatophore
+cirrus
+body cirrus
+phragmacone
+corneal membrane
+gill length
+Koelicker organ
+lanceola
+macula
+nuchal fold
+ocellus
+cephalopod sperm receptacle
+spermatophore pad
+inner sucker ring
+outer sucker ring
+tail
+branchial heart appendage
+spot
+dorsal beak
+ventral beak
+septum
+arm I
+arm II
+arm III
+external shell
+spermatophore groove
+shield
+dorsal shield
+epirenal body
+renal sac
+tooth of sucker ring
+umbilicus
+web depth
+beak length
+lower rostral length
+upper rostral length
+spadix organ
+shell chamber
+shell septum
+orthocone
+internal shell
+shell aperture
+shell apex
+funnel component of funnel-mantle locking apparatus
+mantle component of funnel-mantle locking apparatus
+spermatophore gland
+Ammonoidea
+Goniatitida
+Ceratitida
+Ammonitida
+reproductive trait
+appendage trait
+habitat trait
+shell trait
+integument trait
+fin trait
+head trait
+whole organism trait
+gill trait
+iteroparous
+organ of Hoeven
+pyroform sac
+sexual size dimorphism
+sexual dimorphism
+buccal ganglion
+epithelial layer of gladius
+marginal epithelial layer of the gladius
+ventral epithelial layer of gladius
+iridophore
+leucophore
+biological_process
+bioluminescence
+locomotion
+flight

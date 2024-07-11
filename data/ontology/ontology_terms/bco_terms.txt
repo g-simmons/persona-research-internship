@@ -1,0 +1,717 @@
+taxonomic inventory metadata preferred name
+BCO preferred label
+editor preferred term
+example of usage
+in branch
+has curation status
+has curation status
+definition
+definition
+textual definition
+editor note
+editor note
+term editor
+term editor
+alternative term
+definition source
+definition source
+has obsolescence reason
+curator note
+term tracker item
+ontology term requester
+is denotator type
+imported from
+expand expression to
+expand assertion to
+first order logic expression
+antisymmetric property
+OBO foundry unique label
+has ID digit count
+has ID range allocated to
+has ID policy for
+has ID prefix
+elucidation
+has associated axiom(nl)
+has associated axiom(fol)
+is allocated id range
+may be identical to
+scheduled for obsoletion on or after
+has axiom label
+term replaced by
+is a defining property chain axiom
+Creator
+Creator
+Source
+Source
+label
+obsolete has role
+obsolete derives from by planned process
+obsotlete is derived into by planned process
+to taxon
+of organism
+member of taxon
+part of
+has part
+realized in
+realizes
+preceded by
+precedes
+occurs in
+contains process
+is about
+is_specified_input_of
+is_specified_input_of
+has_specified_output
+is_specified_output_of
+achieves_planned_objective
+has grain
+objective_achieved_by
+has value specification
+characteristic of
+inheres in
+bearer of
+has characteristic
+participates in
+has participant
+is concretized as
+concretizes
+function of
+quality of
+role of
+has function
+has quality
+has role
+has disposition
+disposition of
+derives from
+derives into
+location of
+located in
+2D boundary of
+has 2D boundary
+directly regulated by
+ends after
+immediately preceded by
+immediately precedes
+overlaps
+regulates
+negatively regulates
+positively regulates
+capable of
+capable of part of
+temporally related to
+acts upstream of
+acts upstream of or within
+causally upstream of, positive effect
+causally upstream of, negative effect
+ecologically related to
+mereotopologically related to
+enables
+functionally related to
+enabled by
+regulated by
+negatively regulated by
+positively regulated by
+member of
+has member
+input of
+causally downstream of
+immediately causally downstream of
+causally related to
+causally upstream of
+immediately causally upstream of
+causally upstream of or within
+causally downstream of or within
+involved in regulation of
+involved in positive regulation of
+involved in negative regulation of
+involved in or involved in regulation of
+is active in
+interacts with
+molecularly interacts with
+phosphorylates
+directly regulates activity of
+helper property (not for use in curation)
+is kinase activity
+causal agent in process
+causal relation between processes
+causal relation between entities
+causally influenced by
+interaction relation helper property
+molecular interaction relation helper property
+causally influences
+directly regulates
+causal relation between material entity and a process
+capable of regulating
+capable of negatively regulating
+capable of positively regulating
+process has causal agent
+acts upstream of or within, positive effect
+acts upstream of or within, negative effect
+acts upstream of, positive effect
+acts upstream of, negative effect
+causally upstream of or within, negative effect
+causally upstream of or within, positive effect
+DEPRECATED inheres in
+DEPRECATED bearer of
+regulates activity of
+Accepted Taxon
+Accepted Taxon ID
+Access Constraints
+Catalog Number Numeric
+Earliest Date Collected
+End Time of Day
+Event Attribute Accuracy
+Event Attribute Determined By
+Event Attribute Determined Date
+Event Attribute ID
+Event Attribute Remarks
+Event Attribute Type
+Event Attribute Unit
+Event Attribute
+Generalizations
+Higher Taxon
+Higher Taxon ID
+Latest Date Collected
+Previous Identifications
+Related Basis of Record
+Sample Attribute Accuracy
+Sample Attribute Determined By
+Sample Attribute Determined Date
+Sample Attribute Remarks
+Sample Attribute Unit
+Sample Attribute Value
+Sample Remarks
+Sample Attribute ID
+Sample Attribute Type
+Sampling Event Attributes
+Sampling Event ID
+Sampling Event Remarks
+Sampling Location ID
+Sampling Location Remarks
+Start Time of Day
+Taxon ID
+Accepted Name Usage
+Accepted Name Usage ID
+Accepted Scientific Name
+Accepted Scientific Name ID
+Accepted Taxon ID
+Accepted Taxon Name
+Accepted Taxon Name ID
+According To
+Accuracy
+Associated Media
+Associated Occurrences
+Associated Organisms
+Associated References
+Associated Sequences
+Associated Taxa
+Basionym
+Basionym ID
+Basis of Record
+Bed
+Behavior
+Binomial
+Catalog Number
+Class
+Collection Code
+Collection ID
+Continent
+Coordinate Precision
+Coordinate Uncertainty In Meters
+Country
+Country Code
+County
+Cultivar Epithet
+Data Generalizations
+Dataset ID
+Dataset Name
+Date Identified
+Day
+Decimal Latitude
+Decimal Longitude
+Degree of Establishment
+Disposition
+Dynamic Properties
+Earliest Age Or Lowest Stage
+Earliest Eon Or Lowest Eonothem
+Earliest Epoch Or Lowest Series
+Earliest Era Or Lowest Erathem
+Earliest Period Or Lowest System
+End Day Of Year
+Establishment Means
+Event Attributes
+Event Date
+Event ID
+Event Measurement Accuracy
+Event Measurement Determined By
+Event Measurement Determined Date
+Event Measurement ID
+Event Measurement Remarks
+Event Measurement Type
+Event Measurement Unit
+Event Measurement Value
+Event Remarks
+Event Time
+Family
+Field Notes
+Field Number
+Footprint SRS
+Footprint Spatial Fit
+Footprint WKT
+Formation
+Generic Name
+Genus
+Geodetic Datum
+Geological Context ID
+Georeference Protocol
+Georeference Remarks
+Georeference Sources
+Georeference Verification Status
+Georeferenced By
+Georeferenced Date
+Group
+Habitat
+Higher Classification
+Higher Geography
+Higher Geography ID
+Higher Taxon Name
+Higher Taxon Name ID
+Higher Taxon Concept ID
+Highest Biostratigraphic Zone
+Identification Attributes
+Identification ID
+Identification Qualifier
+Identification References
+Identification Remarks
+Identification Verification Status
+Identified By
+Identified By ID
+Individual Count
+Individual ID
+Information Withheld
+Infrageneric Epithet
+Infraspecific Epithet
+Institution Code
+Institution ID
+Island
+Island Group
+Kingdom
+Latest AgeOr Highest Stage
+Latest Eon Or Highest Eonothem
+Latest Epoch Or Highest Series
+Latest Era Or Highest Erathem
+Latest Period Or Highest System
+Life Stage
+Lithostratigraphic Terms
+Locality
+Location According To
+Location Attributes
+Location ID
+Location Remarks
+Lowest Biostratigraphic Zone
+Material Sample ID
+Maximum Depth In Meters
+Maximum Distance Above Surface In Meters
+Maximum Elevation In Meters
+Measurement Accuracy
+Measurement Determined By
+Measurement Determined Date
+Measurement ID
+Measurement Method
+Measurement Remarks
+Measurement Type
+Measurement Unit
+Measurement Value
+Member
+Minimum Depth In Meters
+Minimum Distance Above Surface In Meters
+Minimum Elevation In Meters
+Month
+Municipality
+Name According To
+Name According To ID
+Name Publication ID
+Name Published In
+Name Published In ID
+Name Published In Year
+Nomenclatural Code
+Nomenclatural Status
+Occurrence Attributes
+Occurrence Details
+Occurrence ID
+Occurrence Measurement Accuracy
+Occurrence Measurement Determined By
+Occurrence Measurement Determined Date
+Occurrence Measurement ID
+Occurrence Measurement Remarks
+Occurrence Measurement Type
+Occurrence Measurement Unit
+Occurrence Measurement Value
+Occurrence Remarks
+Occurrence Status
+Order
+Organism ID
+Organism Name
+Organism Quantity
+Organism Quantity Type
+Organism Remarks
+Organism Scope
+Original Name Usage
+Original Name Usage ID
+Other Catalog Numbers
+Owner Institution Code
+Parent Event ID
+Parent Name Usage
+Parent Name Usage ID
+Pathway
+Phylum
+Point Radius Spatial Fit
+Preparations
+Previous Identifications
+Record Number
+Recorded By
+Recorded By ID
+Related Resource ID
+Related Resource Type
+Relationship According To
+Relationship Established Date
+Relationship Of Resource
+Relationship Of Resource ID
+Relationship Remarks
+Reproductive Condition
+Resource ID
+Resource Relationship ID
+Sample Size Unit
+Sample Size Value
+Sampling Effort
+Sampling Protocol
+Scientific Name
+Scientific Name Authorship
+Scientific Name ID
+Scientific Name Rank
+Sex
+Specific Epithet
+Start Day Of Year
+State Province
+Subfamily
+Subgenus
+Taxon According To
+Taxon Attributes
+Taxon Concept ID
+Taxon ID
+Taxon Name ID
+Taxon Rank
+Taxon Remarks
+Taxonomic Status
+Type Status
+Verbatim Coordinate System
+Verbatim Coordinates
+Verbatim Depth
+Verbatim Elevation
+Verbatim EventDate
+Verbatim Identification
+Verbatim Latitude
+Verbatim Locality
+Verbatim Longitude
+Verbatim SRS
+Verbatim Scientific Name Rank
+Verbatim Taxon Rank
+Vernacular Name
+Vertical Datum
+Water Body
+Year
+observing process
+submitting process
+locality description
+museum collection
+organismal museum collection
+taxonomic identification process
+material target of observation
+material target of observation role
+taxonomic inventory process
+taxonomic inventory
+restricted search taxonomic inventory process
+open search taxonomic inventory process
+opportunistic search taxonomic inventory process
+trap or sample taxonomic inventory process
+adventitious taxonomic inventory process
+compilation taxonomic inventory process
+museum
+obsolete fossil specimen
+obsolete living specimen
+obsolete preserved specimen
+obsolete darwin core class
+human observation process
+machine observation process
+identification assertion
+entity
+continuant
+occurrent
+independent continuant
+spatial region
+process
+disposition
+realizable entity
+quality
+specifically dependent continuant
+role
+object aggregate
+object
+generically dependent continuant
+function
+material entity
+immaterial entity
+organism or virus or viroid
+deoxyribonucleic acid
+nucleic acid
+ribonucleic acid
+macromolecule
+cell
+cell
+cultured cell
+B cell
+human dwelling
+molecular_function
+catalytic activity
+RNA-directed DNA polymerase activity
+kinase activity
+transferase activity
+transferase activity, transferring phosphorus-containing groups
+protein-containing complex
+objective specification
+action specification
+information carrier
+data item
+information content entity
+directive information entity
+curation status specification
+image
+data about an ontology part
+plan specification
+material information bearer
+photograph
+obsolescence reason specification
+document
+denotator type
+denotator type
+ontology module
+base ontology module
+editors ontology module
+main release ontology module
+bridge ontology module
+import ontology module
+subset ontology module
+curation subset ontology module
+analysis subset ontology module
+single layer subset ontology module
+exclusion subset ontology module
+external import ontology module
+species subset ontology module
+reasoned ontology module
+generated ontology module
+template generated ontology module
+taxonomic bridge ontology module
+ontology module subsetted by expressivity
+obo basic subset ontology module
+ontology module subsetted by OWL profile
+EL++ ontology module
+Viruses
+Teleostomi
+Euteleostomi
+cellular organisms
+Dipnotetrapodomorpha
+Boreoeutheria
+Bacteria
+Homininae
+Archaea
+Eukaryota
+Euarchontoglires
+Simiiformes
+Hominoidea
+Tetrapoda
+Amniota
+Theria &lt;mammals&gt;
+Opisthokonta
+Metazoa
+Bilateria
+Deuterostomia
+Haplorrhini
+Mammalia
+Eumetazoa
+Chordata
+Vertebrata &lt;vertebrates&gt;
+Gnathostomata &lt;vertebrates&gt;
+Sarcopterygii
+Craniata &lt;chordates&gt;
+Eutheria
+Primates
+Catarrhini
+Hominidae
+Homo
+Homo sapiens
+planned process
+processed material
+evaluant role
+assay
+culture medium
+material processing
+specimen role
+imaging assay
+organization
+protocol
+reverse transcriptase
+assay objective
+measure function
+material separation objective
+specimen collection process
+sample from organism
+portioning objective
+separation into different composition objective
+specimen collection objective
+material sample role
+material sampling process
+material maintenance objective
+primary structure of DNA macromolecule
+measurement device
+primary structure of RNA molecule
+sequence data
+nucleic acid extract
+nucleic acid sequencer
+protein sequencer
+DNA sequence data
+cell freezing medium
+value specification
+collection of specimens
+lymphocyte assay
+Epstein Barr virus transformed B cell
+organism
+specimen
+cultured cell population
+DNA sequencer
+collecting specimen from organism
+maintaining cell culture
+establishing cell culture
+sequencing assay
+nucleic acid extraction
+collection of organisms
+household
+agricultural household
+organismal entity
+pair of interacting organisms
+protein
+region
+material anatomical entity
+anatomical cluster
+obsolete evidence role
+obsolete persistent evidence role
+obsolete collecting process
+obsolete observing process
+obsolete being there process
+obsolete printed report
+obolete printed observational report
+obsolete selecting process
+obsolete submitting process
+obsolete physical extraction process
+obsolete material sampling process
+obsolete data sampling process
+obsolete statistical sampling process
+obsolete locality description
+obsolete material sample role
+obsolete successful material sampling process
+obsolete unsuccessful material sampling process
+obsolete museum collection entity
+obsolete organismal museum collection entity
+obsolete museum collection
+obsolete organismal museum collection
+obsolete institution
+obsolete organismal entity
+obsolete organism or virus or viroid
+obsolete material sample
+obsolete data sample
+obsolete statistical sample
+obsolete protocol governed sampling activity
+obsolete taxonomic identification process
+obsolete process that yields a material representation of a material entity
+obsolete material target of observation
+obsolete process that yields an information artifact that is a representation of a material entity
+obsolete material target of observation role
+zooarcheological specimen
+archeobotanical specimen
+obsolete zooarcheological specimen
+obsolete archeobotanical specimen
+Obsolete Class
+specimen collection process X
+material entity A
+material entity B
+material entity C
+specimen collection process Y
+incorrect identifier format, replaced
+example to be eventually removed
+failed exploratory term
+FossilSpecimen
+metadata complete
+organizational term
+ready for release
+metadata incomplete
+uncurated
+pending final vetting
+core
+placeholder removed
+terms merged
+term imported
+term split
+universal
+universal
+defined class
+defined class
+named class expression
+named class expression
+to be replaced with external ontology term
+requires discussion
+obsolete_the supplier role of Affymetrix
+obsolete_the manufacturer role of Agilent
+obsolete_manufacturer role of Bruker Daltonics
+obsolete_the manufacturer role of Thermo
+obsolete_the manufacturer role of Li-Cor
+obsolete_the manufacturer role of Roche
+obsolete_the manufacturer role of Ambion
+obsolete_the manufacturer role of BIO-RAD
+obsolete_the regulator role of the FDA
+obsolete_the manufacturer role of Illumina
+obsolete_the manufacturer role of Helicos
+obsolete_manufacturer role of Bruker Corporation
+obsolete_the manufacturer role of Waters
+obsolete_manufacturer role of applied biosystems
+Thermo Fisher Scientific
+obsolete incorrect identifier format, do not use
+Darwin Core Type
+has_specified_input
+has input
+Dataset
+Event
+Event Attribute
+Event Measurement
+Fossil Specimen
+Geological Context
+Human Observation
+Identification
+Living Specimen
+Machine Observation
+Material Citation
+Material Sample
+Measurement or Fact
+Occurrence
+Occurrence Measurement
+Organism
+Preserved Specimen
+Resource Relationship
+Sample
+Sample Attribute
+Sampling Event
+Sampling Location
+Taxon
+dwc_terms status
+infer input from direct reg
+&apos;causally downstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).
+&apos;causally upstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).

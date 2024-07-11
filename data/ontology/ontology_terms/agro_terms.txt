@@ -1,0 +1,4410 @@
+BFO OWL specification label
+BFO CLIF specification label
+editor preferred term
+example of usage
+in branch
+has curation status
+definition
+editor note
+term editor
+alternative term
+definition source
+has obsolescence reason
+curator note
+term tracker item
+ontology term requester
+is denotator type
+imported from
+expand expression to
+expand assertion to
+first order logic expression
+antisymmetric property
+OBO foundry unique label
+has ID digit count
+has ID range allocated to
+has ID policy for
+has ID prefix
+elucidation
+has associated axiom(nl)
+has associated axiom(fol)
+is allocated id range
+retired from use as of
+has ontology root term
+may be identical to
+scheduled for obsoletion on or after
+has axiom label
+term replaced by
+temporal interpretation
+is a defining property chain axiom
+is a defining property chain axiom where second argument is reflexive
+part of
+part_of
+has part
+has_part
+realized in
+realizes
+preceded by
+preceded_by
+precedes
+precedes
+occurs in
+contains process
+has measurement unit label
+obsolete_specifically denotes
+is about
+mentions
+denotes
+obsolete_materially denotes
+is quality measurement of
+obsolete_describes
+obsolete_represents
+denoted by
+has coordinate unit label
+is duration of
+is quality measured as
+is quality specification of
+quality is specified as
+has time stamp
+has measurement datum
+has_specified_input
+is_specified_input_of
+has_specified_output
+is_specified_output_of
+characteristic of
+inheres in
+bearer of
+has characteristic
+participates in
+participates_in
+has participant
+has_participant
+is concretized as
+concretizes
+function of
+quality of
+role of
+has function
+has quality
+has role
+has disposition
+disposition of
+derives from
+derives into
+location of
+located in
+2D boundary of
+has 2D boundary
+has regulatory component activity
+has negative regulatory component activity
+has positive regulatory component activity
+has component activity
+has component process
+directly regulated by
+directly negatively regulated by
+directly positively regulated by
+has effector activity
+ends after
+immediately preceded by
+immediately precedes
+overlaps
+only in taxon
+only_in_taxon
+in taxon
+has component
+develops from
+develops_from
+develops into
+regulates
+negatively regulates
+positively regulates
+capable of
+capable of part of
+temporally related to
+has input
+has developmental contribution from
+developmentally contributes to
+developmentally preceded by
+developmentally_preceded_by
+acts upstream of
+acts upstream of or within
+developmentally succeeded by
+causally upstream of, positive effect
+causally upstream of, negative effect
+evolutionarily related to
+mereotopologically related to
+developmentally related to
+enables
+functionally related to
+part of structure that is capable of
+involved in
+enabled by
+regulated by
+negatively regulated by
+positively regulated by
+member of
+has member
+input of
+has developmental potential involving
+has potential to developmentally contribute to
+has potential to develop into
+has potential to directly develop into
+causally downstream of
+immediately causally downstream of
+causally related to
+causally upstream of
+immediately causally upstream of
+causally upstream of or within
+causally downstream of or within
+involved in regulation of
+involved in positive regulation of
+involved in negative regulation of
+involved in or involved in regulation of
+is active in
+interacts with
+molecularly interacts with
+phosphorylates
+directly regulates activity of
+directly negatively regulates activity of
+directly positively regulates activity of
+helper property (not for use in curation)
+has part that occurs in
+is kinase activity
+causal agent in process
+causal relation between processes
+causal relation between entities
+causally influenced by
+interaction relation helper property
+molecular interaction relation helper property
+causally influences
+directly regulates
+has part structure that is capable of
+causal relation between material entity and a process
+capable of regulating
+capable of negatively regulating
+capable of positively regulating
+process has causal agent
+directly positively regulates
+directly negatively regulates
+enables subfunction
+acts upstream of or within, positive effect
+acts upstream of or within, negative effect
+acts upstream of, positive effect
+acts upstream of, negative effect
+causally upstream of or within, negative effect
+causally upstream of or within, positive effect
+regulates activity of
+has measurement value
+has x coordinate value
+has z coordinate value
+has y coordinate value
+tillage process
+land levelling process
+crop residue management process
+irrigation process
+desuckering
+irrigation water source role
+irrigation source
+volume of irrigation water
+conventional tillage process
+reduced tillage process
+conservation tillage process
+laser land levelling process
+mechanical pest control process
+biological pest control process
+pest control process
+chemical pest control process
+harvest process
+no-till
+thinning
+puddling process
+mulch-till
+ridge-till
+strip-till
+planting material
+organic fertilizer role
+pest role
+application method
+aerial application
+band application
+side dressing
+broadcast application method
+fertilizer basal application
+top dressing
+chemical basal application
+chemigation
+contact placement
+deep placement
+fertigation
+foliar application
+plough sole placement
+rope-wick application
+seed dressing
+soil injection
+tree injection
+irrigation method
+localized irrigation process
+drip irrigation process
+pitcher irrigation process
+subsurface drip irrigation process
+subsurface textile irrigation process
+sprinkler irrigation process
+center-pivot irrigation process
+sub-irrigation process
+surface irrigation process
+bassin irrigation process
+continuous flood process
+border irrigation process
+furrow irrigation process
+uncontrolled flooding process
+biological pest control agent role
+liming role
+green manure
+farmyard manure
+farm slurry
+liquid manure
+animal manure
+poultry litter
+fish manure
+fish emulsion
+fish meal
+fish hydrolysate
+oil cake
+blood meal
+obsolete bagasse
+oil meal
+cottonseed meal
+alfalfa meal
+spent mushroom compost
+mulch
+plastic mulch
+landscape fabric
+paper mulch
+grass clippings mulch
+pine needles mulch
+straw mulch
+aluminum mulch
+stone mulch
+leave mulch
+compost mulch
+wood chips mulch
+bark mulch
+organisms importation process
+organisms augmentation process
+organisms conservation process
+mechanical pest destruction process
+mechanical pest exclusion process
+mechanical pest removal process
+mulching process
+liming process
+pregerminated seed
+plant cutting
+ratoon
+draft animal
+obsolete horse
+obsolete donkey
+obsolete bull
+obsolete camel
+obsolete mule
+obsolete buffalo
+obsolete elephant
+tractor
+single-axle tractor
+two-axle tractor
+clod crusher
+disc harrow
+mouldboard plough
+subsoiler
+chisel plough
+ridging plough
+spade plough
+levelling board
+levelling bucket
+laser-controlled bucket
+chain harrow
+tine harrow
+manure spreader
+slurry injector
+broadcast spreader
+seeding process
+backpack sprayer
+hand sprayer
+airblast sprayer
+furrow opener
+liming material area density
+crop residue
+row
+interrow
+nitrogen area density
+phosphorus area density
+irrigation tube
+sulfur area density
+pesticide area density
+nitrate area density
+ammonium area density
+calcium area density
+magnesium area density
+iron area density
+zinc area density
+copper area density
+boron area density
+molybdenum area density
+manganese area density
+chlorine area density
+tillage tool blade length
+mulch thickness
+mulch color
+bund
+liming material
+center pivot irrigation machine
+percolation process in soil
+fertilizer area density
+potassium area density
+seeding rate
+heat treatment
+planting rate
+cold treatment
+flood treatment
+soil solarization treatment
+fire treatment
+steam treatment
+diatomaceous earth spreading
+crop residue burning process
+obsolete crop residue spreading process
+traditional land levelling process
+trapping process
+using barrier process
+hand picking process
+water pressure spraying process
+insect vacuuming process
+mowing process
+tillage implement
+land levelling implement
+residue management implement
+fertilization implement
+transplanting implement
+plant transplanting process
+planting implement
+planting process
+sowing implement
+chemical pest control implement
+plant harvest implement
+puddling implement
+mulch implement
+obsolete implement traction source
+obsolete human power
+obsolete motorized traction
+obsolete animal traction
+irrigation equipment
+material area density mesurement protocol
+material weight per area measurement protocol
+material volume per area measurement protocol
+material area density recording
+mulch thickness measurement protocol
+interrow width measurement protocol
+sprout lenght measurement protocol
+water source distance measurement protocol
+moisture concentration measurement protocol
+bund height measurement protocol
+agricultural process depth measurement protocol
+agricultural process depth measurement protocol using a penometer
+implement lenght measurement protocol
+chemical concentration in fertilizer recording protocol
+harvested row counting protocol
+plant density measurement protocol using quadrat
+plant density simple measurement protocol
+plant density measurement protocol
+row length mesurement protocol
+lignin concentration measurement protocol
+lignin concentration measurement protocol using acetylbromide
+lignin concentration measurement protocol using acid detergent fiber
+lignin concentration measurement protocol using thioglycolic acid
+lignin concentration measurement Klason protocol
+lignin concentration measurement protocol using permanganate
+lignin concentration measurement protocol using acid detergent lignin
+walkley-black method
+kjeldahl method
+dry combustion method
+determination of organic nitrogen in environmental material protocol
+determination of organic carbon protocol
+weight loss on ignition method
+tractor speed recording protocol
+mulch color recording protocol
+transplant age counting protocol
+irrigation equipment depth measurement protocol
+well depth measurement protocol
+pivot lenght measurement protocol
+pest control agent released density recording protocol
+irrigation water quantity recording protocol
+percolation test protocol
+area measurement protocol
+area direct measurement
+area measurement using cartography
+area recording protocol
+soil coverage by environmental material measurement protocol
+soil coverage visual assessment protocol
+soil coverage manual measurement protocol
+soil coverage measurement using GIS
+total quantity of environmental material used compute protocol
+environmental material incorporation percentage measurement protocol
+incorporation percentage visual assessment
+incorporation percentage measurement using GIS
+incorporation percentage manual measurement
+farm area
+field area
+agricultural experimental plot
+plot area
+block
+number of blocks
+number of plots
+plot length
+plot width
+pot
+number of pots
+pot height
+number of rows
+row width
+row length
+plot spacing
+distance between plants
+hill spacing
+distance between rows
+row orientation
+plot orientation
+replication
+treatment
+number of treatments
+number of replications
+crop
+number of crops
+number of crops previously cultivated
+slope orientation
+split plot design
+strip plot design
+factorial design
+completely randomized design
+lattice design
+replicated control design
+demonstration strip design
+square lattice design
+alpha lattice design
+higher-level landform
+agronomic land element
+environmental feature grade
+experimental factor
+experimental constraint
+agronomic experimental design
+complication during the experiment
+equipement complication
+complication caused by a personel
+percent of experiment area damaged
+soil analysis process
+planting distribution
+hill distribution
+row distribution
+row on bed distribution
+uniform distribution
+slope shape
+field maximum length
+weather station
+temperature sensor siting height
+wind speed sensor siting height
+experimental site
+farmer field
+research station field
+greenhouse
+governmental forest
+private forest
+experimental site altitude
+weather station altitude
+experiment
+agricultural experiment
+farmer
+researcher
+student
+research station employee
+extension agent
+faculty member
+person role within the experiment
+data collector
+principal investigator
+experiment manager
+field laborer
+hand plough
+obsolete Vegetation maintained on an experimental field
+obsolete flower strip
+obsolete vegetation surronding an experimental site
+terraced
+irregular shape
+fallow land
+field margin
+paraplough
+cultivator
+tandem disc harrow
+offset disc harrow
+seed drill
+drum seeder
+hoe
+manual oilseed drill
+tyne opener planter
+dibbling stick
+naveen dibbler
+hand dibbler
+rotary dibbler
+earth auger
+single disc opener planter
+double disck opener planter
+manual irrigation
+automatic irrigation
+dibbling
+drilling
+agricultural implement
+column
+fertilizer area density over a cropping season
+soil profile altitude
+regulation of grazing
+holistic planned grazing
+mob grazing
+rotational grazing
+continuous grazing
+strip grazing
+intensive rotational grazing
+controlled grazing
+hohenheim grazing system
+creep grazing
+first-last grazing
+harvested surface area
+mulch percent coverage
+soil organic fertilizer coverage
+bund height
+tractor speed
+micronutrients area density
+crop residue area density
+center pivot irrigation equipment length
+well depth
+rhizobium area density
+nitrogen recovery efficiency
+nitrogen recovery efficiency measurement protocol
+nitrogen use efficiency
+nitrogen use efficiency measurement protocol
+organic fertilizer carbon to nitrogen ratio
+sickle
+threshing process
+flail
+scythe
+winnowing process
+tree topping process
+detrashing
+limbing
+propping process
+haymaking process
+windrowing
+baling process
+trussing process
+agricultural product storage process
+cutting process
+field maximum width
+crop rotation
+sequence process
+tedder
+combine harvester
+lifting process
+dessication process
+long-term experiment
+short-term experiment
+sequence experiment
+crop rotation experiment
+mono-cropping experiment
+monoculture
+single cycle experiment
+rotation layout
+serial layout
+non-serial layout
+series
+rotation phase
+crop rotation duration
+seed per meter square
+seed per acre
+row per plot
+row per meter square
+row per foot square
+row per acre
+row per hectare
+plants per hill
+plants per row
+plants per square meter
+plants per hectare
+plants per pot
+ridging process
+land clearing process
+animal manure area density
+sustainable agriculture process
+intercropping
+mixed intercropping
+row intercropping
+within row intercropping
+relay cropping
+sequential intercropping
+strip intercropping
+land clearing date
+slash-and-burn process
+slash-and-remove process
+rock crushing process
+cut and grind process
+pile and burn process
+land burning process
+rock removal process
+roots crushing process
+ridging date
+ridging implement
+ridging device mounted on planting implement
+crop residue moisture
+sprayer
+boom sprayer
+forage harvester
+reapper
+digger
+ridge width
+ridge height
+distance between ridges
+aboveground biomass
+below-ground biomass
+seedling
+rainfed process
+jab planter
+moist
+crop residue removal process
+obsolete_millimeter per plot
+plants per foot square
+obsolete_inch per plot
+plants per plot
+number of square meter harvested
+harvest cut height
+obsolete pesticide amount
+number of pesticide application
+pesticide application date
+obsolete weeding chemical amount
+distance between the water source and the field
+controlled traffic farming
+pruning process
+renewal pruning
+net plot
+obsolete_gross plot
+GPS coordinates
+GPS coordinates of a field
+field latitude coordinate
+field longitude coordinate
+alley cropping
+silvopasture
+multistrata agroforestry
+tree prunings
+improved fallow
+agroforestry
+agrisilviculture
+deficit irrigation process
+alternate partial rootzone irrigation process
+supplemental irrigation
+water harvesting
+water tank
+grass strip
+previous crop
+obsolete fertilizer application date
+band application on surface
+band application beneath surface
+broadcast incorporated
+broadcast on surface
+localized application
+kilogram per plot
+on farm experiment
+on station experiment
+crop residue incorporation process
+crop residue mulching process
+crop residue retention process
+crop residue grazing process
+crop residue harvest process
+net plot area
+hedgerow intercropping
+field altitude
+intra-row spacing
+seed variety type
+local seed variety
+improved seed variety
+hybrid seed variety
+weather station latitude
+weather station longitude
+GPS coordinates of a weather station
+distance between a weather station and the field
+temperature of air maximum
+temperature of air minimum
+temperature of air average
+temperature of air average daily
+temperature of air average yearly
+temperature of air average monthly
+temperature of air minimum daily
+temperature of air minimum yearly
+temperature of air maximum daily
+temperature of air maximum yearly
+relative humidity
+cropping system
+wheelbarrow
+wheelbarrow sprayer
+motor pump
+shovel
+self-propelled sprinkler
+furrow construction process
+coa
+machete
+egyptian plough
+rotary harrow
+rotary tiller
+seeding depth
+furrow
+furrow lenght
+soil erosion prevention process
+soil surface stoniness
+soil surface gravelliness
+number of seasons
+distance between field and farmer house
+soil fertility
+field owner
+disease incidence
+disease severity
+herbicide area density
+insecticide area density
+water management process
+field rockiness
+net plot area harvested
+animal harvesting equipment
+plucking belt
+egg belt
+animal transportation equipment
+chick pad
+dead haul truck
+live haul truck
+animal feeding equipment
+feed pan
+watering bowl
+chick box
+animal feeder
+animal drinker
+animal transportation process
+animal harvesting process
+forest garden
+experiment start date
+experiment end date
+manual application
+graft
+animal processing waste material
+poultry processing waste material
+weep fluid
+poultry plucking water
+rill seedbed
+coutour ridge seedbed
+disease control process
+seed per hectare
+stick
+soil sampling process
+soil sampling date
+soil sampling depth
+frequency of tillage process
+frequency of weeding process
+frequency of harvesting process
+relay cropping experiment
+crop role
+first crop role
+relay crop role
+draft animal role
+human power role
+weeding implement
+weed puller
+mower
+stubble
+husk
+bubbler irrigation process
+mist irrigation process
+sprinker by lateral move irrigation process
+side roll sprinkler irrigation process
+mulch removal process
+seedbed
+flat seedbed
+raised seedbed
+sunken seedbed
+ridge seedbed
+hill seedbed
+binder
+baler
+power harrow
+mowing implement
+roller
+bare fallow land
+weed role
+seedbed preparation process
+broadcasting seed process
+line sowing process
+seed dibbling process
+seed drilling process
+organic fertilizer
+inorganic fertilizer
+vermicompost
+worm castings
+calcitic limestone
+dolomitic limestone
+NPK fertilizer
+urea super granule
+harvested crop
+harvested row
+manual plant transplanting process
+mechanical plant transplanting process
+chemical weeding process
+mechanical control weeding process
+cold treatment weeding process
+fire treatment weeding process
+hand picking weeding process
+heat treatment weeding process
+water pressure spraying weeding process
+agronomic fertilizer
+green manure role
+single superphosphate
+triple superphosphate
+ureaform
+methylene urea
+crotonylidene diurea
+sulfur coated urea
+agricultural process
+plot latitude coordinate measurement datum
+plot longitude coordinate measurement datum
+residue incorporation percentage
+number of land levelling passes
+puddling depth
+tillage depth
+number of tillage passes
+crop residue thickness
+crop residue percent coverage
+residue incorporation depth
+organic fertilizer area density
+inorganic fertilizer area density
+nutrient amount
+number of fertilizer applications
+mulch amount
+number of irrigations
+distance between bunds
+obsolete fertilizer amount
+number of weedings
+number of plants harvested
+number of rows harvested
+length of rows harvested
+space between rows harvested
+amount harvested
+number of puddling passes
+conventional tillage date
+reduced tillage date
+conservation tillage date
+puddling date
+laser land levelling date
+traditional land levelling date
+crop residue burning date
+crop residue spreading date
+localized irrigation date
+sprinkler irrigation date
+sub-irrigation date
+surface irrigation date
+deep tillage date
+mulch-till process date
+ridge-till process date
+strip-till process date
+mechanical pest destruction date
+mechanical pest exclusion date
+mechanical pest removal date
+mechanical pest control date
+biological pest control date
+chemical pest control date
+weeding date
+threshing date
+winnowing date
+haymaking date
+windrowing date
+baling date
+trussing date
+cutting date
+lifting date
+desuckering date
+tree topping date
+detrashing date
+limbing date
+drip irrigation date
+pitcher irrigation date
+subsurface drip irrigation date
+subsurface textile irrigation date
+bubbler irrigation date
+mist irrigation date
+center-pivot irrigation date
+sprinker by lateral move irrigation date
+side roll sprinkler irrigation date
+bassin irrigation date
+border irrigation date
+furrow irrigation date
+uncontrolled flooding date
+continuous flood date
+tillage date
+heat treatment date
+cold treatment date
+flood treatment date
+fire treatment date
+steam treatment date
+diatomaceous earth spreading date
+mulching date
+using barrier date
+trapping date
+hand picking date
+water pressure spraying date
+insect vacuuming date
+mowing date
+soil solarization treatment date
+broadcasting seed date
+line sowing date
+seed dibbling date
+manual plant transplanting date
+mechanical plant transplanting date
+seeding date
+agricultural experiment date
+long-term experiment date
+short-term experiment date
+sequence experiment date
+crop rotation experiment date
+mono-cropping experiment date
+single cycle experiment date
+inter-cropping experiment date
+crop yield experiment date
+rotational grazing date
+continuous grazing date
+intensive rotational grazing date
+creep grazing date
+first-last grazing date
+holistic planned grazing date
+mob grazing date
+strip grazing date
+controlled grazing date
+hohenheim grazing system date
+seed drilling date
+cold treatment weeding date
+fire treatment weeding date
+hand picking weeding date
+heat treatment weeding date
+water pressure spraying weeding date
+land levelling date
+crop residue management date
+irrigation date
+pest control date
+harvesting date
+pruning date
+liming date
+plant transplanting date
+planting date
+treatment date
+propping date
+storage date
+crop rotation sart date
+sequence start date
+dessication date
+rotation phase  start date
+much removal date
+seedbed preparation date
+agronomic fertilization date
+crop cultivation date
+relay cropping experiment date
+regulation of grazing date
+chemical weeding date
+mechanical control weeding date
+soil analysis date
+experiment date
+fresh crop residue
+dry crop residue
+obsolete concentration of carbon dioxide in soil
+obsolete inorganic fertilizer role
+live fence
+boundary planting
+windbreak
+timberbelt
+buffer planting
+hedgerow trees
+fodder bank
+farm woodland
+scattered trees
+taungya farming
+forest garden practice
+shifting cultivation
+forest grazing
+inter-cropping experiment
+biofertilizer
+biochar
+bird guano
+deep tillage
+fish fertilizer
+weeding process
+nitrogen fertilizer
+phosphorus fertilizer
+potassium fertilizer
+ammonium dihydrogen phosphate area density
+ammonium magnesium phosphate area density
+ammonium magnesium phosphate hexahydrate area density
+ammonium nitrate area density
+ammonium nitrate phosphate area density
+ammonium phosphate sulfate area density
+ammonium polyphosphate area density
+ammonium sulfate area density
+ammonium sulfate nitrate area density
+ammonium sulfate urea area density
+ammonium thiosulfate area density
+calcium ammonium nitrate area density
+calcium bis(dihydrogenphosphate) area density
+calcium carbonate area density
+calcium cyanamide area density
+calcium dichloride area density
+calcium nitrate area density
+calcium oxide area density
+copper(II) sulfate area density
+cyanoguanidine area density
+diammonium hydrogen phosphate area density
+gypsum area density
+limestone area density
+magnesium carbonate area density
+magnesium nitrate area density
+magnesium oxide area density
+magnesium sulfate area density
+phosphoric acid area density
+potassium carbonate area density
+potassium chloride area density
+potassium dihydrogen phosphate area density
+potassium metaphosphate area density
+potassium nitrate area density
+sodium nitrate area density
+sodium selenate area density
+urea area density
+urea ammonium nitrate area density
+zinc sulfate area density
+agronomic fertilization process
+tillage
+crop yield experiment
+crop cultivation process
+agricultural experimental multiplot
+software development
+count
+counting
+source code repository
+compiling software
+dataset creating
+entity
+entity
+continuant
+continuant
+occurrent
+occurrent
+independent continuant
+independent continuant
+obsolete dependent continuant
+spatial region
+temporal region
+two-dimensional spatial region
+spatiotemporal region
+process
+process
+disposition
+realizable entity
+realizable entity
+zero-dimensional spatial region
+quality
+quality
+specifically dependent continuant
+specifically dependent continuant
+role
+role
+fiat object
+fiat object part
+one-dimensional spatial region
+object aggregate
+three-dimensional spatial region
+site
+object
+generically dependent continuant
+function
+process boundary
+one-dimensional temporal region
+material entity
+material entity
+continuant fiat boundary
+immaterial entity
+one-dimensional continuant fiat boundary
+process profile
+relational quality
+two-dimensional continuant fiat boundary
+zero-dimensional continuant fiat boundary
+zero-dimensional temporal region
+history
+anatomical entity
+organism or virus or viroid
+biological entity
+electron
+potassium carbonate
+herbicide safener
+bleaching agent
+propesticide
+proherbicide
+pro-agent
+metalloid atom
+inorganic acid
+gas molecular entity
+chlorophyll(1-)
+(13)C-modified compound
+isotopically modified compound
+carbamate
+sensitiser
+ammonium sulfate nitrate
+ammonium thiosulfate
+inorganic ammonium salt
+ammonium polyphosphate
+ammonium phosphate sulfate
+ammonium nitrate phosphate
+cyanoguanidine
+3,4-dimethyl-1H-pyrazole phosphate
+nitrification inhibitor
+3,4-dimethyl-1H-pyrazole
+potassium metaphosphate
+ammonium magnesium phosphate
+ammonium magnesium phosphate hexahydrate
+emetic
+electron donor
+selenate
+sulfide(2-)
+acceptor
+water
+dioxygen
+halide anion
+thiosulfate(2-)
+ammonia
+hydrogen sulfide
+sulfate
+urea
+hydroxide
+nitrite
+carbon dioxide
+cyanamide
+mineral nutrient
+polyphosphate
+carbon monoxide
+cyanide
+hydrogencarbonate
+nitrate
+hydrogen chloride
+donor
+chloride
+dinitrogen
+hydrogen halide
+selenic acid
+ammonium hydroxide
+iron atom
+dihydrogen
+manganese atom
+phosphate(3-)
+nitrile
+hydrogen cyanide
+sulfur dioxide
+inorganic calcium salt
+organic magnesium salt
+inorganic phosphate salt
+inorganic potassium salt
+acaricide
+acyl group
+alkaline earth metal atom
+alkali metal atom
+anion
+base
+boron molecular entity
+calcium atom
+calcium molecular entity
+carbamoyl group
+carbon oxide
+carbonates
+carbonyl group
+chemosterilant
+chloride salt
+chlorine atom
+chlorine molecular entity
+cofactor
+molecular entity
+copper molecular entity
+copper cation
+copper(II) sulfate
+cyanides
+defoliant
+diazole
+drug
+monoatomic anion
+monoatomic cation
+enzyme inhibitor
+fungicide
+chemical entity
+biological role
+group
+guanidines
+halogen molecular entity
+halogen
+herbicide
+organic heterocyclic compound
+hydrocarbon
+hydroxides
+oxoacid
+inorganic anion
+inorganic molecular entity
+inorganic oxide
+inorganic phosphate
+inorganic salt
+inorganic sulfate salt
+insecticide
+salt
+monoatomic ion
+organic salt
+ion
+magnesium atom
+magnesium molecular entity
+magnesium porphyrin
+metabolite
+metal cation
+metalloporphyrin
+mitochondrial respiratory-chain inhibitor
+elemental molecule
+molecule
+monoatomic monocation
+nematicide
+nitrogen atom
+nonmetal atom
+organic anion
+organic ion
+organic oxide
+oxide
+oxygen atom
+oxygen molecular entity
+pesticide
+phenylpropanoid
+phosphate
+phosphoric acid
+phosphoric acid derivative
+phosphorus molecular entity
+biological pigment
+polyphenylpropanoid
+porphyrins
+potassium atom
+potassium molecular entity
+potassium salt
+pyrazoles
+selenium molecular entity
+silicon molecular entity
+sodium atom
+sodium chloride
+sodium molecular entity
+sodium salt
+sulfates
+sulfonium compound
+sulfur atom
+sulfur molecular entity
+sulfuric acid
+tetrapyrrole
+toxin
+micronutrient
+transition element atom
+univalent carboacyl group
+zinc atom
+zinc molecular entity
+zinc ion
+boron atom
+selenium atom
+carbon atom
+nickel atom
+carbamic acid
+phosphorus atom
+molybdenum atom
+copper atom
+ammonium
+chlorophyll
+carbonic acid
+copper(2+)
+carboxylic acid anion
+sodium(1+)
+potassium(1+)
+zinc(2+)
+calcium(2+)
+dichlorine
+azanide
+hydridonitrate(2-)
+monocarboxylic acid amide
+nitrogen(1+)
+oxonium
+hydrosulfide
+diazynediium
+diazynium
+monoatomic dication
+sulfonium
+silicon dioxide
+trioxidophosphate(1-)
+calcium dihydroxide
+calcium oxide
+calcium sulfate
+magnesium carbonate
+magnesium oxide
+potassium sulfate
+((13)C)urea
+calcium sulfate dihydrate
+potassium chloride
+magnesium sulfate
+amide
+calcium carbonate
+calcium dichloride
+application
+fundamental particle
+monoatomic entity
+coordination entity
+oxoacid derivative
+inorganic hydride
+organic fundamental parent
+inorganic group
+organic group
+organyl group
+atom
+atomic nucleus
+nucleon
+primary amide
+elemental molecular entity
+elemental hydrogen
+elemental oxygen
+diatomic oxygen
+diatomic nitrogen
+elemental nitrogen
+monoatomic nitrogen
+polyatomic anion
+molecular messenger
+antimicrobial agent
+nutrient
+heteroorganic entity
+agrochemical
+fertilizer
+rodenticide
+food
+fuel
+alkali metal molecular entity
+alkaline earth molecular entity
+pnictogen
+pnictogen molecular entity
+chalcogen
+chalcogen molecular entity
+carbon group element atom
+boron group element atom
+main group element atom
+silicon oxide
+zinc group element atom
+chromium group element atom
+manganese group element atom
+iron group element atom
+nickel group element atom
+copper group element atom
+sulfur oxoacid
+hydracid
+pnictogen oxoacid
+sulfur oxoacid derivative
+monoatomic monoanion
+elemental chlorine
+monoatomic chlorine
+monoatomic halogen
+elemental halogen
+diatomic chlorine
+nitrogen oxoacid
+phosphorus oxoacid
+nitrogen oxoanion
+pnictogen oxoanion
+phosphorus oxoanion
+elemental phosphorus
+elemental pnictogen
+monoatomic phosphorus
+sulfur oxoanion
+chalcogen oxoacid
+chalcogen oxoanion
+selenium oxoanion
+selenium oxoacid
+hydrogenselenate
+transition element molecular entity
+alkali metal cation
+alkaline earth cation
+transition element cation
+metal atom
+sulfur hydride
+thiosulfuric acid
+thiosulfate(1-)
+s-block element atom
+p-block element atom
+d-block element atom
+carboxylic acid
+main group molecular entity
+boron group molecular entity
+carbon group molecular entity
+noble gas molecular entity
+cyclic compound
+hydrogen molecular entity
+elemental boron
+aromatic compound
+organic aromatic compound
+zinc group molecular entity
+s-block molecular entity
+p-block molecular entity
+d-block molecular entity
+helium molecular entity
+hydrides
+oxygen hydride
+biomacromolecule
+polyatomic cation
+amino acid
+copper group molecular entity
+organic cyclic compound
+heteroarene
+macromolecule
+reagent
+molluscicide
+metallotetrapyrrole
+macronutrient
+halide salt
+magnesium salt
+magnesium coordination entity
+metallic base
+alkaline earth hydroxide
+nitrogen hydride
+azane
+calcium hydroxide
+elemental calcium
+calcium salt
+sulfate salt
+zinc sulfate
+alkaline earth coordination entity
+inhibitor
+catalyst
+buffer
+ammonium ion derivative
+ammonium compound
+organonitrogen compound
+oxoanion
+calcium bis(dihydrogenphosphate)
+central nervous system drug
+alkali metal salt
+analgesic
+EC 1.2.1.3 [aldehyde dehydrogenase (NAD(+))] inhibitor
+central nervous system depressant
+addition compound
+hydrate
+cardiovascular drug
+carbon oxoanion
+carbon oxoacid
+EC 3.1.3.48 (protein-tyrosine-phosphatase) inhibitor
+vasodilator agent
+anticonvulsant
+antifungal agent
+phosphate ion
+pnictogen hydride
+inorganic chloride
+cyclic tetrapyrrole
+lepton
+baryon
+fermion
+subatomic particle
+composite particle
+hadron
+nuclear particle
+polyatomic entity
+polyatomic ion
+phosphorus oxoacid derivative
+phosphorus oxoacids and derivatives
+alkaline earth salt
+main-group coordination entity
+carbonyl compound
+organic oxo compound
+acid anhydride
+acyclic acid anhydride
+pseudohalo group
+pseudohalide anion
+polyatomic monoanion
+monoanion
+hydrogen isocyanide
+chalcogen hydride
+argon molecular entity
+inorganic ion
+inorganic cation
+cation
+chalcocarbonic acid
+organochalcogen compound
+organooxygen compound
+amino-acid anion
+organic hydride
+mononuclear parent hydride
+elemental sodium
+elemental potassium
+elemental zinc
+elemental copper
+acid
+heteroatomic molecular entity
+halide
+carboxamide
+acyclic phosphorus acid anhydride
+sulfuric acid derivative
+carboacyl group
+phosphate salt
+anti-arrhythmia drug
+polypyrrole
+organonitrogen heterocyclic compound
+chelator
+monocyclic heteroarene
+calcium channel blocker
+magnesium tetrapyrrole
+electron-transport chain inhibitor
+respiratory-chain inhibitor
+EC 1.9.3.1 (cytochrome c oxidase) inhibitor
+membrane transport modulator
+inorganic sodium salt
+calcium channel modulator
+anaesthetic
+calcium cation
+calcium ion
+Bronsted acid
+Bronsted base
+Lewis base
+antibiotic pesticide
+antibiotic nematicide
+fumigant
+fumigant insecticide
+mite growth regulator
+growth regulator
+dihydrogenphosphate
+carbonate
+hydroxy group
+hydrogenphosphate
+hydrogensulfate
+oxo group
+mineral
+carbonate salt
+phosphate mineral
+solvent
+carboxy group
+ammonium salt
+cyclic polypyrrole
+nitric acid
+sulfur oxide
+calcium oxides
+polar solvent
+protic solvent
+protophilic solvent
+amphiprotic solvent
+carbamimidic acid
+imidic acid
+carboximidic acid
+isourea
+cyano group
+gypsum
+hydrogen atom
+organic amino compound
+onium compound
+onium cation
+chloronium
+organic nitrogen anion
+reproductive control drug
+organic molecular entity
+genotoxin
+allergen
+role
+neurotoxin
+nitrate salt
+inorganic nitrate salt
+chemical role
+nitrogen molecular entity
+metal sulfate
+organodiyl group
+organic divalent group
+organic univalent group
+biochemical role
+biophysical role
+aetiopathogenetic role
+pharmacological role
+physiological role
+ligand
+pharmaceutical
+inorganic hydroxy compound
+polyphosphoric acid
+epitope
+heterocyclic compound
+cyclic tetrapyrrole anion
+phosphoric acids
+nucleophilic reagent
+chemical substance
+mixture
+divalent metal cation
+monovalent inorganic cation
+signalling molecule
+reactive nitrogen species
+ammonium sulfate
+ammonium dihydrogen phosphate
+sodium nitrate
+potassium dihydrogen phosphate
+ammonium nitrate
+potassium nitrate
+emulsifier
+food emulsifier
+diammonium hydrogen phosphate
+zinc cation
+reducing agent
+oxidising agent
+explosive
+food additive
+food acidity regulator
+calcium nitrate
+calcium cyanamide
+cyanamide(2-)
+lignin
+flour treatment agent
+divalent inorganic cation
+one-carbon compound
+organic acid
+magnesium nitrate
+poison
+food preservative
+antacid
+tocolytic agent
+insect sterilant
+azole
+insect repellent
+organic molecule
+astringent
+curing agent
+eukaryotic metabolite
+animal metabolite
+mammalian metabolite
+mouse metabolite
+Saccharomyces cerevisiae metabolite
+prokaryotic metabolite
+greenhouse gas
+propellant
+EC 1.* (oxidoreductase) inhibitor
+EC 1.2.* (oxidoreductase acting on donor aldehyde/oxo group) inhibitor
+EC 1.9.* (oxidoreductase acting on donor heme group) inhibitor
+EC 3.* (hydrolase) inhibitor
+EC 3.1.* (ester hydrolase) inhibitor
+EC 3.5.* (hydrolases acting on non-peptide C-N bonds) inhibitor
+EC 3.1.3.* (phosphoric monoester hydrolase) inhibitor
+EC 3.5.1.* (non-peptide linear amide C-N hydrolase) inhibitor
+EC 1.2.1.* (oxidoreductase acting on donor aldehyde/oxo group with NAD(+) or NADP(+) as acceptor) inhibitor
+EC 1.9.3.* (oxidoreductase acting on donor heme group, oxygen as acceptor) inhibitor
+pathway inhibitor
+fungal metabolite
+bacterial metabolite
+Escherichia coli metabolite
+food colouring
+calcium phosphate
+human metabolite
+sodium selenate
+EC 3.5.1.4 (amidase) inhibitor
+food firming agent
+sequestrant
+raising agent
+food packaging gas
+food propellant
+food component
+environmental contaminant
+refrigerant
+flame retardant
+trivalent inorganic anion
+divalent inorganic anion
+monovalent inorganic anion
+crustacean metabolite
+Daphnia magna metabolite
+Daphnia metabolite
+algal metabolite
+metal allergen
+urea ammonium nitrate
+calcium ammonium nitrate
+ammonium sulfate urea
+geographic feature
+anthropogenic geographic feature
+administrative region
+first-order administrative region
+second-order administrative region
+third-order administrative region
+national geopolitical entity
+hydrographic feature
+ocean
+sea
+saline hydrographic feature
+saline lake
+lake
+river
+stream
+reservoir
+well
+spring
+watercourse
+lagoon
+wetland area
+hedge
+mangrove swamp
+water body
+tunnel
+human construction
+building
+dam
+agricultural ecosystem
+farm
+mountain
+hill
+plain
+coastal plain
+beach
+sea beach
+lacustrine beach
+volcanic feature
+desert area
+island
+valley
+grassland area
+meadow ecosystem
+woodland area
+forested area
+area of tundra
+agricultural field
+planted forest
+political entity
+dry valley
+stream valley
+rocky reef
+glacial feature
+permafrost
+coastal inlet
+bank
+stream bank
+river bank
+coral reef
+desert oasis
+atoll
+dune
+elevation
+levee
+plateau
+hanging valley
+solid astronomical body part
+scree
+oceanic island
+coastal wetland ecosystem
+swamp ecosystem
+freshwater wetland ecosystem
+volcano
+glacial valley
+flood plain
+prairie
+savanna
+steppe
+pasture
+escarpment
+ridge
+butte
+drainage basin
+paddy field
+scrubland area
+sea coast
+shore
+depression
+kettle
+sandur
+vadose zone
+phreatic zone
+piece of rock
+piece of gravel
+artificial lake
+sound
+channel of a watercourse
+lake channel
+coastal dune
+river island
+lake island
+biome
+kame terrace
+terrestrial biome
+marine biome
+irrigation reservoir
+irrigation dam
+inlet
+lake inlet
+mount
+peak
+sea shore
+submerged bed
+terrace
+crater
+agricultural terrace
+interfluve
+beach ridge
+kame
+shingle beach
+freshwater biome
+rock
+soil
+marine water body
+slope
+waste water
+air
+liquid water
+sediment
+dust
+saline water
+fresh water
+volcanic rock
+sedimentary rock
+sewage
+aquatic biome
+obsolete ground water
+surface water
+wastewater treatment plant
+sludge
+anaerobic sediment
+limestone
+chalk
+sandstone
+chemically enriched sediment
+stream sediment
+anaerobic sludge
+anaerobic mud
+anaerobic stream sediment
+beach sand
+pebble
+cobble
+sea water
+coastal sea water
+compost
+contaminated water
+sandy beach
+organically enriched sediment
+inorganically enriched sediment
+borehole
+arenosol
+andosol
+acrisol
+cambisol
+chernozem
+kastanozem
+histosol
+gleysol
+gypsisol
+ferralsol
+nitisol
+luvisol
+phaeozem
+solonchak
+vertisol
+solonetz
+regosol
+podzol
+loam
+forest soil
+waste material
+industrial waste material
+waste treatment plant
+fluvisol
+animal waste material
+hay
+bagasse
+organic waste material
+clay
+silage
+animal manure
+grass silage
+manufactured product
+enriched soil
+horse manure
+industrial building
+straw
+rye grass silage
+chalk soil
+savanna soil
+compost soil
+dry soil
+farm soil
+grassland soil
+field soil
+meadow soil
+frozen compost soil
+manured soil
+muddy soil
+pasture soil
+peat soil
+steppe soil
+upland soil
+underground water
+marine mud
+desert sand
+environmental material
+surface layer
+aerosol
+aquifer
+anthropogenic environmental material
+agricultural environmental material
+mud
+silt
+sand
+gravel
+marine pelagic biome
+neritic pelagic zone biome
+oceanic pelagic zone biome
+oceanic sea surface microlayer biome
+neritic sea surface microlayer biome
+marine pelagic feature
+ocean biome
+particulate matter
+marine reef
+organic material
+shrubland biome
+desert biome
+tundra biome
+environmental condition
+tropical
+subtropical
+montane shrubland biome
+anthropogenic terrestrial biome
+arid
+coastal scrubland
+desert scrubland
+cropland biome
+village biome
+rangeland biome
+dense settlement biome
+environmental system
+mineral material
+water vapour
+atmosphere
+atmospheric water vapour
+clastic sedimentary rock
+ecoregion
+water ice
+ecozone
+layer
+lake layer
+ice mass
+marine layer
+freshwater river
+endolithic environment
+high temperature environment
+freshwater environment
+saline water environment
+cold environment
+anthropogenic environment
+high osmolarity environment
+aquatic environment
+rocky slope
+marine environment
+sea water environment
+atmospheric boundary layer
+planetary surface
+aquatic layer
+dome swamp
+gravelly slope
+hillside
+talus slope
+alpine
+montane
+altitudinal condition
+field
+vegetation layer
+tundra climatic condition
+biological waste material
+tropical marine condition
+tropical marine semi-evergreen forest
+tropical mangrove
+snow
+environmental zone
+building part
+montane forest
+atmospheric carbon dioxide
+boundary wall
+constructed barrier
+fence
+glass
+silica-based glass
+atmospheric layer
+boundary layer
+mass of biological material
+hydrocarbon gas
+charcoal
+lentic water body
+lotic water body
+vaporisation
+hydrological condensation process
+volcanic eruption
+planetary landmass
+outer space
+planetary crust
+planetary structural layer
+planetary mantle
+lithosphere
+magma
+trench
+stream channel
+river channel
+waste role
+geological fracture
+contaminated air
+polluted lake
+water mass
+coast
+hydrological precipitation process
+hydrological evaporation
+soil degradation
+soil erosion
+flood
+condensation process
+desublimation process
+habitat
+land consumption process
+bedrock
+area of barren land
+aeroform
+primary forest
+rural area
+fire
+wildfire
+conflagration
+flame
+hydrocarbon flame
+mass gaseous flow
+atmospheric wind
+gaseous environmental material
+plasma
+astronomical body
+planet
+star
+astronomical object
+astronomical body part
+solid environmental material
+liquid environmental material
+biosphere
+cryosphere
+hydrosphere
+pedosphere
+humid air
+water vapour saturated air
+water-based rainfall
+droplet
+raindrop
+water droplet
+smoke
+combustion process
+thermolysis
+pyrolysis
+crystal
+water ice crystal
+flower strip
+marl
+area of scrub
+precipitation process
+area of developed open space
+area of sedge- and forb-dominated herbaceous vegetation
+area of gramanoid or herbaceous vegetation
+snowfall
+freezing rainfall
+planetary subsurface zone
+ecotone
+natural environment
+anthropisation
+tree line ecotone
+terrestrial planet
+mass liquid flow
+water flow process
+technosphere
+manufacturing process
+human-directed construction process
+environmental system determined by a quality
+environmental system determined by a material
+environmental system determined by an organism
+plant-associated environment
+animal-associated environment
+groundwater
+meteor
+hydrometeor
+lithometeor
+natural lake
+radiation
+electromagnetic radiation
+saline environment
+soil environment
+planetary subsurface environment
+non-saline planetary subsurface environment
+sediment environment
+aerosol environment
+saline aerosol environment
+non-saline aerosol environment
+environment associated with a plant part or small plant
+crater lake
+meteoroid
+metallic material
+particulate matter formation process
+atmospheric aerosol formation
+formation of a solid aerosol in an atmosphere
+formation of a liquid aerosol in an atmosphere
+aerosolised liquids
+aerosolised solids
+formation of a solid aerosol from gaseous material in an atmosphere
+formation of a liquid aerosol from gaseous material in an atmosphere
+tectonic movement
+tectonic plate
+tectonic plate boundary
+ecosystem
+manure storage space
+bovine dairy liquid manure
+animal manure product
+gas planet
+ice
+desert planet
+ocean planet
+ice planet
+carbon dioxide ice
+carbon monoxide ice
+helium planet
+volatile astrogeological material
+astrogeological gas
+geodiversity
+active ecosystem management process
+environment associated with an aquatic invertebrate
+water surface
+sediment surface
+terrestrial environmental zone
+anthropised terrestrial environmental zone
+marine environmental zone
+lithification
+grassland ecosystem
+ranch
+wetland ecosystem
+stellar radiation
+terrestrial natural environment
+aquatic natural environment
+forest canopy
+canopy
+forest ecosystem
+cropland ecosystem
+agricultural process
+liquid layer
+solid layer
+water ice layer
+industrial fire
+bush area
+atmospheric zone
+oasis
+vegetated area
+hydroform
+liquid air-water interface layer
+liquid surface layer
+solid surface layer
+saline water body
+fresh water body
+advective transport process
+erosion
+desert
+atmospheric wind direction
+atmospheric wind speed
+volume of hydrological precipitation
+aerosolised particle formation process
+primary aerosol formation process
+tundra ecosystem
+ultisol
+land conversion process
+agricultural land conversion process
+land use process
+anthropogenic ecosystem conversion process
+planned environmental usage process
+usage of an environment for industry
+body of liquid
+liquid astronomical body part
+gaseous astronomical body part
+fluid astronomical body part
+surface of an astronomical body
+flattened elevation
+radiation from a manufactured product
+material congelation process
+frozen land
+frozen soil
+freezing
+freezing of water into water ice
+surface layer of a water body
+terrestrial ecoregion
+sea surface layer
+cryospheric layer
+ice-bearing permafrost
+snow accumulation process
+ice accumulation process
+snow and ice accumulation process
+mass of ice and snow
+formation of a solid aerosol from liquid material in an atmosphere
+gaseous part of an atmosphere
+amorphous solid
+atmospheric aerosol
+aerosol formation process
+fluid surface layer
+fluid interface layer
+fluid layer
+fluid front
+gaseous front
+weather front
+air mass
+gaseous surface layer
+interface layer
+mass of environmental material
+mass of solid material
+mass of fluid
+mass of gas
+mass of liquid
+mass of compounded environmental materials
+polar front
+tropical environment
+subtropical environment
+mass fluid flow
+subsurface zone of an astronomical body
+desert ecosystem
+part of a landmass
+landmass
+compound astronomical body part
+land
+aquatic ecosystem
+marine ecosystem
+freshwater ecosystem
+terrestrial ecosystem
+ecosystem process
+tropical forest
+subtropical forest
+tropical grassland
+subtropical grassland
+construction
+tropical biome
+subtropical biome
+alpine biome
+montane biome
+arid biome
+energy transfer process
+liquid accumulation process
+dew point
+photosynthetically active radiation
+concentration of carbon dioxide in an atmosphere
+pit
+manure pit
+coastal water body
+bone meal
+plant feed
+mineral dust
+metallic dust
+clay dust
+dust from plant parts
+fluid environmental material
+environmental system process
+desertification
+flooding
+atmospheric process
+land degradation
+forest process
+anthropogenic modulatory intervention process
+anthropogenic environmental process
+planetary erosion
+hydrological process
+evapotranspiration
+evaporation
+transpiration
+compaction process
+material accumulation process
+material transport process
+geographic basin
+aeolian transport process
+marine sediment
+sedimentation in a water body
+material transformation process
+desublimation of water vapour into ice
+season
+cryoform
+snow mass
+channel
+concentration of nitrate and nitrite in liquid water
+monsoon season
+snow crystal
+chemically contaminated sediment
+organic horizon
+soil horizon
+concentration of carbon dioxide in soil
+concentration of carbon dioxide in air
+concentration of carbon dioxide in freshwater
+concentration of carbon dioxide in seawater
+soil organic matter
+soil surface layer
+carbon sequestration process
+temperature of environmental material
+temperature of air
+atmospheric wind intensity
+porosity of soil
+mass density of soil
+concentration of ammonium in soil
+concentration of nitrate in soil
+composition of soil
+structure of soil
+acidity of soil
+temperature of soil
+wetness of soil
+temperature of water
+humidity of soil
+conductivity of soil
+composition of water
+conductivity of water
+concentration of nitrate in groundwater
+drought
+island formation process
+agricultural wastewater treatment plant
+biochar
+hydrocarbon-based environmental material
+anatomical entity environment
+integumental system environment
+concentration of ammonium in liquid water
+concentration of dioxygen in liquid water
+concentration of hydrogen sulfide in liquid water
+concentration of nitrate in liquid water
+concentration of nitrite in liquid water
+acidity of water
+food product
+foodon product type
+plant food product
+condiment food product
+nut food product
+plant seed food product
+spice or herb
+vegetable food product
+botanical fruit food product
+legume food product
+bean food product
+food component product
+food product component
+ginger food product
+plant seed vegetable food product
+soybean seed (field) food product
+soybean food product
+food product by organism
+food material
+invertebrate animal
+ginger root
+bean (whole)
+animal
+vegetarian food product
+ginger root (whole)
+ginger root (whole or parts)
+soybean (whole or parts)
+soybean (whole)
+bean substance
+soybean meal
+edible seed food product
+soybean substance
+ginger root (whole, raw)
+legume (whole)
+dressing, condiment, gravy or sauce (us cfr)
+spice or herb (us cfr)
+grain or starch product (us cfr)
+flavoring or seasoning (us cfr)
+milled grain or starch product (us cfr)
+vegetable or vegetable product (us cfr)
+condiment or relish (us cfr)
+fruit or vegetable product (us cfr)
+nut or nut product (us cfr)
+USA agency food product type
+nut or seed product (us cfr)
+agency food product type
+food product type
+U.S. code of federal regulations, title 21 food product type
+plant used for producing extract or concentrate
+oil-producing plant
+chemical food product
+grain or seed-producing plant
+protein-producing plant
+vegetable-producing plant, above-ground parts
+pod or seed vegetable plant
+edible seed producing plant
+nut producing plant
+vertebrate animal
+food product organismal source
+bean plant
+vegetable-producing plant
+nut or edible seed producing plant
+food additive
+plant used for dietary supplements
+part of organism
+seed part
+plant seed or nut food product
+molecular_function
+catalytic activity
+receptor activity
+signaling receptor binding
+binding
+protein binding
+cell communication
+signal transduction
+enzyme activator activity
+biological_process
+regulation of signal transduction
+positive regulation of signal transduction
+cellular process
+regulation of signaling receptor activity
+regulation of cell communication
+positive regulation of cell communication
+kinase activity
+transferase activity
+transferase activity, transferring phosphorus-containing groups
+regulation of signaling
+signaling
+positive regulation of signaling
+enzyme regulator activity
+receptor regulator activity
+signaling receptor regulator activity
+signaling receptor activator activity
+positive regulation of protein binding
+signaling receptor activity
+positive regulation of catalytic activity
+regulation of protein binding
+positive regulation of molecular function
+receptor ligand activity
+positive regulation of biological process
+positive regulation of cellular process
+regulation of response to stimulus
+positive regulation of response to stimulus
+regulation of biological process
+regulation of catalytic activity
+regulation of cellular process
+response to stimulus
+regulation of binding
+positive regulation of binding
+regulation of transferase activity
+positive regulation of transferase activity
+cellular response to stimulus
+molecular transducer activity
+biological regulation
+regulation of molecular function
+molecular function regulator
+molecular function regulator activity
+regulation of receptor binding
+positive regulation of receptor binding
+positive regulation of signaling receptor activity
+conditional specification
+measurement unit label
+objective specification
+narrative object
+action specification
+obsolete_artifact
+datum label
+software
+obsolete2_digital entity
+journal article
+information carrier
+model number
+obsolete_material_entity
+obsolete2_binary digital entity
+obsolete_unit of measure
+programming language
+data item
+symbol
+numeral
+information content entity
+integer numeral
+scalar measurement datum
+directive information entity
+time trigger
+obsolete_study interpretation
+dot plot
+graph
+obsolete2_text based digital entity
+rule
+contour plot
+obsolete2_report figure
+algorithm
+software interpreter
+curation status specification
+density plot
+report
+obsolete_report element
+obsolete2_binary executable
+source code module
+obsolete_report table
+data format specification
+data set
+image
+data about an ontology part
+plan specification
+obsolete2_digital document
+measurement datum
+obsolete_identifier
+version number
+serial number
+lot number
+setting datum
+obsolete_digital quality
+conclusion textual entity
+material information bearer
+histogram
+heatmap
+Venn diagram
+obsolete_survival curve
+dendrogram
+scatter plot
+photograph
+photographic print
+obsolescence reason specification
+textual entity
+citation
+author identification
+institutional identification
+caption
+document title
+table
+table of abbreviations
+figure
+diagram
+document
+publication
+publication about an investigation
+patent
+document part
+abstract
+introduction to a publication about an investigation
+methods section
+results section
+discussion section of a publication about an investigation
+references section
+author list
+institution list
+author contributions section
+acknowledgements section
+footnote
+supplementary material to a document
+table of contents
+table of figures
+running title
+copyright section
+cartesian spatial coordinate datum
+one dimensional cartesian spatial coordinate datum
+two dimensional cartesian spatial coordinate datum
+three dimensional cartesian spatial coordinate datum
+length measurement datum
+denotator type
+mass measurement datum
+hypothesis textual entity
+time measurement datum
+postal address
+email address
+author role
+data item extraction from journal article
+publishing process
+document in preparation for publication
+documenting
+line graph
+assigning a centrally registered identifier
+associating information with a centrally registered identifier in its registry
+obsolete_establishing a CRID registry
+centrally registered identifier symbol
+centrally registered identifier
+centrally registered identifier registry
+looking up a centrally registered identifier
+time stamped measurement datum
+time sampled measurement data set
+written name
+software method
+software module
+software library
+software application
+software script
+abbreviation textual entity
+abbreviations section
+author information section
+author information textual entity
+author summary section
+author summary textual entity
+availability section
+availability textual entity
+case report section
+case report textual entity
+conclusion section
+conflict of interest section
+conflict of interest textual entity
+consent section
+consent textual entity
+ethical approval section
+ethical approval textual entity
+figures section
+funding source declaration section
+funding source declaration textual entity
+future directions section
+future directions textual entity
+genome announcement section
+genome announcement textual entity
+keyword textual entity
+keywords section
+study limitations section
+study limitations textual entity
+materials section
+notes section
+patients section
+patients textual entity
+pre-publication history section
+pre-publication history textual entity
+related work section
+related work textual entity
+requirements section
+requirements textual entity
+statistical analysis textual entity
+statistical analysis section
+tables section
+postal code
+Postal delivery route
+zone improvement plan code
+database extract, transform, and load process
+descriptive data section
+additional results section
+research participants section
+measurement methods section
+research settings section
+study bias section
+graphical abstract
+identifier
+ontology module
+base ontology module
+editors ontology module
+main release ontology module
+bridge ontology module
+import ontology module
+subset ontology module
+curation subset ontology module
+analysis subset ontology module
+single layer subset ontology module
+exclusion subset ontology module
+external import ontology module
+species subset ontology module
+reasoned ontology module
+generated ontology module
+template generated ontology module
+taxonomic bridge ontology module
+ontology module subsetted by expressivity
+obo basic subset ontology module
+ontology module subsetted by OWL profile
+EL++ ontology module
+root
+Viruses
+Glomerellales
+Eragrostis tef
+Teleostomi
+Euteleostomi
+Eupulmonata
+Ecdysozoa
+Lophotrochozoa
+Potexvirus
+Proteobacteria
+Gammaproteobacteria
+Agromyzidae
+Phytomyzinae
+Liriomyza
+Potato spindle tuber viroid
+Cenchrinae
+Streptophytina
+cellular organisms
+Dipnotetrapodomorpha
+Xanthomonadales
+Ipomovirus
+Cassava brown streak virus
+Cassava alphaflexivirus
+Boreoeutheria
+Mesangiospermae
+Petrosaviidae
+Pentapetalae
+Glycine subgen. Soja
+Oryzoideae
+Pooideae
+Panicoideae
+PACMAD clade
+Chloridoideae
+Oryzeae
+Triticeae
+Paniceae
+Andropogoneae
+Cynodonteae
+Eragrostideae
+Pezizomycotina
+Sordariomycetes
+Osteoglossocephalai
+Loricarioidei
+Polypodiidae &lt;ferns&gt;
+Boraginales
+Mucuna pruriens
+Mononychellus tanajoa
+Pentatomidae
+Cicereae
+Crotalarieae
+Dalbergieae
+Genisteae
+Phaseoleae
+Trifolieae
+Fabeae
+Hordeinae
+Oryzinae
+Sorghinae
+Tripsacinae
+Triticinae
+Andropogonodae
+Panicodae
+Triticodae
+Pospiviroidae
+Pospiviroid
+Coreidae
+Actinopteri
+Clupeocephala
+Otophysi
+Characiphysae
+Otomorpha
+Raphignathae
+Acrididea
+Auchenorrhyncha
+Pancrustacea
+Mandibulata
+Bunyavirales
+unclassified Bunyavirales
+Liriomyza trifolii
+Xanthomonas phaseoli
+Bacteria
+Astroblepus sp. white spot
+Coreinae
+Homininae
+Archaea
+Heterobranchia
+Euthyneura &lt;gastropods&gt;
+Helicina &lt;clade&gt;
+Hypocreomycetidae
+NPAAA clade
+genistoids sensu lato
+core genistoids
+dalbergioids sensu lato
+Pterocarpus clade
+50 kb inversion clade
+Hologalegina
+IRL clade
+indigoferoid/millettioid clade
+robinioid clade
+Diabroticina
+Diabroticites
+Rhizobium/Agrobacterium group
+Sinorhizobium/Ensifer group
+Crotonoideae
+Manihoteae
+Anasa
+Anasa tristis
+Polypodiopsida
+Astroblepus
+Negarnaviricota
+Polyploviricotina
+Ellioviricetes
+Riboviria
+Austropotamobius brown spot virus
+unclassified Astroblepus
+Ochrophyta
+Spiralia
+Sar
+Colletotrichum gloeosporioides species complex
+Equus intersubgeneric hybrids
+Lablab
+Orthornavirae
+Kitrinoviricota
+Pisuviricota
+Alsuviricetes
+Stelpaviricetes
+Patatavirales
+Chrysomelidae
+Eukaryota
+Bovinae
+Sinorhizobium
+Alphaproteobacteria
+Pentatominae
+Asopinae
+Phaeophyceae
+Podisus
+Podisus maculiventris
+Oulema melanopus
+Cicadellidae
+Pseudococcidae
+Astroblepidae
+Afrotheria
+Laurasiatheria
+Euarchontoglires
+Simiiformes
+Hominoidea
+Embryophyta
+Equus asinus x Equus caballus
+Xanthomonadaceae
+Salviniaceae
+Tetranychidae
+Tetranychus
+Tetranychus urticae
+Teleostei
+Ostariophysi
+Tetrapoda
+Amniota
+Theria &lt;mammals&gt;
+Viridiplantae
+Opisthokonta
+Metazoa
+Bilateria
+Protostomia
+Neoptera
+Polyneoptera
+Paraneoptera
+Prosorrhyncha
+Heteroptera
+Euheteroptera
+Neoheteroptera
+Panheteroptera
+Pentatomomorpha
+Pentatomoidea
+Cicadomorpha
+Membracoidea
+Sternorrhyncha
+Aphidomorpha
+Coccoidea
+Aphidoidea
+Endopterygota
+Deuterostomia
+Stramenopiles
+Xanthomonas
+Magnoliophyta
+Magnoliopsida
+Caryophyllales
+Streptophyta
+Pecora
+Hyphomicrobiales
+BOP clade
+Polygonaceae
+Malpighiales
+Mononychellus
+Brassicales
+Brassicaceae
+Raphanus
+Raphanus sativus
+Bradyrhizobium
+Bradyrhizobium japonicum
+Haplorrhini
+Rhizobium
+Fabaceae
+Mesorhizobium loti
+Coreoidea
+Papilionoideae
+Arachis
+Arachis hypogaea
+Sinorhizobium meliloti
+Cajanus
+Cajanus cajan
+Cicer
+Cicer arietinum
+Crotalaria
+Crotalaria juncea
+Rhizobium leguminosarum
+Eragrostis
+Glycine
+Glycine max
+Lathyrus
+Rhizobium leguminosarum bv. trifolii
+Lathyrus sativus
+Lens &lt;eudicots&gt;
+Lens culinaris
+Lupinus
+Medicago
+Medicago sativa
+Poales
+Phaseolus
+Phaseolus vulgaris
+Sesbania
+Trifolium
+Vicia
+Cassava common mosaic virus
+Vicia faba
+Vicia sativa
+Vigna
+Vigna unguiculata
+Azolla
+Potyviridae
+Euphorbiaceae
+Manihot
+Manihot esculenta
+Mucuna
+Dioscoreales
+Mammalia
+Solanales
+Solanaceae
+Solanum
+Polyphaga &lt;beetles&gt;
+Cucujiformia
+Solanum tuberosum
+Oulema
+Nitrobacteraceae
+Hydrophyllaceae
+Neopterygii
+Solanoideae
+Solaneae
+Xanthomonas phaseoli pv. manihotis
+Muscomorpha
+Schizophora
+Acalyptratae
+Opomyzoidea
+Liliopsida
+Poaceae
+Eleusine
+Eleusine coracana
+Hordeum
+Hordeum vulgare
+Dikarya
+Oryza
+Oryza sativa
+Cenchrus americanus
+Sorghum
+Triticum
+Triticum aestivum
+Zea
+Zea mays
+Cenchrus
+Chlorochroa
+Chlorochroa ligata
+Zingiberales
+Musaceae
+Musa
+Zingiberaceae
+Zingiber
+Dioscoreaceae
+commelinids
+Colletotrichum gloeosporioides
+Fungi
+Oomycota
+Peronosporales
+Peronosporaceae
+Phytophthora
+Phytophthora infestans
+Cyclorrhapha
+Eremoneura
+Ascomycota
+Diabrotica
+Insecta
+Colletotrichum
+Sesbanieae
+PX clade
+Tracheophyta
+Spermatophyta
+Eumetazoa
+Galerucinae
+Luperini
+Criocerinae
+Mollusca
+Gastropoda
+Stylommatophora
+Arionidae
+Arion
+Arthropoda
+Tymovirales
+Alphaflexiviridae
+Glomerellaceae
+Mesorhizobium
+Chelicerata
+Arachnida
+Phyllobacteriaceae
+Acari
+Acariformes
+Prostigmata
+Hexapoda
+Orthoptera
+Caelifera
+Coleoptera
+eudicotyledons
+asterids
+rosids
+Diptera
+Chrysomeloidea
+sordariomyceta
+saccharomyceta
+leotiomyceta
+Fabales
+Brachycera
+Salviniales
+Cutleriales
+Cutleriaceae
+Cutleria
+Cutleria multifida
+Pterygota &lt;insects&gt;
+Eragrostidinae
+Eleusininae
+Hemiptera
+Chordata
+Vertebrata &lt;vertebrates&gt;
+Gnathostomata &lt;vertebrates&gt;
+Trigonella
+Trigonella foenum-graecum
+Euphyllophyta
+Actinopterygii
+Phacelia
+Siluriformes
+Rhizobiaceae
+Sarcopterygii
+Trombidiformes
+Eleutherengona
+Tetranychoidea
+Dicondylia
+Arionoidea
+Panarthropoda
+Bubalus bubalis
+Craniata &lt;chordates&gt;
+Artiodactyla
+Gunneridae
+fabids
+malvids
+lamiids
+Eutheria
+unclassified Alphaflexiviridae
+Zingiber officinale
+Phacelia tanacetifolia
+Primates
+Catarrhini
+Hominidae
+Homo
+Homo sapiens
+Panpulmonata
+Proboscidea &lt;placentals&gt;
+Elephantidae
+Elephas
+Elephas maximus
+Perissodactyla
+Equidae
+Equus
+Equus asinus
+Equus caballus
+Brassiceae
+Tylopoda
+Camelidae
+Camelus
+Camelus dromedarius
+Ruminantia
+Bovidae
+Bos
+Bos taurus
+Bubalus
+planned process
+regulator role
+biological feature identification objective
+regulatory role
+material supplier role
+classified data set
+processed material
+investigation
+evaluant role
+assay
+material processing
+specimen role
+intervention design
+population
+investigation agent role
+organization
+organism feature identification objective
+protocol
+adding a material entity into a target
+material to be added role
+drawing a conclusion based on data
+planning
+averaging objective
+adding material objective
+assay objective
+target of material addition role
+regulatory agency
+material transformation objective
+manufacturing
+manufacturing objective
+study design execution
+manufacturer role
+clustered data set
+material combination
+specimen collection process
+class prediction data transformation
+center value
+average value
+specimen collection objective
+material combination objective
+support vector machine
+decision tree induction objective
+decision tree building data transformation
+GenePattern software
+peak matching
+k-nearest neighbors
+material sample role
+material sampling process
+material sample
+CART
+study design independent variable
+statistical model validation
+research organization
+manufacturer
+study intervention
+training process
+service provider role
+processed specimen
+training objective
+categorical label
+dose specification
+questionnaire
+genetic transformation objective
+age since planting measurement datum
+age since germination measurement datum
+age since sowing measurement datum
+age measurement datum
+selective organism creation objective
+selectively maintained organism
+disease state design
+strain comparison design
+rate measurement datum
+latitude coordinate measurement datum
+longitude coordinate measurement datum
+conclusion based on data
+categorical value specification
+scalar value specification
+value specification
+grant agency
+collection of specimens
+histologic grade according to AJCC 7th edition
+histologic grade according to the Fuhrman Nuclear Grading System
+histologic grade for ovarian tumor
+histologic grade for ovarian tumor according to a two-tier grading system
+histologic grade for ovarian tumor according to the World Health Organization
+pathologic primary tumor stage for colon and rectum according to AJCC 7th edition
+pathologic primary tumor stage for lung according to AJCC 7th edition
+pathologic primary tumor stage for kidney according to AJCC 7th edition
+pathologic primary tumor stage for ovary according to AJCC 7th edition
+pathologic lymph node stage for colon and rectum according to AJCC 7th edition
+pathologic lymph node stage for lung according to AJCC 7th edition
+pathologic lymph node stage for kidney according to AJCC 7th edition
+pathologic lymph node stage for ovary according to AJCC 7th edition
+pathologic distant metastases stage for colon according to AJCC 7th edition
+pathologic distant metastases stage for lung according to AJCC 7th edition
+pathologic distant metastases stage for kidney according to AJCC 7th edition
+pathologic distant metastases stage for ovary according to AJCC 7th edition
+clinical tumor stage group according to AJCC 7th edition
+International Federation of Gynecology and Obstetrics cervical cancer stage value specification
+International Federation of Gynecology and Obstetrics ovarian cancer stage value specification
+performance status value specification
+Eastern Cooperative Oncology Group score value specification
+Karnofsky score vaue specification
+material supplier
+organism
+organism
+specimen
+data transformation
+leave one out cross validation method
+k-means clustering
+hierarchical clustering
+dimensionality reduction
+principal components analysis dimensionality reduction
+data visualization
+data transformation objective
+averaging data transformation
+partitioning data transformation
+partitioning objective
+class discovery data transformation
+center calculation objective
+class discovery objective
+class prediction objective
+center calculation data transformation
+cross validation objective
+clustered data visualization
+pool of specimens
+study design
+randomized complete block design
+latin square design
+administering substance in vivo
+material to be added
+target of material addition
+disease
+disease course
+quality
+speed
+age
+color
+composition
+concentration of
+direction
+distance
+frequency
+hardness
+intensity
+morphology
+shape
+occurrence
+spatial pattern
+qualitative
+deviation (from_normal)
+amount
+phase
+sensitivity toward
+size
+height
+length
+mass
+weight
+orientation
+position
+structure
+temperature
+texture
+threshold
+rate
+time
+maturity
+fertility
+black
+white
+yellow
+hard
+flat
+decreased size
+decreased thickness
+rough
+thickness
+volume
+width
+grey
+brown
+opacity
+opaque
+transparent
+porosity
+porous
+viscosity
+viscous
+physical quality
+mass density
+energy
+pressure
+work
+efficiency
+force
+elongated
+linear
+process quality
+physical object quality
+light yellow
+electromagnetic (EM) radiation quality
+full-spectrum EM radiation quality
+radiation reflective quality
+albedo
+optical quality
+increased temperature
+decreased temperature
+duration
+area
+amorphous
+diameter
+area density
+linear density
+volumetric density
+convex
+structured
+unstructured
+medium acidity
+reproductive quality
+sensitivity to oxygen
+anaerobic
+electric potential
+proportionality to
+increased position
+decreased position
+sloped
+complexity
+complex
+flexibility
+inflexible
+quality of a solid
+quality of a gas
+quality of a liquid
+has number of
+increased mass
+flow rate
+conductivity
+curvature
+depth
+osmolarity
+increased osmolarity
+elevation
+increased elevation
+decreased elevation
+increased viscosity
+mature
+1-D extent
+2-D extent
+3-D extent
+shedability
+semi-deciduous(plant)
+radiation quality
+electrical conductivity
+granular
+multi-localised
+wetness
+wet
+dry
+acidity
+concave
+cylindrical
+movement quality
+frozen
+organismal quality
+concavity
+convex 3-D shape
+structure, cavities
+physical quality of a process
+stratification
+stratified
+hollow
+laminar
+sloped downward
+straight
+displaced
+molecular quality
+quality of a substance
+platelike
+flattened
+3-D shape
+tubular
+increased quality
+decreased quality
+decreased object quality
+increased object quality
+temporal distribution quality
+angle
+humidity
+increased humidity
+combustibility
+rate of occurence
+quality of interaction of a substance with electromagnetic radiation
+collection of organisms
+population of organisms
+ecological community
+single-species collection of organisms
+multi-species collection of organisms
+organismal entity
+plant exposure
+Glomeromycota exposure
+arbuscular mycorrhizal fungal exposure
+loam content exposure
+soil environment exposure
+soil texture exposure
+sand content exposure
+organic matter content exposure
+silt content exposure
+clay content exposure
+plant growth medium exposure
+abiotic plant exposure
+fungal plant exposure
+biotic plant exposure
+plant experimental condition
+whole plant
+ovule primordium
+gynoecium primordium
+shoot axis apex
+bud
+peripheral zone
+flower meristem
+inflorescence development stage
+meristematic cell
+rhizome
+shoot axis tuber
+shoot-borne shoot system
+epicormic shoot system
+subterranean shoot axis tuber
+carpel primordium
+axillary bud
+basal axillary shoot system
+shoot axis internode
+root primordium
+phyllome
+carpel anlagen
+shoot system meristem
+protoderm
+infructescence
+axillary shoot system
+whole plant development stage
+reproductive shoot apical meristem
+seedling
+fruit
+plant cell
+root
+shoot system
+portion of plant tissue
+plant organ
+plant embryo
+seed
+plant structure
+plant structure development stage
+portion of meristem tissue
+sporophyll
+megasporophyll
+carpel
+flower
+stem
+inflorescence
+inflorescence bract
+bract
+gynoecium
+plant ovule
+inflorescence axis
+ear inflorescence
+stem internode
+apical meristem
+shoot apical meristem
+cardinal organ part
+plant axis
+collective plant organ structure
+collective phyllome structure
+root system
+embryo plant cell
+shoot axis
+leaf
+stalk
+branch
+reproductive shoot system
+embryo plant structure
+second order infructescence axis
+primordium
+phyllome primordium
+plant anatomical entity
+reproductive shoot apex
+portion of embryo plant tissue
+second order infructescence
+infructescence axis
+higher order infructescence axis
+first order infructescence axis
+life of whole plant stage
+collective plant organ structure development stage
+floral organ
+phyllome anlagen
+root anlagen
+tuberous root tuber
+floral organ primordium
+bract anlagen
+bract primordium
+inflorescence bract primordium
+multi-tissue plant structure
+collective plant structure
+cardinal part of multi-tissue plant structure
+tuber
+tuberous root
+shoot system development stage
+bud development stage
+reproductive shoot system development stage
+ear infructescence
+pistillate inflorescence
+pistillate flower
+native plant cell
+ear infructescence axis
+sporophyte development stage
+legume fruit
+caryopsis fruit
+berry fruit
+pepo fruit
+spike inflorescence
+panicle inflorescence
+system
+panicle weight
+plant morphology trait
+panicle length
+root morphology trait
+grain moisture content
+plant embryo morphology trait
+shoot system morphology trait
+root dry weight
+root number
+harvest index
+leaf length
+relative biomass
+milled rice yield
+shoot axis internode length
+seed length
+seed width
+panicle number
+relative yield
+grain quality trait
+seed weight
+seed morphology trait
+plant height
+head rice yield
+pistil morphology trait
+root length
+moisture content trait
+leaf number
+100-grain weight
+inflorescence length
+biochemical trait
+root to shoot ratio
+root weight
+metabolite content trait
+shoot system yield trait
+plant dry weight
+stem morphology trait
+leaf width
+yield trait
+inflorescence morphology trait
+1000-grain weight
+plant trait
+forage yield
+seed size
+grain yield trait
+grain size
+whole plant morphology trait
+ear length
+plant fresh weight
+ear infructescence number
+fruit seed number
+grain yield per plant
+grain yield per panicle
+panicle to tiller ratio
+total biomass yield
+mineral and ion content trait
+carbon content
+leaf composition trait
+pigment content trait
+chlorophyll content
+flower morphology trait
+leaf weight
+leaf area trait
+leaf length to width ratio
+leaf nitrogen content
+rhizome number
+rhizome morphology trait
+shoot dry weight
+rhizome length
+rhizome dry weight
+shoot axis weight
+shoot fresh weight
+stem length
+root fresh weight
+inflorescence number
+infructescence weight
+average grain weight
+plant quality trait
+enzyme activity trait
+potassium content
+relative total dry weight
+spike width
+brown rice yield
+phytochemical compound content
+inflorescence height
+kernel row number per ear
+kernel row length
+starch yield
+grain length
+plant organ morphology trait
+plant axis morphology trait
+shoot axis morphology trait
+branch morphology trait
+tuber morphology trait
+subterranean shoot axis tuber morphology trait
+subterranean shoot axis tuber size
+subterranean shoot axis tuber mass
+phyllome morphology trait
+leaf morphology trait
+cardinal organ part morphology trait
+shoot axis internode morphology trait
+stem internode morphology trait
+inflorescence axis morphology trait
+inflorescence axis size
+reproductive shoot system morphology trait
+inflorescence weight
+inflorescence width
+multi-tissue plant structure morphology trait
+cardinal part of a multi-tissue plant structure morphology trait
+plant structure morphology trait
+collective plant structure morphology trait
+collective plant organ structure morphology trait
+portion of plant tissue morphology trait
+collective phyllome structure morphology trait
+panicle inflorescence morphology trait
+flower length
+floral organ morphology trait
+sporophyll morphology trait
+megasporophyll morphology trait
+leaf yield trait
+fruit yield trait
+leaf wet weight
+stem size
+fruit number trait
+fruit harvest index
+leaf harvest index
+seed harvest index
+seed yield trait
+grain weight
+infructescence morphology trait
+infructescence axis morphology trait
+cob weight
+ear weight
+seed quality trait
+infructescence yield trait
+kernel number per ear
+kernel number per row
+rank number per ear
+stem weight
+stem number
+cob length
+cob width
+cob area
+ear inflorescence morphology trait
+grain width
+ear infructescence morphology trait
+root system morphology trait
+leaf dry weight
+root to total biomass ratio
+exudate sap volume
+phosphorus content
+leaf phosphorus content
+relative harvest index
+stem width
+root yield
+root system width
+shoot axis tuber yield
+berry fruit morphology trait
+caryopsis fruit morphology trait
+legume fruit morphology trait
+berry fruit weight
+legume fruit weight
+pepo fruit morphology trait
+floral organ size
+pistil size
+pistil length
+floral organ length
+floral organ width
+fruit size
+fruit length
+fruit width
+fruit morphology trait
+leaf size
+pistil number
+seed phosphorus content
+plant cell morphology trait
+plant cell size
+fruit quality trait
+flower number trait
+fruit weight
+grain number
+stem fresh weight
+stem dry weight
+infructescence fresh weight
+infructescence dry weight
+fruit fresh weight
+fruit dry weight
+second order infructescence morphology trait
+hand fresh weight
+hand dry weight
+tuberous root tuber weight
+tuberous root tuber fresh weight
+tuberous root tuber dry weight
+subterranean shoot axis tuber fresh weight
+subterranean shoot axis tuber dry weight
+grain fresh weight
+grain dry weight
+100-grain fresh weight
+100-grain dry weight
+1000-grain fresh weight
+1000-grain dry weight
+panicle fresh weight
+panicle dry weight
+ear fresh weight
+ear dry weight
+cob fresh weight
+cob dry weight
+spike weight
+spike fresh weight
+spike dry weight
+legume fruit dry weight
+legume fruit fresh weight
+pepo fruit weight
+pepo fruit fresh weight
+pepo fruit dry weight
+leaf moisture content
+stem moisture content
+root moisture content
+plant moisture content
+shoot moisture content
+infructescence moisture content
+pepo fruit moisture content
+second order infructescence moisture content
+tuberous root tuber moisture content
+subterranean shoot axis tuber moisture content
+legume fruit moisture content
+panicle moisture content
+ear moisture content
+cob moisture content
+spike moisture content
+leaf potassium content
+stem potassium content
+infructescence potassium content
+pepo fruit potassium content
+second order infructescence potassium content
+tuberous root tuber potassium content
+subterranean shoot axis tuber potassium content
+grain potassium content
+panicle potassium content
+ear potassium content
+cob potassium content
+spike potassium content
+legume fruit potassium content
+stem nitrogen content
+infructescence nitrogen content
+pepo fruit nitrogen content
+second order infructescence nitrogen content
+tuberous root tuber nitrogen content
+subterranean shoot axis tuber nitrogen content
+grain nitrogen content
+panicle nitrogen content
+ear nitrogen content
+cob nitrogen content
+spike nitrogen content
+legume fruit nitrogen content
+root nitrogen content
+stem phosphorus content
+infructescence phosphorus content
+pepo fruit phosphorus content
+second order infructescence phosphorus content
+tuberous root tuber phosphorus content
+subterranean shoot axis tuber phosphorus content
+grain phosphorus content
+panicle phosphorus content
+ear phosphorus content
+cob phosphorus content
+spike phosphorus content
+legume fruit phosphorus content
+leaf carbon content
+stem carbon content
+root carbon content
+infructescence carbon content
+pepo fruit carbon content
+second order infructescence carbon content
+tuberous root tuber carbon content
+subterranean shoot axis tuber carbon content
+grain carbon content
+panicle carbon content
+ear carbon content
+cob carbon content
+spike carbon content
+legume fruit carbon content
+carpel morphology trait
+carpel number
+inflorescence size
+panicle inflorescence size
+plant width
+leaf area index
+leaf chlorophyll content
+grain weight to panicle weight ratio
+shoot system potassium content
+metabolized energy of stover
+stover nitrogen content
+nitrogen content
+plant cell length
+shoot system phosphorus content
+ethanol yield from biomass
+tuberous root tuber morphology trait
+whole plant size
+root system potassium content
+root system phosphorus content
+anatomical structure
+organ
+external ectoderm
+blastula
+material anatomical entity
+anatomical system
+multicellular organism
+acellular anatomical structure
+anatomical cluster
+tissue
+epithelium
+multilaminar epithelium
+unilaminar epithelium
+embryo
+germ layer
+ectoderm
+anatomical entity
+embryonic structure
+integumental system
+epiblast (generic)
+surface structure
+ectoderm-derived structure
+embryonic tissue
+developing anatomical structure
+acellular membrane
+basement membrane of epithelium
+presumptive structure
+presumptive ectoderm
+shell
+cleaving embryo
+outer epithelium
+enveloping layer of ectoderm
+multicellular anatomical structure
+germ layer / neural crest
+ecto-epithelium
+unit
+length unit
+mass unit
+time unit
+electric current unit
+temperature unit
+substance unit
+luminous intensity unit
+base unit
+prefix
+area unit
+acceleration unit
+angular velocity unit
+angular acceleration unit
+concentration unit
+mass density unit
+luminance unit
+area density unit
+molar mass unit
+molar volume unit
+momentum unit
+rotational frequency unit
+specific volume unit
+speed/velocity unit
+unit of molarity
+unit of molality
+unit of normality
+volume unit
+frequency unit
+force unit
+pressure unit
+energy unit
+power unit
+illuminance unit
+luminous flux unit
+catalytic activity unit
+angle unit
+plane angle unit
+solid angle unit
+radiation unit
+activity (of a radionuclide) unit
+absorbed dose unit
+dose equivalent unit
+exposure unit
+irradiance unit
+light unit
+radiant intensity unit
+radiance unit
+parts per notation unit
+unit per volume unit
+density unit
+linear density unit
+dimensionless unit
+percent
+count unit
+ratio
+fraction
+cell concentration unit
+catalytic (activity) concentration unit
+volume per unit volume
+plaque forming unit per volume
+electric potential difference unit
+electric charge
+magnetic flux unit
+magnetic flux density unit
+information unit
+image resolution unit
+spatial resolution unit
+surface tension unit
+viscosity unit
+conduction unit
+electrical conduction unit
+heat conduction unit
+electric field strength unit
+volumetric flow rate unit
+rate unit
+giga
+mega
+kilo
+deci
+milli
+centi
+micro
+nano
+pico
+femto
+atto
+dose unit
+ton per hectare
+meter based unit
+second based unit
+ampere based unit
+kelvin based unit
+mole based unit
+candela based unit
+angstrom based unit
+gram based unit
+degree Celsius based unit
+minute based unit
+hour based unit
+day based unit
+week based unit
+month based unit
+year based unit
+molar based unit
+molal based unit
+normal based unit
+mole fraction based unit
+meter per second per second based unit
+radian per second per second based unit
+radian per second based unit
+square meter based unit
+square centimeter based unit
+square millimeter based unit
+gram per cubic centimeter based unit
+candela per square meter based unit
+gram per mole based unit
+cubic meter per mole based unit
+cubic centimeter per mole based unit
+turns per second based unit
+cubic meter per kilogram based unit
+meter per second based unit
+cubic meter based unit
+cubic centimeter based unit
+liter based unit
+cubic decimeter based unit
+hertz based unit
+newton based unit
+pascal based unit
+joule based unit
+watt based unit
+lux based unit
+lumen based unit
+katal based unit
+radian based unit
+steradian based unit
+becquerel based unit
+curie based unit
+gray based unit
+rad based unit
+roentgen based unit
+sievert based unit
+Roentgen equivalent man based unit
+disintegrations per minute based unit
+counts per minute based unit
+century based unit
+half life based unit
+foot candle based unit
+watt per square meter based unit
+einstein per square meter per second based unit
+watt per steradian per square meter based unit
+watt per steradian based unit
+mass percentage based unit
+mass volume percentage based unit
+volume percentage based unit
+parts per hundred based unit
+parts per thousand based unit
+parts per million based unit
+parts per billion based unit
+parts per trillion based unit
+parts per quadrillion based unit
+gram per milliliter based unit
+gram per liter based unit
+unit per milliliter based unit
+unit per liter based unit
+mass per unit volume based unit
+enzyme unit based unit
+degree based unit
+pi based unit
+molecule count based unit
+purity percentage based unit
+confluence percentage based unit
+degree Fahrenheit based unit
+pH based unit
+liter per kilogram based unit
+cells per milliliter based unit
+katal per cubic meter based unit
+katal per liter based unit
+gram per deciliter based unit
+colony forming unit based unit
+plaque forming unit based unit
+colony forming unit per milliliter based unit
+plaque forming unit per milliliter based unit
+disintegrations per second based unit
+volt based unit
+coulomb based unit
+dalton based unit
+watt-hour based unit
+weber based unit
+tesla based unit
+volt-hour based unit
+bit based unit
+byte based unit
+chroma sampling unit based unit
+dynamic range unit based unit
+dots per inch based unit
+pixels per inch based unit
+pixels per millimeter based unit
+base pair based unit
+kibibyte based unit
+mebibyte based unit
+newton per meter based unit
+dyne per cm based unit
+pascal second based unit
+poise based unit
+effective dose unit based unit
+siemens based unit
+watt per meter kelvin based unit
+electronvolt based unit
+volt per meter based unit
+absorbance unit based unit
+count per nanomolar second based unit
+count per molar second based unit
+count per nanomolar based unit
+count per molar based unit
+dosage unit based unit
+relative light unit based unit
+relative luminescence unit based unit
+relative fluorescence unit based unit
+square micrometer based unit
+hectare based unit
+inch based unit
+thou based unit
+foot based unit
+yard based unit
+chain based unit
+furlong based unit
+mile based unit
+league based unit
+maritime length unit based unit
+fathom based unit
+cable based unit
+nautical mile based unit
+perch based unit
+rood based unit
+acre based unit
+fluid ounce based unit
+gill based unit
+pint based unit
+quart based unit
+gallon based unit
+grain based unit
+drachm based unit
+ounce based unit
+pound based unit
+stone based unit
+quarter based unit
+hundredweight based unit
+ton based unit
+slug based unit
+teaspoon based unit
+gram per square meter based unit
+large calorie based unit
+gray per minute based unit
+experimental condition
+Obsolete Class
+example to be eventually removed
+failed exploratory term
+metadata complete
+organizational term
+ready for release
+metadata incomplete
+uncurated
+pending final vetting
+obsolete_core
+placeholder removed
+terms merged
+term imported
+term split
+obsolete_other
+universal
+defined class
+named class expression
+to be replaced with external ontology term
+requires discussion
+geographic location
+meter
+kilogram
+second
+ampere
+kelvin
+mole
+candela
+centimeter
+millimeter
+micrometer
+nanometer
+angstrom
+picometer
+gram
+milligram
+microgram
+nanogram
+picogram
+femtogram
+degree Celsius
+millisecond
+microsecond
+picosecond
+minute
+hour
+day
+week
+month
+year
+milliampere
+microampere
+micromole
+millimole
+nanomole
+picomole
+femtomole
+attomole
+molar
+millimolar
+micromolar
+nanomolar
+picomolar
+molal
+millimolal
+micromolal
+nanomolal
+picomolal
+femtomolar
+normal
+mole fraction
+meter per second per second
+radian per second per second
+radian per second
+square meter
+square centimeter
+square millimeter
+kilogram per cubic meter
+gram per cubic centimeter
+candela per square meter
+kilogram per square meter
+kilogram per mole
+gram per mole
+cubic meter per mole
+cubic centimeter per mole
+kilogram meter per second
+turns per second
+cubic meter per kilogram
+meter per second
+cubic meter
+cubic centimeter
+milliliter
+liter
+cubic decimeter
+microliter
+nanoliter
+picoliter
+femtoliter
+hertz
+newton
+pascal
+joule
+watt
+lux
+lumen
+katal
+radian
+steradian
+becquerel
+curie
+gray
+rad
+roentgen
+sievert
+millisievert
+microsievert
+Roentgen equivalent man
+microgray
+milligray
+nanogray
+nanosievert
+millicurie
+microcurie
+disintegrations per minute
+counts per minute
+nanosecond
+century
+half life
+foot candle
+watt per square meter
+einstein per square meter per second
+watt per steradian per square meter
+microeinstein per square meter per second
+watt per steradian
+mass percentage
+mass volume percentage
+volume percentage
+parts per hundred
+parts per thousand
+parts per million
+parts per billion
+parts per trillion
+parts per quadrillion
+gram per milliliter
+kilogram per liter
+gram per liter
+milligram per milliliter
+unit per milliliter
+unit per liter
+mass per unit volume
+enzyme unit
+kilogram per meter
+degree
+pi
+molecule count
+purity percentage
+confluence percentage
+degree Fahrenheit
+pH
+liter per kilogram
+milliliter per kilogram
+microliter per kilogram
+cells per milliliter
+katal per cubic meter
+katal per liter
+milliliter per cubic meter
+milliliter per liter
+gram per deciliter
+deciliter
+colony forming unit
+plaque forming unit
+colony forming unit per volume
+colony forming unit per milliliter
+plaque forming unit per milliliter
+disintegrations per second
+volt
+coulomb
+dalton
+kilodalton
+watt-hour
+kilowatt-hour
+weber
+tesla
+volt-hour
+kilovolt-hour
+bit
+byte
+kilobyte
+megabyte
+chroma sampling unit
+dynamic range unit
+dots per inch
+micron pixel
+pixels per inch
+pixels per millimeter
+base pair
+kibibyte
+mebibyte
+millivolt
+kilovolt
+microvolt
+nanovolt
+picovolt
+megavolt
+newton per meter
+dyne per cm
+pascal second
+poise
+decibel
+effective dose unit
+siemens
+watt per meter kelvin
+electronvolt
+volt per meter
+absorbance unit
+microliters per minute
+millimetres of mercury
+milligram per liter
+microgram per milliliter
+nanogram per milliliter
+milliunits per milliliter
+count per nanomolar second
+count per molar second
+kilogram per hectare
+count per nanomolar
+count per molar
+microgram per liter
+milligram per kilogram
+milligram per square meter
+dosage unit
+milligram per kilogram per day
+relative light unit
+relative luminescence unit
+relative fluorescence unit
+megaHertz
+centiMorgan
+centiRay
+mega base pair
+giga base pair
+square micrometer
+millisiemens
+micromole per litre
+micromole per kilogram
+millimeters per day
+kilometer per hour
+milli
+hectare
+inch
+thou
+foot
+yard
+chain
+furlong
+mile
+league
+maritime length unit
+fathom
+cable
+nautical mile
+perch
+rood
+acre
+fluid ounce
+gill
+pint
+quart
+gallon
+grain
+drachm
+ounce
+pound
+stone
+quarter
+hundredweight
+ton
+slug
+teaspoon
+micromole
+gram per square meter
+nanogram per microliter
+large calorie
+micrograms per wheaton bottle
+picoampere
+centigray
+gigaelectronvolt
+gigaelectronvolt per nucleon
+megaelectronvolt per nucleon
+kiloelectronvolt per micron
+gray per minute
+centigray per minute
+milligray per minute
+milligray per day
+milligray per hour
+milligray per second
+infer input from direct reg
+enabling an MF enables its parts
+involved in BP
+From ligand activity to has_ligand
+inferring direct reg edge from input to regulatory subfunction
+inferring direct neg reg edge from input to regulatory subfunction
+inferring direct positive reg edge from input to regulatory subfunction
+From has_ligand to ligand activity
+effector input is compound function input
+Input of effector is input of its parent MF
+if effector directly negatively regulates X,  its parent MF directly negatively regulates X
+&apos;causally downstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).
+&apos;causally upstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).

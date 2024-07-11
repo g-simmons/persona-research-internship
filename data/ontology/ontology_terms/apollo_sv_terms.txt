@@ -1,0 +1,2201 @@
+NLM ID
+ISSN Linking
+ISO Title Abbreviation
+NLM Title Abbreviation
+URI creation date
+author list &lt;annotation&gt;
+source code repository URL
+human readable synopsis
+BFO OWL specification label
+BFO CLIF specification label
+hasURL
+US State Two Digit Identifier
+US State Two Letter Abbreviation
+US State Ens Identifier
+UN Numerical Code
+ISO 3166-1-alpha-3 code
+ISO 3166-1-alpha-2 code
+Proposed Apollo Location Code
+ISO 3166-2 code
+geonameid
+admin1 code
+admin2 code
+admin3 code
+admin4 code
+editor preferred label
+editor preferred label
+editor preferred term
+editor preferred term
+editor preferred term~editor preferred label
+example of usage
+example of usage
+in branch
+has curation status
+has curation status
+definition
+definition
+textual definition
+editor note
+editor note
+definition editor
+definition editor
+term editor
+term editor
+A label for a class or property that can be used to refer to the class or property instead of the preferred rdfs:label. Alternative labels should be used to indicate community- or context-specific labels, abbreviations, shorthand forms and the like.
+alternative label
+alternative term
+alternative term
+definition source
+definition source
+has obsolescence reason
+curator note
+curator note
+term tracker item
+ontology term requester
+is denotator type
+imported from
+expand expression to
+expand assertion to
+first order logic expression
+antisymmetric property
+OBO foundry unique label
+has ID digit count
+has ID range allocated to
+has ID policy for
+has ID prefix
+elucidation
+has associated axiom(nl)
+has associated axiom(fol)
+is allocated id range
+retired from use as of
+has ontology root term
+may be identical to
+scheduled for obsoletion on or after
+has axiom label
+IUI
+term replaced by
+ISA alternative term
+NIAID GSCID-BRC alternative term
+logical characteristic of object property
+defined by construct
+temporal interpretation
+temporal interpretation
+is a defining property chain axiom
+is a defining property chain axiom where second argument is reflexive
+STATO alternative term
+external_definition
+homology_notes
+Unique Apollo Label
+has_rank
+eco subset
+Creator
+Source
+Source
+dc:type
+has_alternative_id
+has broad synonym
+has_broad_synonym
+database_cross_reference
+has_definition
+has exact synonym
+has_exact_synonym
+has narrow synonym
+has_narrow_synonym
+has_obo_namespace
+has related synonym
+has_related_synonym
+id
+in_subset
+shorthand
+ontology IUI
+ontology version IUI
+label
+label
+basis of
+obsolete is based on
+commissions
+instantiates
+simulates
+causally_precedes
+obsoleted_administrated by
+has basis in
+part of
+part of
+part_of
+has part
+has part
+is realized by
+realized in
+realizes
+preceded by
+precedes
+occurs in
+occurs in
+unfolds_in
+contains process
+is aggregate of
+occupies spatial region at some time
+exists at
+has continuant part at all times
+has proper continuant part at all times
+has material basis at all times
+has occurrent part
+has proper occurrent part
+has temporal part
+has spatial occupant at some time
+part of occurrent
+proper temporal part of
+proper part of continuant at all times
+proper part of occurrent
+temporal part of
+occupies temporal region
+has temporal occupant
+during which exists
+has participant at all times
+specifically depends on at some time
+part of continuant at all times
+has proper temporal part
+history of
+has history
+has continuant part at all times that part exists
+is in aggregate
+is subordinate authority of
+has jurisdiction in
+has measurement unit label
+obsolete_specifically denotes
+is about
+is about
+mentions
+mentioned by
+denotes
+obsolete_materially denotes
+is quality measurement of
+obsolete_describes
+obsolete_represents
+denoted by
+has coordinate unit label
+is duration of
+is quality measured as
+is quality specification of
+quality is specified as
+has time stamp
+has measurement datum
+obsolete_designates
+is_borrowed_reference_to
+is_fixing_reference_to
+is designated by
+results_in
+has_specified_input
+is_specified_input_of
+has_specified_output
+is_specified_output_of
+is_specified_output_of
+achieves_planned_objective
+has value specification
+owns
+is owned by
+is enrolled in school
+is admitted to hospital
+characteristic of
+inheres in
+bearer of
+bearer_of
+has characteristic
+has characteristic
+is bearer of
+participates in
+has participant
+has participant
+has_participant
+has_participant
+is concretized as
+concretizes
+function of
+quality of
+role of
+has function
+has quality
+has role
+has disposition
+disposition of
+derives from
+derives into
+location of
+located in
+2D boundary of
+has 2D boundary
+has regulatory component activity
+has negative regulatory component activity
+has positive regulatory component activity
+has component activity
+has component process
+directly regulated by
+directly negatively regulated by
+directly positively regulated by
+has effector activity
+during which ends
+ends after
+immediately preceded by
+immediately_preceded_by
+immediately precedes
+immediately_precedes
+ends during
+overlaps
+spatially disjoint from
+has component
+regulates
+negatively regulates
+positively regulates
+capable of
+capable of part of
+has active participant
+obsolete has active participant
+adjacent to
+temporal relation
+temporally related to
+starts
+starts with
+ends
+ends with
+has start location
+has end location
+has input
+acts upstream of
+acts upstream of or within
+results in formation of
+causally upstream of, positive effect
+causally upstream of, negative effect
+characteristic of part of
+mereotopologically related to
+colocalizes with
+enables
+functionally related to
+part of structure that is capable of
+involved in
+enabled by
+enabled by
+regulated by
+negatively regulated by
+positively regulated by
+member of
+has member
+input of
+spatially coextensive with
+causally downstream of
+immediately causally downstream of
+indirectly positively regulates
+indirectly negatively regulates
+causally related to
+causally upstream of
+immediately causally upstream of
+causally upstream of or within
+causally downstream of or within
+involved in regulation of
+involved in positive regulation of
+involved in negative regulation of
+involved in or involved in regulation of
+is active in
+interacts with
+molecularly interacts with
+phosphorylates
+directly regulates activity of
+directly negatively regulates activity of
+directly positively regulates activity of
+helper property (not for use in curation)
+has part that occurs in
+is kinase activity
+causal agent in process
+causal relation between processes
+depends on
+causal relation between entities
+causally influenced by
+interaction relation helper property
+molecular interaction relation helper property
+causally influences
+directly regulates
+has part structure that is capable of
+causal relation between material entity and a process
+capable of regulating
+capable of negatively regulating
+capable of positively regulating
+process has causal agent
+directly positively regulates
+directly negatively regulates
+realized in response to stimulus
+enables subfunction
+acts upstream of or within, positive effect
+acts upstream of or within, negative effect
+acts upstream of, positive effect
+acts upstream of, negative effect
+causally upstream of or within, negative effect
+causally upstream of or within, positive effect
+DEPRECATED inheres in
+DEPRECATED bearer of
+realized in response to
+generically depends on
+is carrier of
+regulates activity of
+indirectly causally upstream of
+indirectly regulates
+device utilizes material
+regulates characteristic
+positively regulates characteristic
+negatively regulates characteristic
+obsolete has_disposition
+negatively_regulates
+obsolete_realized_by
+regulates
+ObsoleteProperty
+obsolete has proper part
+is expressed as
+has measurement value
+has x coordinate value
+has z coordinate value
+has y coordinate value
+Aedes albopictus
+purely intentional entity
+epidemic model
+basic reproduction number
+population immunity survey
+simulating of process of type X
+simulation requester identifier
+simulation software application
+software development
+simulator developer identifier
+simulator identifier
+control strategy reactive start time information
+simulation time step value
+simulator version identifier
+simulation time step unit
+simulation run length
+infectious period duration
+latent period duration
+count of simulated susceptible population
+count of simulated exposed population
+count of simulated contagious population
+count of simulated resistant population
+count of simulated population
+vaccination dose schedule
+vaccination compliance
+vaccination efficacy
+facility survey
+school facility census
+infectious disease control strategy execution
+hospital patient population
+simulated population
+count
+counting
+simulation of organism
+normal distribution
+simulation of exposed organism
+simulated population location identifier
+simulation of infectious organism
+simulation of recovered organism
+simulation of disease
+reproduction number
+nursery school student population
+obsolete asymptomatic infection fraction
+vaccine supply schedule
+vaccination administration capacity
+antiviral treatment efficacy
+antiviral efficacy delay
+antiviral compliance
+antiviral supply schedule
+antiviral administration schedule
+simulation of organism awaiting control measure
+complete simulator identifier
+epidemic simulating
+hospital patient population census
+simulation of organism not awaiting control measure
+simulation of organism awaiting effect of control measure
+simulation of antiviral control measure
+simulation of vaccination control measure
+primary school student population
+simulation of control measure participant
+simulation time series
+simulation identifier numeral
+simulation of time step
+simulation time step action specification
+time step identifying numeral
+simulation
+obsolete simulation of population location
+simulation of susceptible organism
+simulation of symptomatic organism
+simulation of asymptomatic organism
+infectious disease control objective specification
+μ
+σ
+beta distribution
+deprecated log normal distribution
+uniform distribution
+triangular distribution
+Bayesian network
+temporal Bayesian network
+control strategy dose schedule
+age data in age brackets data set
+infectious disease control strategy
+count of susceptible population
+count of contacted population
+measured vaccination efficacy
+vaccination efficacy study design execution
+obsolete immune
+95% confidence interval
+Bayesian credible interval
+community
+deprecated discrete probability distribution
+obsolete unit of measure
+ecosystem
+count of contagious population
+count of resistant population
+abiotic ecosystem
+fixed control strategy start time specification
+control strategy reactive endpoint fraction
+biotic ecosystem
+software developer identifier
+complete software identifier
+atmosphere
+software version identifier
+software identifier
+atmosphere of geographical region
+obsolete educational institution
+school closure target facilities
+infection
+infection acquisition
+vaccine identifier
+latent period
+vaccination identifier
+vaccination course
+species
+antiviral identifier
+school closure control strategy
+school closure duration
+school calendar
+control strategy target facilities
+control strategy target populations and prioritization
+control strategy target population fraction
+obsolete Reactive control measure
+reactive control strategy test
+reactive control strategy threshold
+secondary school student population
+control strategy response delay
+ascertainment delay
+ascertainment fraction
+vaccination control strategy
+vaccine valence
+antiviral course
+control strategy compliance
+infectious period
+protect against effect of pathogen
+vaccination
+vaccine disposition
+disposition to become contaminated with a pathogen
+resistance to infection
+beta
+inter-personal contact probability
+random number seed
+susceptibility measurement datum
+vaccination reactive end point fraction
+immune resistance to infection
+population survey
+population census
+exposed population
+population infection survey
+contagious population
+population infection and immunity census
+population demographic survey
+population demographic census
+obsolete contamination
+MIDAS scenario
+MIDAS scenario representation
+recovered population
+agent-level ecosystem data generation
+agent-level ecosystem census
+contaminated thing
+contamination acquisition
+nursery school student population census
+primary school student population census
+secondary school student population census
+antiviral treatment
+susceptibility
+census
+disease transmission model
+obsolete school organization
+school student population census
+school student population
+simulator configuration
+obsolete student role
+antiviral control strategy
+contagiousness
+simulator time specification
+infectious disease scenario
+scenario date
+contamination
+population treatment census
+population and environment census
+control strategy inventory census
+contagious organism
+transmission coefficient
+obsolete vaccination efficacy measured
+vaccination efficacy inferred
+individual treatment control strategy
+target population
+ring vaccination individual treatment control strategy
+agent level population and environment census
+agent model ecosystem census description
+compartment model population and environment census
+population strata definition
+contaminated thing census
+indexable Apollo item
+NCBI taxon identifier
+disease outcome
+susceptible organism
+immune organism
+resistant organism
+control strategy start time information
+infected organism
+apollo simulator configuration
+transmission probability
+treatment administration capacity schedule
+treatment supply schedule
+vaccination efficacy for simulator configuration
+probability distribution
+discrete probability distribution
+infection state data item
+vaccination preventable outcome
+Apollo pathogen code
+abiotic ecosystem element
+immune population acting like immune
+immune population acting like not immune
+becoming asymptomatic
+becoming symptomatic
+becoming severely symptomatic
+infectiousness profile
+infectious disease treatment efficacy
+border control strategy
+place closure control strategy
+case isolation control strategy
+travel restriction control strategy
+clade name
+infected population
+susceptible population
+immune population
+asymptomatic host
+pathogen
+host organism
+infectious disease
+census reference date
+age range category
+name of temporal interval
+duration
+disease unique identifier
+conditional probability distribution
+joint probability distribution
+unconditional probability distribution
+obsolete parametric probability distribution
+nonparametric probability distribution
+discrete parametric probability distribution
+continuous parametric probability distribution
+discrete nonparametric probability distribution
+continuous nonparametric probability distribution
+log normal distribution
+gamma distribution
+Weibull Distribution
+continuous uniform distribution
+delay from symptoms to treatment
+apollo location code
+control strategy stop time information
+infectious disease control strategy trigger definition
+contamination probability
+control strategy stand-down delay
+infection acquisition from contaminated thing
+infection acquisition from infectious host
+disease surveillance capability
+time delay to case detection
+time scale name
+disease surveillance trigger definition
+treatment surveillance trigger definition
+temporal trigger definition
+time since time scale zero
+seasonal function parameter
+maximum seasonal latitude
+minimum seasonal latitude
+seasonal temporal offset
+sensitivity of case detection
+probability of entry into a country is denied
+probability of exit from a country is denied
+duration of treatment course
+number of doses in a treatment course
+target populations and prioritizations information
+school transmission multiplier
+household transmission multiplier
+workplace transmission multiplier
+close individual places independently strategy
+place closure period
+community transmission multiplier
+maximum travel distance in km information
+treatment preventable outcome
+time delay of treatment detection
+individual treatment strategy supply schedule unit of measure
+individual treatment strategy administration capacity unit of measure
+agent-based disease transmission model
+reactive control strategy threshold unit of measure
+case definition
+obsolete quarantine period
+epidemic
+immune organism that acts like it is immune
+immune organism that acts like it is not immune
+naturally-acquired active immune resistance
+recovered organism
+compartmental disease transmission model
+anti-infective individual treatment control strategy
+anti-bacterial control strategy
+infection in ecosystem
+endemic
+vector control strategy
+abiotic ecosystem census
+vector control action specification
+Breteau Index
+individual mosquito reproduction
+gonotrophic cycle duration
+gonotrophic cycle
+oviposition site census
+obsolete carrying capacity per house
+incubation period
+drug treatment
+voluntary household quarantine control strategy
+liberal sick leave control strategy
+epidemic investigation design
+quarantine control strategy
+larvicide control strategy
+colonization
+infection in population
+colonization acquisition
+decolonization control strategy
+infection acquistion from self colonization
+chemical resistance to infection
+resistance to malaria infection
+ectosymbiosis
+antagonism
+amensalism
+agonism
+intimate agonism
+ectosymbiotic parasitism
+facultative ectosymbiotic parasitism
+obligatory ectosymbiotic parasitism
+ectosymbiotic parasitoidism
+facultative ectosymbiotic parasitoidism
+obligatory ectosymbiotic parasitoidism
+ectosymbiotic commensalism
+facultative ectosymbiotic commensalism
+obligatory ectosymbiotic commensalism
+ectosymbiotic mutualism
+facultative ectosymbiotic mutualism
+obligatory ectosymbiotic mutualism
+endosymbiosis
+endosymbiotic parasitism
+transient agonism
+predation
+grazing
+facultative endosymbiotic parasitism
+obligatory endosymbiotic parasitism
+endosymbiotic parasitoidism
+facultative endosymbiotic parasitoidism
+obligatory endosymbiotic parasitoidism
+endosymbiotic commensalism
+facultative endosymbiotic commensalism
+obligatory endosymbiotic commensalism
+endosymbiotic mutualism
+facultative endosymbiotic mutualism
+obligatory endosymbiotic mutualism
+deprecated homeostasis
+bodily harm
+bodily benefit
+parasite
+parasitoid
+target population definition
+name of a temporal boundary
+location definition
+treatment contraindication
+uncertain duration
+fraction of contaminated thing
+specificity of case detection
+specificity of treatment detection
+sensitivity of treatment detection
+fixed duration
+real time span category definition
+real date span category definition
+census objective specification
+census plan specification
+census taking
+Wolbachia vector control strategy
+indoor residual spraying vector control strategy
+container reduction vector control strategy
+treatment system logistics
+treatment surveillance capability
+name of temporal region
+population serology survey
+infection case list
+infection case record
+deprecated infection case count
+epidemic interval
+individual mosquito behavior
+individual human behavior
+transmission tree
+infectiousness
+potentially infectious contacting
+potentially infectious contact role
+contacted organism
+contact definition
+ring individual treatment control strategy
+Wolbachia release site
+Wolbachia every nth site release action specification
+leakage rate of Wolbachia infection in mosquito population infected with Wolbachia
+transmission rate of pathogen to human from Wolbachia-infected mosquito bites
+adult vector control strategy
+Wolbachia prerelease adult vector control strategy
+Wolbachia prerelease larvicide vector control strategy
+life stages with duration and mortality
+Wolbachia effect on egg mortality rate in mosquito population
+Wolbachia effect on adult mortality rate in mosquito population
+Wolbachia effect on larval mortality rate in mosquito population
+Wolbachia effect on female fecundity in mosquito population
+confidence interval
+Wolbachia release interval
+mean with confidence interval
+mean with standard deviation
+number of Wolbachia-infected mosquitoes released per house
+clear Wolbachia upon vector migration
+disease outcome with probability
+date
+ring diameter in meters
+Wolbachia effect on mating probability
+minimum value
+maximum value
+statistical confidence
+closure period
+lower bound
+fraction of vector adults affected
+fraction reduction of eggs
+fraction reduction of larvae
+vector bite radius
+time between vector bites
+migration speed
+shade affinity
+movement speed
+mortality rate
+ratio of outdoor to indoor ovisites
+upper bound
+standard deviation
+quarantine period
+mosquito mating probability
+affinity for buildings
+linear distance travelled between oviposits
+eggs per brood
+efficacy
+prodromal period
+fulminant period
+vector bite probability
+male mosquito mating radius
+infectious disease control strategy cover radius
+species of treated organism
+drug identifier
+mean median minimum maximum summary statistics data structure
+heterogenous carrying capacity
+seed site
+seed release interval
+vector release site action specification
+number of artificially-infected vectors released per house
+clear infection upon vector migration
+SNOMED concept identifier
+probability
+minimum eggs per oviposition site
+age-dependent fecundity reduction
+carrying capacity per house
+reactive control measure operator
+gonotrophic period duration
+description
+parametric probability distribution
+seed infections into vector population control measure
+ovisite carrying capacity
+geographical movement of organism
+cut-off point specification
+prodromal period duration
+fulminant period duration
+identifier of species of diseased organism
+identifier for species of case
+travel-related infectious disease control strategy
+travel recommendation control strategy
+contact isolation control measure
+colonization duration
+identifier of species of population
+RxNorm drug concept identifier
+LOINC identifier
+laboratory test LOINC identifier
+PubMed identifier
+ORCID
+count of disease cases
+count of cases in an epidemic
+insecticide-treated net control measure
+schedule
+population colonization census
+drug treatment efficacy
+latitude and longitude coordinate pair
+age in years datum
+contamination period duration
+healthcare facility identifier
+disease transmission model identifier
+facility identifier
+taxonomy identifier
+disease case identifier
+infection acquisition through sexual activity with infectious host
+rate of hydrological precipitation
+mean rate of hydrological precipitation
+mean air temperature
+potentially infectious sexual contacting
+host population
+prioritization scheme for control measure
+one-way sensitivity analysis of a continuous variable
+citation identifier
+location of sampling process
+infection acquisition from vertical transmission
+source code repository
+compiling software
+compiled software code
+scale-free network model
+scale-free network
+synthetic ecosystem data set
+conditional probability
+probability of infection over time
+epidemic threshold
+human travel
+human air travel
+human mobility data item
+software license
+complete software license identifier
+software license version identifier
+software license identifier
+software license URL
+population dynamics model
+disease surveillance objective specification
+mortality data
+pathogen evolution model
+disease surveillance
+self-initiated travel avoidance behavior
+social interaction data item
+Susceptible-Infected-Susceptible model
+Susceptible-Infected-Resistant model
+contact tracing
+Susceptible-Exposed-Infectious-Recovered model
+metapopulation disease transmission model
+two-strain Susceptible-Infectious-Resistant model
+disease surveillance data
+disease transmission tree estimator
+mechanical flight function
+infectious disease forecaster
+case series
+case series data set
+epidemic data set
+disease transmission model software
+data format converter
+phylogenetic tree constructor
+data visualizer
+computational modeling toolkit
+data parsing
+synthetic ecosystem constructor
+total fatal disease cases
+total disease cases
+employment status data item
+contaminated abiotic thing
+odor-baited trap control strategy
+zoo-prophylaxis control strategy
+acute respiratory illness
+epidemic start week
+epidemic peak week
+epidemic peak intensity
+aggregate of disease courses
+infectious disease forecast
+infectious disease nowcast
+infectious disease forecast objective specification
+infectious disease nowcast objective specification
+infectious disease nowcaster
+prospective infectious disease forecast
+prospective infectious disease nowcast
+infectious disease forecast time specification
+intensive care unit encounter
+data visualization objective specification
+treatment in the ICU control strategy
+website with data
+climate data set
+metagenomics analysis software
+abiotic ecosystem data set
+atmospheric data set
+treatment facility census
+symbiosis
+data format validator
+disease identifier
+infection acquisition dataset
+hospital stay dataset
+human daily movement
+human daily movement data set
+potentially infectious contact data set
+control strategy census
+school closure control strategy census
+vaccination control strategy census
+vaccination administration census
+excess mortality dataset
+census of vaccination supplies
+laboratory testing facility census
+parameter estimation model
+network model
+laboratory testing capacity
+weather data set
+human monkeypox
+wastewater disease surveillance
+population count
+wastewater surveillance data set
+population density datum
+physical distancing infectious disease control measure
+lockdown infectious disease control measure
+cumulative epidemic case count
+incident epidemic case count
+count of events occurring in a population
+count of deaths in a population
+count of vaccinations in a population
+count of hospital stays in a population
+count of infections in a population
+cumulative epidemic infection count
+incident epidemic infection count
+cumulative epidemic death count
+incident epidemic death count
+cumulative epidemic hospitalization count
+incident epidemic hospitalization count
+cumulative epidemic vaccination count
+incident epidemic vaccination count
+intent to be vaccinated
+intent to vaccinate
+vaccination with nirsevimab
+cumulative vaccination count
+incident vaccination count
+cumulative infection count
+incident infection count
+cumulative hospitalization count
+incident hospitalization count
+cumulative death count
+incident death count
+cumulative case count
+incident case count
+intent to have a ward vaccinated
+intent to have a child vaccinated
+epidemic simulator action specification
+infectious disease control strategy action specification
+individual treatment control strategy action specification
+dataset creating
+creating a copyright license
+copyright license
+data service software
+TODO
+facultative role
+entity
+continuant
+occurrent
+independent continuant
+spatial region
+temporal region
+two-dimensional spatial region
+spatiotemporal region
+process
+disposition
+realizable
+realizable entity
+zero-dimensional spatial region
+quality
+characteristic
+specifically dependent continuant
+role
+fiat object
+fiat object part
+one-dimensional spatial region
+object aggregate
+object_aggregate
+three-dimensional spatial region
+site
+object
+generically dependent continuant
+function
+process boundary
+one-dimensional temporal region
+material entity
+continuant fiat boundary
+immaterial entity
+one-dimensional continuant fiat boundary
+process profile
+relational quality
+two-dimensional continuant fiat boundary
+zero-dimensional continuant fiat boundary
+zero-dimensional temporal region
+history
+antiviral drug
+Zika fever
+dengue disease
+dengue hemorrhagic fever
+monkeypox
+influenza
+drug product
+environmental material
+environmental condition
+water vapour
+atmospheric water vapour
+hydrological precipitation process
+air temperature
+gaseous environmental material
+weather
+atmospheric weather
+environmental variability
+environmental system process
+temperature of environmental material
+temperature of air
+metagenomics analysis
+website
+journal
+Anatomical cluster
+vocal fold
+Subdivision of larynx
+Heterogeneous cluster
+Anatomical structure
+Material anatomical entity
+geopolitical entity
+obsolete group of governmental organizations
+nation
+subnational entity
+major administrative subdivision
+geopolitical dependency
+aggregate of major administrative subdivisions
+group of major administrative subdivisions
+aggregate of dependencies
+group of dependencies
+subcontinental land mass
+contiguous land mass
+aggregate of governmental organizations
+contiguous island land mass
+aggregate of contiguous land masses
+geographical entity
+geographical feature
+geographical region
+body of water
+continent
+land mass
+island
+aggregate of geographical entities
+aggregate of geographical features
+aggregate of islands
+geopoli organization
+private governance organization
+nongovernmental organization
+intergovernmental organization
+sovereign state
+governmental organization
+aggregate of geopolitical organizations
+obsolete aggregate of dependencies
+obsolete aggregate of major administrative subdivisions
+aggregate of sovereign states
+geodetic coordinate measurement datum
+geodetic datum
+plane angle measurement unit label
+de jure sovereign state
+reproduction
+reproduction
+gene product or complex activity
+molecular_function
+response to stress
+defense response
+inflammatory response
+immune response
+eclose
+eclosion
+female pregnancy
+parturition
+aging
+behavior
+mating behavior
+biological process
+biological_process
+multicellular organismal aging
+regulation of cell death
+kinase activity
+FN3KRP phosphorylates PsiAm, RibAm
+FN3K phosphorylates ketosamines
+oviposition
+oviposition
+modulation by virus of host morphology or physiology
+induction by virus of host apoptotic process
+modulation by virus of host process
+reproductive behavior
+reproductive behavior
+reproductive process
+developmental process
+developmental process
+multicellular organism reproduction
+multicellular organismal reproductive behavior
+social behavior
+modification of morphology or physiology of other organism
+induction by virus of host cysteine-type endopeptidase activity involved in apoptotic process
+regulation of programmed cell death
+modification by symbiont of host morphology or physiology
+entry into host
+entry into host
+interspecies interaction between organisms
+modulation of programmed cell death in other organism
+multi-organism reproductive process
+multi-organism reproductive behavior
+post-mating behavior
+multicellular organismal reproductive process
+regulation of biological process
+regulation of cellular process
+response to stimulus
+establishment of localization
+establishment of localization
+interaction with host
+multi-organism process
+multi-organism process
+multi-organism behavior
+modification of morphology or physiology of other organism involved in symbiotic interaction
+modulation by symbiont of host programmed cell death
+positive regulation by symbiont of host programmed cell death
+positive regulation by symbiont of host apoptotic process
+modulation of programmed cell death in other organism involved in symbiotic interaction
+positive regulation by organism of apoptotic process in other organism involved in symbiotic interaction
+positive regulation of apoptotic process by virus
+modulation by virus of host cell cycle
+post-mating oviposition
+post-mating oviposition
+biological regulation
+regulation of biological quality
+organism emergence from protective structure
+conditional specification
+measurement unit label
+objective specification
+narrative object
+action specification
+obsolete_artifact
+data item label
+datum label
+software
+obsolete2_digital entity
+journal article
+information carrier
+model number
+obsolete_material_entity
+obsolete2_binary digital entity
+obsolete_unit of measure
+programming language
+data item
+symbol
+numeral
+information content entity
+integer numeral
+scalar measurement datum
+directive information entity
+time trigger
+obsolete_study interpretation
+dot plot
+graph
+obsolete2_text based digital entity
+rule
+contour plot
+obsolete2_report figure
+algorithm
+software interpreter
+curation status specification
+density plot
+report
+obsolete_report element
+obsolete2_binary executable
+source code module
+obsolete_report table
+data format specification
+data set
+image
+data about an ontology part
+plan specification
+obsolete2_digital document
+measurement datum
+obsolete_identifier
+version number
+serial number
+lot number
+setting datum
+obsolete_digital quality
+conclusion textual entity
+material information bearer
+histogram
+heatmap
+Venn diagram
+obsolete_survival curve
+dendrogram
+scatter plot
+photograph
+photographic print
+obsolescence reason specification
+textual entity
+citation
+author identification
+institutional identification
+caption
+document title
+table
+table of abbreviations
+figure
+diagram
+document
+publication
+publication about an investigation
+patent
+document part
+abstract
+introduction to a publication about an investigation
+methods section
+results section
+discussion section of a publication about an investigation
+references section
+author list
+institution list
+author contributions section
+acknowledgements section
+footnote
+supplementary material to a document
+table of contents
+table of figures
+running title
+copyright section
+cartesian spatial coordinate datum
+one dimensional cartesian spatial coordinate datum
+two dimensional cartesian spatial coordinate datum
+three dimensional cartesian spatial coordinate datum
+length measurement datum
+denotator type
+denotator type
+mass measurement datum
+hypothesis textual entity
+time measurement datum
+postal address
+email address
+author role
+data item extraction from journal article
+publishing process
+document in preparation for publication
+documenting
+line graph
+assigning a centrally registered identifier
+associating information with a centrally registered identifier in its registry
+obsolete_establishing a CRID registry
+centrally registered identifier symbol
+centrally registered identifier
+centrally registered identifier registry
+looking up a centrally registered identifier
+time stamped measurement datum
+time sampled measurement data set
+written name
+software method
+software module
+software library
+software application
+software script
+abbreviation textual entity
+abbreviations section
+author information section
+author information textual entity
+author summary section
+author summary textual entity
+availability section
+availability textual entity
+case report section
+case report textual entity
+conclusion section
+conflict of interest section
+conflict of interest textual entity
+consent section
+consent textual entity
+ethical approval section
+ethical approval textual entity
+figures section
+funding source declaration section
+funding source declaration textual entity
+future directions section
+future directions textual entity
+genome announcement section
+genome announcement textual entity
+keyword textual entity
+keywords section
+study limitations section
+study limitations textual entity
+materials section
+notes section
+patients section
+patients textual entity
+pre-publication history section
+pre-publication history textual entity
+related work section
+related work textual entity
+requirements section
+requirements textual entity
+statistical analysis textual entity
+statistical analysis section
+tables section
+postal code
+Postal delivery route
+zone improvement plan code
+database extract, transform, and load process
+descriptive data section
+additional results section
+research participants section
+measurement methods section
+research settings section
+study bias section
+graphical abstract
+ORCID identifier
+identifier
+grapheme
+utterance
+mechanical wave quality
+writing quality
+writing bearer
+portion of energy
+sound energy
+utterance energy
+oscillating
+identifier creating process
+utterance process
+personal name
+given name
+family name
+code set
+ontology module
+base ontology module
+editors ontology module
+main release ontology module
+bridge ontology module
+import ontology module
+subset ontology module
+curation subset ontology module
+analysis subset ontology module
+single layer subset ontology module
+exclusion subset ontology module
+external import ontology module
+species subset ontology module
+reasoned ontology module
+generated ontology module
+template generated ontology module
+taxonomic bridge ontology module
+ontology module subsetted by expressivity
+obo basic subset ontology module
+ontology module subsetted by OWL profile
+EL++ ontology module
+opportunistic infectious disposition
+primary infectious disposition
+pathogenic disposition
+infectious disposition
+zoonotic disposition
+reverse zoonotic disposition
+immunocompetent organism
+infectious agent transmissibility
+infectivity
+virulence
+susceptibility
+infectious disease incidence
+infection incidence
+infectious disease incidence proportion
+infection incidence proportion
+infectious disease incidence rate
+infection incidence rate
+infectious disease prevalence
+infection prevalence
+infectious disease lifetime prevalence
+infectious agent seroprevalence
+infectious disease mortality rate
+infectious disease endemicity
+infectious disease sporadicity
+organism population
+pathogen
+primary pathogen
+host
+infectious agent
+immunosuppression
+immunocompetence
+communicability
+establishment of localization in host
+appearance of disorder
+host role
+opportunistic pathogen
+horizontal pathogen transmission process
+intentionality
+bodily quality
+mental quality
+sexual activity
+Mus musculus
+Virus
+Viruses
+Poxviridae
+Chordopoxvirinae
+Orthopoxvirus
+Monkeypox virus
+Variola virus
+H5N1 subtype
+Herpesviridae
+Alphaherpesvirinae
+Simplexvirus
+Human alphaherpesvirus 1
+Human alphaherpesvirus 2
+Varicellovirus
+Human herpesvirus 3
+Suid herpesvirus 1
+Hepadnaviridae
+Orthohepadnavirus
+Hepatitis B virus
+Escherichia coli O157
+Aedini
+canis group
+phagocytophilum group
+Reoviridae
+Rotavirus
+Togaviridae
+Alphavirus
+Alphavirus
+Barmah Forest virus
+Eastern equine encephalitis virus
+Ross River virus
+Western equine encephalitis virus
+Rubivirus
+Rubella virus
+Flaviviridae
+Flavivirus
+Flavivirus
+Dengue virus group
+Dengue virus 1
+Dengue virus 2
+Dengue virus 3
+Dengue virus 4
+Japanese encephalitis virus group
+Japanese encephalitis virus
+Murray Valley encephalitis virus
+St. Louis encephalitis virus
+West Nile virus
+Powassan virus
+Yellow fever virus
+Hepacivirus
+Hepatitis C virus
+Coronaviridae
+Chlamydia/Chlamydophila group
+pseudomallei group
+Mononegavirales
+Paramyxoviridae
+Paramyxovirinae
+Mumps virus
+Morbillivirus
+Measles virus
+Pneumoviridae
+Pneumovirus
+Filoviridae
+Marburg marburgvirus
+Rhabdoviridae
+Lyssavirus
+Rabies lyssavirus
+Orthomyxoviridae
+Influenza A virus
+spotted fever group
+typhus group
+H1N1 subtype
+H2N2 subtype
+Influenza B virus
+Bunyaviridae
+Bunyaviridae
+Orthobunyavirus
+La Crosse virus
+Snowshoe hare virus
+Phlebovirus
+Rift Valley fever virus
+Hantavirus
+Arenaviridae
+Junin mammarenavirus
+Lassa mammarenavirus
+Machupo mammarenavirus
+Retroviridae
+Lentivirus
+Primate lentivirus group
+Human immunodeficiency virus 1
+Human immunodeficiency virus 2
+Teleostomi
+Euteleostomi
+Brucellaceae
+Coxiellaceae
+Legionellales
+Burkholderiaceae
+Enoplea
+Chromadorea
+H3N2 subtype
+H7N2 subtype
+H7N7 subtype
+H5N2 subtype
+Caliciviridae
+Picornaviridae
+Enterovirus
+Ecdysozoa
+Human poliovirus 1
+Human poliovirus 3
+Hepatovirus
+Hepatovirus A
+Aphthovirus
+Foot-and-mouth disease virus
+Nipah henipavirus
+Proteobacteria
+Gammaproteobacteria
+Firmicutes
+Hepatitis E virus
+Hepatitis delta virus
+Dengue virus
+Staphylococcus
+Vibrio cholerae O1
+Staphylococcus aureus
+Conoidasida
+Respiratory syncytial virus
+Streptococcaceae
+Streptococcus
+Streptophytina
+Streptococcus pneumoniae
+Archelosauria
+Middle East respiratory syndrome coronavirus
+Dipnotetrapodomorpha
+Vibrionales
+Pasteurellales
+Spirochaetales
+Spirochaetaceae
+Borrelia
+Bacillales
+Bacillus
+Enterovirus A
+Enterovirus C
+Enterovirus D
+Bacillus anthracis
+Norovirus
+Boreoeutheria
+Boreoeutheria
+Trichinella murrelli
+Dorylaimia
+Saccharomycotina
+Pezizomycotina
+Eurotiomycetes
+Rhinovirus A
+Clostridium
+Clostridium botulinum
+Clostridioides difficile
+Clostridium tetani
+Clavispora/Candida clade
+Galloanserae
+Treponema
+Onygenales incertae sedis
+Treponema pallidum
+Treponema pallidum subsp. pallidum
+Listeria
+Listeria ivanovii
+Listeria monocytogenes
+Plasmodiidae
+Listeria grayi
+Borreliaceae
+Leptospirales
+Yersinia pseudotuberculosis complex
+Corynebacteriaceae
+Mammarenavirus
+Orthohepevirus
+Orthohepevirus A
+Leptospiraceae
+Leptospira
+Corynebacterium
+Corynebacterium diphtheriae
+Actinobacteria &lt;class&gt;
+Mycobacteriaceae
+Mycobacterium
+Mycobacterium leprae
+Mycobacterium tuberculosis
+EEEV complex
+WEEV complex
+SFV complex
+PVC group
+Terrabacteria group
+Ebolavirus
+Marburgvirus
+Zaire ebolavirus
+Reston ebolavirus
+Sudan ebolavirus
+Tai Forest ebolavirus
+Clostridia
+Clostridiales
+Peptostreptococcaceae
+Bacillaceae
+Listeriaceae
+Lactobacillales
+Clostridioides
+Yersiniaceae
+Rift Valley fever phlebovirus
+California encephalitis orthobunyavirus
+Guaroa orthobunyavirus
+Campylobacter
+Pancrustacea
+Mandibulata
+Influenzavirus A
+Influenzavirus B
+Bunyavirales
+Nairoviridae
+Peribunyaviridae
+Orthonairovirus
+Crimean-Congo hemorrhagic fever orthonairovirus
+Coccidioides posadasii
+Bacteria
+Bacteria
+Actinobacteria &lt;phylum&gt;
+Spirochaetes
+Spirochaetia
+Chlamydiae
+Chlamydiia
+Neisseriales
+Fornicata
+Helicobacter
+Helicobacter pylori
+Campylobacterales
+Archaea
+Psoroptidia
+SARS coronavirus
+H5N8 subtype
+Brucella
+Brucella abortus
+Cryptosporidium hominis
+Henipavirus
+Francisella
+Francisella tularensis
+Metschnikowiaceae
+Eukaryota
+Eukaryota
+Bovinae
+Alphaproteobacteria
+Betaproteobacteria
+Porcine epidemic diarrhea virus
+Burkholderia pseudomallei
+Salmonella enterica
+Hepeviridae
+Ancylostoma
+Ancylostoma caninum
+tick-borne encephalitis virus group
+Brucella melitensis
+Brucella suis
+Epsilonproteobacteria
+Spondweni virus group
+Schistosomatoidea
+Schistosomatidae
+Laurasiatheria
+Euarchontoglires
+Simiiformes
+Cercopithecoidea
+Coxsackievirus A16
+Embryophyta
+Clostridiaceae
+Burkholderia
+Tetrapoda
+Amniota
+Amniota
+Theria
+Sauria
+Orthoretrovirinae
+H5N6 subtype
+Entamoebidae
+Viridiplantae
+Opisthokonta
+Opisthokonta
+Onygenales
+Metazoa
+Bilateria
+Ancylostomatoidea
+Ancylostomatidae
+Protostomia
+H7N9 subtype
+Neoptera
+Endopterygota
+Deuterostomia
+Carnivora
+Alveolata
+Euglenozoa
+Rickettsieae
+Francisellaceae
+Cryptosporidiidae
+dsDNA virus, no RNA stage
+dsDNA viruses, no RNA stage
+Retro-transcribing viruses
+ssRNA positive-strand viruses, no DNA stage
+ssRNA negative-strand virus
+California encephalitis virus
+dsRNA viruses
+Streptophyta
+Suina
+Pecora
+Equus &lt;subgenus&gt;
+Jamestown Canyon virus
+Rhizobiales
+Plasmodium ovale
+Streptococcus sp. &apos;group A&apos;
+Brucella canis
+Clavispora
+Chikungunya virus
+Haplorrhini
+Caniformia
+Enterovirus A71
+Rubulavirus
+Deltavirus
+Klebsiella granulomatis
+Yellow fever virus group
+Mammalia
+Plasmodium (Plasmodium)
+Plasmodium (Laverania)
+Culicoidea
+Aconoidasida
+Eimeriorina
+Enterovirus D68
+Dinosauria
+Saurischia
+Theropoda
+Coelurosauria
+Culicomorpha
+Anophelinae
+Culicinae
+ssRNA virus
+Koutango virus
+Legionellaceae
+Cyclospora
+Anopheles &lt;subgenus&gt;
+Legionella
+Dikarya
+Eurotiomycetidae
+Guanarito mammarenavirus
+Inkoo virus
+Tahyna virus
+Sabia mammarenavirus
+Trichinella britovi
+Picornavirales
+Perdicinae
+Meleagridinae
+Moraxellaceae
+Acinetobacter
+Acinetobacter baumannii
+Sarcoptinae
+Fungi
+Schizotrypanum
+Mycobacterium lepromatosis
+Neisseriaceae
+Neisseria
+Neisseria gonorrhoeae
+Neisseria meningitidis
+Ascomycota
+Saccharomycetes
+Saccharomycetales
+Candida auris
+Insecta
+Alcaligenaceae
+Ancylostoma duodenale
+Chlamydiales
+Bordetella
+Culex pipiens complex
+Bordetella pertussis
+Sarcoptidae
+Sarcoptes
+Sarcoptes scabiei
+Ancylostomatinae
+Culex &lt;subgenus&gt;
+Stegomyia
+Culicini
+Enterobacteriaceae
+Salmonella enterica subsp. enterica serovar Paratyphi A
+Salmonella bongori
+Herpesvirales
+Coccidioides
+Coccidioides immitis
+Amoebozoa
+Archamoebae
+Escherichia
+Escherichia coli
+Kinetoplastida
+Trypanosomatidae
+Bundibugyo ebolavirus
+Trypanosoma
+Trypanosoma cruzi
+Klebsiella
+Diplomonadida
+Hexamitidae
+Giardia
+Giardia intestinalis
+Entamoeba
+Apicomplexa
+Coccidia
+Eimeriidae
+Cryptosporidium
+Cryptosporidium parvum
+Haemosporida
+Plasmodium
+Plasmodium falciparum
+Plasmodium vivax
+Plasmodium malariae
+Salmonella
+Salmonella enterica subsp. enterica
+Eumetazoa
+Platyhelminthes
+Trematoda
+Digenea
+Strigeidida
+Schistosoma
+Schistosoma mansoni
+Schistosoma haematobium
+Shigella
+Shigella dysenteriae
+Shigella flexneri
+Nematoda
+Rhabditida
+Shigella sonnei
+Yersinia &lt;bacteria&gt;
+Yersinia enterocolitica
+Strongylida
+Yersinia pestis
+Trichocephalida
+Trichinellidae
+Trichinella
+Trichinella spiralis
+Trichinella nativa
+Trichinella nelsoni
+Vibrionaceae
+Zika virus
+Lujo mammarenavirus
+Vibrio
+Arthropoda
+Vibrio cholerae
+Vibrio parahaemolyticus
+Vibrio vulnificus
+Chelicerata
+Giardiinae
+delta/epsilon subdivisions
+Arachnida
+Sedoreovirinae
+Acari
+Coronavirinae
+Alphacoronavirus
+Betacoronavirus
+Acariformes
+Astigmata
+Hexapoda
+Pasteurellaceae
+Diptera
+Nematocera
+Culicidae
+Aedes
+Aedes aegypti
+Anopheles &lt;genus&gt;
+saccharomyceta
+leotiomyceta
+Culex &lt;genus&gt;
+Culex quinquefasciatus
+Vibrio harveyi group
+Thiotrichales
+Pseudomonadales
+Helicobacteraceae
+Campylobacteraceae
+Haemophilus
+Haemophilus influenzae
+[Haemophilus] ducreyi
+Pterygota
+Eucoccidiorida
+Rickettsiales
+Anaplasma
+Nidovirales
+Chordata
+Vertebrata
+Rickettsiaceae
+Coxiella &lt;Bacteria&gt;
+Mycobacterium tuberculosis complex
+Coxiella burnetii
+Gnathostomata
+Rickettsia
+Rickettsia prowazekii
+Rickettsia rickettsii
+Rickettsia typhi
+Burkholderiales
+Chlamydiaceae
+Guaroa virus
+Chlamydia
+Chlamydia trachomatis
+Sarcopterygii
+Sarcoptiformes
+Sarcoptoidea
+Chlamydia psittaci
+Sauropsida
+Archosauria
+Corynebacteriales
+Dicondylia
+Bacillus cereus group
+Aves
+Neognathae
+Anseriformes
+Anatidae
+Cyclospora cayetanensis
+Panarthropoda
+Craniata
+Galliformes
+Phasianidae
+Gallus
+Gallus gallus
+Salmonella enterica subsp. enterica serovar Typhi
+Phasianinae
+Coturnix
+Staphylococcaceae
+Acinetobacter calcoaceticus/baumannii complex
+Meleagris
+Meleagris gallopavo
+Bacilli
+Enterobacterales
+Cetartiodactyla
+Eutheria
+Coturnix japonica
+Anaplasmataceae
+Ehrlichia
+Primates
+Ehrlichia chaffeensis
+Anaplasma phagocytophilum
+Catarrhini
+Cercopithecidae
+Cercopithecinae
+Macaca
+Macaca fascicularis
+Macaca mulatta
+Homo sapiens
+Homo sapiens
+Canidae
+Canis
+Canis lupus
+Canis lupus familiaris
+Perissodactyla
+Equidae
+Equus
+Equus caballus
+Suidae
+Sus
+Sus scrofa
+Ruminantia
+Bovidae
+Bos
+Bos taurus
+Capra
+Capra hircus
+Ovis
+Ovis aries
+Caprinae
+contraindication
+planned process
+processed material
+investigation
+intervention design
+data encoding
+organization
+averaging objective
+study design execution
+scattered molecular aggregate
+data representational model
+center value
+average value
+graph of vertices
+device
+computer cluster
+service
+environmental history design
+disease state design
+pathogenicity design
+data service
+rate measurement datum
+investigation description
+latitude coordinate measurement datum
+longitude coordinate measurement datum
+investigation identifier
+grant identifier
+scalar value specification
+value specification
+systematic review study design
+digital object identifier
+organism
+data transformation
+data transformation objective
+averaging data transformation
+observation design
+calculated datum
+predicted data item
+digital curation
+computer
+study design
+time series design
+software execution
+web service execution
+clinical finding
+laboratory finding
+phenotype
+clinical phenotype
+disease
+homeostasis
+disorder
+bodily process
+disease course
+extended organism
+treatment
+life course
+health care process
+health care encounter
+hospitalization
+outpatient encounter
+inpatient encounter
+ED encounter
+relapse
+unique resource locator
+human social role
+gender role
+male gender role
+female gender role
+human health care role
+patient role
+health care provider organization role
+collection of organisms
+collection of humans
+organization social role
+organism social role
+organization health care role
+aggregate of organizations
+hospital function
+school function
+hospital role
+school role
+hospital organization
+school organization
+student role
+nursery school role
+primary school role
+architectural structure
+facility
+hospital facility
+school facility
+secondary school role
+housing unit
+household
+workplace facility
+workplace function
+racial identity datum
+health care facility
+identity datum
+role in human social processes
+quality
+distance
+biological sex
+morphology
+size
+length
+mass
+structure
+temperature
+female
+male
+physical quality
+pressure
+physical object quality
+area
+1-D extent
+2-D extent
+in contact with
+radius
+PCO:collection of organisms
+population
+collection of organisms of the same species
+effect size estimate
+study group population size
+true negative rate
+true positive rate
+relative risk
+categorical variable
+variable
+non-parametric distribution
+weighted arithmetic mean
+transmission process
+anatomical structure
+material anatomical entity
+anatomical system
+tissue
+anatomical group
+anatomical entity
+immune system
+multicellular anatomical structure
+life cycle temporal boundary
+life-death temporal boundary
+unit
+length unit
+mass unit
+time unit
+area unit
+dimensionless unit
+percent
+ratio
+fraction
+rate unit
+vaccine
+vaccine contraindication
+vaccine function
+vaccine preparation
+obsolete specificity of case detection
+obsolete specificity of treatment detection
+obsolete sensitivity of treatment detection
+supranational entity
+news article
+genomic data
+Obsolete Class
+Obsolete Class
+obsolete_class
+organism population universal
+atmosphere of the Earth
+angular degree
+°
+rad
+radian
+square mile
+example to be eventually removed
+failed exploratory term
+metadata complete
+organizational term
+ready for release
+metadata incomplete
+uncurated
+pending final vetting
+core
+obsolete_core
+placeholder removed
+terms merged
+term imported
+term split
+obsolete_other
+universal
+universal
+defined class
+defined class
+named class expression
+named class expression
+to be replaced with external ontology term
+requires discussion
+out of scope
+week
+square meter
+axiom holds for all times
+infer input from direct reg
+enabling an MF enables its parts
+involved in BP
+inferring direct reg edge from input to regulatory subfunction
+inferring direct neg reg edge from input to regulatory subfunction
+inferring direct positive reg edge from input to regulatory subfunction
+effector input is compound function input
+Input of effector is input of its parent MF
+if effector directly negatively regulates X,  its parent MF directly negatively regulates X
+&apos;causally downstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).
+&apos;causally upstream of&apos; and &apos;overlaps&apos; should be disjoint properties (a SWRL rule is required because these are non-simple properties).

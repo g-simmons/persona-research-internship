@@ -1,0 +1,125 @@
+definition
+database_cross_reference
+has_exact_synonym
+has_obo_format_version
+has_obo_namespace
+has_related_synonym
+precedes
+relationship
+preceded_by
+develops_from
+part_of
+anatomical entity
+anatomical structure
+portion of organism substance
+anatomical space
+material anatomical entity
+immaterial anatomical entity
+anatomical line
+anatomical point
+anatomical surface
+anatomical system
+multi-cellular organism
+cell
+cell component
+excretory system
+cardiovascular system
+eye
+appendage
+compound organ component
+heart
+simple organ
+compound organ
+male organism
+female organism
+hermaphroditic organism
+asexual organism
+organism subdivision
+embryonic structure
+germ layer
+ectoderm
+mesoderm
+endoderm
+neuroectoderm
+acellular anatomical structure
+anatomical cluster
+extraembryonic structure
+portion of tissue
+visceral mesoderm
+sequential hermaphroditic organism
+synchronous hermaphroditic organism
+somatic mesoderm
+gonochoristic organism
+protandrous hermaphroditic organism
+protogynous hermaphroditic organism
+cardiac mesoderm
+blastomere
+organizer
+anatomical group
+multi-tissue structure
+embryonic organism
+zygote embryo
+cleaving embryo
+blastula embryo
+gastrula embryo
+neurula embryo
+cell space
+portion of cell substance
+single cell organism
+basal lamina
+epithelium
+simple cuboidal epithelium
+simple columnar epithlium
+multilaminar epithelium
+simple squamous epithelium
+atypical epithelium
+cavitated compound organ
+unilaminar epithelium
+solid compound organ
+segmenting embryo
+juvenile organism
+epithelial cell
+adult organism
+nervous system
+central nervous system
+peripheral nervous system
+digestive system
+digestive tract
+primitive gut
+foregut
+midgut
+hindgut
+musculature system
+sensory system
+reproductive system
+immune system
+head
+trunk
+tail
+surface
+urogenital system
+gonad
+testis
+ovary
+protonephridium
+metanephridium
+nephros
+visceral muculature
+somatic musculature
+cardiac musculature
+brain
+nerve cord
+chemosensory system
+photosensory system
+mechanosensory system
+gustatory system
+olfactory system
+bilateria developmental stage
+zygote stage
+cleavage stage
+blastula stage
+gastrula stage
+neurula stage
+organogenesis stage
+juvenile stage
+adult stage

@@ -1,0 +1,410 @@
+definition
+citation
+part of
+immediately preceded by
+develops from
+existence starts during
+existence ends during
+gametogenesis
+oogenesis
+spermatogenesis
+gamete stage
+unfertilized egg stage
+spermatozoid stage
+embryonic development
+zygote period
+cleavage period
+blastula period
+gastrula period
+neurula period
+tailbud period
+larval development
+larva period
+metamorphosis
+juvenile
+juvenile period
+adult
+adult period
+1-cell stage
+2-cell stage
+4-cell stage
+8-cell stage
+16-cell stage
+32-cell stage
+64-cell stage
+128-cell stage
+256-cell stage
+blastula stage
+gastrula-G0 stage
+gastrula-G1 stage
+gastrula-G2 stage
+gastrula-G3 stage
+gastrula-G4 stage
+gastrula-G5 stage
+gastrula-G6 stage
+gastrula G7 stage
+neurula-N0 stage
+neurula-N1 stage
+neurula-N2 stage
+neurula-N3 stage
+neurula-N4 stage
+tailbud-T0 stage
+tailbud-T1 stage
+larva-L0 stage
+larva-L1 stage
+larva-L2 stage
+larva-L3 stage
+larva-L4 stage
+larva-PL stage
+larva-EML stage
+larva-MML stage
+larva-LML stage
+juvenile-J stage
+adult-A stage
+neurula-N5 stage
+whole organism
+blastomere
+whole oocyte
+tissue
+embryonic territory
+central nervous system
+vegetal pole cytoplasm
+vegetal pole cytoplasm of oocyte
+vegetal pole cytoplasm of embryo
+animal pole cytoplasm
+animal pole cytoplasm of oocyte
+animal pole cytoplasm of embryo
+zygote
+2-cell stage embryo
+4-cell stage embryo
+blastomere of 2-cell stage embryo
+blastomere of 4-cells stage embryo
+micromere
+macromere
+animal blastomere
+vegetal blastomere
+presumptive ectoderm
+dorsal presumptive ectoderm
+ventral presumptive ectoderm
+presumptive mesendoderm
+dorsal presumptive mesendoderm
+ventral presumptive mesendoderm
+blastopore lip
+dorsal blastopore lip
+ventral blastopore lip
+ectoderm
+dorsal ectoderm
+ventral ectoderm
+anterior ectoderm
+posterior ectoderm
+mesendoderm
+dorsal mesendoderm
+ventral mesendoderm
+anterior mesendoderm
+posterior mesendoderm
+presumptive neural plate
+presumptive border of the neural plate
+presumptive anterior neural plate
+presumptive epidermis
+presumptive anterior epidermis
+dorsal axial mesendoderm
+dorsal paraxial mesendoderm
+neural plate
+border of the neural plate
+anterior neural plate
+epidermis
+anterior epidermis
+ventral epidermis
+mesoderm
+presumptive notochord
+presumptive somite pair 1
+presumptive somite pair 2
+presumptive somite pair 3
+presumptive left somite 1
+presumptive right somite 1
+presumptive left somite 2
+presumptive right somite 2
+presumptive left somite 3
+presumptive right somite 3
+paraxial mesoderm
+left mesoderm
+right mesoderm
+left endoderm
+right endoderm
+notochord
+somite pair 1
+somite pair 2
+somite pair 3
+posterior paraxial mesoderm
+endoderm
+anterior endoderm
+posterior endoderm
+tail bud
+inner lip of blastopore
+presumptive cerebral vesicle
+presumptive spinal cord
+left epidermis
+right epidermis
+epidermal sensory neuron
+anterior somite pair 1
+posterior somite pair 1
+dorsal somite pair 1
+ventral somite pair 1
+left somite 1
+right somite 1
+left ventral somite 1
+anterior somite pair 2
+posterior somite pair 2
+dorsal somite pair 2
+ventral somite pair 2
+left somite 2
+right somite 2
+anterior somite pair 3
+posterior somite pair 3
+dorsal somite pair 3
+ventral somite pair 3
+left somite 3
+right somite 3
+neural tube
+dorsal neural tube
+ventral neural tube
+lateral neural tube
+cerebral vesicle
+spinal cord
+somite pair 4
+anterior somite pair 4
+posterior somite pair 4
+dorsal somite pair 4
+ventral somite pair 4
+left somite 4
+right somite 4
+somite pair 5
+anterior somite pair 5
+posterior somite pair 5
+dorsal somite pair 5
+ventral somite pair 5
+left somite 5
+right somite 5
+somite pair 6
+anterior somite pair 6
+posterior somite pair 6
+dorsal somite pair 6
+ventral somite pair 6
+left somite 6
+right somite 6
+somite pair 7
+anterior somite pair 7
+posterior somite pair 7
+dorsal somite pair 7
+ventral somite pair 7
+left somite 7
+right somite 7
+somite pair 8
+anterior somite pair 8
+posterior somite pair 8
+dorsal somite pair 8
+ventral somite pair 8
+left somite 8
+right somite 8
+left Hatschek&amp;apos;s diverticulum
+right Hatschek&amp;apos;s diverticulum
+pharyngeal endoderm
+left pharyngeal endoderm
+right pharyngeal endoderm
+ventral pharyngeal endoderm
+mid-endoderm
+chordoneural hinge
+posterior wall of neurenteric canal
+anterior cerebral vesicle
+posterior cerebral vesicle
+dorsal cerebral vesicle
+ventral cerebral vesicle
+anterior spinal cord
+posterior spinal cord
+posterior dorsal spinal cord
+posterior ventral spinal cord
+lateral spinal cord
+posterior epidermis
+anterior notochord
+posterior notochord
+ventral mesoderm
+myotome of somite pair 1
+external cell layer of somite pair 1
+presumptive Hatschek&amp;apos;s nephridium
+myotome of somite pair 2
+external cell layer of somite pair 2
+myotome of somite pair 3
+external cell layer of somite pair 3
+myotome of somite pair 4
+external cell layer of somite pair 4
+myotome of somite pair 5
+external cell layer of somite pair 5
+myotome of somite pair 6
+external cell layer of somite pair 6
+myotome of somite pair 7
+external cell layer of somite pair 7
+myotome of somite pair 8
+external cell layer of somite pair 8
+presumptive club-shaped gland
+presumptive endostyle
+somite pair 9
+anterior somite pair 9
+posterior somite pair 9
+myotome of somite pair 9
+external cell layer of somite pair 9
+ventral somite pair 9
+left somite 9
+right somite 9
+anterior somite pair 10
+posterior somite pair 10
+myotome of somite pair 10
+external cell layer of somite pair 10
+ventral somite pair 10
+left somite 10
+right somite 10
+anterior somite pair 11
+posterior somite pair 11
+myotome of somite pair 11
+external cell layer of somite pair 11
+ventral somite pair 11
+left somite 11
+right somite 11
+somite pair 10
+somite pair 11
+pigment spot
+subintestinal vessel anlage
+somite pair 12
+anterior somite pair 12
+posterior somite pair 12
+myotome of somite pair 12
+external cell layer of somite pair 12
+ventral somite pair 12
+left somite 12
+right somite 12
+somite pair 13
+anterior somite pair 13
+posterior somite pair 13
+myotome of somite pair 13
+external cell layer of somite pair 13
+ventral somite pair 13
+left somite 13
+right somite 13
+nascent somite pair
+left nascent somite
+right nascent somite
+mouth primordium
+presumptive first pharyngeal gill slit
+dorsal pharyngeal endoderm
+gut
+anterior gut
+mid-gut
+ventral mid-gut
+hind-gut
+schizocoelic somite pair
+anterior schizocoelic somite pair
+posterior schizocoelic somite pair
+myotome of schizocoelic somite pair
+external cell layer of schizocoelic somite pair
+ventral schizocoelic somite pair
+left schizocoelic somite
+right schizocoelic somite
+dorsal ocellus
+tail fin
+subintestinal vessel
+dorsal mesoderm
+dorsal aorta
+Hatschek&amp;apos;s nephridium
+pre-oral pit
+rostral coelom
+mouth
+club-shaped gland
+dorsal club-shaped gland
+ventral club-shaped gland
+endostyle
+Iliocolonic region
+presumptive anus
+frontal eye
+first pharyngeal gill slit
+presumptive second pharyngeal gill slit
+anus
+second pharyngeal gill slit
+presumptive third pharyngeal gill slit
+third pharyngeal gill slit
+presumptive pharyngeal gill slit
+infundibular organ
+lamellar body
+primary motor center
+myomere 1
+left myomere 1
+right myomere 1
+somite pair
+external cell layer
+myomere 2
+left myomere 2
+right myomere 2
+myomere 3
+left myomere 3
+right myomere 3
+myomere 4
+left myomere 4
+right myomere 4
+myomere 5
+left myomere 5
+right myomere 5
+myomere 6
+left myomere 6
+right myomere 6
+myomere 7
+left myomere 7
+right myomere 7
+myomere 8
+left myomere 8
+right myomere 8
+myomere 9
+left myomere 9
+right myomere 9
+myomere 10
+left myomere 10
+right myomere 10
+myomere 11
+left myomere 11
+right myomere 11
+myomere 12
+left myomere 12
+right myomere 12
+myomere 13
+left myomere 13
+right myomere 13
+myomere of schizocoelic somite pair
+left schizocoelic somite myomere
+right schizocoelic somite myomere
+pharyngeal gill slit
+metapleural fold
+atrium wall
+pharynx
+dorsal pharynx
+ventral pharynx
+second row of pharyngeal gill slit
+tongue bar
+cirrus
+dorsal fin
+ventral fin
+atriopore
+wheel organ
+Hatschek&amp;apos;s groove
+left pharyngeal gill slit
+right pharyngeal gill slit
+hepatic caecum bud
+myomere
+left myomere
+right myomere
+dermis
+velum
+velar tentacle
+hepatic caecum
+male gonad
+female gonad
+cell
+cellular component
+anatomical structure
+life cycle stage

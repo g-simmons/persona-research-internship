@@ -1,0 +1,3001 @@
+definition
+definition
+editor note
+term replaced by
+term replaced by
+is a defining property chain axiom
+is a defining property chain axiom where second argument is reflexive
+part of
+part of
+part_of
+has part
+has part
+has_part
+preceded by
+preceded by
+precedes
+precedes
+occurs in
+contains process
+partially_surrounded_by
+derives from part of
+has increased levels of
+characteristic of
+bearer of
+has characteristic
+participates in
+participates in
+has participant
+has participant
+function of
+quality of
+role of
+has function
+has quality
+has role
+has role
+has disposition
+disposition of
+derives from
+derives into
+location of
+contained in
+contains
+located in
+bounding layer of
+has regulatory component activity
+has negative regulatory component activity
+has positive regulatory component activity
+has component activity
+has component process
+directly regulated by
+directly negatively regulated by
+directly positively regulated by
+has effector activity
+during which ends
+ends after
+immediately preceded by
+immediately preceded by
+immediately precedes
+immediately precedes
+ends during
+overlaps
+overlaps
+spatially disjoint from
+has component
+has component
+develops from
+develops into
+directly develops from
+directly develops into
+regulates
+regulates
+regulates (processual)
+negatively regulates
+negatively regulates
+positively regulates
+positively regulates
+capable of
+capable of
+capable of part of
+capable of part of
+surrounded by
+surrounded by
+adjacent to
+surrounds
+temporally related to
+develops from part of
+develops in
+ends
+ends with
+has end location
+has input
+has input
+has output
+has developmental contribution from
+developmentally contributes to
+developmentally preceded by
+acts upstream of
+acts upstream of or within
+developmentally succeeded by
+part of developmental precursor of
+results in developmental progression of
+results in formation of
+causally upstream of, positive effect
+causally upstream of, negative effect
+characteristic of part of
+mereotopologically related to
+developmentally related to
+enables
+functionally related to
+part of structure that is capable of
+involved in
+enabled by
+regulated by
+regulated by
+negatively regulated by
+negatively regulated by
+positively regulated by
+positively regulated by
+member of
+has member
+input of
+output of
+formed as result of
+spatially coextensive with
+has developmental potential involving
+has potential to developmentally contribute to
+has potential to develop into
+has potential to directly develop into
+causally downstream of
+causally downstream of
+immediately causally downstream of
+immediately causally downstream of
+indirectly positively regulates
+indirectly negatively regulates
+causally related to
+causally upstream of
+causally upstream of
+immediately causally upstream of
+immediately causally upstream of
+causally upstream of or within
+causally downstream of or within
+involved in regulation of
+involved in positive regulation of
+involved in negative regulation of
+involved in or involved in regulation of
+is active in
+interacts with
+molecularly interacts with
+phosphorylates
+directly regulates activity of
+directly negatively regulates activity of
+directly positively regulates activity of
+helper property (not for use in curation)
+composed primarily of
+has part that occurs in
+is kinase activity
+transformation of
+immediate transformation of
+causal agent in process
+causal relation between processes
+depends on
+causal relation between entities
+determined by
+determines
+determined by part of
+causally influenced by
+interaction relation helper property
+molecular interaction relation helper property
+causally influences
+directly regulates
+has part structure that is capable of
+causal relation between material entity and a process
+capable of regulating
+capable of negatively regulating
+capable of positively regulating
+process has causal agent
+directly positively regulates
+directly negatively regulates
+produces
+produced by
+enables subfunction
+acts upstream of or within, positive effect
+acts upstream of or within, negative effect
+acts upstream of, positive effect
+acts upstream of, negative effect
+causally upstream of or within, negative effect
+causally upstream of or within, positive effect
+regulates activity of
+indirectly causally upstream of
+indirectly regulates
+device utilizes material
+regulates characteristic
+positively regulates characteristic
+negatively regulates characteristic
+has functional parent
+has parent hydride
+is conjugate acid of
+is conjugate base of
+is enantiomer of
+is substituent group from
+is tautomer of
+role
+material entity
+material entity
+dietary chemical component
+dry plant matter
+available carbohydrate
+free sugar
+dietary fibre
+soluble dietary fibre
+resistant starch
+insoluble dietary fibre
+seed storage protein
+macro element
+trace element
+plant secondary metabolite
+vitamin (molecular entity)
+dietary calcium
+dietary chlorine
+dietary magnesium
+dietary phosphorus
+dietary potassium
+dietary sodium
+dietary sulfur
+dietary chromium
+dietary copper
+dietary fluorine
+dietary iodine
+dietary iron
+dietary manganese
+dietary molybdenum 
+dietary selenium
+dietary zinc
+gum
+high molecular weight dietary fibre
+fermentable dietary fibre
+non-fermentable dietary fibre
+viscous dietary fibre
+added dietary fibre
+prebiotic dietary fibre
+soluble dietary fibre precipitate (SDFP)
+soluble dietary fibre soluble (SDFS)
+low molecular weight dietary fibre
+amylopectin derived from starch
+amylose derived from starch
+galacturonan derived from pectin
+rhamnogalacturonan derived from pectin
+mannan derived from hemicellulose
+xylan derived from hemicellulose
+xyloglucan derived from hemicellulose
+glucomannan derived from hemicellulose
+arabinoxylan derived from hemicellulose
+fructan derived from hemicellulose
+arabinan derived from hemicellulose
+galactomannan derived from hemicellulose
+galactan derived from hemicellulose
+glucose derived from amylopectin derived from starch
+glucose derived from amylose derived from starch
+glucose derived from sucrose
+fructose derived from sucrose
+glucose derived from maltose
+galacturonic acid derived from galacturonan derived from pectin
+rhamnose derived from rhamnogalacturonan derived from pectin
+D-apiose derived from rhamnogalacturonan derived from pectin
+galacturonic acid derived from rhamnogalacturonan derived from pectin
+fucose derived from rhamnogalacturonan derived from pectin
+xylose derived from rhamnogalacturonan derived from pectin
+arabinose derived from rhamnogalacturonan derived from pectin
+galactose derived from rhamnogalacturonan derived from pectin
+raffinose derived from raffinose family oligosaccharide
+galactose derived from raffinose derived from raffinose family oligosaccharide
+glucose derived from raffinose derived from raffinose family oligosaccharide
+fructose derived from raffinose derived from raffinose family oligosaccharide
+stachyose derived from raffinose family oligosaccharide
+galactose derived from stachyose derived from raffinose family oligosaccharide
+glucose derived from stachyose derived from raffinose family oligosaccharidee
+fructose derived from stachyose derived from raffinose family oligosaccharide
+verbascose derived from raffinose family oligosaccharide
+galactose derived from verbascose derived from raffinose family oligosaccharide
+glucose derived from verbascose derived from raffinose family oligosaccharide
+fructose derived from verbascose derived from raffinose family oligosaccharide
+glucose derived from amorphous cellulose
+mannose derived from mannan derived from hemicellulose
+glucose derived from xylan derived from hemicellulose
+xylose derived from xylan derived from hemicellulose
+glucose derived from xyloglucan derived from hemicellulose
+xylose derived from xyloglucan derived from hemicellulose
+glucose derived from glucomannan derived from hemicellulose
+mannose derived from glucomannan derived from hemicellulose
+arabinose derived from arabinoxylan derived from hemicellulose
+xylose derived from arabinoxylan derived from hemicellulose
+inulin derived from fructan
+fructose derived from inulin derived from fructan
+amino acid derived from protein
+concentration of dietary chemical component in material entity
+concentration of water in material entity
+concentration of dry plant matter in material entity
+concentration of ash in material entity
+concentration of carbohydrate in material entity
+concentration of polysaccharide in material entity
+concentration of starch in material entity
+concentration of pectin in material entity
+concentration of amorphous cellulose in material entity
+concentration of hemicellulose in material entity
+concentration of inulin in material entity
+concentration of monosaccharide in material entity
+concentration of glucose in material entity
+concentration of fructose in material entity
+concentration of rhamnose in material entity
+concentration of D-apiose in material entity
+concentration of galacturonic acid in material entity
+concentration of fucose in material entity
+concentration of xylose in material entity
+concentration of arabinose in material entity
+concentration of galactose in material entity
+concentration of mannose in material entity
+concentration of ribose in material entity
+concentration of disaccharide in material entity
+concentration of sucrose in material entity
+concentration of trehalose in material entity
+concentration of maltose in material entity
+concentration of oligosaccharide in material entity
+concentration of raffinose family oligosaccharide in material entity
+concentration of raffinose in material entity
+concentration of stachyose in material entity
+concentration of verbascose in material entity
+concentration of available carbohydrate in material entity
+concentration of free sugar in material entity
+concentration of dietary fibre in material entity
+concentration of soluble dietary fibre in material entity
+concentration of resistant starch in material entity
+concentration of insoluble dietary fibre in material entity
+concentration of fructan in material entity
+concentration of protein in material entity
+concentration of seed storage protein in material entity
+concentration of albumin type in material entity
+concentration of globulin type in material entity
+concentration of prolamin in material entity
+concentration of cruciferin in material entity
+concentration of glutenin in material entity
+concentration of alanine in material entity
+concentration of arginine in material entity
+concentration of asparagine in material entity
+concentration of aspartic acid in material entity
+concentration of cysteine in material entity
+concentration of glutamic acid in material entity
+concentration of glutamine in material entity
+concentration of glycine in material entity
+concentration of histidine in material entity
+concentration of hydroxyproline in material entity
+concentration of isoleucine in material entity
+concentration of leucine in material entity
+concentration of lysine in material entity
+concentration of methionine in material entity
+concentration of phenylalanine in material entity
+concentration of proline in material entity
+concentration of serine in material entity
+concentration of threonine in material entity
+concentration of tryptophan in material entity
+concentration of tyrosine in material entity
+concentration of valine in material entity
+concentration of lipid in material entity
+concentration of diglyceride in material entity
+concentration of cis-fatty acid in material entity
+concentration of octanoic acid in material entity
+concentration of pentadecanoic acid in material entity
+concentration of tetracosanoic acid in material entity
+concentration of dodecanoic acid in material entity
+concentration of tetradecanoic acid in material entity
+concentration of hexadecanoic acid in material entity
+concentration of heptadecanoic acid in material entity
+concentration of octadecanoic acid in material entity
+concentration of icosanoic acid in material entity
+concentration of docosanoic acid in material entity
+concentration of propionic acid in material entity
+concentration of myristoleic acid in material entity
+concentration of palmitoleic acid in material entity
+concentration of oleic acid in material entity
+concentration of palmitelaidic acid in material entity
+concentration of elaidic acid in material entity
+concentration of vaccenic acid in material entity
+concentration of (11Z)-icos-11-enoic acid in material entity
+concentration of erucic acid in material entity
+concentration of (15Z)-tetracosenoic acid in material entity
+concentration of ω−3 fatty acid in material entity
+concentration of all-cis-octadeca-6,9,12,15-tetraenoic acid in material entity
+concentration of all-cis-icosa-11,14,17-trienoic acid in material entity
+concentration of eicosatetraenoic acid in material entity
+concentration of 6Z,9Z,12Z,15Z,18Z,21Z-tetracosahexaenoic acid in material entity
+concentration of α-linolenic acid in material entity
+concentration of icosapentaenoic acid in material entity
+concentration of docosapentaenoic acid in material entity
+concentration of docosahexaenoic acid in material entity
+concentration of 9-hydroxy-5E,7Z,11Z,14Z-eicosatetraenoic acid in material entity
+concentration of linolenic acid in material entity
+concentration of ω−6 fatty acid in material entity
+concentration of linoleic acid in material entity
+concentration of all-cis-icosa-8,11,14-trienoic acid in material entity
+concentration of γ-linolenic acid in material entity
+concentration of icosadienoic acid in material entity
+concentration of arachidonic acid in material entity
+concentration of docosadienoic acid in material entity
+concentration of 7,10,13,16-docosatetraenoic acid in material entity
+concentration of trans-fatty acid in material entity
+concentration of capsaicin in material entity
+concentration of phospholipid in material entity
+concentration of phosphatidylcholine in material entity
+concentration of phosphatidylethanolamine in material entity
+concentration of phosphatidyl-L-serine in material entity
+concentration of phosphatidylinositol in material entity
+concentration of lysophosphatidylcholine in material entity
+concentration of glycolipid in material entity
+concentration of glycoglycerolipid in material entity
+concentration of sterol in material entity
+concentration of campestanol in material entity
+concentration of cholesterol in material entity
+concentration of lupeol in material entity
+concentration of phytosterols in material entity
+concentration of avenasterol in material entity
+concentration of isofucosterol in material entity
+concentration of delta7-avenasterol in material entity
+concentration of brassicasterol in material entity
+concentration of campesterol in material entity
+concentration of ergosterol in material entity
+concentration of sitosterol in material entity
+concentration of stigmastanol in material entity
+concentration of stigmasterol in material entity
+concentration of delta7-stigmasterol in material entity
+concentration of mineral nutrient in material entity
+concentration of macro element in material entity
+concentration of calcium(2+) in material entity
+concentration of chloride in material entity
+concentration of magnesium(2+) in material entity
+concentration of nitrogen atom in material entity
+concentration of phosphide(3−) in material entity
+concentration of potassium(1+) in material entity
+concentration of sodium(1+) in material entity
+concentration of sulfide(2−) in material entity
+concentration of trace element in material entity
+concentration of aluminium(3+) in material entity
+concentration of antimony(3+) in material entity
+concentration of arsenic(3+) in material entity
+concentration of boron(3+) in material entity
+concentration of cadmium(2+) in material entity
+concentration of chromium(2+) in material entity
+concentration of cobalt(2+) in material entity
+concentration of copper(2+) in material entity
+concentration of fluoride in material entity
+concentration of iodide in material entity
+concentration of iron(2+) in material entity
+concentration of lead(2+) in material entity
+concentration of lithium(1+) in material entity
+concentration of manganese atom in material entity
+concentration of mercury(2+) in material entity
+concentration of molybdenum(4+) in material entity
+concentration of nickel(2+) in material entity
+concentration of rubidium(1+) in material entity
+concentration of selenium(2+) in material entity
+concentration of strontium(2+) in material entity
+concentration of tin(2+) in material entity
+concentration of titanium(3+) in material entity
+concentration of vanadium(2+) in material entity
+concentration of zinc(2+) in material entity
+concentration of barium(2+) in material entity
+concentration of caesium(1+) in material entity
+concentration of bismuth(3+) in material entity
+concentration of lanthanum(2+) in material entity
+concentration of salt in material entity
+concentration of sodium chloride in material entity
+concentration of inorganic nitrate salt in material entity
+concentration of bromide in material entity
+concentration of vitamin (molecular entity) in material entity
+concentration of 5-formyltetrahydrofolic acid in material entity
+concentration of B vitamin in material entity
+concentration of (6R)-5,10-methenyltetrahydrofolate in material entity
+concentration of vitamin B1 in material entity
+concentration of riboflavin in material entity
+concentration of nicotinic acid in material entity
+concentration of (R)-pantothenic acid in material entity
+concentration of pyridoxine in material entity
+concentration of biotin in material entity
+concentration of folic acid in material entity
+concentration of cyanocob(III)alamin in material entity
+concentration of vitamin C in material entity
+concentration of L-ascorbic acid in material entity
+concentration of vitamin A in material entity
+concentration of carotenoid in material entity
+concentration of α-carotene in material entity
+concentration of β-carotene in material entity
+concentration of 4-hydroxy-all-trans-β-carotene in material entity
+concentration of 9-cis-β-carotene in material entity
+concentration of vitamin D in material entity
+concentration of calcidiol in material entity
+concentration of vitamin E in material entity
+concentration of tocopherol in material entity
+concentration of α-tocopherol in material entity
+concentration of β-tocopherol in material entity
+concentration of γ-tocopherol in material entity
+concentration of δ-tocopherol in material entity
+concentration of tocotrienol in material entity
+concentration of α-tocotrienol in material entity
+concentration of β-tocotrienol in material entity
+concentration of γ-tocotrienol in material entity
+concentration of δ-tocotrienol in material entity
+concentration of vitamin K in material entity
+concentration of plant secondary metabolite in material entity
+concentration of alkaloid in material entity
+concentration of caffeine in material entity
+concentration of mescaline in material entity
+concentration of theobromine in material entity
+concentration of phenols in material entity
+concentration of polyphenol in material entity
+concentration of tannin in material entity
+concentration of chlorogenic acid in material entity
+concentration of proanthocyanidin in material entity
+concentration of hydrolysable tannin in material entity
+concentration of ellagitannin in material entity
+concentration of gallotannin in material entity
+concentration of phlorotannin in material entity
+concentration of catechol in material entity
+concentration of phloroglucinol in material entity
+concentration of (−)-epigallocatechin 3-gallate in material entity
+concentration of phenolic acid in material entity
+concentration of gallic acid in material entity
+concentration of hydroxybenzoic acid in material entity
+concentration of salicylic acid in material entity
+concentration of hydroquinone O-β-D-glucopyranoside in material entity
+concentration of vanillic acid in material entity
+concentration of syringic acid in material entity
+concentration of methyl ketone in material entity
+concentration of acetophenone in material entity
+concentration of phenylacetic acid in material entity
+concentration of hydroxycinnamic acid in material entity
+concentration of caffeic acid in material entity
+concentration of sinapic acid in material entity
+concentration of chromones in material entity
+concentration of Chicoric acid in material entity
+concentration of coumaric acid in material entity
+concentration of 4-coumaric acid in material entity
+concentration of 2-coumaric acid in material entity
+concentration of 3-coumaric acid in material entity
+concentration of ferulic acid in material entity
+concentration of scopoletin in material entity
+concentration of phenylpropane in material entity
+concentration of naphthoquinone in material entity
+concentration of 1,2-napthoquinone in material entity
+concentration of 1,4-napthoquinone in material entity
+concentration of juglone in material entity
+concentration of stilbenoid in material entity
+concentration of stilbene in material entity
+concentration of anthraquinone in material entity
+concentration of aglycone in material entity
+concentration of emodin in material entity
+concentration of xanthones in material entity
+concentration of simple oxygenated xanthones in material entity
+concentration of xanthone glycoside in material entity
+concentration of prenylated and related xanthones in material entity
+concentration of xanthonolignoid in material entity
+concentration of flavonoids in material entity
+concentration of flavonoid in material entity
+concentration of malvidin in material entity
+concentration of kaempferol in material entity
+concentration of flavan in material entity
+concentration of flavanone in material entity
+concentration of 6-prenylnaringenin in material entity
+concentration of sophoraflavanone B in material entity
+concentration of eriocitrin in material entity
+concentration of eriodictyol in material entity
+concentration of hesperetin in material entity
+concentration of hesperidin in material entity
+concentration of homoeriodictyol in material entity
+concentration of 4&apos;-methoxy-5,7-dihydroxyflavanone in material entity
+concentration of naringenin in material entity
+concentration of naringin in material entity
+concentration of narirutin in material entity
+concentration of neoeriocitrin in material entity
+concentration of neohesperidin in material entity
+concentration of pinocembrin in material entity
+concentration of (2S)-poncirin in material entity
+concentration of sakuranetin in material entity
+concentration of flavone in material entity
+concentration of 6-hydroxyluteolin in material entity
+concentration of 6-hydroxyluteolin 7-O-laminaribioside in material entity
+concentration of 4&apos;,7-dihydroxyflavone in material entity
+concentration of apigenin in material entity
+concentration of baicalein in material entity
+concentration of chrysin in material entity
+concentration of cirsilineol in material entity
+concentration of cirsimaritin in material entity
+concentration of diosmin in material entity
+concentration of dihydromyricetin in material entity
+concentration of eupatorin in material entity
+concentration of gardenin B in material entity
+concentration of geraldone in material entity
+concentration of hispidulin in material entity
+concentration of isovitexin in material entity
+concentration of jaceosidin in material entity
+concentration of luteolin in material entity
+concentration of luteolin 7-O-β-D-glucoside(1−) in material entity
+concentration of myricitrin in material entity
+concentration of nobiletin in material entity
+concentration of quercetin in material entity
+concentration of apigenin 7-O-neohesperidoside in material entity
+concentration of scutellarein in material entity
+concentration of sinensetin in material entity
+concentration of tangeretin in material entity
+concentration of vitexin in material entity
+concentration of dihydroflavonols in material entity
+concentration of hydroxyflavan in material entity
+concentration of catechin in material entity
+concentration of (+)-catechin 3-O-gallate in material entity
+concentration of (+)-gallocatechin in material entity
+concentration of (-)-epicatechin in material entity
+concentration of (+)-epicatechin in material entity
+concentration of (-)-gallocatechin in material entity
+concentration of (-)-epicatechin-3-O-gallate in material entity
+concentration of (-)-epigallocatechin in material entity
+concentration of 3&apos;-O-methylepicatechin in material entity
+concentration of 4&apos;-O-methylepigallocatechin-3-O-gallate in material entity
+concentration of 4&apos;-O-methylepigallocatechin in material entity
+concentration of cinnamtannin A2 in material entity
+concentration of procyanidin in material entity
+concentration of procyanidin B1 in material entity
+concentration of procyanidin B2 in material entity
+concentration of procyanidin B3 in material entity
+concentration of procyanidin B4 in material entity
+concentration of procyanidin B5 in material entity
+concentration of procyanidin B6 in material entity
+concentration of procyanidin C1 in material entity
+concentration of procyanidin C2 in material entity
+concentration of theaflavin in material entity
+concentration of peltogynoid in material entity
+concentration of dihydrochalcones in material entity
+concentration of 3-hydroxyphloretin 2&apos;-O-xylosylglucoside in material entity
+concentration of phloretin in material entity
+concentration of phlorizin in material entity
+concentration of chalcones in material entity
+concentration of butein in material entity
+concentration of xanthohumol in material entity
+concentration of aurone in material entity
+concentration of anthocyanidin in material entity
+concentration of cyanidin cation in material entity
+concentration of cyanidin 3-O-β-D-galactoside in material entity
+concentration of cyanidin 3-O-rutinoside in material entity
+concentration of cyanidin 3-O-β-D-sambubioside in material entity
+concentration of Cyanidin 3-O-sophoroside in material entity
+concentration of isopeonidin 3-rutinoside in material entity
+concentration of pelargonidin in material entity
+concentration of pelargonidin 3-O-rutinoside in material entity
+concentration of anthocyanin in material entity
+concentration of anthocyanin chlorides in material entity
+concentration of cyanidin 3-O-β-D-galactoside chloride in material entity
+concentration of cyanidin 3-O-rutinoside chloride in material entity
+concentration of cyanin chloride in material entity
+concentration of pelargonidin 3-O-β-D-glucoside chloride in material entity
+concentration of β-D-glucoside in material entity
+concentration of delphinidin 3-O-β-D-glucoside in material entity
+concentration of petunidin 3-O-β-D-glucoside in material entity
+concentration of malvidin 3-O-β-D-glucoside in material entity
+concentration of isoflavonoid in material entity
+concentration of isoflavans in material entity
+concentration of isoflavanone in material entity
+concentration of isoflavones in material entity
+concentration of hydroxyisoflavone in material entity
+concentration of daidzein in material entity
+concentration of genistein in material entity
+concentration of glycitein in material entity
+concentration of glucoside in material entity
+concentration of daidzein 7-O-β-D-glucoside in material entity
+concentration of genistein 7-O-β-D-glucoside in material entity
+concentration of glycitin in material entity
+concentration of glycosyloxyisoflavone in material entity
+concentration of malonyldaidzin in material entity
+concentration of malonylgenistin in material entity
+concentration of malonylglycitin in material entity
+concentration of glycitein 7-(6-O-acetyl-β-D-glucoside) in material entity
+concentration of rotenoid in material entity
+concentration of coumestans in material entity
+concentration of coumestan in material entity
+concentration of coumestrol in material entity
+concentration of 3-arylcoumarin in material entity
+concentration of pterocarpans in material entity
+concentration of pterocarpan in material entity
+concentration of (_)-phaseolin in material entity
+concentration of (+)-pisatin in material entity
+concentration of neoflavonoid in material entity
+concentration of biflavonoid in material entity
+concentration of phenylpropanoid in material entity
+concentration of lignan in material entity
+concentration of 3,5,7-trihydroxy-2-[3-(4-hydroxy-3-methoxyphenyl)-2-(hydroxymethyl)-2,3-dihydro-1,4-benzodioxin-6-yl]-3,4-dihydro-2H-1-benzopyran-4-one in material entity
+concentration of neolignan in material entity
+concentration of lignin in material entity
+concentration of Melanin in material entity
+concentration of catechol melanin in material entity
+concentration of allomelanin in material entity
+concentration of terpenoid in material entity
+concentration of monoterpenoid in material entity
+concentration of sesquiterpenoid in material entity
+concentration of diterpenoid in material entity
+concentration of xanthophyll in material entity
+concentration of zeaxanthin in material entity
+concentration of α-cryptoxanthin in material entity
+concentration of β-cryptoxanthin in material entity
+concentration of lutein in material entity
+concentration of phytoene in material entity
+concentration of neoxanthin in material entity
+concentration of violaxanthin in material entity
+concentration of lycopene in material entity
+concentration of 7,7&apos;,9,9&apos;-tetra-cis-lycopene in material entity
+concentration of retinol in material entity
+concentration of triterpenoid in material entity
+concentration of organic acid in material entity
+concentration of acetic acid in material entity
+concentration of citric acid in material entity
+concentration of 2-hydroxypropanoic acid in material entity
+concentration of (R)-lactic acid in material entity
+concentration of (S)-lactic acid in material entity
+concentration of malic acid in material entity
+concentration of malonic acid in material entity
+concentration of ascorbic acid in material entity
+concentration of L-dehydroascorbic acid in material entity
+concentration of oxalic acid in material entity
+concentration of myo-inositol hexakisphosphate in material entity
+concentration of quinic acid in material entity
+concentration of pyruvic acid in material entity
+concentration of shikimic acid in material entity
+concentration of succinic acid in material entity
+concentration of tartaric acid in material entity
+concentration of isocitric acid in material entity
+concentration of oxaloacetic acid in material entity
+concentration of inositol in material entity
+concentration of taurine in material entity
+concentration of glycine betaine in material entity
+concentration of polyol in material entity
+concentration of mannitol in material entity
+concentration of xylitol in material entity
+concentration of glucitol in material entity
+concentration of choline in material entity
+concentration of polyunsaturated fatty acid in material entity
+concentration of glucomannan in material entity
+concentration of glycerol in material entity
+concentration of triglyceride in material entity
+concentration of xyloglucan in material entity
+concentration of arabinan in material entity
+concentration of galacturonan in material entity
+concentration of monounsaturated fatty acid in material entity
+concentration of rhamnogalacturonan in material entity
+concentration of saturated fatty acid in material entity
+concentration of galactomannan in material entity
+concentration of amylopectin in material entity
+concentration of amylose in material entity
+concentration of arabinoxylan in material entity
+concentration of mannan in material entity
+concentration of amino acid in material entity
+concentration of fatty acid in material entity
+concentration of galactan in material entity
+concentration of xylan in material entity
+concentration of glucan in material entity
+concentration of amylopectin derived from starch in material entity
+concentration of amylose derived from starch in material entity
+concentration of galacturonan derived from pectin in material entity
+concentration of rhamnogalacturonan derived from pectin in material entity
+concentration of mannan derived from hemicellulose in material entity
+concentration of xylan derived from hemicellulose in material entity
+concentration of xyloglucan derived from hemicellulose in material entity
+concentration of glucomannan derived from hemicellulose in material entity
+concentration of arabinoxylan derived from hemicellulose in material entity
+concentration of fructan derived from hemicellulose in material entity
+concentration of arabinan derived from hemicellulose in material entity
+concentration of galactomannan derived from hemicellulose in material entity
+concentration of galactan derived from hemicellulose in material entity
+concentration of glucose derived from amylopectin derived from starch in material entity
+concentration of glucose derived from amylose derived from starch in material entity
+concentration of glucose derived from sucrose in material entity
+concentration of fructose derived from sucrose in material entity
+concentration of glucose derived from maltose in material entity
+concentration of galacturonic acid derived from galacturonan derived from pectin in material entity
+concentration of rhamnose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of D-apiose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of galacturonic acid derived from rhamnogalacturonan derived from pectin in material entity
+concentration of fucose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of xylose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of arabinose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of galactose derived from rhamnogalacturonan derived from pectin in material entity
+concentration of raffinose derived from raffinose family oligosaccharide in material entity
+concentration of galactose derived from raffinose derived from raffinose family oligosaccharide in material entity
+concentration of glucose derived from raffinose derived from raffinose family oligosaccharide in material entity
+concentration of fructose derived from raffinose derived from raffinose family oligosaccharide in material entity
+concentration of stachyose derived from raffinose family oligosaccharide in material entity
+concentration of galactose derived from stachyose derived from raffinose family oligosaccharide in material entity
+concentration of glucose derived from stachyose derived from raffinose family oligosaccharide in material entity
+concentration of fructose derived from stachyose derived from raffinose family oligosaccharide in material entity
+concentration of verbascose derived from rraffinose family oligosaccharide in material entity
+concentration of galactose derived from verbascose derived from raffinose family oligosaccharide in material entity
+concentration of glucose derived from verbascose derived from raffinose family oligosaccharide in material entity
+concentration of fructose derived from verbascose derived from raffinose family oligosaccharide in material entity
+concentration of glucose derived from cellulose in material entity
+concentration of mannose derived from mannan derived from hemicellulose in material entity
+concentration of glucose derived from xylan derived from hemicellulose in material entity
+concentration of xylose derived from xylan derived from hemicellulose in material entity
+concentration of glucose derived from xyloglucan derived from hemicellulose in material entity
+concentration of xylose derived from xyloglucan derived from hemicellulose in material entity
+concentration of glucose derived from glucomannan derived from hemicellulose in material entity
+concentration of mannose derived from glucomannan derived from hemicellulose in material entity
+concentration of arabinose derived from arabinoxylan derived from hemicellulose in material entity
+concentration of xylose derived from arabinoxylan derived from hemicellulose in material entity
+concentration of inulin derived from fructan in material entity
+concentration of fructose derived from inulin derived from fructan in material entity
+concentration of amino acid derived from protein in material entity
+concentration of isoprenoid in material entity
+concentration of terpene in material entity
+concentration of tetraterpene in material entity
+concentration of carotene in material entity
+concentration of tetraterpenoid in material entity
+concentration of methylmercury compound in material entity
+concentration of thiamine hydrochloride in material entity
+concentration of vitamin B2 in material entity
+concentration of vitamin B3 in material entity
+concentration of vitamin B5 in material entity
+concentration of vitamin B6 in material entity
+concentration of vitamin B7 in material entity
+concentration of vitamin B9 in material entity
+concentration of tetrahydrofolate in material entity
+concentration of vitamin B12 in material entity
+concentration of all-trans-retinol in material entity
+concentration of D3 vitamins in material entity
+concentration of calciol in material entity
+concentration of vitamin D2 in material entity
+concentration of vitamin D4 in material entity
+concentration of vitamin D5 in material entity
+concentration of menadione in material entity
+concentration of menaquinone in material entity
+concentration of phylloquinone in material entity
+concentration of dietary calcium in material entity
+concentration of inorganic calcium salt in material entity
+concentration of calcium dichloride in material entity
+concentration of calcium carbonate in material entity
+concentration of calcium difluoride in material entity
+concentration of calcium sulfate in material entity
+concentration of calcium phosphate in material entity
+concentration of calcium hydroxide in material entity
+concentration of calcium hypochlorite in material entity
+concentration of calcium silicate in material entity
+concentration of organic calcium salt in material entity
+concentration of calcium citrate in material entity
+concentration of calcium glycerophosphate in material entity
+concentration of calcium stearate in material entity
+concentration of organic calcium compound in material entity
+concentration of dietary chlorine in material entity
+concentration of inorganic chloride in material entity
+concentration of sodium chloride in material entity
+concentration of calcium dichloride in material entity
+concentration of magnesium dichloride in material entity
+concentration of potassium chloride in material entity
+concentration of lithium chloride in material entity
+concentration of organic chloride salt in material entity
+concentration of organochlorine compound in material entity
+concentration of hydrogen chloride in material entity
+concentration of hypochlorite in material entity
+concentration of dietary magnesium in material entity
+concentration of inorganic magnesium salt in material entity
+concentration of magnesium dichloride in material entity
+concentration of magnesium phosphate in material entity
+concentration of magnesium hydroxide in material entity
+concentration of organic magnesium salt in material entity
+concentration of magnesium distearate in material entity
+concentration of magnesium carbonate in material entity
+concentration of dietary phosphorus in material entity
+concentration of phosphoric acid in material entity
+concentration of inorganic phosphate salt in material entity
+concentration of sodium phosphate in material entity
+concentration of tripotassium phosphate in material entity
+concentration of iron(3+) phosphate in material entity
+concentration of organic phosphate salt in material entity
+concentration of organic phosphate compound in material entity
+concentration of lysophosphatidylcholine in material entity
+concentration of phosphatidylcholine in material entity
+concentration of phosphatidylethanolamine in material entity
+concentration of phosphatidylinositol in material entity
+concentration of 3-sn-phosphatidyl-L-serine in material entity
+concentration of myo-inositol hexakisphosphate in material entity
+concentration of dietary potassium in material entity
+concentration of inorganic potassium salt in material entity
+concentration of potassium sulfate in material entity
+concentration of organic potassium salt in material entity
+concentration of potassium formate in material entity
+concentration of potassium bitartrate in material entity
+concentration of dietary sodium in material entity
+concentration of inorganic sodium salt in material entity
+concentration of sodium chloride in material entity
+concentration of sodium hydrogencarbonate in material entity
+concentration of sodium sulfate in material entity
+concentration of sodium hydrogensulfite in material entity
+concentration of sodium borohydride in material entity
+concentration of sodium bromate in material entity
+concentration of sodium chlorate in material entity
+concentration of sodium cyanide in material entity
+concentration of sodium fluoride in material entity
+concentration of sodium hydroxide in material entity
+concentration of Sodium iodate in material entity
+concentration of sodium nitrate in material entity
+concentration of organic sodium salt in material entity
+concentration of sodium oxalate in material entity
+concentration of sodium L-tartrate in material entity
+concentration of sodium formate in material entity
+concentration of sodium phenolate in material entity
+concentration of sodium citrate in material entity
+concentration of dietary sulfur in material entity
+concentration of sulfite in material entity
+concentration of inorganic sulfate salt in material entity
+concentration of magnesium sulfate in material entity
+concentration of iron(2+) sulfate (anhydrous) in material entity
+concentration of sodium hydrogensulfite in material entity
+concentration of copper(II) sulfate in material entity
+concentration of organic sulfate in material entity
+concentration of organosulfur compound in material entity
+concentration of thiol in material entity
+concentration of glutathione in material entity
+concentration of sulfonyldimethane in material entity
+concentration of dimethyl sulfoxide in material entity
+concentration of cysteine in material entity
+concentration of methionine in material entity
+concentration of glycosinolate in material entity
+concentration of sinigrin in material entity
+concentration of isothiocyanate in material entity
+concentration of allyl isothiocyanate in material entity
+concentration of sulfur dioxide in material entity
+concentration of dietary chromium in material entity
+concentration of inorganic chromium salt in material entity
+concentration of organic chromium salt in material entity
+concentration of dietary copper in material entity
+concentration of inorganic copper salt in material entity
+concentration of organic copper salt in material entity
+concentration of dietary fluorine in material entity
+concentration of inorganic fluoride salt in material entity
+concentration of organic fluoride salt in material entity
+concentration of dietary iodine in material entity
+concentration of inorganic iodine salt in material entity
+concentration of organic iodine salt in material entity
+concentration of dietary iron in material entity
+concentration of inorganic iron salt in material entity
+concentration of iron(2+) sulfate (anhydrous) in material entity
+concentration of organic iron salt in material entity
+concentration of organic iron compound in material entity
+concentration of ferric ammonium citrate in material entity
+concentration of dietary manganese in material entity
+concentration of manganese(3+) in material entity
+concentration of inorganic manganese salt in material entity
+concentration of organic manganese salt in material entity
+concentration of dietary molybdenum in material entity
+concentration of molybdenum(6+) in material entity
+concentration of inorganic molybdenum salt in material entity
+concentration of organic molybdenum salt in material entity
+concentration of dietary selenium in material entity
+concentration of selenium(4+) in material entity
+concentration of selenium(6+) in material entity
+concentration of inorganic selenium salt in material entity
+concentration of organic selenium salt in material entity
+concentration of dietary zinc in material entity
+concentration of inorganic zinc salt in material entity
+concentration of organic zinc salt in material entity
+concentration of collagen in material entity
+concentration of elastin in material entity
+concentration of fibrin in material entity
+concentration of hemoglobin in material entity
+concentration of myoglobin in material entity
+concentration of beta-lactoglobulin in material entity
+concentration of napin in material entity
+concentration of gliadin in material entity
+concentration of L-fucose in material entity
+concentration of D-xylose in material entity
+concentration of L-arabinofuranose in material entity
+concentration of L-arabinopyranose in material entity
+concentration of lactose in material entity
+concentration of lactulose in material entity
+concentration of D-mannose in material entity
+concentration of β-D-Gal-(1→3)-β-D-GlcNAc-(1→3)-β-D-Gal-(1→4)-D-Glc in material entity
+concentration of dextrins in material entity
+concentration of maltodextrin in material entity
+concentration of cyclodextrin in material entity
+concentration of amylodextrin in material entity
+concentration of cellodextrin in material entity
+concentration of gum in material entity
+concentration of heteroglycan in material entity
+concentration of alginic acid in material entity
+concentration of carrageenan in material entity
+concentration of ι-carrageenan in material entity
+concentration of κ-carrageenan in material entity
+concentration of λ-carrageenan in material entity
+concentration of xanthan in material entity
+concentration of ketose in material entity
+concentration of ketohexose in material entity
+concentration of psicose in material entity
+concentration of polyol in material entity
+concentration of maltitol in material entity
+concentration of mannitol in material entity
+concentration of glycerol in material entity
+concentration of glucitol in material entity
+concentration of xylitol in material entity
+concentration of lactitol in material entity
+concentration of isomalt in material entity
+concentration of erythritol in material entity
+concentration of alditol in material entity
+concentration of D-galacturonic acid in material entity
+concentration of 6-O-α-D-glucopyranosyl-D-fructofuranose in material entity
+concentration of sialic acid in material entity
+concentration of Polydextrose in material entity
+concentration of chitosan in material entity
+concentration of 8,5&apos;-diferulic acid in material entity
+concentration of piceatannol in material entity
+concentration of acteoside in material entity
+concentration of pelargonin in material entity
+concentration of (+)-pinoresinol in material entity
+concentration of (-)-secoisolariciresinol in material entity
+concentration of demethoxycurcumin in material entity
+concentration of (-)-matairesinol in material entity
+concentration of bisdemethoxycurcumin in material entity
+concentration of (+)-catechin-3&apos;-methyl ether in material entity
+concentration of 4&apos;-O-methyl-(−)-epicatechin in material entity
+concentration of curcumin in material entity
+concentration of (2-cis,6-cis)-farnesol in material entity
+concentration of (E)-trans-miyabenol C in material entity
+concentration of trans-rhaponticin in material entity
+concentration of stilbenol in material entity
+concentration of pinosylvin in material entity
+concentration of resveratrol sulfate in material entity
+concentration of guaiacol in material entity
+concentration of (E)-sinapaldehyde in material entity
+concentration of 4-hydroxyphenylacetic acid in material entity
+concentration of hydroxybenzaldehyde in material entity
+concentration of 4-hydroxybenzaldehyde in material entity
+concentration of benzenetriol in material entity
+concentration of digallic acid in material entity
+concentration of pyrogallol in material entity
+concentration of Dodecyl gallate in material entity
+concentration of trans-2-coumaric acid in material entity
+concentration of vanillin in material entity
+concentration of eugenol in material entity
+concentration of benzenediols in material entity
+concentration of 3,4-dihydroxybenzaldehyde in material entity
+concentration of 5-heptadecylresorcinol in material entity
+concentration of 5-tricosylresorcinol in material entity
+concentration of cardol in material entity
+concentration of 3,5-dihydroxybenzoic acid in material entity
+concentration of 2&apos;,4&apos;-dihydroxyacetophenone in material entity
+concentration of hydroquinone in material entity
+concentration of dopamine in material entity
+concentration of resorcinol in material entity
+concentration of 2-(4-hydroxyphenyl)ethanol in material entity
+concentration of 4-hydroxystyrene in material entity
+concentration of 2-methoxy-4-vinylphenol in material entity
+concentration of (−)-lariciresinol in material entity
+concentration of (+)-lariciresinol in material entity
+concentration of Sesamolinol in material entity
+concentration of 2-O-sulfate-4-hydroxyacetophenone in material entity
+concentration of 2,3-dihydrobiochanin A in material entity
+concentration of 4-hydroxymandelic acid in material entity
+concentration of vestitone in material entity
+concentration of 3-hydroxyphenylacetic acid in material entity
+concentration of (2-hydroxyphenyl)acetic acid in material entity
+concentration of Paeonol in material entity
+concentration of m-hydroxyhippuric acid in material entity
+concentration of 3-(3-hydroxyphenyl)-3-hydroxypropanoic acid in material entity
+concentration of deoxyhumulone in material entity
+concentration of tyramine in material entity
+concentration of 3-(2-hydroxyphenyl)propanoic acid in material entity
+concentration of kievitone in material entity
+concentration of vanillyl alcohol in material entity
+concentration of vanillylmandelic acid in material entity
+concentration of serotonin in material entity
+concentration of dopamine 3-O-sulfate in material entity
+concentration of gentisyl alcohol in material entity
+concentration of quinol sulfate in material entity
+concentration of biphenyl-2-ol in material entity
+concentration of (3,4-dihydroxyphenyl)acetic acid in material entity
+concentration of 3,4-dihydroxybenzoic acid in material entity
+concentration of 4-methylcatechol in material entity
+concentration of 3-methylcatechol in material entity
+concentration of 3,4-dihydroxyphenylethyleneglycol in material entity
+concentration of 3-phenylpropionic acid in material entity
+concentration of 3-O-methylgallic acid in material entity
+concentration of anthoxanthin in material entity
+concentration of flavones in material entity
+concentration of diosmetin in material entity
+concentration of myricetin in material entity
+concentration of hydroxyflavone in material entity
+concentration of luteolin 7-O-neohesperidoside in material entity
+concentration of isopimpinellin in material entity
+concentration of kaempferol 3-O-beta-D-glucoside in material entity
+concentration of rutin in material entity
+concentration of naringenin 7-O-β-D-glucoside in material entity
+concentration of luteolin 7-O-beta-D-glucoside in material entity
+concentration of quercetin 3-O-beta-D-glucofuranoside in material entity
+concentration of luteolin 7-O-beta-D-glucosiduronic acid in material entity
+concentration of apigenin 7-O-beta-D-glucoside in material entity
+concentration of quercitrin in material entity
+concentration of (S)-naringenin in material entity
+concentration of galangin in material entity
+concentration of kaempferide in material entity
+concentration of luteolin 7-O-(6-O-malonyl-β-D-glucoside) in material entity
+concentration of quercetin 3,4&apos;-di-O-β-D-glucoside in material entity
+concentration of quercetin 7,4&apos;-di-O-β-D-glucoside in material entity
+concentration of kaempferol 3-O-β-D-glucosyl-(1→2)-β-D-glucoside in material entity
+concentration of quercetin 3-O-β-D-glucosyl-(1→2)-β-D-glucoside in material entity
+concentration of isorhamnetin in material entity
+concentration of quercetin 3-O-β-D-galactopyranoside in material entity
+concentration of 4&apos;,5,7-trihydroxy-3&apos;-methoxyflavone in material entity
+concentration of kaempferol 3-O-β-D-galactoside in material entity
+concentration of fisetin in material entity
+concentration of 3&apos;,5&apos;-di-O-methyltricetin in material entity
+concentration of lucenin-2 in material entity
+concentration of quercetin 3-O-β-D-glucopyranoside in material entity
+concentration of kaempferol 3-O-glucuronide in material entity
+concentration of quercetin 4ʼ-O-β-D-glucopyranoside in material entity
+concentration of flavonols in material entity
+concentration of isoorientin in material entity
+concentration of miquelianin in material entity
+concentration of eupatilin in material entity
+concentration of cyanin in material entity
+concentration of galangin 3,5,7-trimethyl ether in material entity
+concentration of anthocyanin cation in material entity
+concentration of Tulipanin in material entity
+concentration of petunidin in material entity
+concentration of Dalbergin in material entity
+concentration of pelargonidin 3-O-beta-D-glucoside in material entity
+concentration of peonidin 3-O-β-D-glucoside in material entity
+concentration of isoliquiritigenin in material entity
+concentration of trilobatin in material entity
+concentration of 3,6,9-trihydroxypterocarpan in material entity
+concentration of phaseollidin in material entity
+concentration of delphinidin chloride in material entity
+concentration of pelargonidin chloride in material entity
+concentration of peonidin chloride in material entity
+concentration of delphinidin in material entity
+concentration of peonidin in material entity
+concentration of hydroxyflavanone in material entity
+concentration of astilbin in material entity
+concentration of flavanonol in material entity
+concentration of (+)-taxifolin in material entity
+concentration of garbanzol in material entity
+concentration of liquiritigenin in material entity
+concentration of betagarin in material entity
+concentration of (+)-catechin in material entity
+concentration of Cyclokievitone in material entity
+concentration of equol in material entity
+concentration of Sayanedine in material entity
+concentration of formononetin in material entity
+concentration of methoxyisoflavone in material entity
+concentration of Irisolidone in material entity
+concentration of biochanin A in material entity
+concentration of 2&apos;-hydroxyformononetin in material entity
+concentration of calycosin in material entity
+concentration of 4&apos;,6,7-trihydroxyisoflavone in material entity
+concentration of orobol in material entity
+concentration of irilone in material entity
+concentration of 3&apos;,4&apos;,7-trihydroxyisoflavone in material entity
+concentration of prunetin in material entity
+concentration of 2&apos;-hydroxydaidzein in material entity
+concentration of licoisoflavone A in material entity
+concentration of genistein(1−) in material entity
+concentration of sanguiin H6 in material entity
+concentration of lambertianin C in material entity
+concentration of punicalagin in material entity
+concentration of Punicalin in material entity
+concentration of agrimoniin in material entity
+concentration of theogallin in material entity
+concentration of cinnamtannin B-1 in material entity
+concentration of theasinensin A in material entity
+concentration of arecatannin a2 in material entity
+concentration of Schisantherin A in material entity
+concentration of Terminalin in material entity
+concentration of (-)-Variabilin in material entity
+concentration of Casuarictin in material entity
+concentration of Casuarinin in material entity
+concentration of Chebulinic acid in material entity
+concentration of Fucofuroeckol B in material entity
+concentration of Geraniin in material entity
+concentration of Pedunculagin in material entity
+concentration of Tellimagrandin I in material entity
+concentration of 4-hydroxybenzoic acid in material entity
+concentration of 3-hydroxybenzoic acid in material entity
+concentration of 2,3-dihydroxybenzoic acid in material entity
+concentration of 2,5-dihydroxybenzoic acid in material entity
+concentration of 2,6-dihydroxybenzoic acid in material entity
+concentration of 2,4,6-Trihydroxybenzoic acid in material entity
+concentration of 3-hydroxy-4-methoxybenzoic acid in material entity
+concentration of n-propyl gallate in material entity
+concentration of resveratrol in material entity
+concentration of pterostilbene in material entity
+concentration of coumarin in material entity
+concentration of umbelliferone in material entity
+concentration of trans-4-coumaric acid in material entity
+concentration of trans-3-coumaric acid in material entity
+concentration of trans-caffeic acid in material entity
+concentration of rosmarinic acid in material entity
+concentration of (R)-rosmarinic acid in material entity
+concentration of cis-caffeic acid in material entity
+concentration of Trachelogenin in material entity
+concentration of isoeugenol in material entity
+concentration of 4-methylumbelliferone β-D-glucuronide in material entity
+concentration of 4-methylumbelliferone sulfate in material entity
+concentration of 7-ethoxycoumarin in material entity
+concentration of esculin in material entity
+concentration of scoparone in material entity
+concentration of coniferyl aldehyde in material entity
+concentration of cinnamaldehydes in material entity
+concentration of theophylline in material entity
+concentration of solanine in material entity
+concentration of tomatine in material entity
+concentration of piperine in material entity
+concentration of gingerol in material entity
+concentration of harman in material entity
+concentration of hordenine in material entity
+concentration of Isobetanin in material entity
+concentration of Physoperuvine in material entity
+concentration of Prebetanin in material entity
+concentration of trans-4-hydroxy-L-proline betaine in material entity
+concentration of humulone in material entity
+concentration of Rishitin in material entity
+concentration of propane-1,2-diol in material entity
+concentration of myo-inositol in material entity
+concentration of farnesol in material entity
+concentration of capsidiol in material entity
+concentration of Cynaropicrin in material entity
+concentration of Isocaryophyllene in material entity
+concentration of (+)-valencene in material entity
+concentration of Lactupicrin in material entity
+concentration of Matricin in material entity
+concentration of Nobilin in material entity
+concentration of (+)-nootkatone in material entity
+concentration of lactucopicrin in material entity
+concentration of Tricyclodehydroisohumulone in material entity
+concentration of crocetin in material entity
+concentration of Ineketone in material entity
+concentration of Norbixin in material entity
+concentration of Phaseoloside D in material entity
+concentration of stevioside in material entity
+concentration of steviol glycoside in material entity
+concentration of Carnosol in material entity
+concentration of carnosic acid in material entity
+concentration of sesterterpenoid in material entity
+concentration of Avenacin B-2 in material entity
+concentration of glycyrrhetinic acid in material entity
+concentration of betulinic acid in material entity
+concentration of Cucurbitacin C in material entity
+concentration of diosgenin in material entity
+concentration of erythrodiol in material entity
+concentration of (20S)-ginsenoside Rg3 in material entity
+concentration of nomilin in material entity
+concentration of Obacunone in material entity
+concentration of ginsenoside Rg2 in material entity
+concentration of ginsenoside Rb2 in material entity
+concentration of ginsenoside Rc in material entity
+concentration of soyasapogenol B in material entity
+concentration of Soyasaponin A1 in material entity
+concentration of ursolic acid in material entity
+concentration of all-trans-phytoene in material entity
+concentration of lutein 5,6-epoxide in material entity
+concentration of antheraxanthin in material entity
+concentration of all-trans-neoxanthin in material entity
+concentration of canthaxanthin in material entity
+concentration of capsanthin in material entity
+concentration of capsorubin in material entity
+concentration of all-trans-violaxanthin in material entity
+concentration of astaxanthin in material entity
+concentration of echinenone in material entity
+concentration of Flavoxanthin in material entity
+concentration of fucoxanthin in material entity
+concentration of lactucaxanthin in material entity
+concentration of zeinoxanthin in material entity
+concentration of lycoxanthin in material entity
+concentration of Mutatochrome in material entity
+concentration of Physalien in material entity
+concentration of rubixanthin in material entity
+concentration of paeoniflorin in material entity
+concentration of Yamogenin in material entity
+concentration of rebaudioside A in material entity
+concentration of rebaudioside B(1−) in material entity
+concentration of rebaudioside E in material entity
+concentration of rebaudioside D in material entity
+concentration of retinal in material entity
+concentration of 13-cis-retinal in material entity
+concentration of (R)-camphor in material entity
+concentration of (+)-exo-5-hydroxycamphor in material entity
+concentration of (+)-carvone in material entity
+concentration of perillyl alcohol in material entity
+concentration of (S)-(-)-perillyl alcohol in material entity
+concentration of glycyrrhizinic acid in material entity
+concentration of limonin in material entity
+concentration of (1S,4R)-fenchone in material entity
+concentration of limonene-1,2-diol in material entity
+concentration of phytol in material entity
+concentration of 2-trans,6-trans-farnesyl diphosphate in material entity
+concentration of geraniol in material entity
+concentration of all-trans-retinal in material entity
+concentration of absinthin in material entity
+concentration of myrtenic acid in material entity
+concentration of avenacin A-1 in material entity
+concentration of lubimin in material entity
+concentration of 1,8-cineole in material entity
+concentration of borneol in material entity
+concentration of Azukisaponin III in material entity
+concentration of (2E,6E)-farnesyl monophosphate in material entity
+concentration of soyasaponin I in material entity
+concentration of Spinasaponin A in material entity
+concentration of Theasaponin in material entity
+concentration of (−)-α-thujone in material entity
+concentration of phloretic acid in material entity
+concentration of amino acid derived from non-proteinacious in material entity
+concentration of citrulline in material entity
+concentration of ornithine in material entity
+concentration of glucosinolate in material entity
+concentration of glucoberteroin(1-) in material entity
+concentration of glucocapparin(1-) in material entity
+concentration of glucocochlearin(1-) in material entity
+concentration of glucoerucin(1-) in material entity
+concentration of glucoiberverin(1-) in material entity
+concentration of gluconapin(1-) in material entity
+concentration of gluconapoleiferin(1-) in material entity
+concentration of gluconasturtiin(1-) in material entity
+concentration of glucoputranjivin(1-) in material entity
+concentration of glucoraphenin(1-) in material entity
+concentration of glucobrassicin(1-) in material entity
+concentration of progoitrin(1−) in material entity
+concentration of Sinalbin in material entity
+concentration of sinigrin(1-) in material entity
+concentration of diarylheptanoid in material entity
+concentration of myricanone in material entity
+concentration of high molecular weight dietary fibre in material entity
+concentration of fermentable dietary fibre in material entity
+concentration of non-fermentable dietary fibre in material entity
+concentration of viscous dietary fibre in material entity
+concentration of added dietary fibre in material entity
+concentration of prebiotic dietary fibre in material entity
+concentration of soluble dietary fibre precipitate (SDFP) in material entity
+concentration of soluble dietary fibre soluble (SDFS) in material entity
+concentration of low molecular weight dietary fibre in material entity
+nutritional functional attribute
+dietary material physical attribute
+human dietary role
+Yamogenin
+gingerol
+alpha-cryptoxanthin
+beta-cryptoxanthin
+kappa-carrageenan
+n-propyl gallate
+(S)-(-)-perillyl alcohol
+(S)-(-)-perillyl alcohol
+(-)-phaseolin
+3-sn-phosphatidyl-L-serine
+3-sn-phosphatidyl-L-serine
+(-)-Variabilin
+3,5,7-trihydroxy-2-[3-(4-hydroxy-3-methoxyphenyl)-2-(hydroxymethyl)-2,3-dihydro-1,4-benzodioxin-6-yl]-3,4-dihydro-2H-1-benzopyran-4-one
+3,5,7-trihydroxy-2-[3-(4-hydroxy-3-methoxyphenyl)-2-(hydroxymethyl)-2,3-dihydro-1,4-benzodioxin-6-yl]-3,4-dihydro-2H-1-benzopyran-4-one
+vitamin A
+vitamin A
+iron(3+) phosphate
+iron(3+) phosphate
+7,10,13,16-docosatetraenoic acid
+7,10,13,16-docosatetraenoic acid
+1,2-naphthoquinones
+1,4-naphthoquinones
+1,4-naphthoquinones
+sodium oxalate
+sodium oxalate
+acteoside
+acteoside
+glycitein 7-(6-O-acetyl-beta-D-glucoside)
+pelargonin
+pelargonin
+deoxyhumulone
+deoxyhumulone
+theaflavin
+theaflavin
+eupatorin
+eupatorin
+4-hydroxy-all-trans-beta-carotene
+Myricanone
+Myricanone
+isopeonidin 3-rutinoside
+isopeonidin 3-rutinoside
+2-O-sulfate-4-hydroxyacetophenone
+2-O-sulfate-4-hydroxyacetophenone
+rebaudioside A
+rebaudioside A
+rebaudioside B(1-)
+rebaudioside E
+rebaudioside D
+steviol glycoside
+trilobatin
+5-heptadecylresorcinol
+5-heptadecylresorcinol
+5-tricosylresorcinol
+5-tricosylresorcinol
+(+)-catechin-3&apos;-methyl ether
+(+)-catechin-3&apos;-methyl ether
+isomalt
+isomalt
+retinal
+sulfide(2-)
+choline
+choline
+cysteine
+cysteine
+acetic acid
+acetic acid
+water
+water
+(R)-camphor
+(+)-exo-5-hydroxycamphor
+(+)-exo-5-hydroxycamphor
+(+)-carvone
+(+)-carvone
+perillyl alcohol
+glycine
+glycine
+inulin
+inulin
+(+)-catechin
+(+)-catechin
+5-formyltetrahydrofolic acid
+5-formyltetrahydrofolic acid
+3,6,9-trihydroxypterocarpan
+2,3-dihydrobiochanin A
+succinic acid
+succinic acid
+hexadecanoic acid
+hexadecanoic acid
+tyramine
+tyramine
+juglone
+juglone
+arachidonic acid
+arachidonic acid
+bromide
+bromide
+luteolin
+luteolin
+sterol
+sterol
+taurine
+taurine
+glycyrrhizinic acid
+glycyrrhizinic acid
+nicotinic acid
+nicotinic acid
+lycopene
+lycopene
+biotin
+biotin
+D-mannose
+D-mannose
+phosphatidylethanolamine
+phosphatidylethanolamine
+3-(2-hydroxyphenyl)propanoic acid
+3-(2-hydroxyphenyl)propanoic acid
+chlorogenic acid
+chlorogenic acid
+cholesterol
+cholesterol
+shikimic acid
+shikimic acid
+pyrogallol
+pyrogallol
+oleic acid
+oleic acid
+phloroglucinol
+phloroglucinol
+limonin
+quercetin
+quercetin
+phospholipid
+phospholipid
+chitosan
+chitosan
+menaquinone
+menaquinone
+iodide
+iodide
+4-hydroxymandelic acid
+4-hydroxymandelic acid
+trans-caffeic acid
+alanine
+alanine
+(1S,4R)-fenchone
+4&apos;,5,7-trihydroxy-3&apos;-methoxyflavone
+coniferyl aldehyde
+raffinose
+raffinose
+carbohydrate
+carbohydrate
+prolamin
+prolamin
+cruciferin
+cruciferin
+glutenin
+glutenin
+avenasterol
+avenasterol
+delta7-stigmasterol
+delta7-stigmasterol
+D-apiose
+D-apiose
+phenolic acid
+phenolic acid
+phenylpropane
+phenylpropane
+aglycone
+aglycone
+eicosatetraenoic acid
+eicosatetraenoic acid
+xanthonolignoid
+xanthonolignoid
+procyanidin
+procyanidin
+peltogynoid
+peltogynoid
+3-arylcoumarin
+3-arylcoumarin
+allomelanin
+allomelanin
+globulin type
+globulin type
+albumin type
+albumin type
+simple oxygenated xanthones
+simple oxygenated xanthones
+prenylated and related xanthones
+prenylated and related xanthones
+cis-fatty acid
+cis-fatty acid
+trans-fatty acid
+trans-fatty acid
+pyridoxine
+pyridoxine
+mineral nutrient
+mineral nutrient
+cyanidin 3-O-rutinoside chloride
+cyanidin 3-O-rutinoside chloride
+Punicalagin
+Punicalagin
+Punicalin
+apigenin 7-O-beta-D-glucoside
+vestitone
+vestitone
+mercury(2+)
+mercury(2+)
+methionine
+methionine
+kievitone
+kievitone
+glutathione
+glutathione
+salicylic acid
+salicylic acid
+ergosterol
+ergosterol
+vitexin
+vitexin
+heteroglycan
+heteroglycan
+oxalic acid
+oxalic acid
+riboflavin
+riboflavin
+glucomannan
+glucomannan
+biphenyl-2-ol
+biphenyl-2-ol
+fluoride
+fluoride
+erythritol
+erythritol
+xylitol
+xylitol
+stachyose
+stachyose
+rosmarinic acid
+glucose
+glucose
+4-methylcatechol
+myo-inositol
+myo-inositol
+phloretin
+phloretin
+maltose
+maltose
+pectin
+pectin
+phytol
+all-trans-retinol
+all-trans-retinol
+linoleic acid
+linoleic acid
+sulfite
+sulfite
+cis-caffeic acid
+myo-inositol hexakisphosphate
+myo-inositol hexakisphosphate
+cyanocob(III)alamin
+cyanocob(III)alamin
+3-hydroxyphenylacetic acid
+3-hydroxyphenylacetic acid
+geraniol
+scopoletin
+scopoletin
+4&apos;-O-methyl-(-)-epicatechin
+alditol
+alditol
+Dodecyl gallate
+Dodecyl gallate
+L-arabinopyranose
+L-arabinopyranose
+alginic acid
+alginic acid
+phaseollidin
+quercitrin
+biochanin A
+beta-carotene
+hydroquinone
+hydroquinone
+4-hydroxybenzaldehyde
+4-hydroxybenzaldehyde
+ferulic acid
+ferulic acid
+2&apos;-hydroxyformononetin
+vitamin C
+vitamin C
+vitamin B2
+vitamin B2
+vitamin B3
+vitamin B3
+vitamin B5
+vitamin B5
+vitamin B7
+vitamin B7
+vitamin B9
+vitamin B9
+vitamin B12
+vitamin B12
+lactose
+lactose
+glycine betaine
+glycine betaine
+glycerol
+glycerol
+calycosin
+serine
+serine
+(S)-naringenin
+triglyceride
+triglyceride
+hydrogen chloride
+hydrogen chloride
+all-trans-retinal
+calcidiol
+calcidiol
+(+)-taxifolin
+isoorientin
+sucrose
+sucrose
+chloride
+chloride
+D-galacturonic acid
+D-galacturonic acid
+diglyceride
+diglyceride
+lipid
+lipid
+phylloquinone
+phylloquinone
+formononetin
+4-hydroxyphenylacetic acid
+4-hydroxyphenylacetic acid
+trans-2-coumaric acid
+trans-2-coumaric acid
+luteolin 7-O-beta-D-glucosiduronic acid
+catechol
+catechol
+myricetin
+myricetin
+polysaccharide
+polysaccharide
+2-coumaric acid
+2-coumaric acid
+gamma-tocopherol
+tyrosine
+tyrosine
+Polydextrose
+Polydextrose
+citrulline
+xylose
+xylose
+isoeugenol
+xyloglucan
+xyloglucan
+glutamic acid
+glutamic acid
+dopamine
+dopamine
+ornithine
+L-fucose
+L-fucose
+manganese atom
+manganese atom
+phosphatidyl-L-serine
+phosphatidyl-L-serine
+hydroquinone O-beta-D-glucopyranoside
+isovitexin
+isovitexin
+vanillin
+vanillin
+vanillyl alcohol
+vanillyl alcohol
+apigenin
+apigenin
+6-O-alpha-D-glucopyranosyl-D-fructofuranose
+3-methylcatechol
+2&apos;,4&apos;-dihydroxyacetophenone
+magnesium(2+)
+magnesium(2+)
+sulfur dioxide
+sulfur dioxide
+2-(4-hydroxyphenyl)ethanol
+2-(4-hydroxyphenyl)ethanol
+4-hydroxystyrene
+4-hydroxystyrene
+xanthan
+xanthan
+calcium silicate
+calcium silicate
+inorganic calcium salt
+inorganic calcium salt
+calcium stearate
+calcium stearate
+inorganic magnesium salt
+inorganic magnesium salt
+magnesium phosphate
+magnesium phosphate
+organic magnesium salt
+organic magnesium salt
+inorganic phosphate salt
+inorganic phosphate salt
+tripotassium phosphate
+tripotassium phosphate
+organic phosphate salt
+organic phosphate salt
+inorganic potassium salt
+inorganic potassium salt
+4-methylumbelliferone beta-D-glucuronide
+inorganic chromium salt
+inorganic chromium salt
+organic chromium salt
+organic chromium salt
+inorganic copper salt
+inorganic copper salt
+organic copper salt
+organic copper salt
+inorganic fluoride salt
+inorganic fluoride salt
+organic fluoride salt
+organic fluoride salt
+inorganic iodine salt
+inorganic iodine salt
+organic iodine salt
+organic iodine salt
+inorganic iron salt
+inorganic iron salt
+organic iron salt
+organic iron salt
+inorganic manganese salt
+inorganic manganese salt
+organic manganese salt
+organic manganese salt
+inorganic molybdenum salt
+inorganic molybdenum salt
+organic molybdenum salt
+organic molybdenum salt
+selenium(4+)
+selenium(4+)
+selenium(6+)
+selenium(6+)
+inorganic selenium salt
+inorganic selenium salt
+organic selenium salt
+organic selenium salt
+inorganic zinc salt
+inorganic zinc salt
+organic zinc salt
+organic zinc salt
+titanium(3+)
+titanium(3+)
+4-methylumbelliferone sulfate
+4-methylumbelliferone sulfate
+calcium citrate
+calcium citrate
+organic calcium compound
+organic calcium compound
+organic phosphate compound
+organic phosphate compound
+organic iron compound
+organic iron compound
+beta-lactoglobulin
+beta-lactoglobulin
+napin
+napin
+gliadin
+gliadin
+anthoxanthin
+anthoxanthin 
+flavanonol
+flavanonol
+sanguiin H6
+sanguiin H6 
+lambertianin C
+lambertianin C 
+arecatannin a2
+arecatannin a2 
+vanillylmandelic acid
+vanillylmandelic acid
+cardol
+cardol
+6-hydroxyluteolin
+6-hydroxyluteolin
+alkaloid
+alkaloid
+alpha-tocopherol
+anthraquinone
+anthraquinone
+arabinan
+arabinan
+arabinose
+arabinose
+ascorbic acid
+ascorbic acid
+asparagine
+asparagine
+aspartic acid
+aspartic acid
+benzenetriol
+benzenetriol
+beta-D-glucoside
+carotene
+carotene
+carotenoid
+carotenoid
+catechin
+catechin
+catechol melanin
+catechol melanin
+chalcones
+chalcones
+chromones
+chromones
+cinnamaldehydes
+cinnamaldehydes
+coumaric acid
+coumaric acid
+copper(II) sulfate
+copper(II) sulfate
+cyclodextrin
+cyclodextrin
+dextrins
+absinthin
+diterpenoid
+diterpenoid
+ellagitannin
+ellagitannin
+flavones
+flavones
+galacturonan
+galacturonan
+gallotannin
+gallotannin
+glucoside
+glucoside
+glucosinolate
+glycoglycerolipid
+glycoglycerolipid
+glycosinolate
+glycosinolate
+hydroxybenzaldehyde
+hydroxybenzaldehyde
+hydroxybenzoic acid
+hydroxybenzoic acid
+hydroxycinnamic acid
+hydroxycinnamic acid
+hydroxyflavanone
+hydroxyflavone
+hydroxyflavone
+hydroxyproline
+hydroxyproline
+inorganic sulfate salt
+inorganic sulfate salt
+inositol
+inositol
+salt
+salt
+isoleucine
+isoleucine
+isoprenoid
+isoprenoid
+ketohexose
+ketohexose
+ketose
+ketose
+leucine
+leucine
+lignan
+lignan
+linolenic acid
+linolenic acid
+lysine
+lysine
+maltodextrin
+maltodextrin
+methylmercury compound
+methylmercury compound
+monoterpenoid
+monoterpenoid
+monounsaturated fatty acid
+monounsaturated fatty acid
+myrtenic acid
+naphthoquinone
+naphthoquinone
+neolignan
+neolignan
+neoxanthin
+neoxanthin
+nitrogen atom
+nitrogen atom
+omega-3 fatty acid
+organic sulfate
+organic sulfate
+pelargonidin
+pelargonidin
+phenylpropanoid
+phenylpropanoid
+phosphoric acid
+phosphoric acid
+phytoene
+phytoene
+phytosterols
+phytosterols
+polyol
+polyol
+polyphenol
+polyphenol
+polyunsaturated fatty acid
+polyunsaturated fatty acid
+proanthocyanidin
+proanthocyanidin
+proline
+proline
+pterocarpans
+pterocarpans
+quinic acid
+quinic acid
+rhamnogalacturonan
+rhamnogalacturonan
+rhamnose
+rhamnose
+saturated fatty acid
+saturated fatty acid
+sesquiterpenoid
+sesquiterpenoid
+sesterterpenoid
+sialic acid
+sialic acid
+sodium hydrogensulfite
+sodium hydrogensulfite
+sodium chloride
+sodium chloride
+stilbene
+stilbene
+stilbenoid
+stilbenoid
+tannin
+tannin
+tartaric acid
+tartaric acid
+terpenoid
+terpenoid
+tetraterpenoid
+tetraterpenoid
+vitamin B1
+vitamin B1
+threonine
+threonine
+tocopherol
+tocopherol
+trehalose
+trehalose
+valine
+valine
+violaxanthin
+violaxanthin
+vitamin D
+vitamin D
+vitamin B6
+vitamin B6
+xanthophyll
+xanthophyll
+avenacin A-1
+alpha-linolenic acid
+lutein 5,6-epoxide
+folic acid
+folic acid
+cyanidin 3-O-beta-D-galactoside
+2&apos;-hydroxydaidzein
+umbelliferone
+genistein 7-O-beta-D-glucoside
+zeaxanthin
+zeaxanthin
+4&apos;-methoxy-5,7-dihydroxyflavanone
+4&apos;-methoxy-5,7-dihydroxyflavanone
+6-prenylnaringenin
+6-prenylnaringenin
+histidine
+histidine
+garbanzol
+procyanidin B4
+procyanidin B4
+acetophenone
+acetophenone
+betagarin
+galactomannan
+galactomannan
+sitosterol
+sitosterol
+caffeine
+caffeine
+lubimin
+myristoleic acid
+myristoleic acid
+resorcinol
+resorcinol
+cyanidin cation
+cyanidin cation
+antheraxanthin
+resveratrol
+tryptophan
+tryptophan
+isoflavanone
+isoflavanone
+(E)-sinapaldehyde
+(E)-sinapaldehyde
+L-dehydroascorbic acid
+L-dehydroascorbic acid
+luteolin 7-O-beta-D-glucoside
+elaidic acid
+elaidic acid
+starch
+starch
+phenylalanine
+phenylalanine
+amylopectin
+amylopectin
+cyanidin 3-O-rutinoside
+cyanidin 3-O-rutinoside
+genistein
+genistein
+borneol
+amylose
+amylose
+pinocembrin
+pinocembrin
+theophylline
+7-ethoxycoumarin
+daidzein
+daidzein
+hesperetin
+hesperetin
+galactose
+galactose
+dimethyl sulfoxide
+dimethyl sulfoxide
+capsidiol
+capsidiol 
+quercetin 3-O-beta-D-glucofuranoside
+glutamine
+glutamine
+naringenin 7-O-beta-D-glucoside
+mescaline
+mescaline
+vitamin K
+vitamin K
+eriodictyol
+eriodictyol
+alpha-carotene
+arabinoxylan
+arabinoxylan
+delphinidin
+delphinidin
+(2-hydroxyphenyl)acetic acid
+(2-hydroxyphenyl)acetic acid
+kaempferol
+kaempferol
+pelargonidin chloride
+rutin
+verbascose
+verbascose
+guaiacol
+guaiacol
+farnesol
+farnesol 
+isofucosterol
+isofucosterol
+licoisoflavone A
+campesterol
+campesterol
+3-phenylpropionic acid
+3-O-methylgallic acid
+gamma-linolenic acid
+narirutin
+narirutin
+eriocitrin
+eriocitrin
+palmitoleic acid
+palmitoleic acid
+sodium fluoride
+sodium fluoride
+fructose
+fructose
+hesperidin
+hesperidin
+liquiritigenin
+serotonin
+serotonin
+erucic acid
+erucic acid
+coumarin
+coumarin
+fructan
+fructan
+flavonols
+flavonols
+mannan
+mannan
+piceatannol
+piceatannol
+naringin
+naringin
+piperine
+icosanoic acid
+icosanoic acid
+stigmasterol
+stigmasterol
+octanoic acid
+octanoic acid
+lutein
+lutein
+octadecanoic acid
+octadecanoic acid
+isopimpinellin
+tetracosanoic acid
+tetracosanoic acid
+menadione
+menadione
+phosphatidylinositol
+phosphatidylinositol
+tetradecanoic acid
+tetradecanoic acid
+dihydromyricetin
+dihydromyricetin
+sakuranetin
+sakuranetin
+vitamin D2
+vitamin D2
+calciol
+calciol
+docosanoic acid
+docosanoic acid
+theobromine
+theobromine
+arginine
+arginine
+iron(2+)
+iron(2+)
+copper(2+)
+copper(2+)
+manganese(3+)
+manganese(3+)
+L-ascorbic acid
+L-ascorbic acid
+sodium(1+)
+sodium(1+)
+potassium(1+)
+potassium(1+)
+zinc(2+)
+zinc(2+)
+calcium(2+)
+calcium(2+)
+hypochlorite
+hypochlorite
+thiol
+thiol
+Avenacin B-2
+Avenacin B-2
+4&apos;,7-dihydroxyflavone
+Azukisaponin III
+baicalein
+baicalein
+mannitol
+mannitol
+boron(3+)
+boron(3+)
+kaempferol 3-O-beta-D-glucoside
+beta-D-Gal-(1-&gt;3)-beta-D-GlcNAc-(1-&gt;3)-beta-D-Gal-(1-&gt;4)-D-Glc
+tin(2+)
+tin(2+)
+oxaloacetic acid
+oxaloacetic acid
+phenylacetic acid
+phenylacetic acid
+4-hydroxybenzoic acid
+3-hydroxybenzoic acid
+propionic acid
+propionic acid
+citric acid
+citric acid
+gallic acid
+gallic acid
+malonic acid
+malonic acid
+dodecanoic acid
+dodecanoic acid
+digallic acid
+digallic acid
+vanillic acid
+vanillic acid
+glycyrrhetinic acid
+betulinic acid
+isocitric acid
+isocitric acid
+glucitol
+glucitol
+(+)-gallocatechin
+(+)-gallocatechin
+isoliquiritigenin
+apigenin 7-O-neohesperidoside
+apigenin 7-O-neohesperidoside
+calcium glycerophosphate
+calcium glycerophosphate
+Calcium hypochlorite
+Calcium hypochlorite
+calcium sulfate
+calcium sulfate
+delphinidin 3-O-beta-D-glucoside
+ferric ammonium citrate
+ferric ammonium citrate
+brassicasterol
+brassicasterol
+kaempferol 3-O-beta-D-galactoside
+kaempferol 3-O-beta-D-glucosyl-(1-&gt;2)-beta-D-glucoside
+luteolin 7-O-neohesperidoside
+magnesium carbonate
+magnesium carbonate
+malvidin 3-O-beta-D-glucoside
+pelargonidin 3-O-beta-D-glucoside
+pelargonidin 3-O-beta-D-glucoside
+pelargonidin 3-O-rutinoside
+pelargonidin 3-O-rutinoside
+petunidin 3-O-beta-D-glucoside
+potassium bitartrate
+potassium bitartrate
+potassium sulfate
+potassium sulfate
+quercetin 3-O-beta-D-glucosyl-(1-&gt;2)-beta-D-glucoside
+sodium hydrogencarbonate
+sodium hydrogencarbonate
+sodium hydroxide
+sodium hydroxide
+sodium sulfate
+sodium sulfate
+trans-3-coumaric acid
+trans-3-coumaric acid
+heptadecanoic acid
+heptadecanoic acid
+butein
+butein
+trans-4-coumaric acid
+all-cis-octadeca-6,9,12,15-tetraenoic acid
+all-cis-octadeca-6,9,12,15-tetraenoic acid
+(11Z)-icos-11-enoic acid
+(11Z)-icos-11-enoic acid
+all-trans-neoxanthin
+potassium chloride
+potassium chloride
+magnesium sulfate
+magnesium sulfate
+pyruvic acid
+pyruvic acid
+phloretic acid
+phloretic acid
+vanadium(2+)
+vanadium(2+)
+chromium(2+)
+chromium(2+)
+calcium carbonate
+calcium carbonate
+calcium dichloride
+calcium dichloride
+sodium cyanide
+sodium cyanide
+vitamin E
+vitamin E
+tocotrienol
+tocotrienol
+vitamin D4
+vitamin D4
+organosulfur compound
+organosulfur compound
+alpha-tocotrienol
+beta-tocotrienol
+delta-tocotrienol
+gamma-tocotrienol
+vitamin D5
+vitamin D5
+phosphide(3-)
+glycolipid
+glycolipid
+benzenediols
+benzenediols
+canthaxanthin
+amino acid
+amino acid
+capsaicin
+capsaicin
+capsanthin
+capsorubin
+galacturonic acid
+galacturonic acid
+phenols
+phenols
+ribose
+ribose
+psicose
+psicose
+fucose
+fucose
+Carnosol
+carrageenan
+carrageenan
+Casuarictin
+Casuarinin
+equol
+glycitein
+glycitein
+strontium(2+)
+strontium(2+)
+hemoglobin
+hemoglobin
+magnesium hydroxide
+magnesium hydroxide
+calcium hydroxide
+calcium hydroxide
+terpene
+terpene
+tetraterpene
+tetraterpene
+anthocyanin cation
+anthocyanin cation
+cellodextrin
+cellodextrin
+all-trans-violaxanthin
+fatty acid
+fatty acid
+monosaccharide
+monosaccharide
+calcium difluoride
+calcium difluoride
+arsenic(3+)
+arsenic(3+)
+Chebulinic acid
+chicoric acid
+chicoric acid
+docosahexaenoic acid
+docosahexaenoic acid
+icosapentaenoic acid
+icosapentaenoic acid
+omega-6 fatty acid
+pinosylvin
+pinosylvin
+vaccenic acid
+vaccenic acid
+stilbenol
+protein
+protein
+4-coumaric acid
+4-coumaric acid
+inorganic chloride
+inorganic chloride
+organic chloride salt
+organic chloride salt
+pelargonidin 3-O-beta-D-glucoside chloride
+disaccharide
+disaccharide
+caffeic acid
+caffeic acid
+triterpenoid
+triterpenoid
+organochlorine compound
+organochlorine compound
+campestanol
+campestanol
+barium(2+)
+barium(2+)
+glucan
+glucan
+galactan
+galactan
+xylan
+xylan
+lambda-carrageenan
+iota-carrageenan
+cirsilineol
+cirsilineol
+lanthanum(2+)
+lanthanum(2+)
+sodium phosphate
+sodium phosphate
+cyanidin 3-O-beta-D-galactoside chloride
+mannose
+mannose
+dopamine 3-O-sulfate
+dopamine 3-O-sulfate
+cyanin chloride
+cyanin chloride
+Collagen
+collagen
+astilbin
+flavans
+flavan
+flavan
+anthocyanidin
+anthocyanidin
+anthocyanin
+anthocyanin
+anthocyanin chlorides
+anthocyanin chlorides
+organic sodium salt
+organic sodium salt
+delphinidin chloride
+inorganic sodium salt
+inorganic sodium salt
+hydroxyisoflavone
+hydroxyisoflavone
+methoxyisoflavone
+isoflavones
+isoflavones
+coumestrol
+coumestrol
+crocetin
+Cucurbitacin C
+curcumin
+curcumin
+cyanin
+3,5-dihydroxybenzoic acid
+(+)-pinoresinol
+(+)-pinoresinol
+Cyclokievitone
+Cynaropicrin
+Cynaropicrin 
+astaxanthin
+(R)-lactic acid
+(R)-lactic acid
+(S)-lactic acid
+(S)-lactic acid
+daidzein 7-O-beta-D-glucoside
+emodin
+emodin
+(-)-epigallocatechin
+(-)-epigallocatechin
+2-methoxy-4-vinylphenol
+2-methoxy-4-vinylphenol
+flavone
+flavone
+pentadecanoic acid
+pentadecanoic acid
+fisetin
+(2-cis,6-cis)-farnesol
+Dalbergin
+(15Z)-tetracosenoic acid
+(15Z)-tetracosenoic acid
+13-cis-retinal
+13-cis-retinal
+diosgenin
+diosgenin
+diosmetin
+diosmetin
+diosmin
+diosmin
+(R)-pantothenic acid
+(R)-pantothenic acid
+echinenone
+Elastin
+Elastin
+beta-tocopherol
+delta-tocopherol
+flavonoid
+flavonoid
+3-coumaric acid
+3-coumaric acid
+aurone
+aurone
+dihydroflavonols
+dihydroflavonols
+(-)-epigallocatechin 3-gallate
+esculin
+lithium chloride
+lithium chloride
+cadmium(2+)
+cadmium(2+)
+cobalt(2+)
+cobalt(2+)
+thiamine hydrochloride
+thiamine hydrochloride
+eugenol
+eugenol
+eupatilin
+molybdenum(4+)
+molybdenum(4+)
+molybdenum(6+)
+molybdenum(6+)
+aluminium(3+)
+aluminium(3+)
+caesium(1+)
+caesium(1+)
+lithium(1+)
+lithium(1+)
+nickel(2+)
+nickel(2+)
+lead(2+)
+lead(2+)
+rubidium(1+)
+rubidium(1+)
+antimony(3+)
+antimony(3+)
+biflavonoid
+biflavonoid
+naringenin
+naringenin
+3,4-dihydroxybenzaldehyde
+sophoraflavanone B
+sophoraflavanone B
+retinol
+retinol
+(R)-rosmarinic acid
+organic potassium salt
+organic potassium salt
+Fibrin
+Fibrin
+oligosaccharide
+oligosaccharide
+flavanone
+flavanone
+isoflavonoid
+isoflavonoid
+Flavoxanthin
+sodium borohydride
+sodium borohydride
+organic calcium salt
+organic calcium salt
+inorganic nitrate salt
+inorganic nitrate salt
+xanthones
+xanthones
+Fucofuroeckol B
+fucoxanthin
+methyl ketone
+methyl ketone
+isothiocyanate
+isothiocyanate
+sodium phenolate
+sodium phenolate
+galangin
+galangin 3,5,7-trimethyl ether
+gentisyl alcohol
+gentisyl alcohol
+sodium citrate
+sodium citrate
+geraldone
+geraldone
+Geraniin
+all-cis-icosa-11,14,17-trienoic acid
+all-cis-icosa-11,14,17-trienoic acid
+all-cis-icosa-8,11,14-trienoic acid
+all-cis-icosa-8,11,14-trienoic acid
+glucoberteroin(1-)
+glucocapparin(1-)
+glucocochlearin(1-)
+glucoerucin(1-)
+glucoerucin(1-)
+glucoiberverin(1-)
+glucoiberverin(1-)
+gluconapin(1-)
+gluconapoleiferin(1-)
+gluconapoleiferin(1-)
+gluconasturtiin(1-)
+gluconasturtiin(1-)
+glucoputranjivin(1-)
+glucoraphenin(1-)
+harman
+(6R)-5,10-methenyltetrahydrofolate
+hordenine
+humulone
+agrimoniin
+neohesperidin
+neohesperidin
+Ineketone
+palmitelaidic acid
+palmitelaidic acid
+irilone
+Irisolidone
+Isobetanin
+Isocaryophyllene
+Isocaryophyllene 
+lysophosphatidylcholine
+lysophosphatidylcholine
+isorhamnetin
+selenium(2+)
+selenium(2+)
+kaempferide
+docosapentaenoic acid
+docosapentaenoic acid
+hemicellulose
+hemicellulose
+(+)-valencene
+(+)-valencene
+L-arabinofuranose
+L-arabinofuranose
+7,7&apos;,9,9&apos;-tetra-cis-lycopene
+7,7&apos;,9,9&apos;-tetra-cis-lycopene
+sodium formate
+sodium formate
+amorphous cellulose
+amorphous cellulose
+sodium nitrate
+sodium nitrate
+sodium L-tartrate
+sodium L-tartrate
+potassium formate
+potassium formate
+lactucaxanthin
+lactulose
+lactulose
+Lactupicrin
+Lactupicrin 
+3-hydroxy-4-methoxybenzoic acid
+phosphatidylcholine
+phosphatidylcholine
+lignin
+lignin
+organic acid
+organic acid
+glucobrassicin(1-)
+(-)-secoisolariciresinol
+(-)-secoisolariciresinol
+sodium chlorate
+sodium chlorate
+zeinoxanthin
+D-xylose
+D-xylose
+lucenin-2
+carnosic acid
+carnosic acid
+lupeol
+lupeol
+demethoxycurcumin
+demethoxycurcumin
+luteolin 7-O-(6-O-malonyl-beta-D-glucoside)
+lycoxanthin
+6-hydroxyluteolin 7-O-laminaribioside
+6-hydroxyluteolin 7-O-laminaribioside
+jaceosidin
+jaceosidin
+xanthohumol
+xanthohumol
+magnesium dichloride
+magnesium dichloride
+miquelianin
+malic acid
+malic acid
+malvidin
+malvidin
+(2S)-poncirin
+(2S)-poncirin
+(-)-matairesinol
+(-)-matairesinol
+Matricin
+Matricin 
+tetrahydrofolate
+tetrahydrofolate
+9-cis-beta-carotene
+(-)-lariciresinol
+(+)-lariciresinol
+(+)-lariciresinol
+(+)-pisatin
+(+)-pisatin
+quercetin 3-O-beta-D-galactopyranoside
+erythrodiol
+(20S)-ginsenoside Rg3
+(20S)-ginsenoside Rg3
+syringic acid
+syringic acid
+quercetin 3-O-beta-D-glucopyranoside
+maltitol
+maltitol
+cinnamtannin B-1
+orobol
+Paeonol
+Paeonol
+myricitrin
+myricitrin
+4&apos;-O-methylepigallocatechin
+4&apos;-O-methylepigallocatechin
+3&apos;-O-methylepicatechin
+3&apos;-O-methylepicatechin
+(-)-epicatechin-3-O-gallate
+(-)-epicatechin-3-O-gallate
+4&apos;-O-methylepigallocatechin-3-O-gallate
+4&apos;-O-methylepigallocatechin-3-O-gallate
+Mutatochrome
+myoglobin
+myoglobin
+m-hydroxyhippuric acid
+m-hydroxyhippuric acid
+bisdemethoxycurcumin
+bisdemethoxycurcumin
+quinol sulfate
+quinol sulfate
+phlorotannin
+phlorotannin
+(-)-gallocatechin
+(-)-gallocatechin
+dihydrochalcones
+dihydrochalcones
+rotenoid
+rotenoid
+neoflavonoid
+neoflavonoid
+hydroxyflavan
+hydroxyflavan
+flavonoids
+flavonoids
+isoflavans
+isoflavans
+coumestans
+coumestans
+coumestan
+coumestan
+9-hydroxy-5E,7Z,11Z,14Z-eicosatetraenoic acid
+9-hydroxy-5E,7Z,11Z,14Z-eicosatetraenoic acid
+icosadienoic acid
+icosadienoic acid
+pterocarpan
+pterocarpan
+allyl isothiocyanate
+allyl isothiocyanate
+D3 vitamins
+D3 vitamins
+genistein(1-)
+glycosyloxyisoflavone
+glycosyloxyisoflavone
+peonidin 3-O-beta-D-glucoside
+cyanidin 3-O-beta-D-sambubioside
+4&apos;,6,7-trihydroxyisoflavone
+homoeriodictyol
+homoeriodictyol
+raffinose family oligosaccharide
+raffinose family oligosaccharide
+neoeriocitrin
+neoeriocitrin
+peonidin chloride
+peonidin chloride
+chrysin
+chrysin
+docosadienoic acid
+docosadienoic acid
+sodium bromate
+sodium bromate
+peonidin
+petunidin
+lactitol
+lactitol
+procyanidin B6
+procyanidin B6
+procyanidin B5
+procyanidin B5
+procyanidin B3
+procyanidin B3
+procyanidin B2
+procyanidin B2
+procyanidin B1
+procyanidin B1
+procyanidin C1
+procyanidin C1
+procyanidin C2
+procyanidin C2
+kaempferol 3-O-glucuronide
+B vitamin
+B vitamin
+iron(2+) sulfate (anhydrous)
+iron(2+) sulfate (anhydrous)
+quercetin 4&apos;-O-beta-D-glucopyranoside
+hispidulin
+hispidulin
+nobiletin
+nobiletin
+Nobilin
+Nobilin 
+nomilin
+(+)-epicatechin
+(+)-epicatechin
+(+)-catechin-3-O-gallate
+(+)-catechin-3-O-gallate
+(E)-trans-miyabenol C
+(E)-trans-miyabenol C
+Norbixin
+Obacunone
+sinapic acid
+sinapic acid
+ginsenoside Rg2
+ginsenoside Rb2
+ginsenoside Rc
+ginsenoside Rc
+(6Z,9Z,12Z,15Z,18Z,21Z)-tetracosahexaenoic acid
+calcium phosphate
+calcium phosphate
+luteolin 7-O-beta-D-glucoside(1-)
+2-hydroxypropanoic acid
+2-hydroxypropanoic acid
+hydrolysable tannin
+hydrolysable tannin
+diarylheptanoid
+paeoniflorin
+sinigrin
+sinigrin
+Pedunculagin
+gardenin B
+gardenin B
+delta7-avenasterol
+malonyldaidzin
+malonyldaidzin
+malonylgenistin
+malonylgenistin
+glycitin
+glycitin
+malonylglycitin
+malonylglycitin
+Cyanidin 3-O-sophoroside
+Cyanidin 3-O-sophoroside
+Tulipanin
+Phaseoloside D
+phlorizin
+phlorizin
+cinnamtannin A2
+cinnamtannin A2
+cirsimaritin
+cirsimaritin
+(+)-nootkatone
+Sodium iodate
+Sodium iodate
+Physalien
+Physoperuvine
+all-trans-phytoene
+xanthone glycoside
+xanthone glycoside
+Prebetanin
+non-proteinogenic amino acid
+non-proteinogenic amino acid
+resveratrol sulfate
+resveratrol sulfate
+amylodextrin
+amylodextrin
+progoitrin(1-)
+trans-4-hydroxy-L-proline betaine
+trans-4-hydroxy-L-proline betaine
+bismuth(3+)
+bismuth(3+)
+prunetin
+pterostilbene
+3-(3-hydroxyphenyl)-3-hydroxypropanoic acid
+3-(3-hydroxyphenyl)-3-hydroxypropanoic acid
+trans-rhaponticin
+trans-rhaponticin
+3-hydroxyphloretin 2&apos;-O-xylosylglucoside
+3-hydroxyphloretin 2&apos;-O-xylosylglucoside
+8,5&apos;-diferulic acid
+Rishitin
+rubixanthin
+stigmastanol
+stigmastanol
+Melanin
+Melanin
+(-)-epicatechin
+(-)-epicatechin
+lactucopicrin
+lactucopicrin 
+Sayanedine
+Schisantherin A
+scoparone
+scutellarein
+scutellarein
+Sesamolinol
+Sesamolinol
+Sinalbin
+sinensetin
+sinensetin
+sinigrin(1-)
+solanine
+soyasapogenol B
+Soyasaponin A1
+Soyasaponin A1
+soyasaponin I
+Spinasaponin A
+magnesium distearate
+magnesium distearate
+stevioside
+sulfonyldimethane
+sulfonyldimethane
+tangeretin
+tangeretin
+Tellimagrandin I
+Terminalin
+Theasaponin
+theasinensin A
+theogallin
+(-)-alpha-thujone
+tomatine
+Trachelogenin
+Tricyclodehydroisohumulone
+Tricyclodehydroisohumulone
+ursolic acid
+ash
+ash
+quality
+concentration of
+physical quality
+physical quality
+Western Australian Mulga Shrublands Ecoregion
+Australasia Ecoregion
+Tirari-Sturt Stony Desert Ecoregion
+Simpson Desert Region
+Pilbara Shrublands Ecoregion
+Carnarvon Xeric Shrublands Ecoregion
+Central Ranges Xeric Shrub Ecoregion
+Gibson Desert Ecoregion
+The Great Sandy-Tanami Desert Ecoregion
+Great Victoria Desert Ecoregion
+Nullarbor Plains Xeric Shrubland Ecoregion
+Afrotropical Ecoregion
+Succulent Karoo Ecoregion
+Yemen and Saudi Arabia Ecoregion
+Yemen, Saudi Arabia, and Oman Ecoregion
+Somali Montane Xeric Woodland Ecoregion
+Socotran Archipelago Ecoregion
+Red Sea Coastal Desert Ecoregion
+Namibian Savanna Woodland Ecoregion
+Namib Desert Ecoregion
+Nama Karoo Ecoregion
+Masai Xeric Grasslands and Shrublands Ecoregion
+Madagascar Succulent Woodlands Ecoregion
+Madagascar Spiny Thickets Ecoregion
+Kaokoveld Desert Ecoregion
+Kalahari Xeric Savanna Ecoregion
+Ile Europa and Bassas da India Ecoregion
+Hobyo Grassland and Shrubland Ecoregion
+Oman and United Arab Emirates Ecoregion
+Ethiopian Xeric Grasslands and Shrublands Ecoregion
+Eritrean Coastal Desert Ecoregion
+East Saharan Montane Xeric Woodland Ecoregion
+Oman, Yemen, and Saudi Arabia Ecoregion
+Aldabra Island Xeric Scrub Ecoregion
+Indo-Malay Ecoregion
+Thar Desert
+Northwestern Thorn Scrub Forests
+Arctic front
+Antarctic front
+Solar radiation
+example to be eventually removed
+metadata complete
+organizational term
+ready for release
+metadata incomplete
+uncurated
+pending final vetting
+to be replaced with external ontology term
+requires discussion
+Earth
+Suni
+Sol
+World Ocean
+inferring direct reg edge from input to regulatory subfunction
+inferring direct neg reg edge from input to regulatory subfunction
+inferring direct positive reg edge from input to regulatory subfunction
+effector input is compound function input
+Input of effector is input of its parent MF
+if effector directly negatively regulates X,  its parent MF directly negatively regulates X
