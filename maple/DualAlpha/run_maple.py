@@ -145,9 +145,6 @@ def run_maple(dataframe: pd.DataFrame, output_directory: str) -> list:
 #         testing = subprocess.Popen(["maple", temp_mpl.name], stdout=log_path.open(mode="w"))
         
 
-
-
-
 # testing = subprocess.Popen(["maple", "pdws1_modified_copy_ontology.mpl"])
 
 # testing = subprocess.Popen(["maple", "pdws1_modified_copy_ontology.mpl", "-I", "data/aeo_terms.csv"])
