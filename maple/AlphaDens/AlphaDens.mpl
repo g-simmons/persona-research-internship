@@ -299,10 +299,36 @@ local sortcut;
         return Y,Phi;
     end proc;
 
-#collects everything you would want to store from a finite alpha
-#shape. begins by sampling from the kde up to the minimum cutoff
-#cdf. it can then compute the alpha complex with slack, draw the heat
-#map or the complex, etc.
+
+## densalpha: Construct Alpha Shape for Kernel Density Estimator
+##
+## This procedure creates an object representing the alpha shape of a
+## kernel density estimator (KDE) or a set of points.
+## collects everything you would want to store from a finite alpha
+## shape. begins by sampling from the kde up to the minimum cutoff
+## cdf. it can then compute the alpha complex with slack, draw the heat
+## map or the complex, etc.
+##
+## Parameters:
+## A      - Either a KDE object or a matrix of points
+## h      - Bandwidth parameter for the Gaussian kernels
+## N1     - Number of samples to take from the KDE (if A is a KDE),
+##          or number of points to use (if A is a matrix)
+## s      - Slack parameter controlling minimum spacing between sites
+## mindens - Minimum density threshold for inclusion in the alpha shape
+##
+## Returns:
+## A module object with methods for analyzing and visualizing the alpha shape,
+## including:
+## - drawheat: Draw a heat map of the density
+## - drawalpha: Visualize the alpha shape
+## - densplex: Compute the density complex (filtered simplicial complex)
+## - powrange: Compute the range of power values
+## - convland: Convert landmarks to a different coordinate system
+##
+## This function serves as the main interface for creating and working with
+## alpha shapes of density estimators in the AlphaDens module.
+
     densalpha := proc(A,h,N1,s,mindens)
         if(whattype(A)='KDE') then
             f := args[1];

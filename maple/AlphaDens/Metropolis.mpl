@@ -158,7 +158,7 @@ local getvars,metlossc,metwalkc,bayeswalkc;
                 m := nops(vars);
                 lossc,params,aa := metlossc(loss,vars,params);
                 l := nops(params);
-                xx0,xx1 := allocla[float[8]](m,m);
+                xx0, xx1 := allocla[float[8]](m,m);
                 walkc := metwalkc(loss,vars,params);
                 dyn := dynla(float[8](m),integer[4]);
                 g0 := gaussdist(m);
