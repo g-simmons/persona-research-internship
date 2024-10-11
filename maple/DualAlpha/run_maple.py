@@ -155,8 +155,9 @@ def run_maple(dataframe: pd.DataFrame, output_directory: str) -> list:
 # os.rmdir("testing")
 
 if __name__ == "__main__":
-    my_df = get_df_from_csv("data/apo_terms.csv")
+    my_df = get_df_from_csv("ontology/ontology_embeddings_csv/aeo_terms.csv")
     print(my_df)
 
     nums = run_maple(my_df, "finaltesting")
+    print(nums)
     
