@@ -1,0 +1,524 @@
+MiscTDA := module()
+global tprintvar;
+export sp2dist,ds2dist,tofloat8,mfind,dolib,loadlib,tprint,remem,metpair,spdata,getsubs,ddel,iop,findat,subinds,outform,opd,typeform,randelt,randrow,eqtype,istype,invperm,findinds,getelems,setelems,maprows,sortinds,vecnorm,vecdot,playsound;
+
+    remem := proc(F)
+        ans := proc()
+        option remember;
+            return F(args);
+        end proc;
+        return ans;
+    end proc;
+
+    iop := proc()
+        return [args];
+    end proc;
+
+    eqtype := proc(s,t)
+    uses StringTools;
+        if(LowerCase(s)=LowerCase(t)) then
+            return true;
+        else
+            return false;
+        end if;
+    end proc;
+
+    istype := proc(s,t)
+    uses StringTools;
+        if(not type(s,'symbol') and type(s,'string')) then
+            return istype(whattype[true](s),t);
+        end if;
+        if(type(s,'set')) then
+            for s1 in s do
+                if(istype(s1,t)) then
+                    return true;
+                end if;
+            end do;
+            return false;
+        end if;
+        if(type(t,'set')) then
+            for t1 in t do
+                if(not istype(s,t1)) then
+                    return false;
+                end if;
+            end do;
+            return true;
+        end if;
+        return eqtype(s,t);
+    end proc;
+
+    sp2dist := proc(C)
+    uses LinearAlgebra;
+        n := Dimension(C)[1];
+        R := Matrix(n,n,datatype=float,shape=symmetric);
+        for i from 1 to n do
+            for j from i to n do
+                R[i,j] := sqrt(C[i,i]-2*C[i,j]+C[j,j]);
+            end do;
+        end do;
+        return R;
+    end proc;
+
+    ds2dist := proc(A,G)
+    uses LinearAlgebra;
+        m,n := Dimension(A);
+        if(nargs=1) then
+            return procname(A,1.0);
+        elif(type(args[2],`numeric`)) then
+            p := args[2];
+            return procname(A,DiagonalMatrix([seq(p,i=1..m)],shape=diagonal,datatype=float));
+        end if;
+        C := Matrix(A.G.Transpose(A),datatype=float);
+        return sp2dist(C);
+    end proc;
+
+    tofloat8 := proc(A)
+        if(type(A,'Matrix(datatype=float[8])') or type(A,'Vector(datatype=float[8])')) then
+            return A;
+        elif(type(A,'Matrix(storage=diagonal)')) then
+            return Matrix(A,storage=diagonal,datatype=float[8]);
+        elif(type(A,'Matrix')) then
+            return Matrix(A,datatype=float[8]);
+        elif(type(A,'Vector')) then
+            return Vector(A,datatype=float[8]);
+        else
+            error "type not recognized";
+        end if;
+    end proc;
+
+    findat := proc(A,f)
+    local x;
+        if(not type(f,'procedure')) then
+            return findat(A,x->x=f);
+        end if;
+        if(type(A,'Matrix')) then
+            N,m := Dimension(A);
+            V := Vector(m,datatype=float[8]);
+            il := [];
+            for i from 1 to N do
+                ArrayTools:-BlockCopy(A,i-1,N,1,m,V,1);
+                if(f(V)) then
+                    il := [op(il),i];
+                end if;
+            end do;
+            return il;
+        else
+            if(type(A,'Vector')) then
+                n := Dimension(A);
+            else
+                n := nops(A);
+            end if;
+            ans := [];
+            for i from 1 to n do
+                if(f(A[i])) then
+                    ans := [op(ans),i];
+                end if;
+            end do;
+            return ans;
+        end if;
+    end proc;
+
+    findinds := proc(x,xl,n:=numelems(xl))
+        ans := [];
+        for i from 1 to n do
+            if(xl[i]=x) then
+                ans := [op(ans),i];
+            end if;
+        end do;
+        return ans;
+    end proc;
+
+    maprows := proc(f,A,N:=Dimension(A)[1])
+        m := Dimension(A)[2];
+        V := Vector(m,datatype=float[8]);
+        V1 := f(A[1]);
+        if(type(V1,'numeric')) then
+            ans := Vector(N,datatype=float[8]);
+            for k from 1 to N do
+                for j from 1 to m do
+                    V[j] := A[k,j];
+                end do;
+                ans[k] := f(V);
+            end do;
+        elif(type(V1,'Vector') or type(V1,'list')) then
+            ans := Matrix(N,m,datatype=float[8]);
+            for k from 1 to N do
+                for j from 1 to m do
+                    V[j] := A[k,j];
+                end do;
+                V1 := f(V);
+                for j from 1 to m do
+                    ans[k,j] := V1[j];
+                end do;
+            end do;
+        else
+            error;
+        end if;
+        return ans;
+    end proc;
+
+    typeform := proc(s)
+        if(type(s,'function')) then
+            return typeform(op(0,s)),op(s);
+        end if;
+        typ := StringTools:-LowerCase(convert(s,'string'));
+        return typ;
+    end proc;
+
+    subinds := proc(f,A)
+    local x;
+        if(not type(f,'procedure')) then
+            return subinds(x->x=f,A);
+        end if;
+        if(type(A,'Matrix')) then
+            N,m := Dimension(A);
+            V := Vector(m,datatype=float[8]);
+            il := [];
+            for i from 1 to N do
+                ArrayTools:-BlockCopy(A,i-1,N,1,m,V,1);
+                if(f(V)) then
+                    il := [op(il),i];
+                end if;
+            end do;
+            return il;
+        else
+            if(type(A,'Vector')) then
+                n := Dimension(A);
+            else
+                n := nops(A);
+            end if;
+            ans := [];
+            for i from 1 to n do
+                if(f(A[i])) then
+                    ans := [op(ans),i];
+                end if;
+            end do;
+            return ans;
+        end if;
+    end proc;
+
+    outform := proc()
+        if(nargs=2 and type(args[2],'table')) then
+            return outform0(args);
+        elif(nargs=2 and type(args[2],'list')) then
+            return outform2(args);
+        else
+            return outform1(args);
+        end if;
+    end proc;
+
+    outform2 := proc(typ,el)
+        if(typ=[true]) then
+            return seq(op(2,e),e=el);
+        end if;
+        return outform0(typ,table(el));
+    end proc;
+
+    outform0 := proc(typ,tab)
+        ans := [];
+        for x1 in typ do
+            x := convert(StringTools:-UpperCase(x1),'symbol');
+            if(x='TAB') then
+                ans := [op(ans),tab];
+            elif(not assigned(tab[x])) then
+                print(x);
+                error "not assigned";
+            else
+                ans := [op(ans),tab[x]];
+            end if;
+        end do;
+        return op(ans);
+    end proc;
+
+    outform1 := proc(typ,outlabs,outputs)
+        if(nargs=3) then
+            sig := outform1(typ,outlabs);
+            return op(outputs[sig]);
+        elif(typ=[] or typ=[false]) then
+            return [1];
+        elif(typ=[true]) then
+            n := nops(outlabs);
+            return [seq(i,i=1..n)];
+        end if;
+        ans := [];
+        for x in typ do
+            il := subinds(x,outlabs);
+            if(nops(il)=0) then
+                error "not found";
+            end if;
+            ans := [op(ans),il[1]];
+        end do;
+        return ans;
+    end proc;
+
+#find max or min value
+    mfind := proc(V,flag)
+        if(type(V,'list')) then
+            n := nops(V);
+        elif(type(V,'Vector')) then
+            n := Dimension(V);
+        end if;
+        if(n=0) then
+            error;
+        end if;
+        if(flag) then
+            i0 := 1;
+            c := V[1];
+            for i from 2 to n do
+                if(V[i]>c) then
+                    c := V[i];
+                    i0 := i;
+                end if;
+            end do;
+            return i0,c;
+        else
+            i0 := 1;
+            c := V[1];
+            for i from 2 to n do
+                if(V[i]<c) then
+                    c := V[i];
+                    i0 := i;
+                end if;
+            end do;
+            return i0,c;
+        end if;
+    end proc;
+
+    ddel := proc(e)
+        if(e) then
+            return 1;
+        else
+            return 0;
+        end if;
+    end proc;
+
+    metpair := proc(A)
+        if(type(A,'list')) then
+            A1 := A[1];
+        else
+            A1 := A;
+        end if;
+        A2 := A1;
+        if(type(procname,indexed) and nops(procname)=1) then
+            G := op(procname);
+            A2 := A2.G;
+        end if;
+        if(type(A1,'Matrix')) then
+            m := Dimension(A1)[2];
+        elif(type(A1,'Vector')) then
+            m := Dimension(A1);
+        end if;
+        if(nargs=1 or args[2]=false) then
+            return A1,A2;
+        end if;
+        if(type(procname,indexed) and nops(procname)=1) then
+            G := op(procname);
+        elif(type(L,'list')) then
+            G := (Transpose(L1).L1)^(-1).Transpose(L1).L2;
+        else
+            G := DiagonalMatrix([seq(1.0,i=1..m)],datatype=float[8],shape=diagonal);
+        end if;
+        return A1,A2,G;
+    end proc;
+
+    spdata := proc(A)
+        if(type(A,'list')) then
+            return procname(op(A));
+        elif(nargs=2) then
+            G := args[2];
+            if(type(G,'Matrix'(datatype=float[8]))) then
+                return A,G;
+            elif(type(G,'list') or type(G,'Vector'(datatype=float[8]))) then
+                G := DiagonalMatrix(G,datatype=float[8],shape=diagonal);
+                return A,G;
+            else
+                error;
+            end if;
+        elif(type(A,'Matrix'(datatype=float[8]))) then
+            n := Dimension(A)[1];
+            G := DiagonalMatrix([seq(1.0,i=1..n)],datatype=float[8],shape=diagonal);
+            return A,G;
+        elif(type(A,'Vector'(datatype=float[8]))) then
+            n := Dimension(A);
+            G := DiagonalMatrix([seq(1.0,i=1..n)],datatype=float[8],shape=diagonal);
+            return A,G;
+
+        else
+            error;
+        end if;
+    end proc;
+
+    randrow := proc(A)
+        N := Dimension(A)[1];
+        return A[rand() mod N+1];
+    end proc;
+
+    getsubs := proc(var)
+        if(type(var,indexed)) then
+            return [op(var)];
+        else
+            return [];
+        end if;
+    end proc;
+
+    opd := proc(f,def)
+        if(type(f,indexed)) then
+            e := [op(f)];
+        else
+            e := [args[2..nargs]];
+        end if;
+        if(type(procname,indexed)) then
+            e := eval(e,[op(procname)]);
+        end if;
+        return op(e);
+    end proc;
+
+    loadlib := proc(dir)
+    uses StringTools;
+        sl := Split(dir,"/");
+        fn := sl[nops(sl)];
+        read(dir);
+        with(convert(fn,'symbol'));
+    end proc;
+
+#read a library from math/lib/, save it, load it
+    dolib := proc(s,dir)
+        if(type(args[1],'string')) then
+            n := StringTools:-Length(s);
+            for i from n to 1 by -1 do
+                if(s[i]="/") then
+                    s0,s1 := s[1..i],s[i+1..n];
+                    break;
+                end if;
+            end do;
+            if(i=0) then
+                return procname(convert(s,'symbol'));
+            else
+                return procname(convert(s1,'symbol'),s0);
+            end if;
+        end if;
+        if(nargs=1) then
+            return dolib(s,"lib/");
+        end if;
+        read(cat(dir,s));
+        if(type(s,'string')) then
+            savelib(convert(s,'symbol'),cat(libname[1],"\\eriklib.mla"));
+        else
+            savelib('s',cat(libname[1],"\\eriklib.mla"));
+        end if;
+        with(convert(s,'symbol'));
+    end proc;
+
+    tprint := proc(s)
+    global tprintvar;
+        t := op(procname);
+        if(not assigned(tprintvar)) then
+            tprintvar := 0.0;
+        end if;
+        rt := time[real]();
+        if(rt-tprintvar>=t) then
+            tprintvar := rt;
+            if(type(s,'string')) then
+                print(nprintf(args));
+                #printf("\n");
+            else
+                print(args);
+            end if;
+        end if;
+    end proc;
+
+    invperm := proc(sig)
+    local n,ans,i;
+        n := nops(sig);
+        ans := [seq(0,i=1..n)];
+        for i from 1 to n do
+            ans[sig[i]] := i;
+        end do;
+        return ans;
+    end proc;
+
+    setelems := proc(V,xl)
+        n := numelems(xl);
+        for i from 1 to n do
+            V[i] := xl[i];
+        end do;
+    end proc;
+
+    getelems := proc(V)
+        return convert(V,'list');
+    end proc;
+
+    sortinds0 := proc(V::Array(datatype=float[8]),J::Array(datatype=integer[4]),N::integer[4])
+        for i from 1 to N do
+            J[i] := i;
+        end do;
+        while(true) do
+            fin := 0;
+            for i from 1 to N-1 do
+                j1 := J[i];
+                j2 := J[i+1];
+                if(V[j1]>V[j2]) then
+                    fin := 1;
+                    J[i] := j2;
+                    J[i+1] := j1;
+                end if;
+            end do;
+            if(fin=0) then
+                return;
+            end if;
+        end do;
+    end proc;
+
+    sortinds0 := Compiler:-Compile(sortinds0);
+
+    sortinds1 := proc(J::Array(datatype=integer[4]),N::integer[4])
+        N1 := floor(evalf(N)/2);
+        for i from 1 to N1 do
+            i1 := N-i+1;
+            k := J[i];
+            J[i] := J[i1];
+            J[i1] := k;
+        end do;
+    end proc;
+
+    sortinds1 := Compiler:-Compile(sortinds1);
+
+    sortinds := proc(V,J,ord:=`<`)
+    local i;
+        if(not type(V,'Vector')) then
+            return procname(Vector(V,datatype=float[8]),args[2..nargs]);
+        end if;
+        if(type(procname,indexed)) then
+            N := op(procname);
+        else
+            N := Dimension(V);
+        end if;
+        if(nargs=1 or not(type(J,'Vector'))) then
+            J1 := Vector(N,datatype=integer[4]);
+            procname(V,J1,args[2..nargs]);
+            return J1;
+        end if;
+        sortinds0(V,J,N);
+        if(ord=`>`) then
+            sortinds1(J,N);
+        end if;
+        return J;
+    end proc;
+
+    vecdot := proc(U,V)
+        n := numelems(U);
+        return add(U[i]*V[i],i=1..n);
+    end proc;
+
+    vecnorm := proc(V)
+        n := numelems(V);
+        return sqrt(add(V[i]^2,i=1..n));
+    end proc;
+
+    playsound := proc(s)
+    uses AudioTools;
+        fn := cat("data/",s);
+        Play(Read(fn),"Speaker0");
+    end proc;
+
+end module;
