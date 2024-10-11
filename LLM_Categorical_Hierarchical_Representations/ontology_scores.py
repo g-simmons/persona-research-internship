@@ -24,8 +24,15 @@ warnings.filterwarnings('ignore')
 import seaborn as sns
 import random
 
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='ontology_scores_log.log', level=logging.INFO)
+
+# import code
+# code.interact(local=dict(globals(), **locals()))
+
 # Internal
-def save_wordnet_hypernym(params: str, step: str):
+def save_wordnet_hypernym(params: str, step: str, multi: bool):
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     model_name = "pythia"
@@ -51,25 +58,55 @@ def save_wordnet_hypernym(params: str, step: str):
         return lemmas
 
 
+    one_word_counter = 0
+    multi_word_counter = 0
+
     all_noun_synsets = list(wn.all_synsets(pos=wn.NOUN))
     noun_lemmas = {}
     for s in all_noun_synsets:
         lemmas = get_all_hyponym_lemmas(s)
+        
         # add and remove space bc of how gemma vocab works
         if model_name == "gemma-2b":
             lemmas = vocab_set.intersection({"▁" + l for l in lemmas})
             # lemmas = vocab_set.intersection({l for l in lemmas})
             noun_lemmas[s.name()] = {l[1:] for l in lemmas}
         elif model_name == "pythia":
-            lemmas = vocab_set.intersection({l for l in lemmas})
-            noun_lemmas[s.name()] = {l for l in lemmas}
+            if multi:
+                lemmas = list(lemmas)
+                lemmas_split = [set(l.split("_")) for l in lemmas]
+                lemmas_included = []
+                for i in range(len(lemmas)):
+                    # if vocab_set.intersection(lemmas_split[i]) == lemmas_split[i]:
+                    if lemmas_split[i].issubset(vocab_set):
+                        lemmas_included.append(lemmas[i])
+                
+                for l in lemmas_included:
+                    if len(l.split("_")) == 1:
+                        one_word_counter += 1
+                    elif len(l.split("_")) > 1:
+                        multi_word_counter += 1
+                noun_lemmas[s.name()] = set(lemmas_included)
+            else:
+                lemmas = vocab_set.intersection({l for l in lemmas})
+                noun_lemmas[s.name()] = {l for l in lemmas}
+
+            
+    
+    logger.info("WORDSCORES")
+    logger.info(one_word_counter)
+    logger.info(multi_word_counter)
+    logger.info("\n")
+
+    logger.info(len(noun_lemmas))
     print(len(noun_lemmas))
     for k, v in noun_lemmas.items():
         print(k, v)
     large_nouns = {k: v for k, v in noun_lemmas.items() if len(v) > 5}
 
-
+    logger.info(len(all_noun_synsets))
     print(len(all_noun_synsets))
+    logger.info(len(large_nouns))
     print(len(large_nouns))
 
 
@@ -84,6 +121,7 @@ def save_wordnet_hypernym(params: str, step: str):
             if len(ancestors) > 1:
                 G_noun.add_edge(ancestors[-2],key) # first entry is itself
             else:
+                logger.info(f"no ancestors for {key}")
                 print(f"no ancestors for {key}")
 
     G_noun = nx.DiGraph(G_noun.subgraph(nodes))
@@ -109,6 +147,7 @@ def save_wordnet_hypernym(params: str, step: str):
                     for grandchild in grandchildren:
                         G.add_edge(node, grandchild)
                     G.remove_node(child)
+                    logger.info(f"merged {node} and {child}")
                     print(f"merged {node} and {child}")
 
     merge_nodes(G_noun, large_nouns)
@@ -120,11 +159,28 @@ def save_wordnet_hypernym(params: str, step: str):
     def _noun_to_gemma_vocab_elements(word):
         word = word.lower()
         plural = p.plural(word)
+        if multi:
+            word_list = word.split("_")
+            plural_list = plural.split("_")
+            word_cap_list = word.capitalize().split("_")
+            plural_cap_list = plural.capitalize().split("_")
 
-        add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
-        # add_space = ["▁" + w for w in add_cap_and_plural]
-        add_space = [w for w in add_cap_and_plural]
-        return vocab_set.intersection(add_space)
+            add_cap_and_plural = [word_list, plural_list, word_cap_list, plural_cap_list]
+            corr_words = [word, plural, word.capitalize(), plural.capitalize()]
+
+            included = []
+            for i in range(len(add_cap_and_plural)):
+                if set(add_cap_and_plural[i]).issubset(vocab_set):
+                    included.append(corr_words[i])
+
+            return included
+        else:
+
+            add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
+            # add_space = ["▁" + w for w in add_cap_and_plural]
+            add_space = [w for w in add_cap_and_plural]
+            return vocab_set.intersection(add_space)
+       
 
     ## save the data
     with open('data/noun_synsets_wordnet_gemma.json', 'w') as f:
@@ -138,7 +194,7 @@ def save_wordnet_hypernym(params: str, step: str):
     nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
 
 
-def get_mats(params: str, step: str):
+def get_mats(params: str, step: str, multi: bool):
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     
@@ -165,22 +221,33 @@ def get_mats(params: str, step: str):
     total_count = 0
     messed_up = {}
     dirs = {}
+
     for k, v in cats.items():
         total_count += 1
         try:
-            dirs[k] = hrc.estimate_cat_dir(v, g, vocab_dict)
+            logger.info(f"NODE: {k}, {v[:3]}")
+            print(f"NODE: {k}, {v[:3]}")
+            dirs[k] = hrc.estimate_cat_dir(v, g, vocab_dict, multi)
+
         except Exception as e:
             error_count += 1
+            logger.info(e)
             print(e)
             messed_up[k] = v
+
+    logger.info(error_count)
+    logger.info(total_count)
+    logger.info(messed_up)
     print(error_count)
     print(total_count)
     print(messed_up)
 
+    logger.info(list(messed_up.keys()))
     print(list(messed_up.keys()))
 
     for node in list(messed_up.keys()):
         sorted_keys.remove(node)
+        logger.info(node)
         print(node)
 
     tc_G = nx.algorithms.dag.transitive_closure(G)
@@ -192,12 +259,18 @@ def get_mats(params: str, step: str):
 
     child_parent = {}
 
+    logger.info(sorted_keys)
     print(sorted_keys)
 
     
     for node in sorted_keys:
             if len(list(G.predecessors(node))) > 0:
                     parent = list(G.predecessors(node))[0]         #direct parent
+                    
+                    logger.info("node: "+ node)
+                    logger.info("parent: "+ parent)
+                    logger.info("\n")
+                    
                     print("node: "+ node)
                     print("parent: "+ parent)
                     print()
@@ -227,7 +300,7 @@ def get_mats(params: str, step: str):
     return mats
 
 
-def get_linear_rep(params: str, step: str):
+def get_linear_rep(params: str, step: str, multi: bool):
     sns.set_theme(
         context="paper",
         style="white",  # 'whitegrid', 'dark', 'darkgrid', ...
@@ -277,11 +350,22 @@ def get_linear_rep(params: str, step: str):
             train_lemmas = lemmas[:int(alpha * len(lemmas))]
             test_lemmas = lemmas[int(alpha * len(lemmas)):]
 
-            estimated_dir = hrc.estimate_cat_dir(train_lemmas, g, vocab_dict)
+            estimated_dir = hrc.estimate_cat_dir(train_lemmas, g, vocab_dict, multi)
+            logger.info("linear rep lda norm")
+            logger.info(estimated_dir['lda'].norm())
             estimated_dir = estimated_dir['lda'] / estimated_dir['lda'].norm()
 
-            train_g = g[hrc.category_to_indices(train_lemmas, vocab_dict)]
-            test_g = g[hrc.category_to_indices(test_lemmas, vocab_dict)]
+            
+
+            # train_g = g[hrc.category_to_indices_multi_word(train_lemmas, vocab_dict)]
+            # test_g = g[hrc.category_to_indices_multi_word(test_lemmas, vocab_dict)]
+
+            if multi:
+                train_g = hrc.get_category_embeddings(hrc.category_to_indices_multi_word(train_lemmas, vocab_dict), g)
+                test_g = hrc.get_category_embeddings(hrc.category_to_indices_multi_word(test_lemmas, vocab_dict), g)
+            else:
+                train_g = g[hrc.category_to_indices(train_lemmas, vocab_dict)]
+                test_g = g[hrc.category_to_indices(test_lemmas, vocab_dict)]
 
             b_lda = (train_g @ estimated_dir).mean()
 
@@ -291,10 +375,17 @@ def get_linear_rep(params: str, step: str):
         except Exception as e:
             error_count += 1
             print(e)
+            logger.info("ERRORR")
+            logger.info(e)
             print(node)
             messed_up.append(node)
 
     print(messed_up)
+
+    logger.info("ERRORSS")
+    logger.info(error_count)
+    logger.info(total_count)
+
 
     for node in messed_up:
         sorted_keys.remove(node)
@@ -357,10 +448,10 @@ def hierarchy_score(cos_mat: np.ndarray) -> float:
     # Frobenius norm
     return np.linalg.norm(cos_mat, ord = "fro")
 
-def get_scores(params: str, step: str) -> tuple:
-    save_wordnet_hypernym(params, step)
-    mats = get_mats(params, step)
-    eval_values = get_linear_rep(params, step)
+def get_scores(params: str, step: str, multi: bool) -> tuple:
+    save_wordnet_hypernym(params, step, multi)
+    mats = get_mats(params, step, multi)
+    eval_values = get_linear_rep(params, step, multi)
 
     return linear_rep_score(eval_values), causal_sep_score(mats[0], mats[1]), hierarchy_score(mats[2])
     
@@ -368,12 +459,22 @@ def get_scores(params: str, step: str) -> tuple:
 
 if __name__ == "__main__":
     steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-    parameter_models = ["12B"]
-    steps = steps[63:]
+    parameter_models = ["2.8B"]
+    steps = [steps[69]]
+
     print(steps)
     print(len(steps))
-    for parameter_model in parameter_models:
-        for step in steps:
-            score = get_scores(parameter_model, step)
-            with open(f"scores_{parameter_model}.txt", "a") as f:
-                f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
+
+    # for parameter_model in parameter_models:
+    #     for step in steps:
+    #         logger.info(f"Step: {step}")
+    #         logger.info("\n\n\n")
+    #         score = get_scores(parameter_model, step, False)
+    #         with open(f"scores_{parameter_model}.txt", "a") as f:
+    #             f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
+
+
+    save_wordnet_hypernym("70M", "step11000", False)
+    mats = get_mats("70M", "step11000", False)
+    for mat in mats:
+        print(mat.shape)

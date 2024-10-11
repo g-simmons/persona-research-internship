@@ -11,29 +11,29 @@ dctx = zstd.ZstdDecompressor()
 def get_word_count(word: str) -> int:
     input_dir = "/mnt/bigstorage/raymond/pile-uncopyrighted/train/"
     for filename in os.listdir(input_dir):
-        print(filename)
+        # print(filename)
         with open(input_dir + filename, 'rb') as ifh:
+            total_count = 0
             counter = 0
-            for chunk in dctx.read_to_iter(ifh, read_size=1):
-                # print(chunk)
-                words = re.split(r' |\\\\n\\\\n|\\\\u|. |, |; |: |! ', str(chunk))
-                for i in words:
-                    if i == word:
-                        print(i)
-                        counter += 1
-                        print(counter)
-    return counter
+            print(dctx.read_to_iter(ifh, read_size=32))
+            # for chunk in dctx.read_to_iter(ifh, read_size=32):
+            #     # print(chunk)
+            #     words = re.split(r' |\\\\n\\\\n|\\\\u|. |, |; |: |! ', str(chunk))
+            #     total_count += len(words)
+            #     print(total_count)
+            #     # for i in words:
+            #     #     if i == word:
+            #     #         print(i)
+            #     #         counter += 1
+            #     #         print(counter)
+    return total_count
                 
 
 start_time = time.time()
 a = get_word_count("the")
-b = get_word_count("more")
-c = get_word_count("dog")
-d = get_word_count("animal")
+
 
 
 print(a)
-print(b)
-print(c)   
-print(d)
+
 print("--- %s seconds ---" % (time.time() - start_time))

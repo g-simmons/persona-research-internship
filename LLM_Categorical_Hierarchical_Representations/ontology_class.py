@@ -4,15 +4,16 @@ import owlready2
 import pronto
 
 
-go = pronto.Ontology("owl/aism.owl")
+# go = pronto.Ontology("owl/aism.owl")
 
 
 class Onto:
     def __init__(self, owl_dir):
+        # go = pronto.Ontology(owl_dir)
         self.onto = pronto.Ontology(owl_dir)
 
     def all_synsets(self):
-        return [Synset(term) for term in go.terms()]
+        return [Synset(term) for term in self.onto.terms()]
     
     def get_synset(self, term):
         for synset in self.all_synsets():
@@ -35,7 +36,7 @@ class Synset:
         # for parent in self._get_parents():
         #     print(parent.name())
 
-        return Synset._get_paths(self.ontology_class)
+        return list(map(lambda x: reversed(x), Synset._get_paths(self.ontology_class)))
         
     @staticmethod
     def _get_paths(term_obj):
@@ -67,14 +68,19 @@ class Synset:
         return synonyms
     
     def name(self):
-        return self.ontology_class.name
+        if self.ontology_class.name != None:
+            new_str = self.ontology_class.name.replace(" ", "_") 
+            return new_str
+        else:
+            return self.ontology_class.name
     
 class Lemma:
     def __init__(self, term):
         self.term = term
 
     def name(self):
-        return self.term
+        new_str = self.term.replace(" ", "_")
+        return new_str
     
 
 
@@ -86,18 +92,15 @@ class Lemma:
 #     counter += 1
 #     print("NAME: " + thing.name())
 #     print()
+
 #     for path in thing.hypernym_paths():
 #         for syn in path:
 #             print(syn.name())
 #         print()
-
-#     # for shit in thing.hyponyms():
-#     #     print(shit.name())
 
 #     print("\n\n\n")
 
 #     if counter == 2000:
 #         break
 # print(counter)
-# print("skin epidermis" in all_terms)
 
