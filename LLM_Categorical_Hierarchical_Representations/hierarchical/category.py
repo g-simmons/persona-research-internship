@@ -4,6 +4,12 @@ import networkx as nx
 import torch
 from sklearn.covariance import ledoit_wolf
 
+import numpy as np
+
+
+# reproducability
+torch.manual_seed(0)
+np.random.seed(0)
 
 import logging
 logger = logging.getLogger(__name__)
@@ -23,7 +29,9 @@ def get_categories(noun_or_verb = 'noun'):
                 cats.update(json.loads(line))
         G = nx.read_adjlist("data/verb_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     
-    cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
+    # cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
+    cats = {k: v for k, v in cats.items() if len(set(v)) > 50}
+
     # cats = {k: list(set(v)) for k, v in cats.items()}
     G = nx.DiGraph(G.subgraph(cats.keys()))
 
@@ -152,20 +160,34 @@ def estimate_single_dir_from_embeddings(category_embeddings):
     logger.info(True in covnan)
     
 
-    logger.info("cov det")
-    logger.info(torch.det(cov))
+    # pseudo_inv = torch.linalg.pinv(cov)
+    pseudo_inv = np.linalg.pinv(cov)
+    pseudo_inv = torch.tensor(pseudo_inv)
 
-    pseudo_inv = torch.linalg.pinv(cov)
+
     lda_dir = pseudo_inv @ category_mean
 
     logger.info("pseudo_inv")
     logger.info(pseudo_inv)
-    logger.info("category_mean")
-    logger.info(category_mean)
-    logger.info("lda_dir")
-    logger.info(lda_dir)
+    # logger.info("category_mean")
+    # logger.info(category_mean)
+    # logger.info("lda_dir")
+    # logger.info(lda_dir)
     logger.info("LDA dir norm")
     logger.info(torch.norm(lda_dir))
+
+    # if True in torch.isnan(torch.norm(lda_dir)):
+    #     torch.save(category_embeddings, "category_embeddings.pt")
+    #     torch.save(cov, "cov.pt")
+
+
+    logger.info("ranksanshit")
+    logger.info(torch.linalg.matrix_rank(category_embeddings))
+    logger.info(torch.linalg.matrix_rank(cov))
+    logger.info(category_embeddings.shape)
+    logger.info(cov.shape)
+    
+
 
     lda_dir = lda_dir / torch.norm(lda_dir)
     lda_dir = (category_mean @ lda_dir) * lda_dir

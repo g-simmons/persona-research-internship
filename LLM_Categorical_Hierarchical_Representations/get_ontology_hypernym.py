@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import nltk
-nltk.download('wordnet')
+# import nltk
+# nltk.download('wordnet')
 
 import json
 import networkx as nx
-from nltk.corpus import wordnet as wn
+# from nltk.corpus import wordnet as wn
 from transformers import AutoTokenizer
 
 import inflect

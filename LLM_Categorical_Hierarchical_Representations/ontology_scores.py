@@ -15,6 +15,7 @@ huggingface_hub.login(token="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")
 
 import torch
 import numpy as np
+import os
 import networkx as nx
 import matplotlib.pyplot as plt
 import hierarchical as hrc
@@ -26,10 +27,13 @@ import random
 
 import logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='ontology_scores_log.log', level=logging.INFO)
+logging.basicConfig(filename='ontology_scores_log_test.log', level=logging.INFO)
 
-# import code
-# code.interact(local=dict(globals(), **locals()))
+# reproducability
+torch.manual_seed(0)
+np.random.seed(0)
+import random
+random.seed(0)
 
 # Internal
 def save_wordnet_hypernym(params: str, step: str, multi: bool):
@@ -189,6 +193,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
             for w in lemmas:
                 gemma_words.extend(_noun_to_gemma_vocab_elements(w))
 
+            gemma_words.sort()
             f.write(json.dumps({synset: gemma_words}) + "\n")
             
     nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
@@ -460,21 +465,37 @@ def get_scores(params: str, step: str, multi: bool) -> tuple:
 if __name__ == "__main__":
     steps = [f"step{i}" for i in range(1000, 145000, 2000)]
     parameter_models = ["2.8B"]
-    steps = [steps[69]]
+
+    parameter_models = ["1.4B"]
+
 
     print(steps)
     print(len(steps))
 
-    # for parameter_model in parameter_models:
-    #     for step in steps:
-    #         logger.info(f"Step: {step}")
-    #         logger.info("\n\n\n")
-    #         score = get_scores(parameter_model, step, False)
-    #         with open(f"scores_{parameter_model}.txt", "a") as f:
-    #             f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
+    for parameter_model in parameter_models:
+        # os.mkdir(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}")
+        for step in steps:
+            logger.info(f"Step: {step}")
+            logger.info("\n\n\n")
+
+            save_wordnet_hypernym(parameter_model, step, True)
+            mats = get_mats(parameter_model, step, True)
+            for mat in mats:
+                print(mat.shape)
+            
+            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
+            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
+            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
 
 
-    save_wordnet_hypernym("70M", "step11000", False)
-    mats = get_mats("70M", "step11000", False)
-    for mat in mats:
-        print(mat.shape)
+            # score = get_scores(parameter_model, step, False)
+            # with open(f"scores_{parameter_model}.txt", "a") as f:
+            #     f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
+
+
+    # save_wordnet_hypernym("70M", "step11000", True)
+    # mats = get_mats("70M", "step11000", True)
+    # for mat in mats:
+    #     print(mat.shape)
+
+    # torch.save(mats[1], "test2.pt")
