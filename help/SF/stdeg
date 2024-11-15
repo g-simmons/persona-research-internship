@@ -1,0 +1,51 @@
+`SF/text/stdeg` := TEXT(
+`   `,
+`FUNCTION:  stdeg - degree with respect to the standard grading`,
+`   `,
+`CALLING SEQUENCE:  stdeg(f);  stdeg(f,B);`,
+`   `,
+`PARAMETERS:  f = a symmetric function`,
+`             B = (optional) a name`,
+`   `,
+`SYNOPSIS:`,
+`  The standard grading of the ring of symmetric functions assigns the`,
+`  degrees 1,2,... to each variable of the form b1,b2,..., and degree n`,
+`  to each variable of the form b[mu] with mu a partition of n.`,
+`   `,
+`  Given a symmetric function f, stdeg(f) returns the degree of f in the`,
+`  standard grading. Any variables appearing f that do not belong to a`,
+`  basis known to SF (as specified by the global variable ``SF/Bases``) are`,
+`  assigned the degree 0.`,
+`   `,
+`  If B is a name of type 'string', then stdeg(f,B) computes the degree of`,
+`  f under the assumption that f is expressed entirely in terms of the`,
+`  variables B1,B2,...; (i.e., all other variables are given degree 0).`,
+`  Given a name B[] of type 'indexed', stdeg(f,B[]) computes the degree of`,
+`  f under the assumption that f is expressed entirely in terms of the`,
+`  variables B[mu], where mu ranges over partitions.`,
+`   `,
+`  Note that stdeg acts as a front-end to Maple's degree function, and`,
+`  so inherits all of its peculiarities. In particular, (1) reliable results`,
+`  cannot be obtained unless f is expanded or collected with respect to the`,
+`  variables of some basis (e.g., (1+p1)^2 - p1^2 and s[2]-h2 are reported`,
+`  to have degree 2), and (2) versions of Maple prior to V.5 report that 0`,
+`  has degree 0, while current versions report -infinity.`,
+`   `,
+`  There are no restrictions on basis names of indexed type, but basis names`,
+`  of string type must consist of a single letter.`,
+`   `,
+`EXAMPLES:`,
+`  stdeg(s[4,2]*p2-h6);                    yields           8`,
+`  stdeg(s[4,2]*p2-h6,s[]);                yields           6`,
+`  stdeg(t*p3^3+p4^2,p);                   yields           9`,
+`   `,
+`SEE ALSO:  varset`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/stdeg`,
+  helpfile=HomeLib, text=`SF/text/stdeg`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/stdeg`:=`SF/text/stdeg`:
+  save `help/SF/text/stdeg`, cat(HomeLib,`/help/SF/text/stdeg.m`);
+fi:

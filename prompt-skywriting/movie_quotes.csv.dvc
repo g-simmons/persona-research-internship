@@ -1,0 +1,5 @@
+outs:
+- md5: 51844ef525f6340352091471eddb4e68
+  size: 76369
+  hash: md5
+  path: movie_quotes.csv

@@ -1,0 +1,131 @@
+                 SF, A Maple Package for Symmetric Functions
+
+HISTORY:
+Version 2.4 (major revisions, compatible with Maple 7, 9, 9.5,...)   11/09/05
+Version 2.3 (bug fixes, compatible with Maple V R5, Maple 6)          7/22/01
+Version 2.2 (minor changes, compatible with Maple V R4)               2/12/98
+Version 2.1 (minor changes to accommodate Maple V R3)                 5/11/94
+Version 2   MAJOR NEW RELEASE                                         7/02/93
+Version 1.1 (slight modifications to accommodate new '.m' format)     4/27/90
+Version 1   FIRST RELEASE                                             6/26/89
+
+PACKING LIST:
+You should have the following files and directories:
+  READ_ME.SF           # this file
+  COMPILE.SF           # installation script
+  SF.tex               # a plain TeX file of documentation
+  SF_test              # a Maple program to test proper installation
+  SF/                  # a directory whose contents are....
+     src/                 # source code (33 files)
+     examples/            # some applications (10 files)
+  help/SF/             # Maple help texts (26 files)
+     
+INSTALLATION:
+There are three steps.
+1) Tell Maple where to find this package.
+2) Have Maple compile the source code and help files.
+3) Run the program 'SF_test'.
+
+-----------------------------
+
+1) How to tell Maple where to find this package.
+
+If you have already installed one of my other packages, skip this step.
+
+You (and every user on your system who wants to use the package) will need
+to add two lines to the '.mapleinit' file in your home directory, or create
+such a file if you don't yet have one.
+
+For the purposes of this discussion, let's suppose that Joe User has a
+home directory '/home/joe', and that he wants to install the package in
+his 'maple' subdirectory. Assuming he is running Maple V R2 or later,
+Joe must insert the following two lines in his '.mapleinit' file:
+
+  HomeLib:=`/home/joe/maple`:
+  libname:=libname, HomeLib:
+ 
+If he is using Maple V Release 1, then the two lines should be:
+
+  HomeLib:=`/home/joe/maple`:
+  _liblist:=[HomeLib]:
+
+2) How to compile the source code and help files.
+
+The tar file needs to be unpacked in the desired installation directory.
+Joe User might have done this as follows:
+
+   mkdir /home/joe/maple
+   cd /home/joe/maple
+   tar -zxvf /path/to/where/Joe/downloaded/SF<version>.tar.gz
+
+Now edit the definitions of two shell variables in the file 'COMPILE.SF':
+ 'homelib' should point to the installation directory
+ 'MAPLE'   should point to a command-line maple executable.
+
+Joe User will have to modify the definition of homelib so that it reads
+
+  set homelib = /home/joe/maple 
+
+After editing these lines, run the command 'csh COMPILE.SF' from a shell
+to finish the installation.
+
+TIP: Recent versions of Maple can read '.m' files created by versions of
+Maple as old as Maple 6. If your system has both Maple 7 and Maple 9 (say),
+then set MAPLE to use Maple 7 during compilation. This way, both versions
+of Maple will be able to share the same '.m' files.
+
+TIP: The Maple help mechanism in recent versions of Maple (V R4 or later)
+compiles all of the help for all of my packages into a single file named
+maple.hdb in the 'homelib' directory. Whenever a package is recompiled,
+this file will grow, rather than overwrite the old contents. You may wish
+to delete this file before recompiling, but you will then need to
+recompile *all* of the packages in this directory.
+
+3) Testing and cleaning up.
+
+Run the shell command 
+
+maple -q < SF_test | more
+
+If the installation has been successful, you will see a long stream of
+numbered OKAY's on the standard output.
+
+--------------------------------------------
+
+You are now ready to use the Unix Edition of the SF package.
+
+To load the package, enter the command "with(SF);" during a Maple session.
+
+To learn how to use the package, print out a copy of the plain TeX
+document 'SF.tex' (16pp.), or download a PostScript version from
+<http://www.math.lsa.umich.edu/~jrs/maple.html>.
+
+To obtain documentation on the individual commands in the package, request
+help via the command  ?SF[<function>]  or  ?SF,<function>  during a Maple
+session. Or use the HTML version of the help files in the Vanilla Edition.
+See <http://www.math.lsa.umich.edu/~jrs/maple.html>.
+
+[If you are using Maple V R1, you will have to use the help files from
+the Vanilla Edition.]
+
+COPYLEFT NOTICE:
+Copyleft (c) 1993, 1998, 2001, 2005 by John R. Stembridge.
+ 
+Permission is granted to anyone to use, modify, or redistribute this
+software freely, subject to the following restrictions:
+
+1. The author accepts no responsibility for any consequences of this
+software and makes no guarantee that the software is free of defects.
+2. The origin of this software must not be misrepresented, either by
+explicit claim or by omission.
+3. This notice and the copyleft must be included in all copies or
+altered versions of this software.
+4. This software may not be included or redistributed as part of any package
+to be sold for profit without the explicit written permission of the author.
+
+John Stembridge
+Department of Mathematics
+University of Michigan
+Ann Arbor, MI 48109-1043
+email: jrs@umich.edu
+

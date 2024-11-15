@@ -1,0 +1,54 @@
+{
+    "models": [
+        {
+            "name": "EleutherAI/pythia-12b",
+            "average": 5.93,
+            "ifeval": 24.71,
+            "bbh": 4.99,
+            "math_lvl_5": 0.91,
+            "gpqa": 0,
+            "musr": 3.79,
+            "mmlu_pro": 1.21
+        },
+        {
+            "name": "EleutherAI/pythia-6.9b",
+            "average": 5.85,
+            "ifeval": 22.81,
+            "bbh": 5.88,
+            "math_lvl_5": 0.76,
+            "gpqa": 0.22,
+            "musr": 3.81,
+            "mmlu_pro": 1.63
+        },
+        {
+            "name": "EleutherAI/pythia-160m",
+            "average": 5.62,
+            "ifeval": 18.16,
+            "bbh": 2.2,
+            "math_lvl_5": 0.23,
+            "gpqa": 1.12,
+            "musr": 10.68,
+            "mmlu_pro": 1.33
+        },
+        {
+            "name": "EleutherAI/pythia-2.8b",
+            "average": 5.44,
+            "ifeval": 21.73,
+            "bbh": 5.08,
+            "math_lvl_5": 0.68,
+            "gpqa": 0,
+            "musr": 3.64,
+            "mmlu_pro": 1.52
+        },
+        {
+            "name": "EleutherAI/pythia-410m",
+            "average": 5.11,
+            "ifeval": 21.95,
+            "bbh": 2.72,
+            "math_lvl_5": 0.3,
+            "gpqa": 1.23,
+            "musr": 3.06,
+            "mmlu_pro": 1.42
+        }
+    ]
+}

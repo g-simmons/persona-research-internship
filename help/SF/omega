@@ -1,0 +1,43 @@
+`SF/text/omega` := TEXT(
+`   `,
+`FUNCTION:  omega - apply the omega automorphism to a symmetric function`,
+`   `,
+`CALLING SEQUENCE:  omega(f);`,
+`                   omega(f,b1);`,
+`                   omega(f,b1,b2);`,
+`   `,
+`PARAMETERS:    f   = a symmetric function`,
+`             b1,b2 = (optional) names of bases`,
+`   `,
+`SYNOPSIS:`,
+`  The omega automorphism is an involution on the ring of symmetric functions`,
+`  in which h.i -> e.i, e.i -> h.i, p.i -> (-1)^(i-1) * p.i, and`,
+`  s[lambda] -> s[lambda'], where lambda' denotes the conjugate of lambda.`,
+`   `,
+`  If f is any symmetric function, omega(f) applies this automorphism to f.`,
+`   `,
+`  If a second argument b1 is specified, then the procedure assumes that f`,
+`  is expressed solely in terms of base b1. In particular, if b1 is not one`,
+`  of the predefined bases, this requires f to be linear in elements of the`,
+`  basis b1.`,
+`   `,
+`  If a third argument b2 is specified, the result is expressed in terms of`,
+`  the basis b2. If no such argument is specified, the result may involve`,
+`  any convenient mix of functions from various bases.`,
+`   `,
+`EXAMPLES:`,
+`  omega(h3*p4+e2);                       yields    -e3*p4+h2`,
+`  dual_basis(m,h); dual_basis(F,e);`,
+`  omega(m[3,2],m);                       yields    -p5-p3*p2`,
+`  omega(m[3,2],m,F);                     yields     F[3, 2]`,
+`   `,
+`SEE ALSO:  conjugate, theta`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/omega`,
+  helpfile=HomeLib, text=`SF/text/omega`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/omega`:=`SF/text/omega`:
+  save `help/SF/text/omega`, cat(HomeLib,`/help/SF/text/omega.m`);
+fi:

@@ -1,0 +1,11 @@
+torch
+numpy
+transformers
+networkx
+matplotlib
+scikit-learn
+nltk
+inflect
+seaborn
+tqdm
+ipykernel
