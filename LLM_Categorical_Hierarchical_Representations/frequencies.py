@@ -114,4 +114,4 @@ def add_file_frequencies_to_json(file_name, folder_path):
     add_frequencies_to_json(file_name, unique_list, 200)
 
 
-add_file_frequencies_to_json("aism.txt", "./data/term_frequencies/ontology-terms")
+add_file_frequencies_to_json("mp.txt", "./data/term_frequencies/ontology-terms")
