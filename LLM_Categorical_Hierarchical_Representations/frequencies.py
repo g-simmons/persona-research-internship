@@ -36,7 +36,7 @@ def get_term_frequency(term):
 
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
-    return response.json()["token_ids"][0]
+    return response.json()['count']
 
 
 def get_term_dict(terms):
