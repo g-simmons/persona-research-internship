@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check for required commands
+for cmd in jq gh; do
+  if ! command -v "$cmd" &> /dev/null; then
+    echo "Error: $cmd is not installed. Please install it first." >&2
+    exit 1
+  fi
+done
+
 # Function to calculate days between dates for BSD date
 calculate_days() {
     assigned_date="$1"
