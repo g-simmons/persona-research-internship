@@ -1,0 +1,454 @@
+@import url('./reset.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+:root {
+    --section-color: #fef7e9;
+    --background-color: #9A9899;
+    --text-color: #666;
+    --primary-color: #c15b35;
+    --header-color: #37261b;
+    --header-font-color: #ed9f33;
+    --main-font: 'Montserrat', sans-serif;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    background-color: var(--section-color);
+    align-items: center;
+    font-family: var(--main-font);
+    padding-top: 15vh;
+    width: 100%;
+    min-height:100vh;
+    font-size: 21px;
+}
+
+main{
+    width: 100%;
+}
+h1{
+    margin: 1em;
+    color: var(--primary-color)
+}
+h2{
+    color:var(--primary-color);
+    margin: 10px 0px;
+}
+header {
+    background-color: var(--header-color);
+    color: var(--header-font-color);
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+nav {
+    display: flex;
+    align-items: center;
+    margin-right: 2em;
+}
+
+nav a {
+    text-decoration: none ;
+    color: var(--header-font-color) ;
+    margin: 0 10px ;
+    font-size: 20px ;
+    font-weight: bold;
+}
+nav a:hover {
+    text-decoration: underline;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    text-decoration-thickness: 0.1rem;
+    text-underline-offset: 1rem;;
+}
+
+.research-section, .journal-section, .contact-section, .people-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* margin: 2em; */
+    background-color: var(--section-color);
+    width: 100%;
+}
+
+.people-section {
+    height: auto;
+}
+
+.reading-list-tables {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.reading-list-term {
+    min-width: 400px;
+    margin-left: 50px;
+    margin-right: 50px;  
+    margin-top: 30px;
+    margin-bottom: 30px;
+    /* max-width: 800px; */
+    flex-grow: 1;
+}
+
+.person {
+    display: grid;
+    grid-template-columns: 250px auto;
+    max-width: 1200px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.person img {
+    max-height: 200px;
+    /* width: 100%; */
+    margin: 10px;
+}
+
+.reading-list-term table tr {
+    height: 50px;
+}
+
+.reading-list-term table td {
+    vertical-align: top;
+    padding: 8px;
+    height:  50px;
+}
+
+.reading-list-term table td:nth-child(4) {
+    font-size: smaller;
+}
+
+.logo{
+    /* display: inline-block;
+    vertical-align: top; */
+    width: 200px;
+    height: 70px;
+    margin-right:auto;
+}
+
+p {
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+main a:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+header div {
+    display: flex;
+    font-size: 1.5em;
+}
+header div:hover{
+    background-color: none;
+}
+.visit-button {
+    display: inline-block;
+    max-width: 300px;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--section-color);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.visit-button:hover {
+    background-color: var(--header-font-color);
+}
+form {
+    margin: 20px;
+    width: 600px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+button {
+    background-color: var(--primary-color);
+    color: var(--section-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    align-self: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    background-color: var(--header-color);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    
+    z-index: 1;
+    background-color: var(--header-color);
+}
+
+.dropdown-content a {
+    color: var(--header-font-color);
+    padding: 12px 16px;
+    display: block;
+    font-size: 0.35em;
+}
+.dropdown-content a:hover{
+    text-decoration: none;
+    font-size: 0.4em;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+button:hover {
+    background-color: var(--header-font-color);
+}
+
+.research{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+}
+.research-img{
+    display: flex;
+
+}
+.journal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:  0em;
+    margin: 2em;
+}
+.journal-img{
+    display: flex;
+}
+.journal-section{
+    background-color: whitesmoke;
+}
+.people{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:  0em;
+    margin: 2em;
+}
+.contact-section{
+    background-color: whitesmoke;
+    margin-bottom: 0;
+    padding: 0em;
+}
+.contact-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+}
+.blog-title{
+    text-align: center;
+}
+.meta-data{
+    text-align: center;
+}
+.overview, .contrastive, .challenge, .tda, .content{
+    display: flex;
+    flex-direction: column;
+    padding: 4em;
+    margin: 1em 0;
+}
+#club-info, #meeting-schedule, #join-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:auto;
+    text-align: center;
+}
+.reading-list{
+    display: flex;
+    margin: 2em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.reading-list-tables{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#meeting-schedule {
+    background-color: var(--primary-color);
+    display: flex;
+    padding: 2em;
+    justify-content: space-around;
+    flex-direction: row;
+}
+#meeting-schedule div p {
+    color:var(--section-color);
+}
+#past-recordings{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:auto;
+    padding: 4em;
+}
+#past-recordings div {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1em;
+}
+#meeting{
+    color:var(--section-color);
+}
+ul{
+    display: flex;
+    list-style: none;
+}
+
+.headshot {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px;
+}
+
+.bio {
+    max-width: 600px;
+    text-align: center;
+    margin: 10px;
+}
+
+figcaption {
+    font-size: 1em;
+    font-family: var(--main-font);
+    color: var(--text-color);
+}
+.meta-data{
+    font-size: 0.8em;
+    font-style: italic;
+}
+.fig-cap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9em;
+    margin: 1em;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content-container {
+    display: flex;
+    flex-direction: column;
+    /* align-items: space-around; */
+    /* justify-content: space-around; */
+    width: 100%;
+    height: 100%;
+}
+.modal-content {
+    max-width: 90%; 
+    max-height: 90%; 
+    width: auto;
+    height: auto;
+    margin: auto;
+    display: block;
+}
+#modalCaption {
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    max-width: 90%;
+    margin: auto;
+}
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.zoom-controls {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.zoom-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

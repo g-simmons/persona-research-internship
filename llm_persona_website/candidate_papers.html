@@ -1,0 +1,201 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--section-color);
+            align-items: center;
+            font-family: var(--main-font);
+            padding-top: 15vh;
+            width: 100%;
+            min-height: 100vh;
+            font-size: 21px;
+        }
+
+        main {
+            width: 100%;
+        }
+
+        h1 {
+            margin: 1em;
+            color: var(--primary-color)
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin: 10px 0px;
+        }
+
+        header {
+            background-color: var(--header-color);
+            color: var(--header-font-color);
+            padding: 0.5em 1em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 10%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            margin-right: 2em;
+        }
+
+        nav a {
+            text-decoration: none !important;
+            color: var(--header-font-color) !important;
+            margin: 0 10px !important;
+            font-size: 20px !important;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline !important;
+            text-decoration-thickness: 1rem;
+            text-underline-offset: 1rem;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 4em;
+            margin: 1em 0;
+        }
+
+        .overview {
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        .reading-list {
+            width: 100%;
+        }
+
+        .article-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+        }
+
+        .article-list th,
+        .article-list td {
+            border: 1px solid #d2691e;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .article-list th {
+            background-color: #f57c00;
+            color: #fff;
+        }
+
+        .article-list td a {
+            color: #d2691e;
+            text-decoration: none;
+        }
+
+        .article-list td a:hover {
+            text-decoration: underline;
+        }
+
+        .read-status {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a href="ontology_topology.html">Ontology Topology</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+            <a href="people.html">People</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="overview">
+                <h2>Each quarter, we propose a list of papers that presenters can select from.</h2>
+                <p>Presenters are welcome to propose their own choice of paper, but having a list to choose from is helpful for those without a paper in mind.</p>
+            </div>
+            <div class="reading-list">
+                <h2 align="center">Recommended Articles</h2>
+                <table class="article-list">
+                    <thead>
+                        <tr>
+                            <th>Read</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="read-status"><input type="checkbox"></td>
+                            <td>LLMs Generate Structurally Realistic Social Networks but Overestimate Political Homophily</td>
+                            <td>Serina Chang, Alicja Chaszczewicz, Emma Wang, Maya Josifovska, Emma Pierson, Jure Leskovec</td>
+                            <td><a href="https://arxiv.org/abs/2408.16629" target="_blank">Read Article</a></td>
+                        </tr>
+                        <tr>
+                            <td class="read-status"><input type="checkbox"></td>
+                            <td>Large Language Models Can Consistently Generate High-Quality Content for Election Disinformation Operations</td>
+                            <td>Angus R. Williams, Liam Burke-Moore, Ryan Sze-Yin Chan, Florence E. Enock, Federico Nanni, Tvesha Sippy, Yi-Ling Chung, Evelina Gabasova, Kobi Hackenburg, Jonathan Bright</td>
+                            <td><a href="https://arxiv.org/abs/2408.16629" target="_blank">Read Article</a></td>
+                        </tr>
+                        <tr>
+                            <td class="read-status"><input type="checkbox"></td>
+                            <td>Human vs. Machine: Behavioral Differences Between Expert Humans and Language Models in Wargame Simulations</td>
+                            <td>Max Lamparth, Anthony Corso, Jacob Ganz, Oriana Skylar Mastro, Jacquelyn Schneider, Harold Trinkunas</td>
+                            <td><a href="https://arxiv.org/abs/2403.03407" target="_blank">Read Article</a></td>
+                        </tr>
+                        <tr>
+                            <td class="read-status"><input type="checkbox"></td>
+                            <td>The Prompt Report: A Systematic Survey of Prompting Techniques</td>
+                            <td>Sander Schulhoff, Michael Ilie, Nishant Balepur, Konstantine Kahadze, Amanda Liu, Chenglei Si, Yinheng Li, Aayush Gupta, HyoJung Han, Sevien Schulhoff, Pranav Sandeep Dulepet, Saurav Vidyadhara, Dayeon Ki, Sweta Agrawal, Chau Pham, Gerson Kroiz, Feileen Li, Hudson Tao, Ashay Srivastava, Hevander Da Costa, Saloni Gupta, Megan L. Rogers, Inna Goncearenco, Giuseppe Sarli, Igor Galynker, Denis Peskoff, Marine Carpuat, Jules White, Shyamal Anadkat, Alexander Hoyle, Philip Resnik</td>
+                            <td><a href="https://arxiv.org/abs/2406.06608" target="_blank">Read Article</a></td>
+                        </tr>
+                        <tr>
+                            <td class="read-status"><input type="checkbox"></td>
+                            <td>Infini-Gram: Scaling Unbounded n-Gram Language Models to a Trillion Tokens</td>
+                            <td>Jiacheng Liu, Sewon Min, Luke Zettlemoyer, Yejin Choi, Hannaneh Hajishirzi</td>
+                            <td><a href="https://arxiv.org/abs/2401.17377" target="_blank">Read Article</a></td>
+                        </tr>
+                        <!-- Add more articles as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
