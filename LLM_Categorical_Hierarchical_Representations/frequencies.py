@@ -107,7 +107,7 @@ def add_frequencies_to_json(file_name, word_list, chunk_size=25, collection_type
             print(f'words, {i}-{i+chunk_size} added to {json_file_path}')
             counter = i + chunk_size
         if counter < len(word_list):
-            print(f'Adding words, {counter}-{len(word_list)} to {json_file_path}')
+            #print(f'Adding words, {counter}-{len(word_list)} to {json_file_path}')
             print(word_list[len(word_list) - 1])
             chunk = word_list[counter:len(word_list)]
             term_dict = get_term_dict(chunk)
@@ -128,42 +128,52 @@ def add_frequencies_to_json(file_name, word_list, chunk_size=25, collection_type
         print(f"An error occurred here: {e}")
 
 def add_file_frequencies_to_json(file_name, folder_path, collection_type = None):
+    print(file_name, folder_path)
     word_list = get_terms_from_file_string(get_file_string(file_name, folder_path))
-    for i in range(len(word_list)):
+    i = 0
+    while i < len(word_list): # using while loop so length of word_list changes appropriately with word_list.pop()
         if word_list[i] == '': #can make more efficient but likely unneccesary
             word_list.pop(i)
+        else:
+            i += 1
     unique_list = list(OrderedDict.fromkeys(word_list))
     add_frequencies_to_json(file_name, unique_list, 1000, collection_type)
 
 def get_all_frequencies(folder_path):
-    #for file in file_list:
-        #add_file_frequencies_to_json(file, folder_path)
     progress_file = os.path.join(folder_path, "completed-frequencies.txt")
+    file_list = sorted(get_file_names(ONTOLOGY_TERMS_PATH))
     if os.path.exists(progress_file):
-            with open(progress_file, 'r') as f:
-                completed_files = f.read().split('\n')
-                completed_set = set(completed_files)
-            uncompleted_files = []
-            file_list = get_file_names(ONTOLOGY_TERMS_PATH)
-            for file in file_list:
-                if file not in completed_set:
-                    uncompleted_files.append(file)
-            Parallel(n_jobs=4)(delayed(add_file_frequencies_to_json)(file, folder_path) for file in uncompleted_files)
+        with open(progress_file, 'r') as f:
+            progress_file_content = f.read()
+            if progress_file_content:
+                completed_files = progress_file_content.split('\n')
+            else:
+                completed_files = []
+            completed_set = set(completed_files)
+        uncompleted_files = []
+        for file in file_list:
+            if file not in completed_set:
+                uncompleted_files.append(file)
+    else:
+        uncompleted_files = file_list
+    #print(f'uncomp: {uncompleted_files[21]}')
+    Parallel(n_jobs=16)(delayed(add_file_frequencies_to_json)(file, ONTOLOGY_TERMS_PATH) for file in uncompleted_files)
     
     #results = Parallel(n_jobs=4)(delayed(add_file_frequencies_to_json)(file, folder_path) for file in file_list)
 def get_file_names(path):
     return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-#add_file_frequencies_to_json('mp.txt', './data/term_frequencies/ontology-terms')
+#add_file_frequencies_to_json('oae.txt', './data/term_frequencies/ontology-terms')
 get_all_frequencies(FOLDER_PATH)
 #delete later:
-def test_freq_correct(file_name, folder_path):
+"""def test_freq_correct(file_name, folder_path):
     word_list = get_terms_from_file_string(get_file_string(file_name, folder_path))
     for i in range(len(word_list)):
         if word_list[i] == '': #can make more efficient but likely unneccesary
             word_list.pop(i)
     unique_list = list(OrderedDict.fromkeys(word_list))
     for elem in unique_list:
-        print(f'{elem}: {get_term_frequency_package(elem)}')
+        print(f'{elem}: {get_term_frequency_package(elem)}')"""
 
 #test_freq_correct('wordnet.txt', './data/term_frequencies/ontology-terms')
+#get_all_frequencies(FOLDER_PATH)
