@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a class='blog-link' href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <div class="dropdown">
+            <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+                <a href="people.html">People</a>
+        </nav>
+    </header>
+
+
+    <main>
+        <section class="research-section">
+            <div class="research">
+                <h2>Learn more about our ongoing research efforts</h2>
+                <p>
+                    Where we talk about <span style="color:black;font-weight:bold">Topological Data Analysis
+                        (TDA)</span> and <span style="color:black;font-weight:bold">Contrastive Editing</span>
+                </p>
+                <div class="research-img">
+                    <img src="assets/images/taxi-ai-data-analysis.png" alt="LLM Research photo">
+                    <img src="assets/images/taxi-robot-searching-for-information-online.png" alt="Robot photo">
+                </div>
+                <a href="research.html" class="visit-button">Visit Research</a>
+            </div>
+        </section>
+
+        <section class="journal-section">
+            <div class="journal">
+                <h2>Journal Club</h2>
+                <p>
+                    Explore the realm of research on <span style="color:black;font-weight:bold">Large Language
+                        Models</span> with our Journal Club every week
+                </p>
+                <div class="journal-img">
+                    <img src="assets/images/taxi-smiling-woman-reading-book-after-book.png" alt="Journal club">
+                    <img src="assets/images/taxi-young-man-reading-book-and-studying-science.png" alt="Journal club">
+                </div>
+                <a href="journal.html" class="visit-button">Visit Journal Club</a>
+            </div>
+        </section>
+
+        <section class="people-section">
+            <div class="people">
+                <h2>Meet the talented individuals who form our research team.</h2>
+                <p>
+                    Learn about <span style="color:black;font-weight:bold">their backgrounds, roles, and
+                        contributions</span> to our projects.
+                </p>
+                <div class="people-img">
+                    <img src="assets/images/taxi-team-management.png" alt="Team img">
+                </div>
+                <a href="#" class="visit-button">Visit People</a>
+            </div>
+        </section>
+        <section class="contact-section">
+            <div class="contact-form">
+                <h2>Contact</h2>
+                <p>
+                    Have questions? Let us know!
+                </p>
+                <form id="contactForm" method="post" onsubmit="sendEmail(); return false;">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="text/javascript">
+        emailjs.init("fw-QjkfIMrZv6_FLs");
+    </script>
+    <script>
+        function sendEmail() {
+            const form = document.getElementById("contactForm");
+
+            emailjs.sendForm("service_u8dx6hm", "template_7zgkf0w", form)
+                .then((response) => {
+                    console.log("Email sent successfully", response);
+                    alert("Thank you for your message! The message have been emailed to us!");
+                    form.reset();
+                    // Optionally, you can show a success message or redirect the user.
+                })
+                .catch((error) => {
+                    console.error("Error sending email", error);
+                    // Optionally, you can show an error message to the user.
+                });
+        }
+    </script>
+</body>
+
+</html>

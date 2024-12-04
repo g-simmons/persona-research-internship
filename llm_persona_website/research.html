@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a href="ontology_topology.html">Ontology Topology</a>
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <div class="dropdown">
+            <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+            <a href="people.html">People</a>
+        </nav>
+    </header>
+
+
+    <main>
+        <div class="container">
+            <div class="overview">
+                <h2>Project Overview</h2>
+                <p>This project investigates the utility of Topological Data Analysis (TDA) for analyzing the results of
+                    contrastive editing algorithms applied to large language models.</p>
+            </div>
+            <div class="contrastive">
+                <h2>Contrastive Editing Algorithms</h2>
+                <p>Contrastive editing algorithms are tools that search for prompts that induce adversarial model
+                    behavior.</p>
+                <p>For example, one might use a contrastive editing algorithm to find prompts that result in impolite
+                    responses from an LLM like OpenAI's ChatGPT in the dialog setting.</p>
+            </div>
+            <div class="challenge">
+                <h2>Understanding the Challenge</h2>
+                <p>It is in the interest of practitioners who build LLMs and dependent applications to understand what
+                    parts of the prompt space induce undesired behavior.</p>
+                <p> However, the prompt space is vast, and for any target behavior, there are numerous prompts that
+                    induce the behavior.</p>
+            </div>
+            <div class="tda">
+                <h2>Addressing the Challenge with TDA</h2>
+                <p>This project explores the use of TDA to provide analysis methods to abstract over these thousands of
+                    instances. The end goal is to enable practitioners to characterize the shape of adversarial prompt
+                    space.</p>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

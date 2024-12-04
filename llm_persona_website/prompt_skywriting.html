@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <title>Drawing with Prompts</title>
+</head>
+<body style="background-color:white;">
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a class='blog-link' href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
+                    
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <div class="dropdown">
+            <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+            <a href="people.html">People</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="blog-title">
+                <h1>SkyWrite: Transforming Text into Thematic Visual Shapes through Embeddings</h1>
+            </div>
+            <div class="meta-data">
+                <p>Date: 4/14/2024</p>
+                <p>Author: Brody Roberts</p>
+            </div>
+            <div class="content">
+                <h2>Project Overview</h2>
+                <p>SkyWrite is an application designed to visualize the embeddings of theme-consistent sentences in a two-dimensional space. This tool uses multiple natural language processing techniques to help transform the context of the textual input and translate it into a visual representation. Specifically, SkyWrite generates shapes that visually align with the chosen theme of the sentences, allowing users to see a direct correlation between differences in words and their positioning in a 2 dimensional embedding space. However, SkyWrite doesn’t just generate a shape as a whole. Our application draws the shape itself from point to point, allowing users to visualize how sentences change when moving from one point to another in the 2 dimensional space. For the current stage of our project, SkyWrite generates a heart shape generated point by point. These illustrations are created via anchor points which are pre chosen sentences mapped in the 2-dimensional embedding space in order to make a particular drawing. As the drawing from point to point progresses, users should be able to see how sentences in the 2D space changes over time. 
+                </p>
+                <p>Ideal for users who aim to learn about the functionality of embeddings, SkyWrite offers an interactive platform where users can experiment with different themes and observe how abstract concepts can be transformed into tangible visual elements. </p>
+                <p>The project in its current state can be found at https://thanhyto.github.io/skywrite/
+                </p>
+            
+                <h2>How SkyWrite Works</h2>
+                <p>Sentence Generation: SkyWrite's ability to create shapes from anchor points comes from its ability to generate sentences abiding to a certain theme. In order for us to pre-decide on the anchor points that will lead to the creation of a shape or illustration, it’s important that our 2-dimensional embedding space is filled with many sentences. This is because the goal is to create approximately uniform coverage. In doing so, a shotgun splatter effect is created. This helps guarantee that there will be a closeby point in the 2-dimensional embedding space for every point on our shape.</p>
+                <div class="fig-cap">
+                    <img src="assets/images/spread.png" alt="Shotgun Spread Effect created by sentence generation via a covariance matrix" class="figure-img" onclick="openModal(this.src)">
+                    <figcaption>Image illustrating 2 anchor points in red being connected by intermediate points creating a path.</figcaption>
+                </div>
+                
+                <p>SkyWrite transforms text into thematic visual shapes by selecting anchor points within a two-dimensional embedding space. This process begins by compiling a list of approximately twenty sentences that capture a specific theme. These sentences are then processed through OpenAI's embedding model, converting them into numerical data that represent their semantic meanings. 
+                </p>
+                <p>Once the sentences are processed through OpenAI’s embedding model, the embeddings can undergo normalization, which helps establish parameters. These parameters are the covariance matrix and mean vector. The combination of these two parameters help generate any desired value of vectors to create. They enable us to simulate the distribution of sentence embeddings effectively. By drawing random samples from these modeled distributions (either multinomial or Gaussian) we can generate a wide variety of new sentences. 
+                </p>
+                <p>SkyWrite in the future stages of this project hopes to have multiple themes. However, as of the current stage of this project, we only have one theme to choose from.</p>
+                <p><span style="font-weight: bold;color: var(--primary-color)">Reducing Vectors to 2D:</span> SkyWrite through its lifecycle has gone through multiple phases of dimensionality reduction techniques on randomly generated vectors. However, our project is currently using UMAP: Uniform manifold approximation and projection for dimension reduction. UMAP is a dimensionality reduction technique that can be used for visualization similar to T-SNE. However, UMAP differs from T-SNE. It’s able to be used for nonlinear dimensionality reduction. It gives UMAP the ability to maintain global structure of the data which makes it suitable not only for visualization but also for general preprocessing tasks. This means that UMAP can handle different types of data more effectively. One of the ways in which UMAP accomplishes this is by choosing an appropriate distance metric. For our use of UMAP, we are using the cosine metric. The cosine metric measures the cosine angle between two vectors measuring how similar their orientations are. </p>
+                <p><span style="font-weight: bold; color: var(--primary-color);">Visualization:</span> Arguably, the most important feature of SkyWrite is its ability to show how anchor points can connect when creating a shape. It’s important to be able to see the path of sentences converted from high dimensionality  all the way to the 2-dimensional setting. It’s important to see how the behavior of each sentence changes as we move along the 2-dimensional UMAP axes</p>
+                <div class="fig-cap">
+                    <img src="assets/images/umap_embeddings.png" alt="UMAP Scatter Plot for Mixed Embeddings" class="figure-img" onclick="openModal(this.src)">
+                    <figcaption>Image illustrating 2 anchor points in red being connected by intermediate points creating a path. </figcaption>
+                </div>
+                
+                <p>SkyWrite can show this behavior by creating a path which bridges the gap between two anchor points via a repository called Vec2Text. Vec2Text is a repository that can convert vectors into sentences with real meaning. For our use of the repository, we are using a function that can merge two sentences together given some kind of percentage parameters and their vector embeddings. The action of using such a function creates new vector embeddings that can be used as midpoints between the original anchor points. 
+                </p>
+                <div class="conclusion">
+                    <h2>Conclusion</h2>
+                    <p>In conclusion, SkyWrite hopes to be an innovative tool that shows the relationship between textual data and visual representation through specific NLP techniques. By transforming text into shapes within two-dimensional embedding space, it provides an educational and engaging experience for users to explore the convergence of text and visualization. SkyWrite invites users to dive into embeddings and discover the visual dimensions of words. As the project evolves, it promises to offer multiple themes and illustrations which hope to further enhance the SkyWrite experience. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

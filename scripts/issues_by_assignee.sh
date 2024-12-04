@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check for required commands
+for cmd in jq gh; do
+  if ! command -v "$cmd" &> /dev/null; then
+    echo "Error: $cmd is not installed. Please install it first." >&2
+    exit 1
+  fi
+done
+
 gh issue list --limit 1000 --json assignees,title,number \
   --jq '
     .[] | 
