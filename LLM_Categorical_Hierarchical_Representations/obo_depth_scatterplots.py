@@ -69,7 +69,7 @@ def save_row_terms(ontology_dir: str, params: str, step: str, filter: int, multi
 
 
 # based off the row terms and heatmaps, returns the depth, scores, terms, and term classes
-def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontology: ontology_class.Onto):
+def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms_txt_dir: str, ontology: ontology_class.Onto, score: str):
     size = cos.shape
     with open(row_terms_txt_dir, "r") as f:
         row_terms = f.readlines()
@@ -83,6 +83,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontol
     # 0_diag Hadamard product equivalent
     for i in range(size[0]):
         cos[i][i] = 0
+        hier[i][i] = 0
     
     # term scores calculation
     depth = []
@@ -91,9 +92,14 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontol
     term_classes = []
     # freqs = []
     for i in range(size[0]):
-        diff = cos[i] - adj[i]
+        if score == "sep":
+            diff = cos[i] - adj[i]
+            scores.append(np.linalg.norm(diff))
+        elif score == "hier":
+            scores.append(np.linalg.norm(hier[i]))
+
         depth.append(ontology.get_synset(row_terms[i]).get_depth())
-        scores.append(np.linalg.norm(diff))
+        
         terms.append(row_terms[i])
         term_classes.append(ontology.get_synset(row_terms[i]).get_ontology_class())
         # freqs.append(term_freq[row_terms[i]])
@@ -109,8 +115,9 @@ def save_depth_scatterplot(ontology_dir: str, params, step, filter, multi):
     mats = obo_ontology_heatmaps.get_mats(params, step, multi, filter)
     adj = mats[0]
     cos = mats[1]
+    hier = mats[2]
 
-    depth, scores, terms, term_classes = get_data(adj, cos, term_txt_dir, ontology_class.Onto(ontology_dir))
+    depth, scores, terms, term_classes = get_data(adj, cos, hier, term_txt_dir, ontology_class.Onto(ontology_dir), "hier")
     df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
 
     print(df)

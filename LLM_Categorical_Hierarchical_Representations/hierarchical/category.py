@@ -63,20 +63,11 @@ def get_categories_ontology(filter: int):
         for line in f:
             cats.update(json.loads(line))
     G = nx.read_adjlist("data/ontologies/noun_synsets_ontology_hypernym_graph.adjlist", create_using=nx.DiGraph())
-    # elif noun_or_verb == 'verb':
-    #     with open('data/verb_synsets_wordnet_gemma.json', 'r') as f:
-    #         for line in f:
-    #             cats.update(json.loads(line))
-    #     G = nx.read_adjlist("data/verb_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     
-    # cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
     cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > filter}
     # nodes = list(cats.keys())
     # G = nx.DiGraph(G.subgraph(nodes))
     G = nx.DiGraph(G.subgraph(cats.keys()))
-
-    print(len(cats))
-    print(len(G.nodes()))
 
 
     reversed_nodes = list(reversed(list(nx.topological_sort(G))))
@@ -92,16 +83,22 @@ def get_categories_ontology(filter: int):
                 G.remove_node(child)
                 print(f"merged {node} and {child}")
 
-    
+    # merging nodes with same lemmas
+    reversed_nodes = list(reversed(list(nx.topological_sort(G))))
+    for node in reversed_nodes:
+        children = list(G.successors(node))
+        for child in children:
+            if set(cats[node]) == set(cats[child]):
+                grandchildren = list(G.successors(child))
+                for grandchild in grandchildren:
+                    G.add_edge(node, grandchild)
+                G.remove_node(child)
+                print(f"merged {node} and {child} because equal lemmas")
 
-    
 
     sorted_keys = list(nx.topological_sort(G))
 
-    print(len(sorted_keys))
-
     cats = {k: cats[k] for k in sorted_keys}
-    print(len(cats))
 
     return cats, G, sorted_keys
 
