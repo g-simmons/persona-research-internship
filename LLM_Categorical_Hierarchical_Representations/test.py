@@ -21,11 +21,11 @@ import altair as alt
 import pandas as pd
 from joblib import Parallel, delayed
 
-parameter_models = ["2.8B"]
-steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+# parameter_models = ["2.8B"]
+# steps = [f"step{i}" for i in range(1000, 145000, 2000)]
   
-for parameter_model in parameter_models: 
-    results = Parallel(n_jobs=-1)(delayed(get_scores)(parameter_model, step, True) for step in steps)
+# for parameter_model in parameter_models: 
+#     results = Parallel(n_jobs=-1)(delayed(get_scores)(parameter_model, step, True) for step in steps)
 
 def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontology: ontology_class.Onto):
     size = cos.shape
@@ -61,24 +61,45 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontol
     
 
 
-for term_txt in os.listdir("owl_row_terms"):
-    save_ontology_hypernym("70M", "step143000", f"owl/{term_txt[:-14]}.owl", True)
-    mats = get_mats("70M", "step143000", True, 30)
-    adj = mats[0]
-    cos = mats[1]
+# for term_txt in os.listdir("owl_row_terms"):
+#     save_ontology_hypernym("70M", "step143000", f"owl/{term_txt[:-14]}.owl", True)
+#     mats = get_mats("70M", "step143000", True, 30)
+#     adj = mats[0]
+#     cos = mats[1]
 
-    depth, scores, terms, term_classes = get_data(adj, cos, f"owl_row_terms/{term_txt[:-14]}_row_terms.txt", ontology_class.Onto(f"owl/{term_txt[:-14]}.owl"))
-    df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
+#     depth, scores, terms, term_classes = get_data(adj, cos, f"owl_row_terms/{term_txt[:-14]}_row_terms.txt", ontology_class.Onto(f"owl/{term_txt[:-14]}.owl"))
+#     df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
 
-    print(df)
+#     print(df)
 
-    chart = alt.Chart(df).mark_circle(size=60).encode(
-        x='Depth',
-        y='Score',
-        color = 'Term Class',
-        tooltip=['Term', 'Depth', 'Score', 'Term Class']
-    ).interactive()
+#     chart = alt.Chart(df).mark_circle(size=60).encode(
+#         x='Depth',
+#         y='Score',
+#         color = 'Term Class',
+#         tooltip=['Term', 'Depth', 'Score', 'Term Class']
+#     ).interactive()
 
-    chart.save(f"depth_scatterplots_2_html/{term_txt[:-14]}_depth_scatterplot.html")
-    chart.save(f"depth_scatterplots_2_png/{term_txt[:-14]}_depth_scatterplot.png")
+#     chart.save(f"depth_scatterplots_2_html/{term_txt[:-14]}_depth_scatterplot.html")
+#     chart.save(f"depth_scatterplots_2_png/{term_txt[:-14]}_depth_scatterplot.png")
 
+term_txt = "aism_row_terms.txt"
+
+save_ontology_hypernym("70M", "step143000", f"owl/{term_txt[:-14]}.owl", True)
+mats = get_mats("70M", "step143000", True, 1)
+adj = mats[0]
+cos = mats[1]
+
+depth, scores, terms, term_classes = get_data(adj, cos, f"owl_row_terms/{term_txt[:-14]}_row_terms.txt", ontology_class.Onto(f"owl/{term_txt[:-14]}.owl"))
+df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
+
+print(df)
+
+chart = alt.Chart(df).mark_circle(size=60).encode(
+    x='Depth',
+    y='Score',
+    color = 'Term Class',
+    tooltip=['Term', 'Depth', 'Score', 'Term Class']
+).interactive()
+
+chart.save(f"depth_scatterplots_2_html/{term_txt[:-14]}_depth_scatterplot.html")
+chart.save(f"depth_scatterplots_2_png/{term_txt[:-14]}_depth_scatterplot.png")

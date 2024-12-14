@@ -232,11 +232,11 @@ def get_mat_dim(params: str, step: str, filter: int):
 
 
 
-for path in os.listdir("owl"):
+for path in os.listdir("/mnt/bigstorage/raymond/owl"):
     try:
-        save_ontology_hypernym("70M", "step143000", f"owl/{path}", True)
+        save_ontology_hypernym("70M", "step143000", f"/mnt/bigstorage/raymond/owl/{path}", False)
         cats = get_mat_dim("70M", "step143000", 1)  #50
-        if len(cats) > 30:
+        if len(cats) > 30:      #number of rows
             with open(f"owl_row_terms/{path[:-4]}_row_terms.txt", "w") as f:
                 for term in list(cats.keys()):
                     f.write(term + "\n")

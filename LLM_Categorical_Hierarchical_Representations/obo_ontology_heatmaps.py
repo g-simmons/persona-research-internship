@@ -253,6 +253,8 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
         sorted_keys.remove(node)
         print(node)
 
+
+    class_counter = 0
     for node in sorted_keys:
             if len(list(G.predecessors(node))) > 0:
                     parent = list(G.predecessors(node))[0]         #direct parent
@@ -266,9 +268,11 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
                                 print(f"equal: {node}, {parent}")
                             child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
             else:
+                class_counter += 1
                 print("reject: " + node)         #throws out 3
                     
-    lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])    #adds back 1: 100 - 3 + 1 = 98
+    # lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])    #adds back 1: 100 - 3 + 1 = 98
+    lda_diff = torch.stack([lda_dirs[i] for i in range(class_counter)] + [v for k, v in child_parent.items()])
 
 
     print("norms: " + str(lda_diff.norm(dim = 1)))
