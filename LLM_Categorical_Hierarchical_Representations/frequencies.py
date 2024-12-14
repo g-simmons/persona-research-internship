@@ -1,16 +1,19 @@
+#!/usr/bin/env python3 
+
 #from datasets import load_dataset
 import requests
 import json
 import os
 from collections import OrderedDict
+import argparse
 
 import infini_gram
 from infini_gram.engine import InfiniGramEngine
 from transformers import AutoTokenizer
 from joblib import Parallel, delayed
 
-ONTOLOGY_TERMS_PATH = './data/term_frequencies/ontology-terms'
-FOLDER_PATH = './data/term_frequencies'
+ONTOLOGY_TERMS_PATH = '/home/logan/persona-research-internship/data/term_frequencies/ontology-terms'
+FOLDER_PATH = '/home/logan/persona-research-internship/data/term_frequencies'
 
 def get_term_frequency_package(term):
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", add_bos_token=False, add_eos_token=False)
@@ -108,7 +111,6 @@ def add_frequencies_to_json(file_name, word_list, chunk_size=25, collection_type
             counter = i + chunk_size
         if counter < len(word_list):
             #print(f'Adding words, {counter}-{len(word_list)} to {json_file_path}')
-            print(word_list[len(word_list) - 1])
             chunk = word_list[counter:len(word_list)]
             term_dict = get_term_dict(chunk)
             data[file_name].update(term_dict)
@@ -163,17 +165,19 @@ def get_all_frequencies(folder_path):
 def get_file_names(path):
     return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-#add_file_frequencies_to_json('oae.txt', './data/term_frequencies/ontology-terms')
-get_all_frequencies(FOLDER_PATH)
-#delete later:
-"""def test_freq_correct(file_name, folder_path):
-    word_list = get_terms_from_file_string(get_file_string(file_name, folder_path))
-    for i in range(len(word_list)):
-        if word_list[i] == '': #can make more efficient but likely unneccesary
-            word_list.pop(i)
-    unique_list = list(OrderedDict.fromkeys(word_list))
-    for elem in unique_list:
-        print(f'{elem}: {get_term_frequency_package(elem)}')"""
-
-#test_freq_correct('wordnet.txt', './data/term_frequencies/ontology-terms')
 #get_all_frequencies(FOLDER_PATH)
+
+def get_selected_frequencies(*args):
+    if not args:
+        get_all_frequencies(FOLDER_PATH)
+    else:
+        file_list = args
+        Parallel(n_jobs=16)(delayed(add_file_frequencies_to_json)(file, ONTOLOGY_TERMS_PATH) for file in file_list)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="My command-line tool")
+    parser.add_argument("args", nargs="*", help="Any number of arguments")
+
+    args = parser.parse_args()
+    get_selected_frequencies(*args.args)
