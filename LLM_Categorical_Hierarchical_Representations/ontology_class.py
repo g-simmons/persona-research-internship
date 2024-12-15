@@ -79,15 +79,15 @@ class Synset:
             return sum(depths) / len(depths)
         
     def get_ontology_class(self):
-        # return list(map(lambda x: x.name(), self.hypernym_paths()[-1]))[0]
-        big_parents = []
-        for path in self.hypernym_paths():
-            big_parents.append(list(map(lambda x: x.name(), path))[0])
+        return list(map(lambda x: x.name(), self.hypernym_paths()[-1]))[0]
+        # big_parents = []
+        # for path in self.hypernym_paths():
+        #     big_parents.append(list(map(lambda x: x.name(), path))[0])
 
-        big_parents_set = set(big_parents)      # remove dupes
-        big_parents = list(big_parents_set)
+        # big_parents_set = set(big_parents)      # remove dupes
+        # big_parents = list(big_parents_set)
 
-        return ", ".join(sorted(big_parents))
+        # return ", ".join(sorted(big_parents))
     
     def get_num_hypernym_paths(self):
         return len(self.hypernym_paths())

@@ -62,7 +62,7 @@ def save_row_terms(ontology_dir: str, params: str, step: str, filter: int, multi
 
     obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_dir, multi)
     cats = get_mat_dim(params, step, filter)  #50
-    if len(cats) > 30:      #number of rows(number of synsets that make it past the filter)
+    if len(cats) > 30:      #number of rows(number of synsets that make it past the filter), if greater than 30 synsets, then save the row terms
         with open(f"owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
             for term in list(cats.keys()):
                 f.write(term + "\n")
@@ -107,7 +107,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
     return depth, scores, terms, term_classes
 
 # saves a depth scatterplot, you need to have already saved the row terms
-def save_depth_scatterplot(ontology_dir: str, params, step, filter, multi):
+def save_depth_scatterplot(ontology_dir: str, params: str, step: str, filter: int, multi: bool, score: str):
     ontology_name = ontology_dir.split("/")[-1][:-4]
     term_txt_dir = "owl_row_terms/" + ontology_name + "_row_terms.txt"
 
@@ -117,7 +117,7 @@ def save_depth_scatterplot(ontology_dir: str, params, step, filter, multi):
     cos = mats[1]
     hier = mats[2]
 
-    depth, scores, terms, term_classes = get_data(adj, cos, hier, term_txt_dir, ontology_class.Onto(ontology_dir), "hier")
+    depth, scores, terms, term_classes = get_data(adj, cos, hier, term_txt_dir, ontology_class.Onto(ontology_dir), score)
     df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
 
     print(df)
@@ -138,12 +138,12 @@ if __name__ == "__main__":
     # SETTINGS
     params = "70M"          # chosen because it is the smallest model size, so it is the fastest to run 
     step = "step143000"     # chosen because it is the latest step, and therefore will have the "best" term scores
-    filter = 1              # is the threshold for how many lemmas a synset must have to be part of the heatmap
-    multi = False           # whether or not to include multi-word lemmas.
+    filter = 15              # is the threshold for how many lemmas a synset must have to be part of the heatmap
+    multi = True           # whether or not to include multi-word lemmas.
 
 
-    ontology_dir = "/mnt/bigstorage/raymond/owl/aism.owl"
+    ontology_dir = "/mnt/bigstorage/raymond/owl/cl.owl"
 
-    # save_row_terms(ontology_dir, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
-    save_depth_scatterplot(ontology_dir, params, step, filter, multi)
+    save_row_terms(ontology_dir, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
+    save_depth_scatterplot(ontology_dir, params, step, filter, multi, "hier")
 
