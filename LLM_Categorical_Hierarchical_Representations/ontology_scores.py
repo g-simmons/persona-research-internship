@@ -593,9 +593,7 @@ if __name__ == "__main__":
     steps = [f"step{i}" for i in range(1000, 145000, 2000)]
     parameter_models = ["2.8B"]
 
-    parameter_models = ["70M"]
-
-    steps = [steps[1]]
+    steps = steps[69:]
 
     print(steps)
     print(len(steps))
@@ -611,9 +609,9 @@ if __name__ == "__main__":
             for mat in mats:
                 print(mat.shape)
 
-            # torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
-            # torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
-            # torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
+            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
+            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
+            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
 
             # score = get_scores(parameter_model, step, False)
             # with open(f"scores_{parameter_model}.txt", "a") as f:
