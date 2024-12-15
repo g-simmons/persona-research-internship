@@ -159,6 +159,9 @@
             margin: 0 auto;
             padding: 20px;
         }
+        .todo {
+            color: red;
+        }
 
         .main-content {
             flex: 2;
@@ -219,11 +222,12 @@
 
         h3 {
             margin-top: 1.5em;
-            font-size: 1.4em;
+            font-size: 1.2em;
+            margin-bottom: 0.5em;
         }
 
         h4 {
-            font-size: 1.3em;
+            font-size: 1.2em;
         }
     </style>
 </head>
@@ -323,7 +327,7 @@
                     Their work confirms the linear representation hypothesis - “that high-level concepts are linearly
                     encoded in the representation spaces of LLMs” (Park 2024). This may already be expected, as we’ve
                     already had examples of word representations that support linear transformations since the 2013
-                    Word2Vec paper. [man woman thing example idk]
+                    Word2Vec paper. <span class="todo">[man woman thing example idk]</span>
                 </p>
                 <p>
                     Moreover, they show that the concept vectors pointing from child-parent and parent-grandparent nodes
@@ -376,7 +380,7 @@
                 <h2>Methods</h2>
 
                 <div>
-                    <h4>2.1.1 Scores/Evaluation</h4>
+                    <h4>2.1.1 Evaluating Ontology Representations</h4>
                     <p>
                         Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a
                         model’s ontological maturity.
@@ -419,13 +423,22 @@
                         differences, disregarding the diagonal as well.
                     </p>
                     $$
-                    \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent
-                    of
-                    W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
+                    \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent of W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
                     $$
                     $$
                     \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
                     $$
+                    
+                    <h4>2.1.2 Calculating Term Frequencies</h4>
+                    <p>
+                        We calculated term frequencies using the Infini-gram python package, an 
+                        unbounded n-gram model. Infini-gram utilizes a suffix array: a lexicographically sorted integer 
+                        array containing the starting indices of all suffixes of a corpus. The lexicographically sorted 
+                        nature of the suffix arrays allows Infini-gram to use binary searches to find and count 
+                        lexicographically equal occurrences of a given term. Infini-gram achieves \(O(n)\) space and (when 
+                        searching for a term \(T\)) \(O(logn* |T|)\) searching rather than traditional \(O(n*|T|)\). 
+                    </p>
+
                     <h4>2.1.2 Model</h4>
                     <p>
                         For the LLM model, Park et al. uses Google’s Gemma-2b model. However, we use EleutherAI’s Pythia
@@ -437,11 +450,15 @@
                         scores as a function of training steps.
                     </p>
                     <p>
-                        We use five different sized models: 70M, 160M, 1.4B, 2.8B, and 12B parameters. [add something
-                        about
-                        MMLU scores?] Of these, evaluations on 160M, 2.8B, and 12B can be found on the Open LLM
+                        We use five different sized models: 70M, 160M, 1.4B, 2.8B, and 12B parameters. <span class="todo">
+                            TODO: [add something
+                            about
+                            MMLU scores?]
+                        </span> Of these, evaluations on 160M, 2.8B, and 12B can be found on the Open LLM
                         Leaderboard.
-                        link?
+                        <span class="todo">
+                            TODO: [link?]
+                        </span>
                     </p>
                     <h4>2.1.3 Data</h4>
                     <p>
@@ -449,14 +466,16 @@
                         exploration. This database contains thousands of synsets (groups of synonyms for a concept),
                         related
                         to one another in a hierarchical fashion.
+                        <span class="todo">
+                            TODO: Describe use of OBO Foundry ontologies
+                        </span>
                     </p>
                 </div>
 
                 <div>
                     <h2>2. Research Question 1: Do longer-trained LLMs have better ontological representations? </h2>
-                    <h3>Experiment Setup</h3>
-                    [Experiment Setup TODO]
-                    <h3>Results</h3>
+                    <!-- <h3>Experiment Setup</h3>
+                    [Experiment Setup TODO] -->
                     <figure>
                         <img src="assets\ontology_figures\figure3.png"
                             alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models"
@@ -627,6 +646,27 @@
 
                 </div>
 
+                <div>
+                    <h2>3. Research Question 3: How does term frequency affect ontology score?</h2>
+
+                    <span class="todo">
+                        TODO: Add term frequency vs. ontology score figures
+
+                    </span>
+                </div>
+
+                <div>
+                    <h2>4. Research Question 4: Do deeper ontology terms get improved representations later in training?</h2>
+
+                    Alternatively, how does ontology score improvement during training vary by term depth?
+
+                    <span class="todo">
+                        TODO: Add a figure
+
+                        Line plot
+
+                    </span>
+                </div>
 
                 <h2>Applications</h2>
                 <p>[Content for Applications section]</p>

@@ -17,6 +17,7 @@ def save_scatterplot(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: st
         term_freq = json.load(f)
 
     # 0_diag Hadamard product equivalent
+    # TODO call causal separability score function here
     for i in range(size[0]):
         cos[i][i] = 0
     

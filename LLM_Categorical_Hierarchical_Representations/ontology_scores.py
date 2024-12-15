@@ -318,6 +318,7 @@ def get_mats(params: str, step: str, multi: bool):
     plt.savefig("noun_single_three_heatmap.png")
 
     print(mats[1])
+    torch.save(mats, f'mats_{params}_{step}.pth')
     return mats
 
 

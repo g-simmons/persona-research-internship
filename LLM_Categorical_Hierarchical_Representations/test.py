@@ -21,11 +21,18 @@ import altair as alt
 import pandas as pd
 from joblib import Parallel, delayed
 
-# parameter_models = ["2.8B"]
-# steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-  
-# for parameter_model in parameter_models: 
-#     results = Parallel(n_jobs=-1)(delayed(get_scores)(parameter_model, step, True) for step in steps)
+DO_IN_PARALLEL = True
+parameter_models = ["12B"]
+steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+
+if (DO_IN_PARALLEL):
+    for parameter_model in parameter_models: 
+        results = Parallel(n_jobs=-8)(delayed(get_mats)(parameter_model, step, True) for step in steps)
+else:
+    for parameter_model in parameter_models:
+        results = []
+        for step in steps:
+            results.append(get_mats(parameter_model, step, True))
 
 def get_data(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, ontology: ontology_class.Onto):
     size = cos.shape
