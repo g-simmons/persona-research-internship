@@ -36,7 +36,6 @@ logging.basicConfig(filename="ontology_scores_log_test.log", level=logging.INFO)
 torch.manual_seed(0)
 np.random.seed(0)
 import random
-
 random.seed(0)
 
 
@@ -599,24 +598,28 @@ if __name__ == "__main__":
     print(steps)
     print(len(steps))
 
-    for parameter_model in parameter_models:
-        # os.mkdir(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}")
-        for step in steps:
-            logger.info(f"Step: {step}")
-            logger.info("\n\n\n")
 
-            save_wordnet_hypernym(parameter_model, step, True)
-            mats = get_mats(parameter_model, step, True)
-            for mat in mats:
-                print(mat.shape)
+    save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    # save_wordnet_hypernym(parameter_models[0], steps[1], True)
 
-            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
-            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
-            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
+    # for parameter_model in parameter_models:
+    #     # os.mkdir(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}")
+    #     for step in steps:
+    #         logger.info(f"Step: {step}")
+    #         logger.info("\n\n\n")
 
-            # score = get_scores(parameter_model, step, False)
-            # with open(f"scores_{parameter_model}.txt", "a") as f:
-            #     f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
+    #         save_wordnet_hypernym(parameter_model, step, True)
+    #         mats = get_mats(parameter_model, step, True)
+    #         for mat in mats:
+    #             print(mat.shape)
+
+    #         torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
+    #         torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
+    #         torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
+
+    #         # score = get_scores(parameter_model, step, False)
+    #         # with open(f"scores_{parameter_model}.txt", "a") as f:
+    #         #     f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
 
     # save_wordnet_hypernym("70M", "step11000", True)
     # mats = get_mats("70M", "step11000", True)
