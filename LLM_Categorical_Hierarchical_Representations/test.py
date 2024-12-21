@@ -45,7 +45,7 @@ def save_heatmaps(parameter_model, step, multi):
 
 if (DO_IN_PARALLEL):
     for parameter_model in parameter_models: 
-        Parallel(n_jobs=-8)(delayed(save_heatmaps)(parameter_model, step, True) for step in steps)
+        Parallel(n_jobs=6)(delayed(save_heatmaps)(parameter_model, step, True) for step in steps)
 else:
     for parameter_model in parameter_models:
         for step in steps:

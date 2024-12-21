@@ -10,7 +10,7 @@ import numpy as np
 steps = [f"step{i}" for i in range(1000, 145000, 2000)]
 steps_nums = [i for i in range(1000, 145000, 2000)]
 parameter_models = ["70M", "160M", "1.4B", "2.8B"]      # add 12B once ready
-
+# parameter_models = ["70M", "160M"]
 
 # SCORES
 def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
@@ -35,15 +35,24 @@ def hierarchy_score(cos_mat: np.ndarray) -> float:
     # Frobenius norm
     return np.linalg.norm(cos_mat, ord = "fro")
 
+def linear_rep_score(values: np.ndarray) -> float:
+    sum = 0
+    for i in range(len(values)):
+        sum += values[i].item()
+    return sum / len(values)
+
 
 def save_plot(score: str, output_dir: str):
 
     if score == "causal_sep":
-        title = "Causal Separability Scores"
+        title = "Causal Separability Scores Multi Word"
         y_title = "causal-sep-score"
     elif score == "hierarchy":
-        title = "Hierarchy Scores"
+        title = "Hierarchy Scores Multi Word"
         y_title = "hierarchy-score"
+    elif score == "linear":
+        title = "Linear Representation Scores Multi Word"
+        y_title = "linear-rep-score"
 
     scores = []     # each element is a list of scores for a parameter model
 
@@ -53,11 +62,14 @@ def save_plot(score: str, output_dir: str):
             adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
             cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
             hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
+            # linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
 
             if score == "causal_sep":
                 temp_scores.append(causal_sep_score(adj, cos))
             elif score == "hierarchy":
                 temp_scores.append(hierarchy_score(hier))
+            elif score == "linear":
+                temp_scores.append(linear_rep_score(linear))
 
         scores.append(temp_scores)
 
@@ -77,7 +89,7 @@ def save_plot(score: str, output_dir: str):
     line = alt.Chart(df).mark_line(interpolate="basis").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
-        color="Model Size:N"
+        color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
     )
 
     # Transparent selectors across the chart. This is what tells us
@@ -114,12 +126,13 @@ def save_plot(score: str, output_dir: str):
         width=400,
         height=300,
         title=title
-    )
+    ).interactive()
 
     final_chart.save(f'{output_dir}.png')
     final_chart.save(f'{output_dir}.html')
 
 
 
-save_plot("causal_sep", "model_score_plots/causal_sep_scores")
-save_plot("hierarchy", "model_score_plots/hierarchy_scores")
+save_plot("causal_sep", "model_score_plots_multi/causal_sep_scores")
+save_plot("hierarchy", "model_score_plots_multi/hierarchy_scores")
+# save_plot("linear", "model_score_plots_multi/linear_rep_scores")
