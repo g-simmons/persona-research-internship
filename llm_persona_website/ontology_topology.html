@@ -429,7 +429,41 @@
                     \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
                     $$
                     
-                    <h4>2.1.2 Calculating Term Frequencies</h4>
+                    <h4>2.1.2 Calculating Representations With Multi-word Lemmas</h4>
+                    <p>
+                        The heatmaps from Park et al. are generated using single-word lemmas. However, many synsets have lemmas that are multi-word phrases. 
+                        For example, the synset "entity.n.01" has the lemma "Absolute_space", "Action_plant", etc. To incorporate these multi-word lemmas into the vector representation of the synsets,
+                        we take each word of the multi-word lemma and average their unembeddings.
+                        [EQUATION HERE]
+                    </p>
+                    <p>
+                        By including multi-word lemmas, the amount of total lemmas included in the synsets nearly doubles, subsequently allowing more synsets to pass the threshold of lemmas to be included in the heatmaps.
+                    </p>
+
+                    <h4>2.1.3 Calcuating Synset-Specific Ontology Scores</h4>
+                    <p>
+                        In the heatmaps used to calculate causal separability scores, each row corresponds to a
+                        synset.
+                        For instance, the first row is typically "entity", since synsets were sorted in topological
+                        order prior to generating heatmaps.
+                    </p>
+                    <p>
+                        Using this fact, we propose term ontology scores.
+                    </p>
+
+                    <p>
+                        For term linear representation scores, we take the norm of the synset's concept representation vector.
+                    </p>
+
+                    <p>
+                        For term causal separability scores, similar to how model causal separability scores are calculated, we take each individual row of the adjacency and cosine
+                        similarity heatmaps and find the norm of the difference between the rows (disregarding the diagonal of the cosine similarity heatmap).
+                    </p>
+                    <p>
+                        For term hierarchy scores, we find the norm of each individual row of the hierarchy heatmap(disregarding the diagonal)
+                    </p>
+
+                    <h4>2.1.4 Calculating Term Frequencies</h4>
                     <p>
                         We calculated term frequencies using the Infini-gram python package, an 
                         unbounded n-gram model. Infini-gram utilizes a suffix array: a lexicographically sorted integer 
@@ -439,7 +473,7 @@
                         searching for a term \(T\)) \(O(logn* |T|)\) searching rather than traditional \(O(n*|T|)\). 
                     </p>
 
-                    <h4>2.1.2 Model</h4>
+                    <h4>2.1.5 Model</h4>
                     <p>
                         For the LLM model, Park et al. uses Google’s Gemma-2b model. However, we use EleutherAI’s Pythia
                         models in our investigation, a collection of models with various parameter sizes with
@@ -460,7 +494,7 @@
                             TODO: [link?]
                         </span>
                     </p>
-                    <h4>2.1.3 Data</h4>
+                    <h4>2.1.6 Data</h4>
                     <p>
                         For the ontology, we use the WordNet database as did so by Park et al. in their original
                         exploration. This database contains thousands of synsets (groups of synonyms for a concept),
@@ -551,31 +585,15 @@
                 <div>
                     <h2>Research Question 2: How does term depth affect ontology score?</h2>
                     <h3>Experiment Setup</h3>
-
                     <p>
-                        In the heatmaps used to calculate causal separability scores, each row corresponds to a
-                        synset.
-                        For instance, the first row is typically "entity", since synsets were sorted in topological
-                        order prior to generating heatmaps.
-                        Using this fact, we propose term causal separability scores. Similar to how model causal
-                        separability scores are calculated, we take each individual row of the adjacency and cosine
-                        similarity heatmaps and find the norm of the difference between the rows (disregarding the
-                        diagonal of the cosine similarity heatmap).
-                        For each term, a lower score indicates higher ontological representation of that term in the
-                        model.
-                    </p>
-                    <p>
-                        We also find average depths of synsets in their ontologies. Many synsets have multiple
+                        We find average depths of synsets in their ontologies. Many synsets have multiple
                         hypernym
                         paths, due to having multiple parents. By averaging the length of all these hypernym paths,
-                        we
-                        get a depth for each synset.
-
+                        we get a depth for each synset.
                     </p>
                     <p>
                         We generate scatterplots for each ontology, plotting synset depth vs. term causal
-                        separability
-                        scores. The scores were calculated using heatmaps from Pythia 70M step143000.
+                        separability scores. The scores were calculated using heatmaps from Pythia 70M step143000.
                     </p>
 
                     <h3>Observation 4: Maximum ontology score decreases with term depth</h3>
@@ -595,7 +613,7 @@
 
                     <select id="ontology-select" class="ontology-select">
                         <option value="aism">AISM (Anatomy of the Insect SkeletoMuscular system)</option>
-                        <!-- <option value="bfo">BFO (Basic Formal Ontology)</option> -->
+                        <option value="bfo">BFO (Basic Formal Ontology)</option>
                     </select>
 
 
