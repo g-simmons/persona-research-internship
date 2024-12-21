@@ -1,101 +1,125 @@
 #!/usr/bin/env python3
 
-import matplotlib.pyplot as plt
+import altair as alt
+import pandas as pd
+import torch
 import numpy as np
 
-def get_numpy_arrs(txt_dir: str):
-    with open(txt_dir, "r") as f:
-        scores = f.readlines()
-        scores = list(map(lambda x: x[:-1], scores))
-        scores = list(map(lambda x: x.split(", "), scores))
-        scores = list(map(lambda x: list(map(float, x)), scores))
-        
-        linear_scores = []
-        causal_sep_score = []
-        hierarchy_score = []
-        for score in scores:
-            linear_scores.append(score[0])
-            causal_sep_score.append(score[1])
-            hierarchy_score.append(score[2])
-    
-    return np.array(linear_scores), np.array(causal_sep_score), np.array(hierarchy_score)
+
+# stuff
+steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+steps_nums = [i for i in range(1000, 145000, 2000)]
+parameter_models = ["70M", "160M", "1.4B", "2.8B"]      # add 12B once ready
+
+
+# SCORES
+def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
+    size = cos_mat.shape
+
+    # 0_diag Hadamard product equivalent
+    for i in range(size[0]):
+        cos_mat[i][i] = 0
+
+    new_mat = cos_mat - adj_mat
+
+    # Frobenius norm
+    return np.linalg.norm(new_mat, ord = "fro")
+
+def hierarchy_score(cos_mat: np.ndarray) -> float:
+    size = cos_mat.shape
+
+    # 0_diag Hadamard product equivalent
+    for i in range(size[0]):
+        cos_mat[i][i] = 0
+
+    # Frobenius norm
+    return np.linalg.norm(cos_mat, ord = "fro")
+
+
+def save_plot(score: str, output_dir: str):
+
+    if score == "causal_sep":
+        title = "Causal Separability Scores"
+        y_title = "causal-sep-score"
+    elif score == "hierarchy":
+        title = "Hierarchy Scores"
+        y_title = "hierarchy-score"
+
+    scores = []     # each element is a list of scores for a parameter model
+
+    for parameter_model in parameter_models:
+        temp_scores = []
+        for step in steps:
+            adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
+            cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
+            hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
+
+            if score == "causal_sep":
+                temp_scores.append(causal_sep_score(adj, cos))
+            elif score == "hierarchy":
+                temp_scores.append(hierarchy_score(hier))
+
+        scores.append(temp_scores)
+
+    new_scores = []  # each element is a list of scores for a step, formatted for df.DataFrame
+    for i in range(len(steps)):
+        new_scores.append([score_list[i] for score_list in scores])
+
+    df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
+    print(df)
+    df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
+    print(df)
+
+    nearest = alt.selection_point(nearest=True, on="pointerover",
+                                fields=["Step"], empty=False)
+
+    # The basic line
+    line = alt.Chart(df).mark_line(interpolate="basis").encode(
+        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        y=alt.Y('Score:Q', title=y_title),
+        color="Model Size:N"
+    )
+
+    # Transparent selectors across the chart. This is what tells us
+    # the x-value of the cursor
+    selectors = alt.Chart(df).mark_point().encode(
+        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        opacity=alt.value(0),
+    ).add_params(
+        nearest
+    )
+    when_near = alt.when(nearest)
+
+    # Draw points on the line, and highlight based on selection
+    points = line.mark_point().encode(
+        opacity=when_near.then(alt.value(1)).otherwise(alt.value(0))
+    )
+
+    # Draw text labels near the points, and highlight based on selection
+    text = line.mark_text(align="left", dx=5, dy=-5).encode(
+        text=when_near.then("Score:Q").otherwise(alt.value(" "))
+    )
+
+    # Draw a rule at the location of the selection
+    rules = alt.Chart(df).mark_rule(color="gray").encode(
+        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+    ).transform_filter(
+        nearest
+    )
+
+    # Put the five layers into a chart and bind the data
+    final_chart = alt.layer(
+        line, selectors, points, rules, text
+    ).properties(
+        width=400,
+        height=300,
+        title=title
+    )
+
+    final_chart.save(f'{output_dir}.png')
+    final_chart.save(f'{output_dir}.html')
 
 
 
-if __name__ == "__main__":
-    # Init
-    steps = np.array([i for i in range(1000, 145000, 2000)])
-    steps = np.array([i for i in range(1, 145, 2)])
-    parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
-
-    linear_scores_70M, causal_sep_score_70M, hierarchy_score_70M = get_numpy_arrs("scores_70M_old.txt")
-    linear_scores_160M, causal_sep_score_160M, hierarchy_score_160M = get_numpy_arrs("scores_160M.txt")
-    linear_scores_14B, causal_sep_score_14B, hierarchy_score_14B = get_numpy_arrs("scores_1.4B.txt")        #1.4B, not 14B
-    linear_scores_28B, causal_sep_score_28B, hierarchy_score_28B = get_numpy_arrs("scores_2.8B_old.txt")
-    linear_scores_12B, causal_sep_score_12B, hierarchy_score_12B = get_numpy_arrs("scores_12B.txt")
-
-    # Linear rep
-    plt.plot(steps, linear_scores_70M)
-    plt.plot(steps, linear_scores_160M)
-    plt.plot(steps, linear_scores_14B)
-    plt.plot(steps, linear_scores_28B)
-    plt.plot(steps, linear_scores_12B)
-
-    plt.xlabel("Steps")
-    plt.ylabel("linear-rep-score")
-    plt.title(f"Linear Representation Scores")
-    plt.legend(parameter_models, title="Model Size", loc="upper right")
-
-    plt.savefig(f"plots/linear_rep.png")
-    plt.clf()
-
-
-    # Causal sep
-    plt.plot(steps, causal_sep_score_70M)
-    plt.plot(steps, causal_sep_score_160M)
-    plt.plot(steps, causal_sep_score_14B)
-    plt.plot(steps, causal_sep_score_28B)
-    plt.plot(steps, causal_sep_score_12B)
-
-    plt.xlabel("Steps")
-    plt.ylabel("causal-sep-score")
-    plt.title(f"Causal Separation Scores")
-    plt.legend(parameter_models, title="Model Size", loc="upper right")
-
-    plt.savefig(f"plots/causal_sep.png")
-    plt.clf()
-
-
-    # Hierarchical
-    plt.plot(steps, hierarchy_score_70M)
-    plt.plot(steps, hierarchy_score_160M)
-    plt.plot(steps, hierarchy_score_14B)
-    plt.plot(steps, hierarchy_score_28B)
-    plt.plot(steps, hierarchy_score_12B)
-
-    plt.xlabel("Steps")
-    plt.ylabel("hierarchical-score")
-    plt.title(f"Hierarchical Scores")
-    plt.legend(parameter_models, title="Model Size", loc="upper right")
-
-
-
-    from scipy.optimize import curve_fit
-    def model_func(x, a, b, c, d):
-        return a*np.log(b*x + c) + d
-
-    popt, pcov = curve_fit(model_func, steps, hierarchy_score_160M, maxfev=10000)
-
-    print(popt)
-    print(pcov)
-    plt.plot(steps, model_func(steps, *popt), 'r-', label='Fit')
-
-
-
-    plt.savefig(f"plots/hierarchical.png")
-    plt.clf()
-
-
-
-    # plt.savefig(f"plots/test.png")
-    # plt.clf()
+save_plot("causal_sep", "model_score_plots/causal_sep_scores")
+save_plot("hierarchy", "model_score_plots/hierarchy_scores")
