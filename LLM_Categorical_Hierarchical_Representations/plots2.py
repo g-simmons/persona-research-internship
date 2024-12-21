@@ -68,7 +68,7 @@ def save_plot(score, output_dir):
                                 fields=["Step"], empty=False)
 
     # The basic line
-    line = alt.Chart(newdf).mark_line(interpolate="basis").encode(
+    line = alt.Chart(newdf).mark_line(interpolate="linear").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
         color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])

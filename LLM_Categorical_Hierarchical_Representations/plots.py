@@ -59,6 +59,7 @@ def save_plot(score: str, output_dir: str):
     for parameter_model in parameter_models:
         temp_scores = []
         for step in steps:
+            # These heatmaps are all multi word
             adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
             cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
             hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
@@ -86,7 +87,7 @@ def save_plot(score: str, output_dir: str):
                                 fields=["Step"], empty=False)
 
     # The basic line
-    line = alt.Chart(df).mark_line(interpolate="basis").encode(
+    line = alt.Chart(df).mark_line(interpolate="linear").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
         color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
