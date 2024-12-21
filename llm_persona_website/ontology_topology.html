@@ -510,15 +510,12 @@
                     <h2>2. Research Question 1: Do longer-trained LLMs have better ontological representations? </h2>
                     <!-- <h3>Experiment Setup</h3>
                     [Experiment Setup TODO] -->
-                    <figure>
-                        <img src="assets\ontology_figures\figure3.png"
-                            alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models"
-                            class="figure-img" onclick="openModal(this.src)">
+                    <figure style="display: flex; flex-direction: column; height: 450px;">
+                        <div style="flex: 1; width: 100%; overflow: visible;">
+                            <iframe src="model_score_plots_nonmulti/combined_scores.html" style="width: 100%; height: 100%;" frameborder="0" scrolling="no"></iframe>
+                        </div>
                         <figcaption>
-                            Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M,
-                            1.4B,
-                            2.8B,
-                            and 12B models, for training steps from 1000 to 143,000.
+                            Causal separation (left), hierarchy (right), and linear representation (bottom) scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000.
                         </figcaption>
                     </figure>
                     <h3>Observation 1: Ontological maturity increases with training steps</h3>

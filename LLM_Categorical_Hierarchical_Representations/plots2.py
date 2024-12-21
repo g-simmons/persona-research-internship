@@ -105,16 +105,22 @@ def save_plot(score, output_dir):
     final_chart = alt.layer(
         line, selectors, points, rules, text
     ).properties(
-        width=400,
-        height=300,
+        width=210,
+        height=210,
         title=title
     ).interactive()
 
     final_chart.save(f'{output_dir}.png')
     final_chart.save(f'{output_dir}.html')
+    
+    return final_chart
 
 
 
-save_plot("causal_sep", "model_score_plots_nonmulti/causal_sep_scores")
-save_plot("hierarchy", "model_score_plots_nonmulti/hierarchy_scores")
-save_plot("linear", "model_score_plots_nonmulti/linear_rep_scores")
+plot1 = save_plot("causal_sep", "model_score_plots_nonmulti/causal_sep_scores")
+plot2 = save_plot("hierarchy", "model_score_plots_nonmulti/hierarchy_scores")
+plot3 = save_plot("linear", "model_score_plots_nonmulti/linear_rep_scores")
+
+combined = alt.hconcat(plot1, plot2, plot3)
+combined.save("model_score_plots_nonmulti/combined_scores.html")
+combined.save("model_score_plots_nonmulti/combined_scores.png")
