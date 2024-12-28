@@ -1,0 +1,11 @@
+json 
+networkx 
+transformers 
+inflect 
+numpy 
+matplotlib 
+seaborn
+torch --index-url https://download.pytorch.org/whl/cu118
+scikit-learn
+owlready2
+pronto
