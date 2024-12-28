@@ -15,6 +15,7 @@ import huggingface_hub
 import torch
 import numpy as np
 import networkx as nx
+from typing import List, Tuple
 import matplotlib.pyplot as plt
 import hierarchical as hrc
 import warnings
@@ -24,7 +25,7 @@ import ontology_class
 
 def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bool):
 
-    ontology_dir = f"owl/{args.ontology_name}.owl"
+    ontology_dir = f"/mnt/bigstorage/raymond/owl/{args.ontology_name}.owl"
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     model_name = "pythia"
@@ -192,7 +193,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             
     nx.write_adjlist(G_noun, f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist")
 
-def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: str):
+def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: str) -> List[np.ndarray]:
     """
     Args
     multi: bool
@@ -224,7 +225,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
         vocab_list[index] = word
 
 
-    cats, G, sorted_keys = hrc.get_categories_ontology(filter, ontology_name=ontology_name)
+    cats, G, sorted_keys = hrc.get_categories_ontology(ontology_name=ontology_name, filter=filter)
 
     error_count = 0
     total_count = 0
@@ -265,20 +266,20 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
 
     class_counter = 0
     for node in sorted_keys:
-            if len(list(G.predecessors(node))) > 0:
-                    parent = list(G.predecessors(node))[0]         #direct parent
-                    # print("node: "+ node)
-                    # print("parent: "+ parent)
-                    # print()
-                    # print(list(G.predecessors(node)))
-                    if parent not in list(messed_up.keys()):
-                            # print(dirs[node]['lda'])
-                            if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
-                                print(f"equal: {node}, {parent}")
-                            child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
-            else:
-                class_counter += 1
-                print("reject: " + node)         #throws out 3
+        if len(list(G.predecessors(node))) > 0:
+            parent = list(G.predecessors(node))[0]         #direct parent
+            # print("node: "+ node)
+            # print("parent: "+ parent)
+            # print()
+            # print(list(G.predecessors(node)))
+            if parent not in list(messed_up.keys()):
+                # print(dirs[node]['lda'])
+                if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
+                    print(f"equal: {node}, {parent}")
+                child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
+        else:
+            class_counter += 1
+            print("reject: " + node)         #throws out 3
                     
     # lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])    #adds back 1: 100 - 3 + 1 = 98
     lda_diff = torch.stack([lda_dirs[i] for i in range(class_counter)] + [v for k, v in child_parent.items()])
@@ -296,7 +297,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
             (lda_dirs @ lda_dirs.T).cpu().numpy(),
             (lda_diff @ lda_diff.T).cpu().numpy()]
 
-    return mats
+    return mats 
 
 
 
@@ -313,13 +314,20 @@ if __name__ == "__main__":
                         help='Name of ontology file without .owl extension (default: aism)')
     parser.add_argument('--multiword', action='store_true', default=True,
                         help='Whether to use multiword processing (default: True)')
-    
+    parser.add_argument('--filter', type=int, default=15,
+                        help='Filter out synsets with less than this many terms (default: 15)')
     args = parser.parse_args()
     
     step = f"step{args.step_int}"
 
     save_ontology_hypernym(args.params, step, ontology_name=args.ontology_name, multi=args.multiword)
-    mats = get_mats(args.params, step, multi=args.multiword, ontology_name=args.ontology_name)
+    mats = get_mats(
+        params=args.params, 
+        step=step, 
+        multi=args.multiword, 
+        filter=args.filter,
+        ontology_name=args.ontology_name
+    )
 
     print(mats[0].shape)
     print(mats[1].shape)

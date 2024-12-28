@@ -3,6 +3,7 @@ import networkx as nx
 
 import torch
 from sklearn.covariance import ledoit_wolf
+from typing import Dict, Any
 
 import numpy as np
 
@@ -201,7 +202,7 @@ def estimate_single_dir_from_embeddings(category_embeddings):
 
     return lda_dir, category_mean
 
-def estimate_cat_dir(category_lemmas, unembed, vocab_dict, multi: bool):
+def estimate_cat_dir(category_lemmas, unembed, vocab_dict, multi: bool) -> Dict[str, Any]:
     if multi:
         category_embeddings = get_category_embeddings(category_to_indices_multi_word(category_lemmas, vocab_dict), unembed)
     else:
@@ -210,7 +211,6 @@ def estimate_cat_dir(category_lemmas, unembed, vocab_dict, multi: bool):
     lda_dir, category_mean = estimate_single_dir_from_embeddings(category_embeddings)
     
     return {'lda': lda_dir, 'mean': category_mean}
-
 
 
 import inflect
