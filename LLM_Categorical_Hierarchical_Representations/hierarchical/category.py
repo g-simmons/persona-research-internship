@@ -56,13 +56,16 @@ def get_categories(noun_or_verb = 'noun'):
     return cats, G, sorted_keys
 
 
-def get_categories_ontology(filter: int):
+def get_categories_ontology(ontology_name: str, filter: int):
+    """
+    Has filter parameter. Otherwise the same as get_categories.
+    """
 
     cats = {}
-    with open('data/ontologies/noun_synsets_ontology_pythia.json', 'r') as f:
+    with open(f'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'r') as f:
         for line in f:
             cats.update(json.loads(line))
-    G = nx.read_adjlist("data/ontologies/noun_synsets_ontology_hypernym_graph.adjlist", create_using=nx.DiGraph())
+    G = nx.read_adjlist(f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist", create_using=nx.DiGraph())
     
     cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > filter}
     # nodes = list(cats.keys())
