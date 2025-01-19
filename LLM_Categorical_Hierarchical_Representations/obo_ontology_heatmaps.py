@@ -15,6 +15,7 @@ import huggingface_hub
 import torch
 import numpy as np
 import networkx as nx
+from typing import List, Tuple
 import matplotlib.pyplot as plt
 import hierarchical as hrc
 import warnings
@@ -22,7 +23,9 @@ warnings.filterwarnings('ignore')
 
 import ontology_class
 
-def save_ontology_hypernym(params: str, step: str, ontology_dir: str, multi: bool):
+def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bool):
+
+    ontology_dir = f"/mnt/bigstorage/raymond/owl/{args.ontology_name}.owl"
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     model_name = "pythia"
@@ -170,7 +173,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_dir: str, multi: boo
             return vocab_set.intersection(add_space)
 
     ## save the data
-    with open(f'data/ontologies/noun_synsets_ontology_pythia.json', 'w') as f:
+    with open(f'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'w') as f:
         prev_pythia_words = []
         corr_synsets = []
         for synset, lemmas in large_nouns.items():
@@ -188,9 +191,16 @@ def save_ontology_hypernym(params: str, step: str, ontology_dir: str, multi: boo
 
             f.write(json.dumps({synset: pythia_words}) + "\n")
             
-    nx.write_adjlist(G_noun, f"data/ontologies/noun_synsets_ontology_hypernym_graph.adjlist")
+    nx.write_adjlist(G_noun, f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist")
 
-def get_mats(params: str, step: str, multi: bool, filter: int):
+def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: str) -> List[np.ndarray]:
+    """
+    Args
+    multi: bool
+        Use multi-word embeddings
+    filter: int
+        Remove synsets that don't have this many terms
+    """
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     tokenizer = AutoTokenizer.from_pretrained(
@@ -215,7 +225,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
         vocab_list[index] = word
 
 
-    cats, G, sorted_keys = hrc.get_categories_ontology(filter)
+    cats, G, sorted_keys = hrc.get_categories_ontology(ontology_name=ontology_name, filter=filter)
 
     error_count = 0
     total_count = 0
@@ -256,20 +266,20 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
 
     class_counter = 0
     for node in sorted_keys:
-            if len(list(G.predecessors(node))) > 0:
-                    parent = list(G.predecessors(node))[0]         #direct parent
-                    # print("node: "+ node)
-                    # print("parent: "+ parent)
-                    # print()
-                    # print(list(G.predecessors(node)))
-                    if parent not in list(messed_up.keys()):
-                            # print(dirs[node]['lda'])
-                            if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
-                                print(f"equal: {node}, {parent}")
-                            child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
-            else:
-                class_counter += 1
-                print("reject: " + node)         #throws out 3
+        if len(list(G.predecessors(node))) > 0:
+            parent = list(G.predecessors(node))[0]         #direct parent
+            # print("node: "+ node)
+            # print("parent: "+ parent)
+            # print()
+            # print(list(G.predecessors(node)))
+            if parent not in list(messed_up.keys()):
+                # print(dirs[node]['lda'])
+                if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
+                    print(f"equal: {node}, {parent}")
+                child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
+        else:
+            class_counter += 1
+            print("reject: " + node)         #throws out 3
                     
     # lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])    #adds back 1: 100 - 3 + 1 = 98
     lda_diff = torch.stack([lda_dirs[i] for i in range(class_counter)] + [v for k, v in child_parent.items()])
@@ -287,16 +297,38 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
             (lda_dirs @ lda_dirs.T).cpu().numpy(),
             (lda_diff @ lda_diff.T).cpu().numpy()]
 
-    return mats
+    return mats 
 
 
 
 
 if __name__ == "__main__":
-    save_ontology_hypernym("70M", "step99000", "owl/aism.owl", True)
-    mats = get_mats("70M", "step99000", True)
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Generate ontology heatmaps')
+    parser.add_argument('--params', type=str, default='70M',
+                        help='Model parameter size (default: 70M)')
+    parser.add_argument('--step_int', type=int, default=99000,
+                        help='Training step number (default: 99000)')
+    parser.add_argument('--ontology_name', type=str, default='aism',
+                        help='Name of ontology file without .owl extension (default: aism)')
+    parser.add_argument('--multiword', action='store_true', default=True,
+                        help='Whether to use multiword processing (default: True)')
+    parser.add_argument('--filter', type=int, default=15,
+                        help='Filter out synsets with less than this many terms (default: 15)')
+    args = parser.parse_args()
+    
+    step = f"step{args.step_int}"
+
+    save_ontology_hypernym(args.params, step, ontology_name=args.ontology_name, multi=args.multiword)
+    mats = get_mats(
+        params=args.params, 
+        step=step, 
+        multi=args.multiword, 
+        filter=args.filter,
+        ontology_name=args.ontology_name
+    )
 
     print(mats[0].shape)
     print(mats[1].shape)
     print(mats[2].shape)
-
