@@ -29,14 +29,16 @@ import random
 
 import logging
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename="ontology_scores_log_test.log", level=logging.INFO)
 
 # reproducability
 torch.manual_seed(0)
 np.random.seed(0)
 import random
 random.seed(0)
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename=f"ontology_scores_log_test.log", level=logging.INFO)
 
 
 # Internal
@@ -66,6 +68,8 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
             )  # Recursively get lemmas from hyponyms,
 
         return lemmas
+
+
 
     one_word_counter = 0
     multi_word_counter = 0
@@ -206,6 +210,10 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
 
 
 def get_mats(params: str, step: str, multi: bool):
+
+    # logger = logging.getLogger(__name__)
+    # logging.basicConfig(filename=f"ontology_scores_log_test_{params}_{step}_get_mats.log", level=logging.INFO)
+
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
 
@@ -215,7 +223,7 @@ def get_mats(params: str, step: str, multi: bool):
         cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
     )
 
-    g = torch.load(f"/mnt/bigstorage/raymond/{params}-unembeddings/{step}").to(
+    g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
         device
     )  # 'FILE_PATH' in store_matrices.py
 
@@ -322,6 +330,9 @@ def get_mats(params: str, step: str, multi: bool):
 
 
 def get_linear_rep(params: str, step: str, multi: bool):
+    # logger = logging.getLogger(__name__)
+    # logging.basicConfig(filename=f"ontology_scores_log_test_{params}_{step}_get_linear_rep.log", level=logging.INFO)
+
     sns.set_theme(
         context="paper",
         style="white",  # 'whitegrid', 'dark', 'darkgrid', ...
@@ -338,7 +349,7 @@ def get_linear_rep(params: str, step: str, multi: bool):
         cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
     )
 
-    g = torch.load(f"/mnt/bigstorage/raymond/{params}-unembeddings/{step}").to(
+    g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
         device
     )  # 'FILE_PATH' in store_matrices.py
 
@@ -590,16 +601,29 @@ def get_scores(params: str, step: str, multi: bool) -> tuple:
 
 
 if __name__ == "__main__":
-    steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-    parameter_models = ["2.8B"]
+    # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+    # parameter_models = ["1.4B"]
 
-    steps = steps[69:]
+    # steps = steps[45:]
 
-    print(steps)
-    print(len(steps))
+    # print(steps)
+    # print(len(steps))
 
+    # for step in steps:
+    #     print(step)
+    #     save_wordnet_hypernym(parameter_models[0], step, True)
+    #     stuff = get_linear_rep(parameter_models[0], step, True)
+    #     print(stuff)
+    #     print(len(stuff))
+    #     stuff_tens = torch.tensor(stuff)
+    #     torch.save(stuff_tens, f"/mnt/bigstorage/raymond/heatmaps/{parameter_models[0]}/{parameter_models[0]}-{step}-4.pt")
 
-    save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    save_wordnet_hypernym("12B", "step11000", True)
+
+    # save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    # stuff = get_linear_rep(parameter_models[0], steps[1], True)
+    # print(stuff)
+    # print(len(stuff))
     # save_wordnet_hypernym(parameter_models[0], steps[1], True)
 
     # for parameter_model in parameter_models:

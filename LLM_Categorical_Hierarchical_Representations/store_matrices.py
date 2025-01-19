@@ -7,6 +7,10 @@ from transformers import GPTNeoXForCausalLM
 from tqdm import tqdm
 import os
 
+from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
+  # pip install ai2-olmo
+
+
 # ### load model ###
 # device = torch.device("cuda:0")
 # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -31,17 +35,21 @@ import os
 # torch.save(g, f"FILE_PATH")
 
 def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str):
-    model = GPTNeoXForCausalLM.from_pretrained(
-    f"EleutherAI/pythia-{parameter_model}-deduped",
-    revision=f"{step}",
-    cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{parameter_model}-deduped/{step}",
-    )
-    tokenizer = AutoTokenizer.from_pretrained(
-    f"EleutherAI/pythia-{parameter_model}-deduped",
-    revision=f"{step}",
-    cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{parameter_model}-deduped/{step}",
-    )
+    # model = GPTNeoXForCausalLM.from_pretrained(
+    # f"EleutherAI/pythia-{parameter_model}-deduped",
+    # revision=f"{step}",
+    # cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{parameter_model}-deduped/{step}",
+    # )
+    # tokenizer = AutoTokenizer.from_pretrained(
+    # f"EleutherAI/pythia-{parameter_model}-deduped",
+    # revision=f"{step}",
+    # cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{parameter_model}-deduped/{step}",
+    # )
 
+    
+    model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=f"{step}-tokens4B")
+
+    tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=f"{step}-tokens4B")
 
     ### load unembdding vectors ###
     gamma = model.get_output_embeddings().weight.detach()
@@ -61,16 +69,21 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     torch.save(g, f"{output_dir}/{step}")
 
 
-steps = ["step3000", "step7000", "step9000"]
-parameter_models = ["6.9B"]
+parameter_models = ["7B"]
 
 steps = [f"step{i}" for i in range(1000, 145000, 2000)]
 print(steps)
 
 
 for parameter_model in parameter_models:
-    folder = f"/mnt/bigstorage/raymond/{parameter_model}-unembeddings"
+    folder = f"/mnt/bigstorage/raymond/olmo/{parameter_model}-unembeddings"
     os.mkdir(folder)
     for step in steps:
         generate_unembedding_matrix(parameter_model, step, folder)
+
+
+
+# model = OLMoForCausalLM.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
+
+# tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
 

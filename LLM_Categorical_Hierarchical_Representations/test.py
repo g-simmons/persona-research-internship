@@ -41,11 +41,18 @@ def save_heatmaps(parameter_model, step, multi):
     torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
 
 
+def save_linear_rep(parameter_model, step, multi):
+    stuff = get_linear_rep(parameter_model, step, True)
+    print(stuff)
+    print(len(stuff))
+    stuff_tens = torch.tensor(stuff)
+    torch.save(stuff_tens, f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
 
+print(steps)
 
 if (DO_IN_PARALLEL):
     for parameter_model in parameter_models: 
-        Parallel(n_jobs=6)(delayed(save_heatmaps)(parameter_model, step, True) for step in steps)
+        Parallel(n_jobs=10)(delayed(save_heatmaps)(parameter_model, step, True) for step in steps)
 else:
     for parameter_model in parameter_models:
         for step in steps:

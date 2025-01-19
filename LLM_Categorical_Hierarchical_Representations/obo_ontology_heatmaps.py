@@ -199,7 +199,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int):
         cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g = torch.load(f'/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
