@@ -29,8 +29,6 @@ import random
 
 import logging
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename="ontology_scores_log_test.log", level=logging.INFO)
 
 # reproducability
 torch.manual_seed(0)
@@ -38,18 +36,26 @@ np.random.seed(0)
 import random
 random.seed(0)
 
+from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename=f"ontology_scores_log_test.log", level=logging.INFO)
+
 
 # Internal
-def save_wordnet_hypernym(params: str, step: str, multi: bool):
+def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
-    model_name = "pythia"
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        f"EleutherAI/pythia-{params}-deduped",
-        revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
-    )
+    if model_name == "pythia":
+        tokenizer = AutoTokenizer.from_pretrained(
+            f"EleutherAI/pythia-{params}-deduped",
+            revision=f"{step}",
+            cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+        )
+    elif model_name == "olmo":
+        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
 
     vocab = tokenizer.get_vocab()
     vocab_set = set(vocab.keys())
@@ -67,6 +73,8 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
 
         return lemmas
 
+
+
     one_word_counter = 0
     multi_word_counter = 0
 
@@ -80,7 +88,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
             lemmas = vocab_set.intersection({"▁" + l for l in lemmas})
             # lemmas = vocab_set.intersection({l for l in lemmas})
             noun_lemmas[s.name()] = {l[1:] for l in lemmas}
-        elif model_name == "pythia":
+        elif model_name == "pythia" or model_name == "olmo":
             if multi:
                 lemmas = list(lemmas)
                 lemmas_split = [set(l.split("_")) for l in lemmas]
@@ -205,21 +213,29 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool):
     nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
 
 
-def get_mats(params: str, step: str, multi: bool):
+def get_mats(params: str, step: str, multi: bool, model_name: str):
+
+    # logger = logging.getLogger(__name__)
+    # logging.basicConfig(filename=f"ontology_scores_log_test_{params}_{step}_get_mats.log", level=logging.INFO)
+
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        f"EleutherAI/pythia-{params}-deduped",
-        revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
-    )
+    if model_name == "pythia":
+        tokenizer = AutoTokenizer.from_pretrained(
+            f"EleutherAI/pythia-{params}-deduped",
+            revision=f"{step}",
+            cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+        )
 
-    g = torch.load(f"/mnt/bigstorage/raymond/{params}-unembeddings/{step}").to(
-        device
-    )  # 'FILE_PATH' in store_matrices.py
+        g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
+            device
+        )  # 'FILE_PATH' in store_matrices.py
 
-    # g = torch.load('FILE_PATH').to(device)
+    elif model_name == "olmo":
+        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
+
+        g = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/step1000")
 
     vocab_dict = tokenizer.get_vocab()
     vocab_list = [None] * (max(vocab_dict.values()) + 1)
@@ -322,6 +338,9 @@ def get_mats(params: str, step: str, multi: bool):
 
 
 def get_linear_rep(params: str, step: str, multi: bool):
+    # logger = logging.getLogger(__name__)
+    # logging.basicConfig(filename=f"ontology_scores_log_test_{params}_{step}_get_linear_rep.log", level=logging.INFO)
+
     sns.set_theme(
         context="paper",
         style="white",  # 'whitegrid', 'dark', 'darkgrid', ...
@@ -338,7 +357,7 @@ def get_linear_rep(params: str, step: str, multi: bool):
         cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
     )
 
-    g = torch.load(f"/mnt/bigstorage/raymond/{params}-unembeddings/{step}").to(
+    g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
         device
     )  # 'FILE_PATH' in store_matrices.py
 
@@ -590,16 +609,31 @@ def get_scores(params: str, step: str, multi: bool) -> tuple:
 
 
 if __name__ == "__main__":
-    steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-    parameter_models = ["2.8B"]
+    # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+    # parameter_models = ["1.4B"]
 
-    steps = steps[69:]
+    # steps = steps[45:]
 
-    print(steps)
-    print(len(steps))
+    # print(steps)
+    # print(len(steps))
 
+    # for step in steps:
+    #     print(step)
+    #     save_wordnet_hypernym(parameter_models[0], step, True)
+    #     stuff = get_linear_rep(parameter_models[0], step, True)
+    #     print(stuff)
+    #     print(len(stuff))
+    #     stuff_tens = torch.tensor(stuff)
+    #     torch.save(stuff_tens, f"/mnt/bigstorage/raymond/heatmaps/{parameter_models[0]}/{parameter_models[0]}-{step}-4.pt")
 
-    save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    # save_wordnet_hypernym("7B", "step1000", False, "olmo")
+    get_mats("7B", "step1000", False, "olmo")
+    # save_wordnet_hypernym("70M", "step1000", False, "pythia")
+
+    # save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    # stuff = get_linear_rep(parameter_models[0], steps[1], True)
+    # print(stuff)
+    # print(len(stuff))
     # save_wordnet_hypernym(parameter_models[0], steps[1], True)
 
     # for parameter_model in parameter_models:

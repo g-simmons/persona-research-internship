@@ -9,8 +9,7 @@ import numpy as np
 # stuff
 steps = [f"step{i}" for i in range(1000, 145000, 2000)]
 steps_nums = [i for i in range(1000, 145000, 2000)]
-parameter_models = ["70M", "160M", "1.4B", "2.8B"]      # add 12B once ready
-# parameter_models = ["70M", "160M"]
+parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
 
 # SCORES
 def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
@@ -63,7 +62,7 @@ def save_plot(score: str, output_dir: str):
             adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
             cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
             hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
-            # linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
+            linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
 
             if score == "causal_sep":
                 temp_scores.append(causal_sep_score(adj, cos))
@@ -131,9 +130,15 @@ def save_plot(score: str, output_dir: str):
 
     final_chart.save(f'{output_dir}.png')
     final_chart.save(f'{output_dir}.html')
+    
+    return final_chart
 
 
 
-save_plot("causal_sep", "model_score_plots_multi/causal_sep_scores")
-save_plot("hierarchy", "model_score_plots_multi/hierarchy_scores")
-# save_plot("linear", "model_score_plots_multi/linear_rep_scores")
+plot1 = save_plot("causal_sep", "model_score_plots_multi/causal_sep_scores")
+plot2 = save_plot("hierarchy", "model_score_plots_multi/hierarchy_scores")
+plot3 = save_plot("linear", "model_score_plots_multi/linear_rep_scores")
+
+combined = alt.hconcat(plot1, plot2, plot3)
+combined.save("model_score_plots_multi/combined_scores.html")
+combined.save("model_score_plots_multi/combined_scores.png")
