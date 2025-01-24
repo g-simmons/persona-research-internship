@@ -25,7 +25,7 @@ import ontology_class
 
 def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bool):
 
-    ontology_dir = f"/mnt/bigstorage/raymond/owl/{args.ontology_name}.owl"
+    ontology_dir = f"/mnt/bigstorage/raymond/owl/{ontology_name}.owl"
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     model_name = "pythia"
@@ -303,31 +303,34 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
 
 
 if __name__ == "__main__":
-    import argparse
+    # import argparse
     
-    parser = argparse.ArgumentParser(description='Generate ontology heatmaps')
-    parser.add_argument('--params', type=str, default='70M',
-                        help='Model parameter size (default: 70M)')
-    parser.add_argument('--step_int', type=int, default=99000,
-                        help='Training step number (default: 99000)')
-    parser.add_argument('--ontology_name', type=str, default='aism',
-                        help='Name of ontology file without .owl extension (default: aism)')
-    parser.add_argument('--multiword', action='store_true', default=True,
-                        help='Whether to use multiword processing (default: True)')
-    parser.add_argument('--filter', type=int, default=15,
-                        help='Filter out synsets with less than this many terms (default: 15)')
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description='Generate ontology heatmaps')
+    # parser.add_argument('--params', type=str, default='70M',
+    #                     help='Model parameter size (default: 70M)')
+    # parser.add_argument('--step_int', type=int, default=99000,
+    #                     help='Training step number (default: 99000)')
+    # parser.add_argument('--ontology_name', type=str, default='aism',
+    #                     help='Name of ontology file without .owl extension (default: aism)')
+    # parser.add_argument('--multiword', action='store_true', default=True,
+    #                     help='Whether to use multiword processing (default: True)')
+    # parser.add_argument('--filter', type=int, default=15,
+    #                     help='Filter out synsets with less than this many terms (default: 15)')
+    # args = parser.parse_args()
     
-    step = f"step{args.step_int}"
+    # step = f"step{args.step_int}"
 
-    save_ontology_hypernym(args.params, step, ontology_name=args.ontology_name, multi=args.multiword)
-    mats = get_mats(
-        params=args.params, 
-        step=step, 
-        multi=args.multiword, 
-        filter=args.filter,
-        ontology_name=args.ontology_name
-    )
+    # save_ontology_hypernym(args.params, step, ontology_name=args.ontology_name, multi=args.multiword)
+    # mats = get_mats(
+    #     params=args.params, 
+    #     step=step, 
+    #     multi=args.multiword, 
+    #     filter=args.filter,
+    #     ontology_name=args.ontology_name
+    # )
+
+    save_ontology_hypernym("70M", "step143000", "cl", True)
+    mats = get_mats("70M", "step143000", True, 15, "cl")
 
     print(mats[0].shape)
     print(mats[1].shape)

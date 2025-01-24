@@ -47,9 +47,9 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     # )
 
     
-    model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=f"{step}-tokens4B")
+    model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
 
-    tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=f"{step}-tokens4B")
+    tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
 
     ### load unembdding vectors ###
     gamma = model.get_output_embeddings().weight.detach()
@@ -69,17 +69,18 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     torch.save(g, f"{output_dir}/{step}")
 
 
-parameter_models = ["7B"]
+# parameter_models = ["7B"]
 
-steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-print(steps)
+# steps = [f"step{i}-tokens{int((i/1000)*4)}B" for i in range(3000, 145000, 1000)]
+# print(steps)
 
 
-for parameter_model in parameter_models:
-    folder = f"/mnt/bigstorage/raymond/olmo/{parameter_model}-unembeddings"
-    os.mkdir(folder)
-    for step in steps:
-        generate_unembedding_matrix(parameter_model, step, folder)
+
+# for parameter_model in parameter_models:
+#     folder = f"/mnt/bigstorage/raymond/olmo/{parameter_model}-unembeddings"
+#     # os.mkdir(folder)
+#     for step in steps:
+#         generate_unembedding_matrix(parameter_model, step, folder)
 
 
 
@@ -87,3 +88,20 @@ for parameter_model in parameter_models:
 
 # tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
 
+tokenizer_olmo = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
+vocab_olmo = tokenizer_olmo.get_vocab()
+vocab_set_olmo = set(vocab_olmo.keys())
+
+
+
+tokenizer_pythia = AutoTokenizer.from_pretrained(
+    f"EleutherAI/pythia-70M-deduped",
+    revision=f"step1000",
+    cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-70M-deduped/step1000",
+)
+vocab_pythia = tokenizer_pythia.get_vocab()
+vocab_set_pythia = set(vocab_pythia.keys())
+
+
+print(vocab_set_olmo.difference(vocab_set_pythia))
+print(vocab_set_pythia.difference(vocab_set_olmo))

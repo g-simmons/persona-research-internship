@@ -28,7 +28,7 @@ import pandas as pd
 
 
 # returns the synsets that make it through the filter, in order of heatmap row
-def get_mat_dim(params: str, step: str, filter: int):
+def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     tokenizer = AutoTokenizer.from_pretrained(
@@ -37,7 +37,7 @@ def get_mat_dim(params: str, step: str, filter: int):
         cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g = torch.load(f'/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
@@ -53,15 +53,15 @@ def get_mat_dim(params: str, step: str, filter: int):
         vocab_list[index] = word
 
 
-    cats, G, sorted_keys = hrc.get_categories_ontology(filter)
+    cats, G, sorted_keys = hrc.get_categories_ontology(ontology_name, filter)
     return cats
 
 # saves row terms to text file in `owl_row_terms` directory
-def save_row_terms(ontology_dir: str, params: str, step: str, filter: int, multi: bool):
-    ontology_name = ontology_dir.split("/")[-1][:-4]
+def save_row_terms(ontology_name: str, params: str, step: str, filter: int, multi: bool):
+    # ontology_name = ontology_dir.split("/")[-1][:-4]
 
-    obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_dir, multi)
-    cats = get_mat_dim(params, step, filter)  #50
+    obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
+    cats = get_mat_dim(ontology_name, params, step, filter)  #50
     if len(cats) > 30:      #number of rows(number of synsets that make it past the filter), if greater than 30 synsets, then save the row terms
         with open(f"owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
             for term in list(cats.keys()):
@@ -107,12 +107,13 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
     return depth, scores, terms, term_classes
 
 # saves a depth scatterplot, you need to have already saved the row terms
-def save_depth_scatterplot(ontology_dir: str, params: str, step: str, filter: int, multi: bool, score: str):
-    ontology_name = ontology_dir.split("/")[-1][:-4]
+def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: int, multi: bool, score: str):
+    ontology_dir = f"/mnt/bigstorage/raymond/owl/{ontology_name}.owl"
+
     term_txt_dir = "owl_row_terms/" + ontology_name + "_row_terms.txt"
 
-    obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_dir, multi)
-    mats = obo_ontology_heatmaps.get_mats(params, step, multi, filter)
+    obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
+    mats = obo_ontology_heatmaps.get_mats(params, step, multi, filter, ontology_name)
     adj = mats[0]
     cos = mats[1]
     hier = mats[2]
@@ -142,8 +143,9 @@ if __name__ == "__main__":
     multi = True           # whether or not to include multi-word lemmas.
 
 
-    ontology_dir = "/mnt/bigstorage/raymond/owl/cl.owl"
+    # ontology_dir = "/mnt/bigstorage/raymond/owl/cl.owl"
+    ontology_name = "aism"
 
-    save_row_terms(ontology_dir, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
-    save_depth_scatterplot(ontology_dir, params, step, filter, multi, "hier")
+    save_row_terms(ontology_name, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
+    save_depth_scatterplot(ontology_name, params, step, filter, multi, "sep")
 
