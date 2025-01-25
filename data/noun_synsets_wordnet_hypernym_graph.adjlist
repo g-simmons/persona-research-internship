@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+#/home/raymond/fresh-clone/LLM_Categorical_Hierarchical_Representations/test.py
+# GMT Fri Nov 15 05:07:55 2024
+=======
 #/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/ontology_scores.py
 # GMT Sat Jan  4 06:12:42 2025
+>>>>>>> b27edc32da622b6167345dfcaeaf95291e0b6a60
 # 
 entity.n.01 physical_entity.n.01 abstraction.n.06
 physical_entity.n.01 thing.n.12 object.n.01 causal_agent.n.01 matter.n.03 process.n.06
@@ -15,9 +20,15 @@ person.n.01 adult.n.01 anomaly.n.02 capitalist.n.02 communicator.n.01 contestant
 animal.n.01 domestic_animal.n.01 chordate.n.01 invertebrate.n.01 game.n.04
 plant.n.02 plant.n.02.other spermatophyte.n.01 herb.n.01 vine.n.01 woody_plant.n.01 aquatic_plant.n.01 bulbous_plant.n.01
 natural_object.n.01 body.n.01 body.n.04 celestial_body.n.01 covering.n.01 plant_part.n.01
+<<<<<<< HEAD
+matter.n.03 substance.n.01 substance.n.07 fluid.n.02 solid.n.01 vegetable_matter.n.01
+substance.n.01 body_substance.n.01 material.n.01 mixture.n.01 chemical_element.n.01 activator.n.01 fluid.n.01
+part.n.01 substance.n.01 language_unit.n.01
+=======
 part.n.01 substance.n.01 language_unit.n.01
 substance.n.01 body_substance.n.01 material.n.01 mixture.n.01 chemical_element.n.01 activator.n.01 fluid.n.01
 matter.n.03 substance.n.01 substance.n.07 fluid.n.02 solid.n.01 vegetable_matter.n.01
+>>>>>>> b27edc32da622b6167345dfcaeaf95291e0b6a60
 substance.n.07 food.n.01 agent.n.03 fuel.n.01
 food.n.01 fare.n.04 foodstuff.n.02 nutriment.n.01 feed.n.01 beverage.n.01
 artifact.n.01 article.n.02 block.n.01 commodity.n.01 covering.n.02 creation.n.02 decoration.n.01 excavation.n.03 fabric.n.01 facility.n.01 float.n.06 instrumentality.n.03 layer.n.01 line.n.18 opening.n.10 padding.n.01 plaything.n.01 sheet.n.06 strip.n.02 structure.n.01 surface.n.01 way.n.06 weight.n.04 building_material.n.01
@@ -237,9 +248,15 @@ bar.n.03
 obstruction.n.01
 baseball_equipment.n.01
 sports_equipment.n.01 baseball_equipment.n.01 golf_equipment.n.01 gymnastic_apparatus.n.01
+<<<<<<< HEAD
+piece.n.01 beam.n.02 piece_of_cloth.n.01
+beam.n.02
+structural_member.n.01 beam.n.02 upright.n.01
+=======
 structural_member.n.01 beam.n.02 upright.n.01
 beam.n.02
 piece.n.01 beam.n.02 piece_of_cloth.n.01
+>>>>>>> b27edc32da622b6167345dfcaeaf95291e0b6a60
 bedroom_furniture.n.01
 signaling_device.n.01
 block.n.01
@@ -357,8 +374,13 @@ marketplace.n.02
 mechanical_system.n.01
 medical_building.n.01
 medicine.n.02
+<<<<<<< HEAD
+memory.n.04
+memory_device.n.01 memory.n.04 recording.n.03
+=======
 memory_device.n.01 memory.n.04 recording.n.03
 memory.n.04
+>>>>>>> b27edc32da622b6167345dfcaeaf95291e0b6a60
 place_of_business.n.01 mercantile_establishment.n.01 office.n.01
 merchandise.n.01
 military_installation.n.01
@@ -1126,8 +1148,13 @@ acid.n.01
 binary_compound.n.01
 group.n.02
 chemical_element.n.01 noble_gas.n.01 metallic_element.n.01 carbon.n.01
+<<<<<<< HEAD
+noble_gas.n.01
+gas.n.02 noble_gas.n.01
+=======
 gas.n.02 noble_gas.n.01
 noble_gas.n.01
+>>>>>>> b27edc32da622b6167345dfcaeaf95291e0b6a60
 metallic_element.n.01 noble_metal.n.01 iron.n.01
 noble_metal.n.01
 carbon.n.01
