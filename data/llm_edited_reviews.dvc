@@ -1,6 +1,0 @@
-outs:
-- md5: 9d6cf329a06415aebfd45bda06a3697e.dir
-  size: 785336
-  nfiles: 2
-  hash: md5
-  path: llm_edited_reviews

@@ -1,0 +1,43 @@
+`SF/text/char2sf` := TEXT(
+`   `,
+`FUNCTION:  char2sf - convert (virtual) characters to symmetric functions`,
+`   `,
+`CALLING SEQUENCE:  char2sf(chi);`,
+`                   char2sf(chi,b);`,
+`   `,
+`PARAMETERS:  chi = a class function`,
+`              b  = (optional) a basis name`,
+`   `,
+`SYNOPSIS:`,
+`  For each partition lambda, the expression cl[lambda] denotes the class`,
+`  function on the symmetric group that takes on the value 1 for`,
+`  permutations of cycle-type lambda, and 0 otherwise. General class`,
+`  functions on the symmetric group S_n may be expressed as linear`,
+`  combinations of cl[lambda], where lambda ranges over partitions of n.`,
+`   `,
+`  The characteristic map is an isometric isomorphism between symmetric`,
+`  functions that are homogeneous of degree n and class functions on S_n.`,
+`  Under this map, the irreducible character indexed by lambda corresponds`,
+`  to the Schur function s[lambda].`,
+`   `,
+`  For any class function chi, char2sf(chi) returns the symmetric function`,
+`  corresponding to chi, expressed in terms of the power-sums p1,p2,....`,
+`   `,
+`  If a basis name b is supplied as a second argument, then the result is`,
+`  expressed in terms of this basis.`,
+`   `,
+`EXAMPLES:`,
+`   char2sf(cl[3,2,2,1]);              yields            1/24*p3*p2^2*p1`,
+`   char2sf(6*cl[1,1,1,1,1]-2*cl[2,2,1]+cl[5],s);`,
+`                                      yields              s[3, 1, 1]`,
+`   `,
+`SEE ALSO:  itensor, plethysm, sf2char, zee, combinat[Chi]`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/char2sf`,
+  helpfile=HomeLib, text=`SF/text/char2sf`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/char2sf`:=`SF/text/char2sf`:
+  save `help/SF/text/char2sf`, cat(HomeLib,`/help/SF/text/char2sf.m`);
+fi:

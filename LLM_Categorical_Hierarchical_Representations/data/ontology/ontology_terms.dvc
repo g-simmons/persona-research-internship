@@ -1,0 +1,6 @@
+outs:
+- md5: f644ed7d6164ac6736a2f87d9fe3069e.dir
+  size: 1910471
+  nfiles: 22
+  hash: md5
+  path: ontology_terms

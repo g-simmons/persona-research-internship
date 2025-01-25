@@ -1,0 +1,44 @@
+`SF/text/zee` := TEXT(
+`   `,
+`FUNCTION:  zee - squared norm of power sums`,
+`   `,
+`CALLING SEQUENCE:  zee(lambda);`,
+`                   zee(lambda,a);`,
+`                   zee(lambda,q,t);`,
+`   `,
+`PARAMETERS:  lambda = a partition`,
+`             a,q,t  = (optional) names or expressions`,
+`   `,
+`SYNOPSIS:`,
+`  If lambda is a partition with m[i] parts equal to i, then zee(lambda) is`,
+`  defined to be 1^m[1] * m[1]! * 2^m[2] * m[2]! * ... This is equal to the`,
+`  size of the centralizer of any permutation of cycle-type lambda, and also`,
+`  equals the squared norm of the power-sum symmetric function corresponding`,
+`  to lambda, relative to the standard scalar product.`,
+`   `,
+`  The procedure also accepts additional arguments that are useful for`,
+`  defining commonly used variations of the standard scalar product.`,
+`  See the help for 'add_basis', 'dual_basis', 'scalar' and 'skew'.`,
+`   `,
+`  With two arguments, zee(lambda,a) returns a^nops(lambda) * zee(lambda).`,
+`   `,
+`  With three arguments, zee(lambda,q,t) returns the product of zee(lambda)`,
+`  and (1-q^lambda[i])/(1-t^lambda[i]), for i=1,2,...`,
+`   `,
+`EXAMPLES:`,
+`  zee([3,3,2]);                        yields          36`,
+`  zee([3,3,2],x);                      yields        36*x^3`,
+`  Zee:= mu -> zee(mu,q^2,q);        `,
+`  c:=scalar(s[2,2],s[2,2],Zee);`,
+`  normal(c);                           yields    q^4+q^3+2*q^2+q+1`,
+`   `,
+`SEE ALSO:  Par, add_basis, dual_basis, scalar, skew`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/zee`,
+  helpfile=HomeLib, text=`SF/text/zee`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/zee`:=`SF/text/zee`:
+  save `help/SF/text/zee`, cat(HomeLib,`/help/SF/text/zee.m`);
+fi:

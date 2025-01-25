@@ -1,0 +1,33 @@
+`SF/text/toh` := TEXT(
+`   `,
+`FUNCTION:  toh - convert a symmetric function to the h-basis`,
+`   `,
+`CALLING SEQUENCE:  toh(f);  toh(f,b);`,
+`   `,
+`PARAMETERS:  f = a symmetric function`,
+`             b = (optional) a basis name`,
+`   `,
+`SYNOPSIS:`,
+`  If f is any symmetric function, toh(f) will convert f into a polynomial`,
+`  in the complete homogeneous symmetric functions h1,h2,h3,..., with the`,
+`  result collected in 'distributed' form with respect to h1,h2,h3,..., and`,
+`  with 'normal' applied to the coefficients.`,
+`   `,
+`  If a second argument b is specified, then f is assumed to be expressed `,
+`  solely in terms of the basis b. In particular, if b is not one of the `,
+`  predefined bases, this requires f to be linear in the members of b.`,
+`   `,
+`EXAMPLES:`,
+`  toh(e2^2+p2^2-2*e4);      yields          -4*h1*h3+3*h2^2+2*h4`,
+`  toh(s[4,3],s);            yields              h4*h3-h5*h2`,
+`   `,
+`SEE ALSO:  add_basis, dual_basis, toe, top, tos`,
+NULL):
+
+if `+`(0)=0 then # Maple V.4 or later
+  print(INTERFACE_HELP(insert, topic=`SF/toh`,
+  helpfile=HomeLib, text=`SF/text/toh`))
+elif ceil(0)=0 then # Maple V.2 or V.3
+  `help/SF/text/toh`:=`SF/text/toh`:
+  save `help/SF/text/toh`, cat(HomeLib,`/help/SF/text/toh.m`);
+fi:

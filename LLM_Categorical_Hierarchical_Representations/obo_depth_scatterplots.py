@@ -26,6 +26,7 @@ import altair as alt
 import pandas as pd
 
 
+import argparse
 
 # returns the synsets that make it through the filter, in order of heatmap row
 def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
@@ -136,16 +137,36 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
 
 
 if __name__ == "__main__":
-    # SETTINGS
-    params = "70M"          # chosen because it is the smallest model size, so it is the fastest to run 
-    step = "step143000"     # chosen because it is the latest step, and therefore will have the "best" term scores
-    filter = 15              # is the threshold for how many lemmas a synset must have to be part of the heatmap
-    multi = True           # whether or not to include multi-word lemmas.
+    # # SETTINGS
+    # params = "70M"          # chosen because it is the smallest model size, so it is the fastest to run 
+    # step = "step143000"     # chosen because it is the latest step, and therefore will have the "best" term scores
+    # filter = 15              # is the threshold for how many lemmas a synset must have to be part of the heatmap
+    # multi = True           # whether or not to include multi-word lemmas.
 
 
-    # ontology_dir = "/mnt/bigstorage/raymond/owl/cl.owl"
-    ontology_name = "aism"
+    # # ontology_dir = "/mnt/bigstorage/raymond/owl/cl.owl"
+    # ontology_name = "aism"
 
-    save_row_terms(ontology_name, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
-    save_depth_scatterplot(ontology_name, params, step, filter, multi, "sep")
+    # save_row_terms(ontology_name, params, step, filter, multi)   # only need to run this if you choose new settings, otherwise they are already saved into `owl_row_terms` directory
+    # save_depth_scatterplot(ontology_name, params, step, filter, multi, "sep")
 
+
+    parser = argparse.ArgumentParser(description='Generate depth scatterplots for ontology terms')
+    parser.add_argument('--params', type=str, default='70M',
+                        help='Model size parameter (default: 70M)')
+    parser.add_argument('--step', type=str, default='step143000',
+                        help='Training step (default: step143000)') 
+    parser.add_argument('--filter', type=int, default=15,
+                        help='Minimum number of lemmas threshold (default: 15)')
+    parser.add_argument('--multi', type=bool, default=True,
+                        help='Whether to include multi-word lemmas (default: True)')
+    parser.add_argument('--ontology', type=str, default='aism',
+                        help='Name of ontology (default: aism)')
+    parser.add_argument('--score', type=str, default='sep',
+                        help='Score type to plot (default: sep)')
+
+    args = parser.parse_args()
+
+    print(args)
+    save_row_terms(args.ontology, args.params, args.step, args.filter, args.multi)
+    save_depth_scatterplot(args.ontology, args.params, args.step, args.filter, args.multi, args.score)

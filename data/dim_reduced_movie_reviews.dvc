@@ -1,6 +1,0 @@
-outs:
-- md5: d8703dff650264b7af1837387eb6d961.dir
-  size: 5222110
-  nfiles: 1
-  hash: md5
-  path: dim_reduced_movie_reviews

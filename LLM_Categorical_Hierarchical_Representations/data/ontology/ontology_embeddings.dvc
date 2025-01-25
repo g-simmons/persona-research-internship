@@ -1,0 +1,6 @@
+outs:
+- md5: 9858eb17c602cdcff50c4b01671e2dd9.dir
+  size: 2760452819
+  nfiles: 21
+  hash: md5
+  path: ontology_embeddings
