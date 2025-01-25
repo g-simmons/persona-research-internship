@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-9c065944101748e73828725d6c01e397"}, "mark": {"type": "circle", "size": 60}, "encoding": {"tooltip": [{"field": "Term", "type": "nominal"}, {"field": "Depth", "type": "quantitative"}, {"field": "Score", "type": "quantitative"}], "x": {"field": "Depth", "type": "quantitative"}, "y": {"field": "Score", "type": "quantitative"}}, "params": [{"name": "param_17", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-9c065944101748e73828725d6c01e397": [{"Depth": 0.0, "Score": 1.2928039321525369, "Term": "continuant"}, {"Depth": 0.0, "Score": 4.0269362996599405, "Term": "process"}, {"Depth": 2.0, "Score": 1.0083959033564807, "Term": "nuclear_magnetic_resonance_pulse_sequence"}, {"Depth": 2.0, "Score": 3.1428152705572083, "Term": "assay"}, {"Depth": 2.0, "Score": 2.53276651253043, "Term": "material_processing"}, {"Depth": 3.0, "Score": 1.4414542683137337, "Term": "reciprocal-space_method"}, {"Depth": 3.0, "Score": 1.3033791511598067, "Term": "reflection_method"}, {"Depth": 3.0, "Score": 1.8335941982109516, "Term": "spectroscopy"}, {"Depth": 3.0, "Score": 1.2190652655411656, "Term": "thermal_analysis"}, {"Depth": 3.0, "Score": 1.2056243811387652, "Term": "magnetic_resonance_method"}, {"Depth": 3.0, "Score": 1.9715797801365769, "Term": "imaging_assay"}, {"Depth": 3.0, "Score": 1.7954304244421064, "Term": "analyte_assay"}, {"Depth": 3.0, "Score": 1.1898391828477548, "Term": "separation_method"}, {"Depth": 3.0, "Score": 1.7241688449911599, "Term": "synthesis_method"}, {"Depth": 3.0, "Score": 1.1622308512943893, "Term": "decomposition"}, {"Depth": 3.0, "Score": 1.2767925725220728, "Term": "etching"}, {"Depth": 3.0, "Score": 1.4232509662400432, "Term": "extraction"}, {"Depth": 4.0, "Score": 1.4883665574321698, "Term": "diffraction_method"}, {"Depth": 4.0, "Score": 1.1992574171108197, "Term": "scattering_method"}, {"Depth": 4.0, "Score": 1.3347236371018805, "Term": "electron_spectroscopy"}, {"Depth": 4.0, "Score": 1.4319567314587955, "Term": "laser_spectroscopy"}, {"Depth": 4.0, "Score": 1.431014252688605, "Term": "mass_spectrometry"}, {"Depth": 4.0, "Score": 1.3198489693322424, "Term": "vibrational_spectroscopy"}, {"Depth": 4.0, "Score": 1.3044175919358292, "Term": "dichroism_spectroscopy"}, {"Depth": 4.0, "Score": 1.7734678082308468, "Term": "microscopy"}, {"Depth": 4.0, "Score": 1.4178054058135514, "Term": "profilometry"}, {"Depth": 4.0, "Score": 1.679507345197413, "Term": "electrochemical_analysis"}, {"Depth": 4.0, "Score": 1.3455879637685462, "Term": "detection_method"}, {"Depth": 4.0, "Score": 1.1546050617613575, "Term": "chromatography"}, {"Depth": 4.0, "Score": 1.1311549885658532, "Term": "electrophoresis"}, {"Depth": 4.0, "Score": 1.2257154319506385, "Term": "purification"}, {"Depth": 4.0, "Score": 1.3408484323854521, "Term": "sample_deposition"}, {"Depth": 4.0, "Score": 1.4343327743441017, "Term": "patterning"}, {"Depth": 5.0, "Score": 1.4317729437923847, "Term": "electron_microscopy"}, {"Depth": 5.0, "Score": 1.9616777840770139, "Term": "scanning_probe_microscopy"}, {"Depth": 5.0, "Score": 1.4219367222919972, "Term": "potentiometry"}, {"Depth": 5.0, "Score": 1.9579233305427657, "Term": "voltammetry"}, {"Depth": 5.0, "Score": 1.3730845841655839, "Term": "epitaxy"}, {"Depth": 5.0, "Score": 1.5411004513120092, "Term": "physical_vapour_deposition"}, {"Depth": 5.0, "Score": 1.536728838847346, "Term": "metallisation"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

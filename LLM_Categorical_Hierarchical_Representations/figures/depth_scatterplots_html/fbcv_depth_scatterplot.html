@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-57d843e6cba057116c092beac4c17471"}, "mark": {"type": "circle", "size": 60}, "encoding": {"tooltip": [{"field": "Term", "type": "nominal"}, {"field": "Depth", "type": "quantitative"}, {"field": "Score", "type": "quantitative"}], "x": {"field": "Depth", "type": "quantitative"}, "y": {"field": "Score", "type": "quantitative"}}, "params": [{"name": "param_16", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-57d843e6cba057116c092beac4c17471": [{"Depth": 0.0, "Score": 1.4745467517173958, "Term": "role"}, {"Depth": 0.0, "Score": 4.210300170267818, "Term": "chemical_entity"}, {"Depth": 0.0, "Score": 2.5679557790056715, "Term": "subatomic_particle"}, {"Depth": 0.0, "Score": 2.566379066534259, "Term": "FlyBase_CV"}, {"Depth": 5.0, "Score": 2.505413886767327, "Term": "alkylating_agent"}, {"Depth": 1.0, "Score": 1.1579591822746056, "Term": "chemical_role"}, {"Depth": 1.0, "Score": 3.7090510401084194, "Term": "molecular_entity"}, {"Depth": 1.0, "Score": 3.1248461912274177, "Term": "atom"}, {"Depth": 1.0, "Score": 2.1581062264452426, "Term": "fundamental_particle"}, {"Depth": 1.0, "Score": 2.1581062264452426, "Term": "fermion"}, {"Depth": 1.0, "Score": 2.732880976656041, "Term": "qualifier"}, {"Depth": 1.0, "Score": 2.0803708839158497, "Term": "descriptor"}, {"Depth": 2.0, "Score": 2.982142671106476, "Term": "inorganic_molecular_entity"}, {"Depth": 2.0, "Score": 2.643379092837302, "Term": "ion"}, {"Depth": 2.0, "Score": 3.6534412783166865, "Term": "main_group_molecular_entity"}, {"Depth": 2.0, "Score": 3.816949513144783, "Term": "polyatomic_entity"}, {"Depth": 2.0, "Score": 2.0149997777204662, "Term": "metalloid_atom"}, {"Depth": 2.0, "Score": 3.063154910082216, "Term": "nonmetal_atom"}, {"Depth": 2.0, "Score": 3.0952443147212843, "Term": "main_group_element_atom"}, {"Depth": 2.0, "Score": 2.0666502454760853, "Term": "metal_atom"}, {"Depth": 2.0, "Score": 2.9246884954022607, "Term": "s-block_element_atom"}, {"Depth": 2.0, "Score": 0.7043148811830586, "Term": "publication_descriptor"}, {"Depth": 2.0, "Score": 2.314558555723587, "Term": "allele_descriptor"}, {"Depth": 3.0, "Score": 2.308334141140864, "Term": "anion"}, {"Depth": 3.0, "Score": 3.557763462032789, "Term": "s-block_molecular_entity"}, {"Depth": 3.0, "Score": 3.6731715880564617, "Term": "p-block_molecular_entity"}, {"Depth": 3.0, "Score": 3.4045229282589493, "Term": "molecule"}, {"Depth": 3.0, "Score": 2.1656037285416962, "Term": "macromolecule"}, {"Depth": 3.0, "Score": 2.4500972691027054, "Term": "polyatomic_ion"}, {"Depth": 3.0, "Score": 3.3693756149468257, "Term": "heteroatomic_molecular_entity"}, {"Depth": 3.5, "Score": 2.121904660499043, "Term": "halogen"}, {"Depth": 4.0, "Score": 2.235208386965805, "Term": "pnictogen"}, {"Depth": 4.0, "Score": 1.985032057062375, "Term": "chalcogen"}, {"Depth": 4.0, "Score": 2.7004189368965514, "Term": "carbon_group_element_atom"}, {"Depth": 4.0, "Score": 2.023488089099128, "Term": "boron_group_element_atom"}, {"Depth": 4.0, "Score": 1.602676085909325, "Term": "transposable_element_activity"}, {"Depth": 2.5, "Score": 2.3627835716825603, "Term": "chemical"}, {"Depth": 4.0, "Score": 1.960725161115077, "Term": "halogen_molecular_entity"}, {"Depth": 4.0, "Score": 3.7438153415425814, "Term": "pnictogen_molecular_entity"}, {"Depth": 4.0, "Score": 3.386154157009587, "Term": "chalcogen_molecular_entity"}, {"Depth": 4.0, "Score": 3.541376948788836, "Term": "carbon_group_molecular_entity"}, {"Depth": 4.0, "Score": 3.1727789901862704, "Term": "cyclic_compound"}, {"Depth": 4.5, "Score": 1.899614657032547, "Term": "hydrides"}, {"Depth": 5.0, "Score": 2.340764067536588, "Term": "chlorine_molecular_entity"}, {"Depth": 4.5, "Score": 1.8551531393069702, "Term": "halide"}, {"Depth": 5.0, "Score": 2.651610434958035, "Term": "phosphorus_molecular_entity"}, {"Depth": 5.0, "Score": 3.6516018515256157, "Term": "nitrogen_molecular_entity"}, {"Depth": 5.0, "Score": 3.5618180868819205, "Term": "oxygen_molecular_entity"}, {"Depth": 5.0, "Score": 2.8166791577936943, "Term": "sulfur_molecular_entity"}, {"Depth": 6.0, "Score": 3.6223567945998956, "Term": "heteroorganic_entity"}, {"Depth": 6.0, "Score": 1.9309862555319088, "Term": "aliphatic_compound"}, {"Depth": 6.0, "Score": 1.8501827593516709, "Term": "one-carbon_compound"}, {"Depth": 6.0, "Score": 3.7833314096031487, "Term": "organic_acid"}, {"Depth": 5.0, "Score": 3.4989132620369765, "Term": "organic_molecule"}, {"Depth": 5.0, "Score": 2.3264748637977584, "Term": "polycyclic_compound"}, {"Depth": 5.0, "Score": 3.366087048694563, "Term": "aromatic_compound"}, {"Depth": 5.0, "Score": 2.836625170152886, "Term": "monocyclic_compound"}, {"Depth": 5.0, "Score": 3.247508291014375, "Term": "heterocyclic_compound"}, {"Depth": 5.0, "Score": 3.657777473270462, "Term": "hydroxides"}, {"Depth": 5.0, "Score": 2.8145660497602907, "Term": "oxide"}, {"Depth": 6.0, "Score": 3.3302864418878686, "Term": "organochalcogen_compound"}, {"Depth": 5.666666666666667, "Score": 3.20459166471647, "Term": "organic_cyclic_compound"}, {"Depth": 6.0, "Score": 3.1934039917370938, "Term": "organic_oxo_compound"}, {"Depth": 9.375, "Score": 3.3863251852609464, "Term": "polar_amino_acid"}, {"Depth": 9.375, "Score": 3.5892859089956515, "Term": "alpha-amino_acid"}, {"Depth": 9.375, "Score": 3.2938332563924284, "Term": "proteinogenic_amino_acid"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

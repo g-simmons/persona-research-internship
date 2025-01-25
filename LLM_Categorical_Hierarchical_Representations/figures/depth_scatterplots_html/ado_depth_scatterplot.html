@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-052bd73fbb2b8a18927d27f5b5c75cfb"}, "mark": {"type": "circle", "size": 60}, "encoding": {"tooltip": [{"field": "Term", "type": "nominal"}, {"field": "Depth", "type": "quantitative"}, {"field": "Score", "type": "quantitative"}], "x": {"field": "Depth", "type": "quantitative"}, "y": {"field": "Score", "type": "quantitative"}}, "params": [{"name": "param_5", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-052bd73fbb2b8a18927d27f5b5c75cfb": [{"Depth": 0.0, "Score": 3.541918872713279, "Term": "entity"}, {"Depth": 1.0, "Score": 3.310383286124046, "Term": "continuant"}, {"Depth": 1.0, "Score": 1.1477762237217854, "Term": "occurrent"}, {"Depth": 2.0, "Score": 2.827621924394049, "Term": "independent_continuant"}, {"Depth": 2.0, "Score": 1.1132376401618675, "Term": "specifically_dependent_continuant"}, {"Depth": 2.0, "Score": 1.230021639295613, "Term": "generically_dependent_continuant"}, {"Depth": 4.0, "Score": 1.2297606081311314, "Term": "technique"}, {"Depth": 4.0, "Score": 0.9798001954879185, "Term": "human_study"}, {"Depth": 3.0, "Score": 2.827621924394049, "Term": "material_entity"}, {"Depth": 3.0, "Score": 1.1003325777293804, "Term": "realizable_entity"}, {"Depth": 3.0, "Score": 1.2010021130386301, "Term": "quality"}, {"Depth": 4.0, "Score": 1.1831650149047885, "Term": "Personal_Attribute"}, {"Depth": 4.0, "Score": 1.2633238261896056, "Term": "study_design"}, {"Depth": 4.0, "Score": 2.0958581709752537, "Term": "object"}, {"Depth": 4.0, "Score": 1.5721735216316384, "Term": "cellular_component"}, {"Depth": 4.0, "Score": 1.5257056264716922, "Term": "root"}, {"Depth": 4.0, "Score": 1.6330966827969255, "Term": "Biological_Model"}, {"Depth": 3.5, "Score": 1.3919598661402022, "Term": "anatomical_entity"}, {"Depth": 6.0, "Score": 1.552106797723568, "Term": "molecular_entity"}, {"Depth": 6.0, "Score": 2.34332446462025, "Term": "ion"}, {"Depth": 6.0, "Score": 1.4285477081982794, "Term": "atom"}, {"Depth": 4.5, "Score": 1.651158979812799, "Term": "Physical_anatomical_entity"}, {"Depth": 4.333333333333333, "Score": 1.3937606755714398, "Term": "material_anatomical_entity"}, {"Depth": 4.5, "Score": 1.4968750424027548, "Term": "anatomical_cluster"}, {"Depth": 7.0, "Score": 1.7184500097856192, "Term": "main_group_molecular_entity"}, {"Depth": 6.5, "Score": 2.1630268730255997, "Term": "polyatomic_entity"}, {"Depth": 7.5, "Score": 2.3579513417420936, "Term": "pnictogen_molecular_entity"}, {"Depth": 7.5, "Score": 2.1201178265462453, "Term": "chalcogen_molecular_entity"}, {"Depth": 7.5, "Score": 1.932578689191436, "Term": "carbon_group_molecular_entity"}, {"Depth": 8.5, "Score": 2.2118981271744285, "Term": "oxygen_molecular_entity"}, {"Depth": 8.5, "Score": 2.3492702616980403, "Term": "sulfur_molecular_entity"}, {"Depth": 8.5, "Score": 1.9537186410224834, "Term": "organic_molecular_entity"}, {"Depth": 9.0, "Score": 2.249422961826397, "Term": "lipid"}, {"Depth": 9.5, "Score": 1.9835808522208638, "Term": "heteroorganic_entity"}, {"Depth": 9.5, "Score": 2.08267785366873, "Term": "organochalcogen_compound"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

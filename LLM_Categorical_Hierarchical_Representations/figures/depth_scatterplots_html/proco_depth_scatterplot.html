@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-cbffa14d9bc657380bfcd144d480e019"}, "mark": {"type": "circle", "size": 60}, "encoding": {"tooltip": [{"field": "Term", "type": "nominal"}, {"field": "Depth", "type": "quantitative"}, {"field": "Score", "type": "quantitative"}], "x": {"field": "Depth", "type": "quantitative"}, "y": {"field": "Score", "type": "quantitative"}}, "params": [{"name": "param_8", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-cbffa14d9bc657380bfcd144d480e019": [{"Depth": 0.0, "Score": 3.326959978712976, "Term": "entity"}, {"Depth": 1.0, "Score": 2.926277686621609, "Term": "continuant"}, {"Depth": 1.0, "Score": 0.79710869858526, "Term": "occurrent"}, {"Depth": 2.0, "Score": 2.795443292135135, "Term": "independent_continuant"}, {"Depth": 2.0, "Score": 0.9479086921453455, "Term": "specifically_dependent_continuant"}, {"Depth": 4.0, "Score": 1.2788207520129107, "Term": "material_processing"}, {"Depth": 4.0, "Score": 1.2788207520129107, "Term": "unit_operation_in_chemical_processing"}, {"Depth": 4.0, "Score": 2.795443292135135, "Term": "chemical_entity"}, {"Depth": 5.0, "Score": 1.0380943251492112, "Term": "separation_method"}, {"Depth": 5.0, "Score": 1.0269558662132063, "Term": "extraction"}, {"Depth": 4.5, "Score": 2.4907382490454677, "Term": "molecular_entity"}, {"Depth": 5.0, "Score": 1.4141718131482421, "Term": "group"}, {"Depth": 5.0, "Score": 1.3682917798173493, "Term": "atom"}, {"Depth": 5.5, "Score": 1.875221245142295, "Term": "inorganic_molecular_entity"}, {"Depth": 5.5, "Score": 1.931938609962575, "Term": "ion"}, {"Depth": 5.5, "Score": 2.458902333194204, "Term": "main_group_molecular_entity"}, {"Depth": 5.5, "Score": 1.326781462574653, "Term": "subatomic_particle"}, {"Depth": 5.5, "Score": 1.8504173589769126, "Term": "polyatomic_entity"}, {"Depth": 6.0, "Score": 1.8122419225553625, "Term": "nonmetal_atom"}, {"Depth": 6.0, "Score": 1.525516540731963, "Term": "main_group_element_atom"}, {"Depth": 6.0, "Score": 1.8237466824882542, "Term": "s-block_element_atom"}, {"Depth": 6.5, "Score": 2.700578615235644, "Term": "s-block_molecular_entity"}, {"Depth": 6.5, "Score": 2.2548417572337316, "Term": "p-block_molecular_entity"}, {"Depth": 6.5, "Score": 1.661429641418886, "Term": "fundamental_particle"}, {"Depth": 6.5, "Score": 1.661429641418886, "Term": "fermion"}, {"Depth": 8.0, "Score": 1.6686079636074644, "Term": "chalcogen"}, {"Depth": 8.0, "Score": 1.5503339718749651, "Term": "carbon_group_element_atom"}, {"Depth": 7.5, "Score": 2.873154049314284, "Term": "pnictogen_molecular_entity"}, {"Depth": 7.5, "Score": 2.4304492399734796, "Term": "chalcogen_molecular_entity"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
