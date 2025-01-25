@@ -167,5 +167,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    print(args)
     save_row_terms(args.ontology, args.params, args.step, args.filter, args.multi)
     save_depth_scatterplot(args.ontology, args.params, args.step, args.filter, args.multi, args.score)
