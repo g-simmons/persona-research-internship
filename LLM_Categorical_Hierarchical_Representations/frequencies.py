@@ -177,7 +177,7 @@ def get_selected_frequencies(ontology_terms_path, folder_path, *args):
 
 
 if __name__ == "__main__":
-    #add_file_frequencies_to_json('wordnet.txt', '/home/logan/persona-research-internship/data/LLM_Categorical_Hierarchical_Representations/term_frequencies/ontology-terms', '/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/term_frequencies')
+    #add_file_frequencies_to_json('wordnet.txt', '/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/data/term_frequencies/ontology-terms', '/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/term_frequencies')
     
     parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument("--ontology-terms-path", default='/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/data/term_frequencies/ontology-terms',
