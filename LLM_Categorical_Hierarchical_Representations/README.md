@@ -29,7 +29,7 @@ We evaluate whether ontology scores vary with term depth
 
 To run these experiments:
 
-```
+```bash
 python obo_depth_scatterplots.py
 ```
 
