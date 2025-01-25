@@ -112,4 +112,4 @@ g.fig.text(0.5, 0.01, "Ontology Types", ha="center", fontsize=14)
 plt.tight_layout()
 
 # Save plots
-g.fig.savefig("benchmark_vs_ontology_scores.png", dpi=300, bbox_inches="tight")
+g.fig.savefig("figures/benchmark_vs_ontology_scores.png", dpi=300, bbox_inches="tight")
