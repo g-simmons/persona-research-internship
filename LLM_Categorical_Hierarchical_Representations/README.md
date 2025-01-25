@@ -1,5 +1,17 @@
 This codebase extends the work from Park, et al (2024).
 
+# Setup
+
+Install the `uv` tool.
+
+Then create a virtual environment and install the dependencies.
+
+```bash
+uv venv --python 3.12.0
+source .venv/bin/activate
+uv pip install -r requirements.txt
+```
+
 # Experiments
 
 ## Ontology Scores vs. Number of Training Steps
