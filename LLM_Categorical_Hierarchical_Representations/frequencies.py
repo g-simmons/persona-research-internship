@@ -73,10 +73,8 @@ def add_frequencies_to_json(file_name, word_list, folder_path, chunk_size=25, co
     progress_file = os.path.join(folder_path, f"progress-{file_name}.txt")
     json_file_path = os.path.join(folder_path, f"{file_name}-frequencies.json")
     all_files_progress_path = os.path.join(folder_path, "completed-frequencies.txt")
-    print(json_file_path)
-    print(progress_file)
-    print("word-list length: ")
-    print(len(word_list))
+    #print(json_file_path)
+    #print(progress_file)
 
     try: 
         if os.path.exists(json_file_path):
@@ -91,6 +89,12 @@ def add_frequencies_to_json(file_name, word_list, folder_path, chunk_size=25, co
             with open(progress_file, 'r') as f:
                 last_index = int(f.read())
             counter = last_index
+        elif len(data[file_name].keys()) != 0:
+            last_index = len(data[file_name].keys())
+            counter = last_index
+            with open(progress_file, 'w') as f:
+                f.write(str(counter))
+                f.flush()
         else:
             last_index = 0
             counter = 0
@@ -173,10 +177,12 @@ def get_selected_frequencies(ontology_terms_path, folder_path, *args):
 
 
 if __name__ == "__main__":
+    #add_file_frequencies_to_json('bcgo.txt', '/home/logan/persona-research-internship/data/term_frequencies/ontology-terms', '/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/term_frequencies')
+    
     parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument("--ontology-terms-path", default='/home/logan/persona-research-internship/data/term_frequencies/ontology-terms',
                       help="Path to ontology terms directory")
-    parser.add_argument("--folder-path", default='/home/logan/persona-research-internship/data/term_frequencies',
+    parser.add_argument("--folder-path", default='/home/logan/persona-research-internship/LLM_Categorical_Hierarchical_Representations/term_frequencies',
                       help="Path to output folder")
     parser.add_argument("files", nargs="*", help="Optional list of specific files to process")
 
