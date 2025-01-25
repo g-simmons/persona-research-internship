@@ -9,4 +9,24 @@ To run these experiments:
 
 ```bash
 python parallel_heatmaps.py
+python plot_scores_vs_training_steps_from_heatmaps.py
 ```
+
+## Ontology Scores vs. Term Depth
+We evaluate whether ontology scores vary with term depth
+
+To run these experiments:
+
+```
+python obo_depth_scatterplots.py
+```
+
+## Ontology Scores vs. Term Frequency
+
+We evaluate how ontology scores change with term frequency
+
+```bash
+python frequencies.py
+python frequency_score_scatterplots.py
+```
+
