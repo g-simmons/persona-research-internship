@@ -130,8 +130,8 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         tooltip=['Term', 'Depth', 'Score', 'Term Class']
     ).interactive()
 
-    chart.save(f"depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
-    chart.save(f"depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
+    chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
+    chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
 
 
 
