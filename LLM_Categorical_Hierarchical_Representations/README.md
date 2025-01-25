@@ -7,6 +7,6 @@ We evaluate the ontology scores vs. training steps for models from the Pythia fa
 
 To run these experiments:
 
-```
+```bash
 python parallel_heatmaps.py
 ```
