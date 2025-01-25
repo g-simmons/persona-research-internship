@@ -24,12 +24,7 @@ np.random.seed(0)
 import random
 random.seed(0)
 
-DO_IN_PARALLEL = True
-parameter_models = ["12B"]
-steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-
-
-save_wordnet_hypernym(parameter_models[0], steps[0], True)
+import argparse
 
 def save_heatmaps(parameter_model, step, multi):
     mats = get_mats(parameter_model, step, multi)
@@ -48,13 +43,36 @@ def save_linear_rep(parameter_model, step, multi):
     stuff_tens = torch.tensor(stuff)
     torch.save(stuff_tens, f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
 
-print(steps)
 
-if (DO_IN_PARALLEL):
-    for parameter_model in parameter_models: 
-        Parallel(n_jobs=10)(delayed(save_heatmaps)(parameter_model, step, True) for step in steps)
-else:
-    for parameter_model in parameter_models:
-        for step in steps:
-            save_heatmaps(parameter_model, step, True)
+if __name__ == "__main__":
+    steps = [f"step{i}" for i in range(1000, 145000, 2000)]
 
+    parser = argparse.ArgumentParser(description='Generate and save heatmaps or linear representations')
+    parser.add_argument('--parallel', action='store_true', default=True,
+                        help='Whether to run in parallel (default: True)')
+    parser.add_argument('--model', type=str, default='12B',
+                        help='Model size parameter (default: 12B)')
+    parser.add_argument('--multi', action='store_true', default=True,
+                        help='Whether to include multi-word terms (default: True)')
+    parser.add_argument('--type', type=str, choices=['heatmaps', 'linear'], default='heatmaps',
+                        help='Type of data to save (default: heatmaps)')
+    parser.add_argument('--jobs', type=int, default=10,
+                        help='Number of parallel jobs (default: 10)')
+
+    args = parser.parse_args()
+
+    save_wordnet_hypernym(args.model, steps[0], args.multi)
+    print(steps)
+    
+    if args.parallel:
+        if args.type == 'heatmaps':
+            Parallel(n_jobs=args.jobs)(delayed(save_heatmaps)(args.model, step, args.multi) for step in steps)
+        elif args.type == 'linear':
+            Parallel(n_jobs=args.jobs)(delayed(save_linear_rep)(args.model, step, args.multi) for step in steps)
+    else:
+        if args.type == 'heatmaps':
+            for step in steps:
+                save_heatmaps(args.model, step, args.multi)
+        elif args.type == 'linear':
+            for step in steps:
+                save_linear_rep(args.model, step, args.multi)
