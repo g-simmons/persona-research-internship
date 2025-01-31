@@ -1,5 +1,7 @@
 ---
-title: Figure Spec
+title: 'FigSpec: '
+name: Figure Spec
+about: 'A description of a figure, table, chart, or visualization'
 ---
 
 ## Research Question
