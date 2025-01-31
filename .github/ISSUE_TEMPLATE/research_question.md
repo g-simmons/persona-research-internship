@@ -1,5 +1,7 @@
 ---
-title: Research Question
+title: 'RQ: '
+name: 'Research Question'
+about: 'A Research Question'
 ---
 
 ## Research Question
