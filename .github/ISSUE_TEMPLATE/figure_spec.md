@@ -177,6 +177,8 @@ about: 'A description of a figure, table, chart, or visualization'
     </ul>
 </li>
 </ul>
+</details>
+
 
 
 ## Variable Types (Reference)
