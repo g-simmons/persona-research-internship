@@ -29,36 +29,49 @@ about: 'A description of a figure, table, chart, or visualization'
 - *Color: college (engineering)*
 
 ## Figure Types (Reference)
+
 <details><summary>Figure Types (Reference)</summary>
 <ul>
 <li>Bar Chart
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
     <li><input type="checkbox"> Stack: unmapped</li>
     <li><input type="checkbox"> Color: unmapped</li>
     <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Line Chart
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
-    <li><input type="checkbox"> Stack: unmapped</li>
     <li><input type="checkbox"> Color: unmapped</li>
-    <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Scatter Plot
-    Channels:
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
@@ -67,68 +80,72 @@ about: 'A description of a figure, table, chart, or visualization'
     <li><input type="checkbox"> Size: unmapped</li>
     <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Pie Chart
-    Channels:
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Angle/Area:</li>
+    <li><input type="checkbox"> Category:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
-    <li><input type="checkbox"> Stack: unmapped</li>
     <li><input type="checkbox"> Color: unmapped</li>
     <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
-    <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Histogram
-    Channels:
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
-    <li><input type="checkbox"> Stack: unmapped</li>
+    <li><input type="checkbox"> Group: unmapped</li>
     <li><input type="checkbox"> Color: unmapped</li>
-    <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Box Plot
-    Channels:
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
-    <li><input type="checkbox"> Stack: unmapped</li>
     <li><input type="checkbox"> Color: unmapped</li>
-    <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Heatmap
-    Channels:
+    Main Channels:
+    <ul>
+    <li><input type="checkbox"> Horizontal Axis:</li>
+    <li><input type="checkbox"> Vertical Axis:</li>
+    <li><input type="checkbox"> Color:</li>
+    </ul>
+
+    Optional Channels:
     <ul>
     <li><input type="checkbox"> Facet Row: unmapped</li>
     <li><input type="checkbox"> Facet Column: unmapped</li>
-    <li><input type="checkbox"> Stack: unmapped</li>
-    <li><input type="checkbox"> Color: unmapped</li>
     <li><input type="checkbox"> Size: unmapped</li>
-    <li><input type="checkbox"> Shape: unmapped</li>
     <li><input type="checkbox"> Orientation: unmapped</li>
-    <li><input type="checkbox"> Horizontal Axis:</li>
-    <li><input type="checkbox"> Vertical Axis:</li>
     </ul>
 </li>
 <li>Table
-    Channels:
+    Main Channels:
     <ul>
     <li><input type="checkbox"> Row:</li>
     <li><input type="checkbox"> Column:</li>
