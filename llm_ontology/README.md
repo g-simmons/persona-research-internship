@@ -35,7 +35,7 @@ To run these experiments:
 python obo_depth_scatterplots.py
 ```
 
-## Ontology Scores vs. Term Frequency
+## Ontology Scores vs. Pretraining Term Frequency
 
 We evaluate how ontology scores change with term frequency
 
