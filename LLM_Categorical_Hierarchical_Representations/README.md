@@ -20,7 +20,9 @@ We evaluate the ontology scores vs. training steps for models from the Pythia fa
 To run these experiments:
 
 ```bash
+# saves the unembedding matrices for ontology terms
 python parallel_heatmaps.py
+# create line plots show ontology scores vs. training steps, split by model size
 python plot_scores_vs_training_steps_from_heatmaps.py
 ```
 
