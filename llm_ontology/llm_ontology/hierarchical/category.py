@@ -15,20 +15,26 @@ np.random.seed(0)
 import logging
 logger = logging.getLogger(__name__)
 
+from pathlib import Path
+
+SCRIPT_PATH = Path(__file__).resolve()
+
+PROJECT_ROOT = SCRIPT_PATH.parent.parent.parent
+
 
 def get_categories(model_name = 'noun'):
 
     cats = {}
     if model_name == 'pythia':
-        with open('data/noun_synsets_wordnet_gemma.json', 'r') as f:
+        with open(PROJECT_ROOT / 'data/noun_synsets_wordnet_gemma.json', 'r') as f: 
             for line in f:
                 cats.update(json.loads(line))
-        G = nx.read_adjlist("data/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
+        G = nx.read_adjlist(PROJECT_ROOT / "data/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     elif model_name == 'olmo':
-        with open('data/olmo/noun_synsets_wordnet_gemma.json', 'r') as f:
+        with open(PROJECT_ROOT / 'data/olmo/noun_synsets_wordnet_gemma.json', 'r') as f:
             for line in f:
                 cats.update(json.loads(line))
-        G = nx.read_adjlist("data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
+        G = nx.read_adjlist(PROJECT_ROOT / "data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     
     # cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
     cats = {k: v for k, v in cats.items() if len(set(v)) > 50}
@@ -63,10 +69,10 @@ def get_categories_ontology(ontology_name: str, filter: int):
     """
 
     cats = {}
-    with open(f'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'r') as f:
+    with open(PROJECT_ROOT / 'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'r') as f:
         for line in f:
             cats.update(json.loads(line))
-    G = nx.read_adjlist(f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist", create_using=nx.DiGraph())
+    G = nx.read_adjlist(PROJECT_ROOT / "data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist", create_using=nx.DiGraph())
     
     cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > filter}
     # nodes = list(cats.keys())
