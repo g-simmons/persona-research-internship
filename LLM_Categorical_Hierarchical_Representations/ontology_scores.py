@@ -55,7 +55,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
             cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
         )
     elif model_name == "olmo":
-        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
+        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision=step)
 
     vocab = tokenizer.get_vocab()
     vocab_set = set(vocab.keys())
@@ -201,16 +201,28 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
             return vocab_set.intersection(add_space)
 
     ## save the data
-    with open("data/noun_synsets_wordnet_gemma.json", "w") as f:
-        for synset, lemmas in large_nouns.items():
-            gemma_words = []
-            for w in lemmas:
-                gemma_words.extend(_noun_to_gemma_vocab_elements(w))
+    if model_name == "pythia":
+        with open("data/noun_synsets_wordnet_gemma.json", "w") as f:
+            for synset, lemmas in large_nouns.items():
+                gemma_words = []
+                for w in lemmas:
+                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
 
-            gemma_words.sort()
-            f.write(json.dumps({synset: gemma_words}) + "\n")
+                gemma_words.sort()
+                f.write(json.dumps({synset: gemma_words}) + "\n")
 
-    nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
+        nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
+    elif model_name == "olmo":
+        with open("data/olmo/noun_synsets_wordnet_gemma.json", "w") as f:
+            for synset, lemmas in large_nouns.items():
+                gemma_words = []
+                for w in lemmas:
+                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
+
+                gemma_words.sort()
+                f.write(json.dumps({synset: gemma_words}) + "\n")
+
+        nx.write_adjlist(G_noun, "data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist")
 
 
 def get_mats(params: str, step: str, multi: bool, model_name: str):
@@ -233,16 +245,17 @@ def get_mats(params: str, step: str, multi: bool, model_name: str):
         )  # 'FILE_PATH' in store_matrices.py
 
     elif model_name == "olmo":
-        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
+        tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision=step)
 
-        g = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/step1000")
+        g = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/{step}")
 
     vocab_dict = tokenizer.get_vocab()
     vocab_list = [None] * (max(vocab_dict.values()) + 1)
     for word, index in vocab_dict.items():
         vocab_list[index] = word
 
-    cats, G, sorted_keys = hrc.get_categories("noun")
+
+    cats, G, sorted_keys = hrc.get_categories(model_name)
 
     # dirs = {k: hrc.estimate_cat_dir(v, g, vocab_dict) for k, v in cats.items()}
 
@@ -612,52 +625,31 @@ if __name__ == "__main__":
     # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
     # parameter_models = ["1.4B"]
 
-    # steps = steps[45:]
+    parameter_models = ["7B"]
 
-    # print(steps)
-    # print(len(steps))
+    with open("data/olmo_7B_model_names.txt", "r") as a:
+        steps = a.readlines()
 
-    # for step in steps:
-    #     print(step)
-    #     save_wordnet_hypernym(parameter_models[0], step, True)
-    #     stuff = get_linear_rep(parameter_models[0], step, True)
-    #     print(stuff)
-    #     print(len(stuff))
-    #     stuff_tens = torch.tensor(stuff)
-    #     torch.save(stuff_tens, f"/mnt/bigstorage/raymond/heatmaps/{parameter_models[0]}/{parameter_models[0]}-{step}-4.pt")
+    steps = list(map(lambda x: x[:-1], steps))
+    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
-    # save_wordnet_hypernym("7B", "step1000", False, "olmo")
-    get_mats("7B", "step1000", False, "olmo")
-    # save_wordnet_hypernym("70M", "step1000", False, "pythia")
+    print(len(steps))
 
-    # save_wordnet_hypernym(parameter_models[0], steps[1], True)
-    # stuff = get_linear_rep(parameter_models[0], steps[1], True)
-    # print(stuff)
-    # print(len(stuff))
-    # save_wordnet_hypernym(parameter_models[0], steps[1], True)
+    newsteps = []
+    for i in range(len(steps)):
+        if i % 15 == 0:
+            newsteps.append(steps[i])
 
-    # for parameter_model in parameter_models:
-    #     # os.mkdir(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}")
-    #     for step in steps:
-    #         logger.info(f"Step: {step}")
-    #         logger.info("\n\n\n")
+    print(newsteps)
+    
+    for parameter_model in parameter_models:
+        for step in newsteps:
+            save_wordnet_hypernym(params = parameter_model, step = step, multi=True, model_name="olmo")
+            mats = get_mats(params = parameter_model, step = step, multi=True, model_name="olmo")
 
-    #         save_wordnet_hypernym(parameter_model, step, True)
-    #         mats = get_mats(parameter_model, step, True)
-    #         for mat in mats:
-    #             print(mat.shape)
+            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
+            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
+            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
 
-    #         torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
-    #         torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
-    #         torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
-
-    #         # score = get_scores(parameter_model, step, False)
-    #         # with open(f"scores_{parameter_model}.txt", "a") as f:
-    #         #     f.write(f"{score[0]}, {score[1]}, {score[2]}\n")
-
-    # save_wordnet_hypernym("70M", "step11000", True)
-    # mats = get_mats("70M", "step11000", True)
-    # for mat in mats:
-    #     print(mat.shape)
-
-    # torch.save(mats[1], "test2.pt")
+    # get_mats("7B", "step1000", False, "olmo")
+    

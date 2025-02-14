@@ -16,19 +16,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_categories(noun_or_verb = 'noun'):
+def get_categories(model_name = 'noun'):
 
     cats = {}
-    if noun_or_verb == 'noun':
+    if model_name == 'pythia':
         with open('data/noun_synsets_wordnet_gemma.json', 'r') as f:
             for line in f:
                 cats.update(json.loads(line))
         G = nx.read_adjlist("data/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
-    elif noun_or_verb == 'verb':
-        with open('data/verb_synsets_wordnet_gemma.json', 'r') as f:
+    elif model_name == 'olmo':
+        with open('data/olmo/noun_synsets_wordnet_gemma.json', 'r') as f:
             for line in f:
                 cats.update(json.loads(line))
-        G = nx.read_adjlist("data/verb_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
+        G = nx.read_adjlist("data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     
     # cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
     cats = {k: v for k, v in cats.items() if len(set(v)) > 50}

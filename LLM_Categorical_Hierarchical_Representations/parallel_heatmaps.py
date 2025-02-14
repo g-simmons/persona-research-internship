@@ -27,7 +27,7 @@ random.seed(0)
 import argparse
 
 def save_heatmaps(parameter_model, step, multi):
-    mats = get_mats(parameter_model, step, multi)
+    mats = get_mats(parameter_model, step, multi, "pythia")
     for mat in mats:
         print(mat.shape)
 
@@ -46,6 +46,7 @@ def save_linear_rep(parameter_model, step, multi):
 
 if __name__ == "__main__":
     steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+    steps.reverse()
 
     parser = argparse.ArgumentParser(description='Generate and save heatmaps or linear representations')
     parser.add_argument('--parallel', action='store_true', default=True,
@@ -61,7 +62,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    save_wordnet_hypernym(args.model, steps[0], args.multi)
+    save_wordnet_hypernym(args.model, steps[0], args.multi, "pythia")
     print(steps)
     
     if args.parallel:

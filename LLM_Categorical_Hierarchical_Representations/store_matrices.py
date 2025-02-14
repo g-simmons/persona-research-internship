@@ -85,6 +85,8 @@ for i in range(len(steps)):
     if i % 15 == 0:
         newsteps.append(steps[i])
 
+newsteps = newsteps[4:]
+
 print(newsteps)
 print(len(newsteps))
 

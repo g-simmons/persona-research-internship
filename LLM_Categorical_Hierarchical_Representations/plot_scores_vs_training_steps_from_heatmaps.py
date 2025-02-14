@@ -135,10 +135,10 @@ def save_plot(score: str, output_dir: str):
 
 
 
-plot1 = save_plot("causal_sep", "model_score_plots_multi/causal_sep_scores")
-plot2 = save_plot("hierarchy", "model_score_plots_multi/hierarchy_scores")
-plot3 = save_plot("linear", "model_score_plots_multi/linear_rep_scores")
+plot1 = save_plot("causal_sep", "figures/model_score_plots_multi/causal_sep_scores")
+plot2 = save_plot("hierarchy", "figures/model_score_plots_multi/hierarchy_scores")
+plot3 = save_plot("linear", "figures/model_score_plots_multi/linear_rep_scores")
 
 combined = alt.hconcat(plot1, plot2, plot3)
-combined.save("model_score_plots_multi/combined_scores.html")
-combined.save("model_score_plots_multi/combined_scores.png")
+combined.save("figures/model_score_plots_multi/combined_scores.html")
+combined.save("figures/model_score_plots_multi/combined_scores.png")
