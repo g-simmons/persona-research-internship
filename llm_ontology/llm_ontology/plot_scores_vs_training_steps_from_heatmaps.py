@@ -92,9 +92,12 @@ def save_plot(score: str, output_dir: str):
         color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
     )
 
+    #TODO parameterize the visualization ideas
+
     # Transparent selectors across the chart. This is what tells us
     # the x-value of the cursor
     selectors = alt.Chart(df).mark_point().encode(
+        # TODO collect these args into a dict
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         opacity=alt.value(0),
     ).add_params(
@@ -123,11 +126,15 @@ def save_plot(score: str, output_dir: str):
     final_chart = alt.layer(
         line, selectors, points, rules, text
     ).properties(
+        # TODO collect these args into the same dict
         width=400,
         height=300,
         title=title
     ).interactive()
 
+    # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
+    # TODO get a filename from get_figname_from_fig_metadata
+    # TODO call savefig with the chart and filename
     final_chart.save(f'{output_dir}.png')
     final_chart.save(f'{output_dir}.html')
     

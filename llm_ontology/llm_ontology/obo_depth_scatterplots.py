@@ -25,7 +25,7 @@ import obo_ontology_heatmaps
 import altair as alt
 import pandas as pd
 
-
+from utils import savefig
 import argparse
 
 # returns the synsets that make it through the filter, in order of heatmap row
@@ -124,15 +124,23 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
 
     print(df)
 
-    chart = alt.Chart(df).mark_circle(size=60).encode(
-        x='Depth',
-        y='Score',
-        color = 'Term Class',
-        tooltip=['Term', 'Depth', 'Score', 'Term Class']
-    ).interactive()
+    vis_idea_1 = {
+        "x": "Depth",
+        "y": "Score",
+        "color": "Term Class",
+        "tooltip": ["Term", "Depth", "Score", "Term Class"]
+    }
+    # TODO define other vis ideas
+    vis_ideas = [vis_idea_1]
 
-    chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
-    chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
+    for vis_idea in vis_ideas:
+
+        chart = alt.Chart(df).mark_circle(size=60).encode(**vis_idea).interactive()
+        # TODO uniquely name the file associated with the vis idea
+        # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
+        # TODO call savefig with the chart and filename
+        chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
+        chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
 
 
 

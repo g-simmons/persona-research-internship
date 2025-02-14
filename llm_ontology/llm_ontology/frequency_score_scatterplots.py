@@ -34,6 +34,9 @@ def save_scatterplot(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: st
     plt.scatter(freqs, term_scores)
     plt.xlabel("Pretraining Term Frequency")
     plt.ylabel("Term Causal Separability Score")
+
+    # TODO get a filename from get_figname_from_fig_metadata
+    # TODO call savefig with the chart and filename
     plt.savefig("scatterplotTEST.png")
 
     plt.clf()
