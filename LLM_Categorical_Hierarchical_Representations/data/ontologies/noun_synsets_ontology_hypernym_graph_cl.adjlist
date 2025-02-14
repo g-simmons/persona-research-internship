@@ -1,5 +1,5 @@
-#./obo_depth_scatterplots.py
-# GMT Fri Dec 13 23:33:05 2024
+#./obo_ontology_heatmaps.py
+# GMT Thu Jan 23 05:30:32 2025
 # 
 anatomical_structure cell cellular_anatomical_entity anatomical_system septum surface_structure endoderm-derived_structure mesoderm-derived_structure ectoderm-derived_structure multi_cell_part_structure transparent_eye_structure anatomical_junction sac multicellular_anatomical_structure structure_with_developmental_contribution_from_neural_crest lateral_structure morphological_feature
 cell germ_line_cell epithelial_cell secretory_cell contractile_cell sensory_receptor_cell electrically_active_cell barrier_cell motile_cell eukaryotic_cell stuff_accumulating_cell defensive_cell supporting_cell hematopoietic_cell cell_in_vitro bone_cell abnormal_cell nucleate_cell neural_cell connective_tissue_cell cardiocyte precursor_cell
