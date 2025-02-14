@@ -1,5 +1,5 @@
-#./parallel_heatmaps.py
-# GMT Sat Feb  1 03:48:48 2025
+#./ontology_scores.py
+# GMT Thu Feb 13 22:23:20 2025
 # 
 entity.n.01 physical_entity.n.01 abstraction.n.06
 physical_entity.n.01 thing.n.12 object.n.01 causal_agent.n.01 matter.n.03 process.n.06
