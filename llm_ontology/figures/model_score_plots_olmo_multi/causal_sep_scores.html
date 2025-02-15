@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "layer": [{"mark": {"type": "line", "interpolate": "linear"}, "encoding": {"color": {"field": "Model Size", "sort": ["7B"], "type": "nominal"}, "x": {"field": "Step", "scale": {"nice": false}, "title": "Steps", "type": "quantitative"}, "y": {"field": "Score", "title": "causal-sep-score", "type": "quantitative"}}, "name": "view_3"}, {"mark": {"type": "point"}, "encoding": {"opacity": {"value": 0}, "x": {"field": "Step", "scale": {"nice": false}, "title": "Steps", "type": "quantitative"}}, "name": "view_1"}, {"mark": {"type": "point"}, "encoding": {"color": {"field": "Model Size", "sort": ["7B"], "type": "nominal"}, "opacity": {"condition": [{"param": "param_1", "value": 1, "empty": false}], "value": 0}, "x": {"field": "Step", "scale": {"nice": false}, "title": "Steps", "type": "quantitative"}, "y": {"field": "Score", "title": "causal-sep-score", "type": "quantitative"}}}, {"mark": {"type": "rule", "color": "gray"}, "encoding": {"x": {"field": "Step", "scale": {"nice": false}, "title": "Steps", "type": "quantitative"}}, "transform": [{"filter": {"param": "param_1", "empty": false}}]}, {"mark": {"type": "text", "align": "left", "dx": 5, "dy": -5}, "encoding": {"color": {"field": "Model Size", "sort": ["7B"], "type": "nominal"}, "text": {"condition": {"param": "param_1", "empty": false, "field": "Score", "type": "quantitative"}, "value": " "}, "x": {"field": "Step", "scale": {"nice": false}, "title": "Steps", "type": "quantitative"}, "y": {"field": "Score", "title": "causal-sep-score", "type": "quantitative"}}}], "data": {"name": "data-6a673208f4646ae39fd92b779dcf2e3f"}, "height": 300, "params": [{"name": "param_1", "select": {"type": "point", "fields": ["Step"], "nearest": true, "on": "pointerover"}, "views": ["view_1"]}, {"name": "param_2", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales", "views": ["view_3"]}], "title": "Causal Separability Scores Multi Word", "width": 400, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-6a673208f4646ae39fd92b779dcf2e3f": [{"Step": 0, "Model Size": "7B", "Score": 53.18775143369876}, {"Step": 15000, "Model Size": "7B", "Score": 77.71820763159397}, {"Step": 30000, "Model Size": "7B", "Score": 77.04524152646873}, {"Step": 45000, "Model Size": "7B", "Score": 77.28071349104272}, {"Step": 60000, "Model Size": "7B", "Score": 77.70637146616843}, {"Step": 75000, "Model Size": "7B", "Score": 78.06089254825967}, {"Step": 90000, "Model Size": "7B", "Score": 78.267476261186}, {"Step": 105000, "Model Size": "7B", "Score": 78.42721138386075}, {"Step": 120000, "Model Size": "7B", "Score": 78.51562228733239}, {"Step": 135000, "Model Size": "7B", "Score": 78.57400227800719}, {"Step": 150000, "Model Size": "7B", "Score": 78.61664610806781}, {"Step": 165000, "Model Size": "7B", "Score": 78.66453401652849}, {"Step": 180000, "Model Size": "7B", "Score": 78.66540761565922}, {"Step": 195000, "Model Size": "7B", "Score": 78.63386861370353}, {"Step": 210000, "Model Size": "7B", "Score": 78.6443082709069}, {"Step": 225000, "Model Size": "7B", "Score": 78.65965973906809}, {"Step": 240000, "Model Size": "7B", "Score": 78.65877248218564}, {"Step": 255000, "Model Size": "7B", "Score": 78.64459225063938}, {"Step": 270000, "Model Size": "7B", "Score": 78.63358887955013}, {"Step": 285000, "Model Size": "7B", "Score": 78.64747598977235}, {"Step": 300000, "Model Size": "7B", "Score": 78.65401739048148}, {"Step": 315000, "Model Size": "7B", "Score": 78.65828369895137}, {"Step": 330000, "Model Size": "7B", "Score": 78.67396707002106}, {"Step": 345000, "Model Size": "7B", "Score": 78.65961730312236}, {"Step": 360000, "Model Size": "7B", "Score": 78.6533305213635}, {"Step": 375000, "Model Size": "7B", "Score": 78.68220594972647}, {"Step": 390000, "Model Size": "7B", "Score": 78.68335020804844}, {"Step": 405000, "Model Size": "7B", "Score": 78.68567823880281}, {"Step": 420000, "Model Size": "7B", "Score": 78.6987988580928}, {"Step": 435000, "Model Size": "7B", "Score": 78.7034630337812}, {"Step": 450000, "Model Size": "7B", "Score": 78.73154602058426}, {"Step": 465000, "Model Size": "7B", "Score": 78.74501046174926}, {"Step": 480000, "Model Size": "7B", "Score": 78.76405615967997}, {"Step": 495000, "Model Size": "7B", "Score": 78.76649308230743}, {"Step": 510000, "Model Size": "7B", "Score": 78.76602960104277}, {"Step": 525000, "Model Size": "7B", "Score": 78.76258634345616}, {"Step": 540000, "Model Size": "7B", "Score": 78.76907588593411}, {"Step": 555000, "Model Size": "7B", "Score": 78.7711073747576}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>

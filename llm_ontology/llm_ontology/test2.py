@@ -244,8 +244,24 @@ def get_mat_dim(params: str, step: str, filter: int):
 #         print("ERRORADKLFFAJKL")
 
 
+# device = torch.device("cpu")
+# g1 = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/step150000-tokens664B")
+# g2 = torch.load(f"/mnt/bigstorage/raymond/pythia/12B-unembeddings/step1000").to(device)
+# g3 = torch.load(f"/mnt/bigstorage/raymond/pythia/70M-unembeddings/step1000").to(device)
+
+# print(g1.shape)
+# print(g2.shape)
+# print(g3.shape)
 
 
-hi = torch.load("mats_12B_step1000.hello")
 
-print(hi)
+with open("../data/olmo_7B_model_names.txt", "r") as a:
+    steps = a.readlines()
+
+steps = list(map(lambda x: x[:-1], steps))
+steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+
+print(len(steps))
+
+newsteps = steps[:15]
+print(newsteps)

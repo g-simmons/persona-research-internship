@@ -6,10 +6,7 @@ import torch
 import numpy as np
 
 
-# stuff
-steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-steps_nums = [i for i in range(1000, 145000, 2000)]
-parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
+
 
 # SCORES
 def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
@@ -41,7 +38,7 @@ def linear_rep_score(values: np.ndarray) -> float:
     return sum / len(values)
 
 
-def save_plot(score: str, output_dir: str):
+def save_plot(score: str, output_dir: str, model_name: str, parameter_models, steps):
 
     if score == "causal_sep":
         title = "Causal Separability Scores Multi Word"
@@ -59,10 +56,15 @@ def save_plot(score: str, output_dir: str):
         temp_scores = []
         for step in steps:
             # These heatmaps are all multi word
-            adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-1.pt")
-            cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-2.pt")
-            hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-3.pt")
-            linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{parameter_model}/{parameter_model}-{step}-4.pt")
+            if model_name == "pythia":
+                adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-1.pt")
+                cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-2.pt")
+                hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-3.pt")
+                linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-4.pt")
+            if model_name == "olmo":
+                adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
+                cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
+                hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
 
             if score == "causal_sep":
                 temp_scores.append(causal_sep_score(adj, cos))
@@ -77,7 +79,14 @@ def save_plot(score: str, output_dir: str):
     for i in range(len(steps)):
         new_scores.append([score_list[i] for score_list in scores])
 
-    df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
+    if model_name == "pythia":
+        # df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
+        steps_nums = [int(step.split("p")[1]) for step in steps]
+        df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
+
+    if model_name == "olmo":
+        steps_nums = [int(step.split('-')[0].split('p')[1]) for step in steps]
+        df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
     print(df)
     df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
     print(df)
@@ -89,7 +98,7 @@ def save_plot(score: str, output_dir: str):
     line = alt.Chart(df).mark_line(interpolate="linear").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
-        color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
+        color=alt.Color('Model Size:N', sort=parameter_models)
     )
 
     #TODO parameterize the visualization ideas
@@ -141,11 +150,41 @@ def save_plot(score: str, output_dir: str):
     return final_chart
 
 
+model_name = "olmo"
 
-plot1 = save_plot("causal_sep", "figures/model_score_plots_multi/causal_sep_scores")
-plot2 = save_plot("hierarchy", "figures/model_score_plots_multi/hierarchy_scores")
-plot3 = save_plot("linear", "figures/model_score_plots_multi/linear_rep_scores")
+if model_name == "pythia":
+    # stuff
+    steps = [f"step{i}" for i in range(1000, 145000, 2000)]
+    parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
 
-combined = alt.hconcat(plot1, plot2, plot3)
-combined.save("figures/model_score_plots_multi/combined_scores.html")
-combined.save("figures/model_score_plots_multi/combined_scores.png")
+
+    plot1 = save_plot("causal_sep", "../figures/model_score_plots_pythia_multi/causal_sep_scores", model_name, parameter_models, steps)
+    plot2 = save_plot("hierarchy", "../figures/model_score_plots_pythia_multi/hierarchy_scores", model_name, parameter_models, steps)
+    plot3 = save_plot("linear", "../figures/model_score_plots_pythia_multi/linear_rep_scores", model_name, parameter_models, steps)
+
+    combined = alt.hconcat(plot1, plot2, plot3)
+    combined.save("../figures/model_score_plots_pythia_multi/combined_scores.html")
+    combined.save("../figures/model_score_plots_pythia_multi/combined_scores.png")
+if model_name == "olmo":
+    # stuff
+    with open("../data/olmo_7B_model_names.txt", "r") as a:
+        steps = a.readlines()
+    steps = list(map(lambda x: x[:-1], steps))
+    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+    print(len(steps))
+    newsteps = []
+    for i in range(len(steps)):
+        if i % 15 == 0:
+            newsteps.append(steps[i])
+    print(newsteps)
+    parameter_models = ["7B"]
+
+
+    # saving plots
+    plot1 = save_plot("causal_sep", "../figures/model_score_plots_olmo_multi/causal_sep_scores",  model_name, parameter_models, newsteps)
+    plot2 = save_plot("hierarchy", "../figures/model_score_plots_olmo_multi/hierarchy_scores", model_name, parameter_models, newsteps)
+    # plot3 = save_plot("linear", "../figures/model_score_plots_olmo_multi/linear_rep_scores", model_name, parameter_models, newsteps)
+
+    combined = alt.hconcat(plot1, plot2)
+    combined.save("../figures/model_score_plots_olmo_multi/combined_scores.html")
+    combined.save("../figures/model_score_plots_olmo_multi/combined_scores.png")
