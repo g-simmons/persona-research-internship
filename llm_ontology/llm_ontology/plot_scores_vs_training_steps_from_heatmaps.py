@@ -85,12 +85,34 @@ def save_plot(score: str, output_dir: str):
     nearest = alt.selection_point(nearest=True, on="pointerover",
                                 fields=["Step"], empty=False)
 
+    """vis_idea_1 = {
+        "x": "Depth",
+        "y": "Score",
+        "color": "Term Class",
+        "tooltip": ["Term", "Depth", "Score", "Term Class"]
+    }
+    # TODO define other vis ideas
+    vis_ideas = [vis_idea_1]"""
+
     # The basic line
+    #chart = alt.Chart(df).mark_circle(size=60).encode(**vis_idea).interactive()
     line = alt.Chart(df).mark_line(interpolate="linear").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
         color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
     )
+
+    vis_config = {
+        'interpolate': 'linear',
+        'x': alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        'y': alt.Y('Score:Q', title=y_title),
+        'color': alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
+    }
+
+    # Then you would need to split it when using:
+    mark_props = {'interpolate': vis_config.pop('interpolate')}
+    line = alt.Chart(df).mark_line(**mark_props).encode(**vis_config)
+
 
     #TODO parameterize the visualization ideas
 
@@ -122,15 +144,16 @@ def save_plot(score: str, output_dir: str):
         nearest
     )
 
+    properties_dict = {
+        'width': 400,
+        'height': 300,
+        'title': title
+    }
+
     # Put the five layers into a chart and bind the data
     final_chart = alt.layer(
         line, selectors, points, rules, text
-    ).properties(
-        # TODO collect these args into the same dict
-        width=400,
-        height=300,
-        title=title
-    ).interactive()
+    ).properties(**properties_dict).interactive()
 
     # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
     # TODO get a filename from get_figname_from_fig_metadata
