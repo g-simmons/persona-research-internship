@@ -69,10 +69,10 @@ def get_categories_ontology(ontology_name: str, filter: int):
     """
 
     cats = {}
-    with open(PROJECT_ROOT / 'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'r') as f:
+    with open(PROJECT_ROOT / f'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'r') as f:
         for line in f:
             cats.update(json.loads(line))
-    G = nx.read_adjlist(PROJECT_ROOT / "data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist", create_using=nx.DiGraph())
+    G = nx.read_adjlist(PROJECT_ROOT / f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist", create_using=nx.DiGraph())
     
     cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > filter}
     # nodes = list(cats.keys())
