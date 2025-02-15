@@ -4,9 +4,20 @@ import altair as alt
 import pandas as pd
 import torch
 import numpy as np
+import logging
+import pathlib
 
+# Global paths
+BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
-
+# Set up logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
 
 # SCORES
 def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
@@ -57,14 +68,14 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
         for step in steps:
             # These heatmaps are all multi word
             if model_name == "pythia":
-                adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-1.pt")
-                cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-2.pt")
-                hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-3.pt")
-                linear = torch.load(f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-4.pt")
+                adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-1.pt"),weights_only=False)
+                cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-2.pt"),weights_only=False)
+                hier = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-3.pt"),weights_only=False)
+                linear = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-4.pt"),weights_only=False)
             if model_name == "olmo":
-                adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
-                cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
-                hier = torch.load(f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
+                adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt"),weights_only=False)
+                cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt"),weights_only=False)
+                hier = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt"),weights_only=False)
 
             if score == "causal_sep":
                 temp_scores.append(causal_sep_score(adj, cos))
@@ -87,9 +98,9 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     if model_name == "olmo":
         steps_nums = [int(step.split('-')[0].split('p')[1]) for step in steps]
         df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
-        print(df)
+        logger.info(df)
         df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
-        print(df)
+        logger.info(df)
 
     nearest = alt.selection_point(nearest=True, on="pointerover",
                                 fields=["Step"], empty=False)
@@ -162,40 +173,44 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
 
 
 model_name = "olmo"
+script_dir = pathlib.Path(__file__).parent
+figures_dir = script_dir.parent / "figures"
 
 if model_name == "pythia":
     # stuff
     steps = [f"step{i}" for i in range(1000, 145000, 2000)]
     parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
 
-
-    plot1 = save_plot("causal_sep", "../figures/model_score_plots_pythia_multi/causal_sep_scores", model_name, parameter_models, steps)
-    plot2 = save_plot("hierarchy", "../figures/model_score_plots_pythia_multi/hierarchy_scores", model_name, parameter_models, steps)
-    plot3 = save_plot("linear", "../figures/model_score_plots_pythia_multi/linear_rep_scores", model_name, parameter_models, steps)
+    pythia_dir = figures_dir / "model_score_plots_pythia_multi"
+    plot1 = save_plot("causal_sep", str(pythia_dir / "causal_sep_scores"), model_name, parameter_models, steps)
+    plot2 = save_plot("hierarchy", str(pythia_dir / "hierarchy_scores"), model_name, parameter_models, steps)
+    plot3 = save_plot("linear", str(pythia_dir / "linear_rep_scores"), model_name, parameter_models, steps)
 
     combined = alt.hconcat(plot1, plot2, plot3)
-    combined.save("../figures/model_score_plots_pythia_multi/combined_scores.html")
-    combined.save("../figures/model_score_plots_pythia_multi/combined_scores.png")
+    combined.save(str(pythia_dir / "combined_scores.html"))
+    combined.save(str(pythia_dir / "combined_scores.png"))
+
 if model_name == "olmo":
     # stuff
-    with open("../data/olmo_7B_model_names.txt", "r") as a:
+    data_path = script_dir.parent / "data" / "olmo_7B_model_names.txt"
+    with open(data_path, "r") as a:
         steps = a.readlines()
     steps = list(map(lambda x: x[:-1], steps))
     steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-    print(len(steps))
+    logger.info(f"Number of steps: {len(steps)}")
     newsteps = []
     for i in range(len(steps)):
         if i % 15 == 0:
             newsteps.append(steps[i])
-    print(newsteps)
+    logger.info(f"Selected steps: {newsteps}")
     parameter_models = ["7B"]
 
-
     # saving plots
-    plot1 = save_plot("causal_sep", "../figures/model_score_plots_olmo_multi/causal_sep_scores",  model_name, parameter_models, newsteps)
-    plot2 = save_plot("hierarchy", "../figures/model_score_plots_olmo_multi/hierarchy_scores", model_name, parameter_models, newsteps)
-    # plot3 = save_plot("linear", "../figures/model_score_plots_olmo_multi/linear_rep_scores", model_name, parameter_models, newsteps)
+    olmo_dir = figures_dir / "model_score_plots_olmo_multi"
+    plot1 = save_plot("causal_sep", str(olmo_dir / "causal_sep_scores"), model_name, parameter_models, newsteps)
+    plot2 = save_plot("hierarchy", str(olmo_dir / "hierarchy_scores"), model_name, parameter_models, newsteps)
+    # plot3 = save_plot("linear", str(olmo_dir / "linear_rep_scores"), model_name, parameter_models, newsteps)
 
     combined = alt.hconcat(plot1, plot2)
-    combined.save("../figures/model_score_plots_olmo_multi/combined_scores.html")
-    combined.save("../figures/model_score_plots_olmo_multi/combined_scores.png")
+    combined.save(str(olmo_dir / "combined_scores.html"))
+    combined.save(str(olmo_dir / "combined_scores.png"))
