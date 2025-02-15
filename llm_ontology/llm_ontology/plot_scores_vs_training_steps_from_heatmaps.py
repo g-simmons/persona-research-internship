@@ -104,24 +104,14 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
 
     nearest = alt.selection_point(nearest=True, on="pointerover",
                                 fields=["Step"], empty=False)
-
-    """vis_idea_1 = {
-        "x": "Depth",
-        "y": "Score",
-        "color": "Term Class",
-        "tooltip": ["Term", "Depth", "Score", "Term Class"]
+    vis_idea = {
+        "x": "Step:Q",
+        "y": "Score:Q",
+        "color": "Model Size:N",
+        "tooltip": ["Step", "Score", "Model Size"]
     }
-    # TODO define other vis ideas
-    vis_ideas = [vis_idea_1]"""
 
-    # The basic line
-    #chart = alt.Chart(df).mark_circle(size=60).encode(**vis_idea).interactive()
-    line = alt.Chart(df).mark_line(interpolate="linear").encode(
-        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
-        y=alt.Y('Score:Q', title=y_title),
-        color=alt.Color('Model Size:N', sort=parameter_models)
-    )
-
+    line = alt.Chart(df).mark_line(interpolate="linear").encode(**vis_idea).interactive()
     #TODO parameterize the visualization ideas
 
     # Transparent selectors across the chart. This is what tells us
