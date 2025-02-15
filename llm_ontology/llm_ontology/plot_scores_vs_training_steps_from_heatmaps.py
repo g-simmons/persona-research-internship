@@ -94,74 +94,81 @@ def save_plot(score: str, output_dir: str):
     # TODO define other vis ideas
     vis_ideas = [vis_idea_1]"""
 
-    # The basic line
+    """# The basic line
     #chart = alt.Chart(df).mark_circle(size=60).encode(**vis_idea).interactive()
     line = alt.Chart(df).mark_line(interpolate="linear").encode(
         x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         y=alt.Y('Score:Q', title=y_title),
         color=alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
-    )
-
+    )"""
     vis_config = {
         'interpolate': 'linear',
         'x': alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
         'y': alt.Y('Score:Q', title=y_title),
         'color': alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
     }
-
-    # Then you would need to split it when using:
-    mark_props = {'interpolate': vis_config.pop('interpolate')}
-    line = alt.Chart(df).mark_line(**mark_props).encode(**vis_config)
-
-
-    #TODO parameterize the visualization ideas
-
-    # Transparent selectors across the chart. This is what tells us
-    # the x-value of the cursor
-    selectors = alt.Chart(df).mark_point().encode(
-        # TODO collect these args into a dict
-        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
-        opacity=alt.value(0),
-    ).add_params(
-        nearest
-    )
-    when_near = alt.when(nearest)
-
-    # Draw points on the line, and highlight based on selection
-    points = line.mark_point().encode(
-        opacity=when_near.then(alt.value(1)).otherwise(alt.value(0))
-    )
-
-    # Draw text labels near the points, and highlight based on selection
-    text = line.mark_text(align="left", dx=5, dy=-5).encode(
-        text=when_near.then("Score:Q").otherwise(alt.value(" "))
-    )
-
-    # Draw a rule at the location of the selection
-    rules = alt.Chart(df).mark_rule(color="gray").encode(
-        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
-    ).transform_filter(
-        nearest
-    )
-
-    properties_dict = {
-        'width': 400,
-        'height': 300,
-        'title': title
-    }
-
-    # Put the five layers into a chart and bind the data
-    final_chart = alt.layer(
-        line, selectors, points, rules, text
-    ).properties(**properties_dict).interactive()
-
-    # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
-    # TODO get a filename from get_figname_from_fig_metadata
-    # TODO call savefig with the chart and filename
-    final_chart.save(f'{output_dir}.png')
-    final_chart.save(f'{output_dir}.html')
+    vis_ideas = [vis_config]
+    chart_ideas = []
     
-    return final_chart
+    for idea in vis_ideas:
+        # Then you would need to split it when using:
+        mark_props = {'interpolate': idea.pop('interpolate')}
+        line = alt.Chart(df).mark_line(**mark_props).encode(**idea)
+
+
+        #TODO parameterize the visualization ideas
+
+        # Transparent selectors across the chart. This is what tells us
+        # the x-value of the cursor
+        selectors = alt.Chart(df).mark_point().encode(
+            # TODO collect these args into a dict
+            x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+            opacity=alt.value(0),
+        ).add_params(
+            nearest
+        )
+        when_near = alt.when(nearest)
+
+        # Draw points on the line, and highlight based on selection
+        points = line.mark_point().encode(
+            opacity=when_near.then(alt.value(1)).otherwise(alt.value(0))
+        )
+
+        # Draw text labels near the points, and highlight based on selection
+        text = line.mark_text(align="left", dx=5, dy=-5).encode(
+            text=when_near.then("Score:Q").otherwise(alt.value(" "))
+        )
+
+        # Draw a rule at the location of the selection
+        rules = alt.Chart(df).mark_rule(color="gray").encode(
+            x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        ).transform_filter(
+            nearest
+        )
+        
+        properties_dict = {
+            'width': 400,
+            'height': 300,
+            'title': title
+        }
+
+        # Put the five layers into a chart and bind the data
+        final_chart = alt.layer(
+            line, selectors, points, rules, text
+        ).properties(**properties_dict).interactive()
+
+        # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
+        # TODO get a filename from get_figname_from_fig_metadata
+        # TODO call savefig with the chart and filename
+        
+        
+        final_chart.save(f'{output_dir}.png')
+        final_chart.save(f'{output_dir}.html')
+        #savefig(final_chart, output_dir, formats=['png', 'html'])
+
+        chart_ideas.append(final_chart)
+    
+    return chart_ideas
 
 
 
