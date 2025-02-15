@@ -7,7 +7,8 @@ import json
 import networkx as nx
 # from nltk.corpus import wordnet as wn
 from transformers import AutoTokenizer
-
+import pathlib
+import logging
 import inflect
 
 import huggingface_hub
@@ -23,9 +24,32 @@ warnings.filterwarnings('ignore')
 
 import ontology_class
 
+# Set up logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    # Create file handler
+    file_handler = logging.FileHandler('obo_ontology_heatmaps.log')
+    file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+
+    # Create stdout handler
+    stdout_handler = logging.StreamHandler()
+    stdout_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    stdout_handler.setFormatter(stdout_formatter)
+    logger.addHandler(stdout_handler)
+
+    logger.setLevel(logging.INFO)
+
+# Global paths
+BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
+SCRIPT_DIR = pathlib.Path(__file__).parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
+FIGURES_DIR = SCRIPT_DIR.parent / "figures"
+
 def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bool):
 
-    ontology_dir = f"/mnt/bigstorage/raymond/owl/{ontology_name}.owl"
+    ontology_dir = BIGSTORAGE_DIR / "raymond" / "owl" / f"{ontology_name}.owl"
     # model_name = "gemma-2b"
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     model_name = "pythia"
@@ -33,7 +57,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+        cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step,
     )
 
     vocab = tokenizer.get_vocab()
@@ -55,7 +79,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
     # all_noun_synsets = list(wn.all_synsets(pos=wn.NOUN))
     test = ontology_class.Onto(ontology_dir)
     all_noun_synsets = test.all_synsets()
-    print(len(all_noun_synsets))
+    logger.info(f"Number of noun synsets: {len(all_noun_synsets)}")
     noun_lemmas = {}
     for s in all_noun_synsets:
         lemmas = get_all_hyponym_lemmas(s)
@@ -81,14 +105,14 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
                 noun_lemmas[s.name()] = lemmas
             
             
-    # print(len(noun_lemmas))
+    # logger.info(len(noun_lemmas))
     # for k, v in noun_lemmas.items():
-    #     print(k, v)
+    #     logger.info(f"{k} {v}")
     large_nouns = {k: v for k, v in noun_lemmas.items() if len(v) > 1}
 
 
-    print(len(noun_lemmas))
-    print(len(large_nouns))
+    logger.info(f"Total noun lemmas: {len(noun_lemmas)}")
+    logger.info(f"Large nouns: {len(large_nouns)}")
 
 
     # Construct the hypernym inclusion graph among large categories
@@ -96,7 +120,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
 
     nodes = list(large_nouns.keys())
     for key in nodes:
-        # print("key:" + key)
+        # logger.info("key:" + key)
         # for path in wn.synset(key).hypernym_paths():
         for path in test.get_synset(key).hypernym_paths():
             # ancestors included in the cleaned set
@@ -105,11 +129,11 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             if len(ancestors) > 1:
                 G_noun.add_edge(ancestors[-2],key) # first entry is itself
             else:
-                print(f"no ancestors for {key}")
+                logger.info(f"no ancestors for {key}")
 
 
 
-    # print(large_nouns)
+    # logger.info(large_nouns)
 
     # if a node has only one child, and that child has only one parent, merge the two nodes
     def merge_nodes(G, lemma_dict):
@@ -127,18 +151,18 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
                     #     if len(grandchildren) > 0:
                     #         lemma_dict[node + '.other'] = parent_lemmas_not_in_child
                     #         G.add_edge(node, node + '.other')
-                    #         print("sdfgklj")
-                    #         print(node)
+                    #         logger.info("sdfgklj")
+                    #         logger.info(node)
 
                     # del synset_lemmas[child]
                     for grandchild in grandchildren:
                         G.add_edge(node, grandchild)
                     G.remove_node(child)
-                    print(f"merged {node} and {child}")
+                    logger.info(f"merged {node} and {child}")
 
-    # print(G_noun.nodes())
+    # logger.info(G_noun.nodes())
     merge_nodes(G_noun, large_nouns)
-    print("SECOND MERGE")
+    logger.info("SECOND MERGE")
     # merge_nodes(G_noun, large_nouns)
 
     large_nouns = {k: v for k, v in large_nouns.items() if k in G_noun.nodes()}
@@ -173,25 +197,27 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             return vocab_set.intersection(add_space)
 
     ## save the data
-    with open(f'data/ontologies/noun_synsets_ontology_pythia_{ontology_name}.json', 'w') as f:
+    ontology_data_path = DATA_DIR / "ontologies" / f"noun_synsets_ontology_pythia_{ontology_name}.json"
+    with open(ontology_data_path, 'w') as f:
         prev_pythia_words = []
         corr_synsets = []
         for synset, lemmas in large_nouns.items():
-            # print(G_noun.nodes())
+            # logger.info(G_noun.nodes())
             pythia_words = []
             for w in lemmas:
                 pythia_words.extend(_noun_to_gemma_vocab_elements(w))
                 if synset == "organism_substance":
-                    print(w)
+                    logger.info(w)
 
             if pythia_words in prev_pythia_words:
-                print(f"repeated: {synset}")        # for repeating synset lemmas
+                logger.info(f"repeated: {synset}")        # for repeating synset lemmas
             prev_pythia_words.append(pythia_words)
             corr_synsets.append(synset)
 
             f.write(json.dumps({synset: pythia_words}) + "\n")
             
-    nx.write_adjlist(G_noun, f"data/ontologies/noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist")
+    graph_path = DATA_DIR / "ontologies" / f"noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist"
+    nx.write_adjlist(G_noun, graph_path)
 
 def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: str) -> List[np.ndarray]:
     """
@@ -206,10 +232,10 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
+        cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g = torch.load(BIGSTORAGE_DIR / "raymond" / "pythia" / f"{params}-unembeddings" / step).to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
@@ -232,17 +258,17 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
     messed_up = {}
     dirs = {}
     for k, v in cats.items():
-        # print(k, v)
+        # logger.info(f"{k} {v}")
         total_count += 1
         try:
             dirs[k] = hrc.estimate_cat_dir(v, g, vocab_dict, multi)
         except Exception as e:
             error_count += 1
-            print(e)
+            logger.info(str(e))
             messed_up[k] = v
-    print(error_count)
-    print(total_count)
-    print(messed_up)
+    logger.info(f"Error count: {error_count}")
+    logger.info(f"Total count: {total_count}")
+    logger.info(f"Messed up: {messed_up}")
 
     tc_G = nx.algorithms.dag.transitive_closure(G)
     adj_mat = nx.adjacency_matrix(tc_G, nodelist=sorted_keys).todense()
@@ -252,42 +278,42 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
     lda_dirs = lda_dirs / lda_dirs.norm(dim = 1).unsqueeze(1)
 
     for k, v in dirs.items():
-        print(k)
+        logger.info(k)
 
 
     child_parent = {}
 
-    print(sorted_keys)
+    logger.info(f"Sorted keys: {sorted_keys}")
 
     for node in list(messed_up.keys()):
         sorted_keys.remove(node)
-        print(node)
+        logger.info(node)
 
 
     class_counter = 0
     for node in sorted_keys:
         if len(list(G.predecessors(node))) > 0:
             parent = list(G.predecessors(node))[0]         #direct parent
-            # print("node: "+ node)
-            # print("parent: "+ parent)
-            # print()
-            # print(list(G.predecessors(node)))
+            # logger.info("node: "+ node)
+            # logger.info("parent: "+ parent)
+            # logger.info()
+            # logger.info(list(G.predecessors(node)))
             if parent not in list(messed_up.keys()):
-                # print(dirs[node]['lda'])
+                # logger.info(dirs[node]['lda'])
                 if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
-                    print(f"equal: {node}, {parent}")
+                    logger.info(f"equal: {node}, {parent}")
                 child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
         else:
             class_counter += 1
-            print("reject: " + node)         #throws out 3
+            logger.info(f"reject: {node}")         #throws out 3
                     
     # lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])    #adds back 1: 100 - 3 + 1 = 98
     lda_diff = torch.stack([lda_dirs[i] for i in range(class_counter)] + [v for k, v in child_parent.items()])
 
 
-    print("norms: " + str(lda_diff.norm(dim = 1)))
+    logger.info(f"norms: {lda_diff.norm(dim = 1)}")
     for thign in lda_diff:
-        print(thign)
+        logger.info(str(thign))
     lda_diff = lda_diff / lda_diff.norm(dim = 1).unsqueeze(1)
 
 
@@ -332,6 +358,6 @@ if __name__ == "__main__":
     save_ontology_hypernym("70M", "step143000", "cl", True)
     mats = get_mats("70M", "step143000", True, 15, "cl")
 
-    print(mats[0].shape)
-    print(mats[1].shape)
-    print(mats[2].shape)
+    logger.info(f"Matrix 0 shape: {mats[0].shape}")
+    logger.info(f"Matrix 1 shape: {mats[1].shape}")
+    logger.info(f"Matrix 2 shape: {mats[2].shape}")
