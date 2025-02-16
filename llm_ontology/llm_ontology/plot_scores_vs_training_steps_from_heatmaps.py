@@ -68,18 +68,20 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     
     scores = load_scores(parameter_models, steps, model_name, score)
 
-    new_scores = []  # each element is a list of scores for a step, formatted for df.DataFrame
-    for i in range(len(steps)):
-        new_scores.append([score_list[i] for score_list in scores])
+    # Convert scores to numpy array and transpose
+    new_scores = np.array(scores).T
 
     if model_name == "pythia":
-        # df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
         steps_nums = [int(step.split("p")[1]) for step in steps]
-        df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
+        df = pd.DataFrame(new_scores, 
+                         columns=parameter_models, 
+                         index=pd.Index(steps_nums, name="Step"))
 
     if model_name == "olmo":
         steps_nums = [int(step.split('-')[0].split('p')[1]) for step in steps]
-        df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
+        df = pd.DataFrame(new_scores, 
+                         columns=parameter_models, 
+                         index=pd.Index(steps_nums, name="Step"))
         logger.info(df)
         df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
         logger.info(df)
@@ -190,7 +192,6 @@ def main():
         combined = alt.hconcat(plot1, plot2)
         combined.save(str(olmo_dir / "combined_scores.html"))
         combined.save(str(olmo_dir / "combined_scores.png"))
-
 
 if __name__ == "__main__":
     main()
