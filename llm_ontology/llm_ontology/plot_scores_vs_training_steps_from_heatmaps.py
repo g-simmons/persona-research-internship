@@ -30,7 +30,7 @@ def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
     new_mat = cos_mat - adj_mat
 
     # Frobenius norm
-    return np.linalg.norm(new_mat, ord = "fro")
+    return float(np.linalg.norm(new_mat, ord = "fro"))
 
 def hierarchy_score(cos_mat: np.ndarray) -> float:
     size = cos_mat.shape
@@ -40,7 +40,7 @@ def hierarchy_score(cos_mat: np.ndarray) -> float:
         cos_mat[i][i] = 0
 
     # Frobenius norm
-    return np.linalg.norm(cos_mat, ord = "fro")
+    return float(np.linalg.norm(cos_mat, ord = "fro"))
 
 def linear_rep_score(values: np.ndarray) -> float:
     sum = 0
