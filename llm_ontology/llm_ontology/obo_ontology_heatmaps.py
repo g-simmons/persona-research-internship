@@ -166,11 +166,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             else:
                 lemmas = vocab_set.intersection(lemmas)
                 noun_lemmas[s.name()] = lemmas
-            
-            
-            
 
-            
     large_nouns = {k: v for k, v in noun_lemmas.items() if len(v) > 1}
 
     logger.info(f"Total noun lemmas: {len(noun_lemmas)}")
