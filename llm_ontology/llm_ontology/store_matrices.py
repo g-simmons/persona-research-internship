@@ -106,12 +106,7 @@ steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
 print(len(steps))
 
-newsteps = []
-for i in range(len(steps)):
-    if i % 15 == 0:
-        newsteps.append(steps[i])
-
-newsteps = newsteps[4:]
+newsteps = steps[1:15]
 
 print(newsteps)
 print(len(newsteps))
