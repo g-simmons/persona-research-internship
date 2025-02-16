@@ -7,9 +7,26 @@ from transformers import GPTNeoXForCausalLM
 from tqdm import tqdm
 import os
 import pathlib
+import logging
 from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
   # pip install ai2-olmo
 
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Create handlers
+file_handler = logging.FileHandler('store_matrices.log')
+stdout_handler = logging.StreamHandler()
+
+# Create formatters and add it to handlers
+log_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(log_format)
+stdout_handler.setFormatter(log_format)
+
+# Add handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
 
 # ### load model ###
 # device = torch.device("cuda:0")
@@ -103,17 +120,18 @@ def main() -> None:
     steps = list(map(lambda x: x[:-1], steps))
     steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
-    print(len(steps))
+    logger.info(f"Total number of steps: {len(steps)}")
 
     newsteps = steps[1:15]
 
-    print(newsteps)
-    print(len(newsteps))
+    logger.info(f"Selected steps: {newsteps}")
+    logger.info(f"Number of selected steps: {len(newsteps)}")
 
     for parameter_model in parameter_models:
         folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
         folder.mkdir(parents=True, exist_ok=True)
         for step in newsteps:
+            logger.info(f"Processing model {parameter_model} at step {step}")
             generate_unembedding_matrix(parameter_model, step, str(folder))
 
 if __name__ == "__main__":
