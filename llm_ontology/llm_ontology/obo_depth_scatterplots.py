@@ -21,7 +21,6 @@ logger.setLevel(logging.INFO)
 import os
 import json
 import networkx as nx
-# from nltk.corpus import wordnet as wn
 from transformers import AutoTokenizer
 
 import inflect

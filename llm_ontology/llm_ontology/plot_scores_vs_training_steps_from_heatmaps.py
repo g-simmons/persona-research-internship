@@ -99,7 +99,6 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     for vis_idea in vis_ideas:
 
         line = alt.Chart(df).mark_line(interpolate="linear").encode(**vis_idea).interactive()
-        #TODO parameterize the visualization ideas
 
         # Transparent selectors across the chart. This is what tells us
         # the x-value of the cursor

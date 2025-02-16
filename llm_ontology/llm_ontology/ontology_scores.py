@@ -20,6 +20,7 @@ import networkx as nx
 import warnings
 import json
 from pathlib import Path
+from utils import read_olmo_model_names, sample_from_steps
 
 warnings.filterwarnings("ignore")
 
@@ -536,7 +537,7 @@ def linear_rep_score_with_ci(values: list) -> tuple:
     """
     return confidence_interval(values)
 
-def causal_sep_score_simple(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
+def causal_sep_score_simple(adj_mat: torch.Tensor | np.ndarray, cos_mat: torch.Tensor | np.ndarray) -> float:
     """Calculate the causal separation score using Frobenius norm.
     
     Args:
@@ -556,7 +557,7 @@ def causal_sep_score_simple(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
     new_mat = cos_mat - adj_mat
     return float(np.linalg.norm(new_mat, ord="fro"))
 
-def causal_sep_score_with_ci(adj_mat: np.ndarray, cos_mat: np.ndarray) -> tuple:
+def causal_sep_score_with_ci(adj_mat: torch.Tensor | np.ndarray, cos_mat: torch.Tensor | np.ndarray) -> tuple:
     """Calculate the causal separation score with confidence interval.
     
     Args:
@@ -571,7 +572,7 @@ def causal_sep_score_with_ci(adj_mat: np.ndarray, cos_mat: np.ndarray) -> tuple:
     samples = [score for _ in range(10)]  # Replace with actual samples if available
     return confidence_interval(samples)
 
-def hierarchy_score_simple(cos_mat: np.ndarray) -> float:
+def hierarchy_score_simple(cos_mat: torch.Tensor | np.ndarray) -> float:
     """Calculate the hierarchy score using Frobenius norm.
     
     Args:
@@ -589,7 +590,7 @@ def hierarchy_score_simple(cos_mat: np.ndarray) -> float:
 
     return float(np.linalg.norm(cos_mat, ord="fro"))
 
-def hierarchy_score_with_ci(cos_mat: np.ndarray) -> tuple:
+def hierarchy_score_with_ci(cos_mat: torch.Tensor | np.ndarray) -> tuple:
     """Calculate the hierarchy score with confidence interval.
     
     Args:
@@ -608,28 +609,6 @@ linear_rep_score = linear_rep_score_with_ci
 causal_sep_score = causal_sep_score_with_ci
 hierarchy_score = hierarchy_score_with_ci
 
-def read_olmo_model_names() -> list[str]:
-    """
-    Read the model names from the olmo_7B_model_names.txt file.
-    """
-    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
-        steps = a.readlines()
-
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-
-    return steps
-
-def sample_from_steps(steps: list[str]) -> list[str]:
-    """
-    Sample every 15th step from the list of steps.
-    """
-    newsteps = []
-    for i in range(len(steps)):
-        if i % 15 == 0:
-            newsteps.append(steps[i])
-
-    return newsteps
 
 
 if __name__ == "__main__":

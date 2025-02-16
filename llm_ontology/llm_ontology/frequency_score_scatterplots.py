@@ -5,6 +5,7 @@ import logging
 import pathlib
 import numpy as np
 import torch
+import seaborn as sns
 import matplotlib.pyplot as plt
 from utils import savefig, figname_from_fig_metadata
 from .ontology_scores import causal_sep_score_simple as causal_sep_score
@@ -21,7 +22,7 @@ if not logger.handlers:
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
-def save_scatterplot(adj: torch.Tensor, cos: torch.Tensor, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path) -> None:
+def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndarray, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path) -> None:
     """Create and save a scatterplot comparing term frequencies to causal separability scores.
     
     Args:
@@ -49,7 +50,13 @@ def save_scatterplot(adj: torch.Tensor, cos: torch.Tensor, row_terms_path: pathl
     # Create scatterplot
     freqs = list(scores.keys())
     term_scores = list(scores.values())
-    plt.scatter(freqs, term_scores)
+    
+    # Set up the plot style
+    sns.set_style("whitegrid")
+    plt.figure(figsize=(10, 6))
+    
+    # Create scatterplot with seaborn
+    sns.scatterplot(x=freqs, y=term_scores, alpha=0.6)
     plt.xlabel("Pretraining Term Frequency")
     plt.ylabel("Term Causal Separability Score")
 
