@@ -5,8 +5,26 @@ import pandas as pd
 import torch
 import numpy as np
 from pathlib import Path
+import logging
 
-def load_scores(filename: str) -> pd.DataFrame:
+# Add logger setup at the top
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Create handlers
+file_handler = logging.FileHandler('plot_scores.log')
+stdout_handler = logging.StreamHandler()
+
+# Create formatters and add it to handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+stdout_handler.setFormatter(formatter)
+
+# Add handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
+
+def load_scores(filename: str | Path) -> pd.DataFrame:
     with open(filename, "r") as f:
         scores = f.readlines()
     scores = [line.strip().split(",") for line in scores]
@@ -24,13 +42,13 @@ def save_plot(score: str, output_dir: str, dataframes: list[pd.DataFrame], param
         y_title = "linear-rep-score"
 
     newscores = []
-    for i in range(len(steps)):
+    for i in range(len(dataframes[0])):
         newscores.append([df.loc[i, score] for df in dataframes])
 
     newdf = pd.DataFrame(newscores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
-    print(newdf)
+    logger.info(f"Created DataFrame with shape {newdf.shape}")
     newdf = newdf.reset_index().melt("Step", var_name="Model Size", value_name="Score")
-    print(newdf)
+    logger.info(f"Melted DataFrame with shape {newdf.shape}")
 
     nearest = alt.selection_point(nearest=True, on="pointerover",
                                 fields=["Step"], empty=False)
