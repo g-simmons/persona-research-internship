@@ -3,14 +3,33 @@ import pandas as pd
 
 import pandas as pd
 
-from loguru import logger
-
-from typing import List, Callable, Optional
+from typing import List, Callable, Optional, Union, Literal
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure, SubFigure
-
-from pathlib import Path
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from seaborn.axisgrid import FacetGrid
+import altair as alt
+import logging
+
+# Set up logger
+logger = logging.getLogger(__name__)
+
+# Create handlers
+file_handler = logging.FileHandler('utils.log')
+stdout_handler = logging.StreamHandler()
+
+# Create formatters and add it to handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+stdout_handler.setFormatter(formatter)
+
+# Add handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
+
+# Set log level
+logger.setLevel(logging.INFO)
+
 
 def figname_from_fig_metadata(metadata: dict) -> str:
     """
@@ -27,8 +46,8 @@ def figname_from_fig_metadata(metadata: dict) -> str:
     return path + "/" + name
 
 def savefig(
-    fig: Figure or SubFigure or FacetGrid or Axes,
-    figures_dir: str or Path,
+    fig: Union[Figure, SubFigure, FacetGrid, Axes, alt.Chart],
+    figures_dir: Union[str, Path],
     figure_name: str,
     formats: list[str] = ["svg", "png"],
     dpi=600,
@@ -38,11 +57,11 @@ def savefig(
     tight_layout=True,
 ):
     """
-    This function saves a figure in specified formats.
+    This function saves a figure in specified formats. It supports both matplotlib and altair charts.
 
     Parameters:
-    fig (Figure or SubFigure or FacetGrid or Axes): The figure to be saved.
-    figures_dir (str or Path): The directory where the figure will be saved.
+    fig (Union[Figure, SubFigure, FacetGrid, Axes, alt.Chart]): The figure to be saved.
+    figures_dir (Union[str, Path]): The directory where the figure will be saved.
     figure_name (str): The name of the figure file.
     formats (list[str], optional): The formats in which the figure will be saved. Defaults to ["svg", "png"].
     dpi (int, optional): The resolution in dots per inch. Defaults to 600.
@@ -51,33 +70,50 @@ def savefig(
     data (pd.DataFrame, optional): The data to be saved along with the figure. Defaults to None.
     tight_layout (bool, optional): If True, use tight layout. Defaults to True.
     """
-    assert isinstance(fig, (Figure, SubFigure, FacetGrid, Axes))
-    while not isinstance(fig, Figure):
-        if isinstance(fig, SubFigure):
-            fig = fig.figure
-        elif isinstance(fig, FacetGrid):
-            fig = fig.figure
-        elif isinstance(fig, Axes):
-            fig = fig.get_figure()
-
-    if tight_layout:
-        fig.tight_layout()
-
     figures_dir = Path(figures_dir)
     outfolder = figures_dir / figure_name
 
-    if not outfolder.exists() or overwrite:
-        logger.info(f"Writing to {outfolder}")
-        for format in formats:
-            outpath = outfolder / f"{(figures_dir/figure_name).stem}.{format}"
+    if isinstance(fig, alt.Chart):
+        # Handle Altair charts
+        if not outfolder.exists() or overwrite:
+            logger.info(f"Writing to {outfolder}")
+            for format in formats:
+                outpath = outfolder / f"{(figures_dir/figure_name).stem}.{format}"
 
-            if not outpath.parent.exists():
-                outpath.parent.mkdir(exist_ok=True, parents=True)
+                if not outpath.parent.exists():
+                    outpath.parent.mkdir(exist_ok=True, parents=True)
 
-            logger.info(f"Saving figure {outpath}")
-            fig.savefig(str(outpath), format=format, bbox_inches=bbox_inches, dpi=dpi)
+                logger.info(f"Saving figure {outpath}")
+                # Altair only supports specific formats
+                if format in ['json', 'html', 'png', 'svg', 'pdf']:
+                    fig.save(str(outpath))
+                else:
+                    logger.warning(f"Format {format} not supported for Altair charts. Skipping.")
+    else:
+        # Handle matplotlib-based figures
+        assert isinstance(fig, (Figure, SubFigure, FacetGrid, Axes))
+        while not isinstance(fig, Figure):
+            if isinstance(fig, SubFigure):
+                fig = fig.figure
+            elif isinstance(fig, FacetGrid):
+                fig = fig.figure
+            elif isinstance(fig, Axes):
+                fig = fig.get_figure()
 
-        if data is not None:
-            logger.info(f"Saving data to {outfolder}")
+        if tight_layout:
+            fig.tight_layout()
 
-            data.to_csv(outfolder / f"{Path(figure_name).stem}.csv")
+        if not outfolder.exists() or overwrite:
+            logger.info(f"Writing to {outfolder}")
+            for format in formats:
+                outpath = outfolder / f"{(figures_dir/figure_name).stem}.{format}"
+
+                if not outpath.parent.exists():
+                    outpath.parent.mkdir(exist_ok=True, parents=True)
+
+                logger.info(f"Saving figure {outpath}")
+                fig.savefig(str(outpath), format=format, bbox_inches=bbox_inches, dpi=dpi)
+
+    if data is not None:
+        logger.info(f"Saving data to {outfolder}")
+        data.to_csv(outfolder / f"{Path(figure_name).stem}.csv")
