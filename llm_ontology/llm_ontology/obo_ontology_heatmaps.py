@@ -49,6 +49,7 @@ FIGURES_DIR = SCRIPT_DIR.parent / "figures"
 
 
 def merge_nodes(G: nx.DiGraph, lemma_dict: dict):
+    # if a node has only one child, and that child has only one parent, merge the two nodes
     topological_sorted_nodes = list(reversed(list(nx.topological_sort(G))))
 
     for node in topological_sorted_nodes:
@@ -132,10 +133,8 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
     noun_lemmas = {}
     for s in all_noun_synsets:
         lemmas = get_all_hyponym_lemmas(s)
-        # add and remove space bc of how gemma vocab works
-        if model_name == "gemma-2b":
+        if model_name == "gemma-2b": # add and remove space bc of how gemma vocab works
             lemmas = vocab_set.intersection({"▁" + l for l in lemmas})
-            # lemmas = vocab_set.intersection({l for l in lemmas})
             noun_lemmas[s.name()] = {l[1:] for l in lemmas}
         elif model_name == "pythia":
             if multi:
@@ -143,7 +142,6 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
                 lemmas_split = [set(l.split("_")) for l in lemmas]
                 lemmas_included = []
                 for i in range(len(lemmas)):
-                    # if vocab_set.intersection(lemmas_split[i]) == lemmas_split[i]:
                     if lemmas_split[i].issubset(vocab_set):
                         lemmas_included.append(lemmas[i])
                 
@@ -154,25 +152,16 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
                 noun_lemmas[s.name()] = lemmas
             
             
-    # logger.info(len(noun_lemmas))
-    # for k, v in noun_lemmas.items():
-    #     logger.info(f"{k} {v}")
     large_nouns = {k: v for k, v in noun_lemmas.items() if len(v) > 1}
-
 
     logger.info(f"Total noun lemmas: {len(noun_lemmas)}")
     logger.info(f"Large nouns: {len(large_nouns)}")
 
-
-    # Construct the hypernym inclusion graph among large categories
     G_noun = nx.DiGraph()
-
     nodes = list(large_nouns.keys())
+
     for key in nodes:
-        # logger.info("key:" + key)
-        # for path in wn.synset(key).hypernym_paths():
         for path in test.get_synset(key).hypernym_paths():
-            # ancestors included in the cleaned set
             ancestors = [s.name() for s in path if s.name() in nodes]
 
             if len(ancestors) > 1:
@@ -182,13 +171,8 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
 
 
 
-    # logger.info(large_nouns)
-
-    # if a node has only one child, and that child has only one parent, merge the two nodes
-
-    # logger.info(G_noun.nodes())
     merge_nodes(G_noun, large_nouns)
-    logger.info("SECOND MERGE")
+    # logger.info("SECOND MERGE")
     # merge_nodes(G_noun, large_nouns)
 
     large_nouns = {k: v for k, v in large_nouns.items() if k in G_noun.nodes()}
@@ -196,6 +180,62 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
 
     G_noun = nx.DiGraph(G_noun.subgraph(nodes))
 
+
+
+
+    # make a gemma specific version
+    def _noun_to_gemma_vocab_elements(word):
+        word = word.lower()
+        plural = p.plural(word)
+        if multi:
+            word_list = word.split("_")
+            plural_list = plural.split("_")
+            word_cap_list = word.capitalize().split("_")
+            plural_cap_list = plural.capitalize().split("_")
+
+            add_cap_and_plural = [word_list, plural_list, word_cap_list, plural_cap_list]
+            corr_words = [word, plural, word.capitalize(), plural.capitalize()]
+
+            included = []
+            for i in range(len(add_cap_and_plural)):
+                if set(add_cap_and_plural[i]).issubset(vocab_set):
+                    included.append(corr_words[i])
+
+            return included
+        else:
+            add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
+            # add_space = ["▁" + w for w in add_cap_and_plural]
+            add_space = [w for w in add_cap_and_plural]
+            return vocab_set.intersection(add_space)
+
+    
+
+    # make a gemma specific version
+    def _noun_to_gemma_vocab_elements(word):
+        word = word.lower()
+        plural = p.plural(word)
+        if multi:
+            word_list = word.split("_")
+            plural_list = plural.split("_")
+            word_cap_list = word.capitalize().split("_")
+            plural_cap_list = plural.capitalize().split("_")
+
+            add_cap_and_plural = [word_list, plural_list, word_cap_list, plural_cap_list]
+            corr_words = [word, plural, word.capitalize(), plural.capitalize()]
+
+            included = []
+            for i in range(len(add_cap_and_plural)):
+                if set(add_cap_and_plural[i]).issubset(vocab_set):
+                    included.append(corr_words[i])
+
+            return included
+        else:
+            add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
+            # add_space = ["▁" + w for w in add_cap_and_plural]
+            add_space = [w for w in add_cap_and_plural]
+            return vocab_set.intersection(add_space)
+
+    
 
 
     # make a gemma specific version
@@ -256,7 +296,6 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
         prev_pythia_words = []
         corr_synsets = []
         for synset, lemmas in large_nouns.items():
-            # logger.info(G_noun.nodes())
             pythia_words = []
             for w in lemmas:
                 pythia_words.extend(_noun_to_gemma_vocab_elements(w, multi, vocab_set, p))
@@ -308,7 +347,6 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
     messed_up = {}
     dirs = {}
     for k, v in cats.items():
-        # logger.info(f"{k} {v}")
         total_count += 1
         try:
             dirs[k] = hrc.estimate_cat_dir(v, g, vocab_dict, multi)
@@ -344,12 +382,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
     for node in sorted_keys:
         if len(list(G.predecessors(node))) > 0:
             parent = list(G.predecessors(node))[0]         #direct parent
-            # logger.info("node: "+ node)
-            # logger.info("parent: "+ parent)
-            # logger.info()
-            # logger.info(list(G.predecessors(node)))
             if parent not in list(messed_up.keys()):
-                # logger.info(dirs[node]['lda'])
                 if [*dirs[node]['lda']] == [*dirs[parent]['lda']]:
                     logger.info(f"equal: {node}, {parent}")
                 child_parent.update({node:  dirs[node]['lda'] - dirs[parent]['lda']})
