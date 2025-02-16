@@ -46,7 +46,7 @@ def figname_from_fig_metadata(metadata: dict) -> str:
     return path + "/" + name
 
 def savefig(
-    fig: Union[Figure, SubFigure, FacetGrid, Axes, alt.Chart],
+    fig: Union[Figure, SubFigure, FacetGrid, Axes, alt.Chart, alt.LayerChart],
     figures_dir: Union[str, Path],
     figure_name: str,
     formats: list[str] = ["svg", "png"],
@@ -73,7 +73,7 @@ def savefig(
     figures_dir = Path(figures_dir)
     outfolder = figures_dir / figure_name
 
-    if isinstance(fig, alt.Chart):
+    if isinstance(fig, alt.Chart) or isinstance(fig, alt.LayerChart):
         # Handle Altair charts
         if not outfolder.exists() or overwrite:
             logger.info(f"Writing to {outfolder}")
