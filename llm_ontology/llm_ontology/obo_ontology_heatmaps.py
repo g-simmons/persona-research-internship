@@ -6,7 +6,7 @@
 import json
 import networkx as nx
 # from nltk.corpus import wordnet as wn
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast
 import pathlib
 import logging
 import inflect
@@ -46,6 +46,55 @@ BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 SCRIPT_DIR = pathlib.Path(__file__).parent
 DATA_DIR = SCRIPT_DIR.parent / "data"
 FIGURES_DIR = SCRIPT_DIR.parent / "figures"
+
+
+def merge_nodes(G: nx.DiGraph, lemma_dict: dict):
+    topological_sorted_nodes = list(reversed(list(nx.topological_sort(G))))
+
+    for node in topological_sorted_nodes:
+        children = list(G.successors(node))
+        if len(children) == 1:
+            child = children[0]
+            parent_lemmas_not_in_child = lemma_dict[node] - lemma_dict[child]
+            if len(list(G.predecessors(child))) == 1 or len(parent_lemmas_not_in_child) < 6:
+                grandchildren = list(G.successors(child))
+                
+                # if len(parent_lemmas_not_in_child) > 1:
+                #     if len(grandchildren) > 0:
+                #         lemma_dict[node + '.other'] = parent_lemmas_not_in_child
+                #         G.add_edge(node, node + '.other')
+                #         logger.info(node)
+
+                # del synset_lemmas[child]
+                for grandchild in grandchildren:
+                    G.add_edge(node, grandchild)
+                G.remove_node(child)
+                logger.info(f"merged {node} and {child}")
+
+
+def _noun_to_gemma_vocab_elements(word, multi: bool, vocab_set: set[str], p: inflect.engine) -> list[str]:
+    word = word.lower()
+    plural = p.plural(word)
+    if multi:
+        word_list = word.split("_")
+        plural_list = plural.split("_")
+        word_cap_list = word.capitalize().split("_")
+        plural_cap_list = plural.capitalize().split("_")
+
+        add_cap_and_plural = [word_list, plural_list, word_cap_list, plural_cap_list]
+        corr_words = [word, plural, word.capitalize(), plural.capitalize()]
+
+        included = []
+        for i in range(len(add_cap_and_plural)):
+            if set(add_cap_and_plural[i]).issubset(vocab_set):
+                included.append(corr_words[i])
+
+        return included
+    else:
+        add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
+        # add_space = ["▁" + w for w in add_cap_and_plural]
+        add_space = [w for w in add_cap_and_plural]
+        return vocab_set.intersection(add_space)
 
 def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bool):
 
@@ -136,29 +185,6 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
     # logger.info(large_nouns)
 
     # if a node has only one child, and that child has only one parent, merge the two nodes
-    def merge_nodes(G, lemma_dict):
-        topological_sorted_nodes = list(reversed(list(nx.topological_sort(G))))
-
-        for node in topological_sorted_nodes:
-            children = list(G.successors(node))
-            if len(children) == 1:
-                child = children[0]
-                parent_lemmas_not_in_child = lemma_dict[node] - lemma_dict[child]
-                if len(list(G.predecessors(child))) == 1 or len(parent_lemmas_not_in_child) < 6:
-                    grandchildren = list(G.successors(child))
-                    
-                    # if len(parent_lemmas_not_in_child) > 1:
-                    #     if len(grandchildren) > 0:
-                    #         lemma_dict[node + '.other'] = parent_lemmas_not_in_child
-                    #         G.add_edge(node, node + '.other')
-                    #         logger.info("sdfgklj")
-                    #         logger.info(node)
-
-                    # del synset_lemmas[child]
-                    for grandchild in grandchildren:
-                        G.add_edge(node, grandchild)
-                    G.remove_node(child)
-                    logger.info(f"merged {node} and {child}")
 
     # logger.info(G_noun.nodes())
     merge_nodes(G_noun, large_nouns)
@@ -170,6 +196,34 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
 
     G_noun = nx.DiGraph(G_noun.subgraph(nodes))
 
+
+
+    # make a gemma specific version
+    def _noun_to_gemma_vocab_elements(word):
+        word = word.lower()
+        plural = p.plural(word)
+        if multi:
+            word_list = word.split("_")
+            plural_list = plural.split("_")
+            word_cap_list = word.capitalize().split("_")
+            plural_cap_list = plural.capitalize().split("_")
+
+            add_cap_and_plural = [word_list, plural_list, word_cap_list, plural_cap_list]
+            corr_words = [word, plural, word.capitalize(), plural.capitalize()]
+
+            included = []
+            for i in range(len(add_cap_and_plural)):
+                if set(add_cap_and_plural[i]).issubset(vocab_set):
+                    included.append(corr_words[i])
+
+            return included
+        else:
+            add_cap_and_plural = [word, word.capitalize(), plural, plural.capitalize()]
+            # add_space = ["▁" + w for w in add_cap_and_plural]
+            add_space = [w for w in add_cap_and_plural]
+            return vocab_set.intersection(add_space)
+
+    
 
     # make a gemma specific version
     def _noun_to_gemma_vocab_elements(word):
@@ -205,7 +259,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             # logger.info(G_noun.nodes())
             pythia_words = []
             for w in lemmas:
-                pythia_words.extend(_noun_to_gemma_vocab_elements(w))
+                pythia_words.extend(_noun_to_gemma_vocab_elements(w, multi, vocab_set, p))
                 if synset == "organism_substance":
                     logger.info(w)
 
@@ -218,6 +272,15 @@ def save_ontology_hypernym(params: str, step: str, ontology_name: str, multi: bo
             
     graph_path = DATA_DIR / "ontologies" / f"noun_synsets_ontology_hypernym_graph_{ontology_name}.adjlist"
     nx.write_adjlist(G_noun, graph_path)
+
+def update_vocab_dict(tokenizer: PreTrainedTokenizer | PreTrainedTokenizerFast) -> dict:
+    vocab_dict = tokenizer.get_vocab() # type: ignore
+    new_vocab_dict = {}
+    for key, value in vocab_dict.items():
+        new_key = key.replace(" ", "_")
+        new_vocab_dict[new_key] = value
+    vocab_dict = new_vocab_dict
+    return vocab_dict
 
 def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: str) -> List[np.ndarray]:
     """
@@ -237,20 +300,7 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
 
     g = torch.load(BIGSTORAGE_DIR / "raymond" / "pythia" / f"{params}-unembeddings" / step).to(device) # 'FILE_PATH' in store_matrices.py
 
-    # g = torch.load('FILE_PATH').to(device)
-
-    vocab_dict = tokenizer.get_vocab()
-    new_vocab_dict = {}
-    for key, value in vocab_dict.items():
-        new_key = key.replace(" ", "_")
-        new_vocab_dict[new_key] = value
-    vocab_dict = new_vocab_dict
-
-    vocab_list = [None] * (max(vocab_dict.values()) + 1)
-    for word, index in vocab_dict.items():
-        vocab_list[index] = word
-
-
+    vocab_dict = update_vocab_dict(tokenizer)
     cats, G, sorted_keys = hrc.get_categories_ontology(ontology_name=ontology_name, filter=filter)
 
     error_count = 0
@@ -312,8 +362,9 @@ def get_mats(params: str, step: str, multi: bool, filter: int, ontology_name: st
 
 
     logger.info(f"norms: {lda_diff.norm(dim = 1)}")
-    for thign in lda_diff:
-        logger.info(str(thign))
+    for thing in lda_diff:
+        logger.info(str(thing))
+
     lda_diff = lda_diff / lda_diff.norm(dim = 1).unsqueeze(1)
 
 
