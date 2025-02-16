@@ -4,47 +4,15 @@ import altair as alt
 import pandas as pd
 import torch
 import numpy as np
+from pathlib import Path
 
-# GENERATING NON-MULTI WORD PLOTS (old plots)
-with open("scores_70M_old.txt", "r") as f:
-    scores = f.readlines()
+def load_scores(filename: str) -> pd.DataFrame:
+    with open(filename, "r") as f:
+        scores = f.readlines()
+    scores = [line.strip().split(",") for line in scores]
+    return pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
 
-scores = [line.strip().split(",") for line in scores]
-df_70M = pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
-
-
-with open("scores_160M.txt", "r") as f:
-    scores = f.readlines()
-scores = [line.strip().split(",") for line in scores]
-df_160M = pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
-
-
-with open("scores_1.4B.txt", "r") as f:
-    scores = f.readlines()
-scores = [line.strip().split(",") for line in scores]
-df_14B = pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
-
-
-with open("scores_2.8B_old.txt", "r") as f:
-    scores = f.readlines()
-scores = [line.strip().split(",") for line in scores]
-df_28B = pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
-
-with open("scores_12B.txt", "r") as f:
-    scores = f.readlines()
-scores = [line.strip().split(",") for line in scores]
-df_12B = pd.DataFrame(scores, columns=["linear", "causal_sep", "hierarchy"])
-
-dataframes = [df_70M, df_160M, df_14B, df_28B, df_12B]
-
-
-
-steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-steps_nums = [i for i in range(1000, 145000, 2000)]
-parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
-
-
-def save_plot(score, output_dir):
+def save_plot(score: str, output_dir: str, dataframes: list[pd.DataFrame], parameter_models: list[str]) -> alt.Chart:
     if score == "causal_sep":
         title = "Causal Separability Scores Non-Multi Word"
         y_title = "causal-sep-score"
@@ -115,12 +83,30 @@ def save_plot(score, output_dir):
     
     return final_chart
 
+def main():
+    # Load all score files
+    script_dir = Path(__file__).parent
+    df_70M = load_scores(script_dir / "scores_70M_old.txt")
+    df_160M = load_scores(script_dir / "scores_160M.txt")
+    df_14B = load_scores(script_dir / "scores_1.4B.txt")
+    df_28B = load_scores(script_dir / "scores_2.8B_old.txt")
+    df_12B = load_scores(script_dir / "scores_12B.txt")
 
+    dataframes = [df_70M, df_160M, df_14B, df_28B, df_12B]
+    parameter_models = ["70M", "160M", "1.4B", "2.8B", "12B"]
+    
+    output_dir = script_dir / "model_score_plots_nonmulti"
+    output_dir.mkdir(exist_ok=True)
 
-plot1 = save_plot("causal_sep", "model_score_plots_nonmulti/causal_sep_scores")
-plot2 = save_plot("hierarchy", "model_score_plots_nonmulti/hierarchy_scores")
-plot3 = save_plot("linear", "model_score_plots_nonmulti/linear_rep_scores")
+    # Generate individual plots
+    plot1 = save_plot("causal_sep", output_dir / "causal_sep_scores", dataframes, parameter_models)
+    plot2 = save_plot("hierarchy", output_dir / "hierarchy_scores", dataframes, parameter_models)
+    plot3 = save_plot("linear", output_dir / "linear_rep_scores", dataframes, parameter_models)
 
-combined = alt.hconcat(plot1, plot2, plot3)
-combined.save("model_score_plots_nonmulti/combined_scores.html")
-combined.save("model_score_plots_nonmulti/combined_scores.png")
+    # Combine plots
+    combined = alt.hconcat(plot1, plot2, plot3)
+    combined.save(str(output_dir / "combined_scores.html"))
+    combined.save(str(output_dir / "combined_scores.png"))
+
+if __name__ == "__main__":
+    main()
