@@ -30,6 +30,12 @@ logger.addHandler(stdout_handler)
 # Set log level
 logger.setLevel(logging.INFO)
 
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
+
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
+
 
 def figname_from_fig_metadata(metadata: dict) -> str:
     """
