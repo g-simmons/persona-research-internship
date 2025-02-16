@@ -117,3 +117,26 @@ def savefig(
     if data is not None:
         logger.info(f"Saving data to {outfolder}")
         data.to_csv(outfolder / f"{Path(figure_name).stem}.csv")
+
+def read_olmo_model_names() -> list[str]:
+    """
+    Read the model names from the olmo_7B_model_names.txt file.
+    """
+    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
+        steps = a.readlines()
+
+    steps = list(map(lambda x: x[:-1], steps))
+    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+
+    return steps
+
+def sample_from_steps(steps: list[str]) -> list[str]:
+    """
+    Sample every 15th step from the list of steps.
+    """
+    newsteps = []
+    for i in range(len(steps)):
+        if i % 15 == 0:
+            newsteps.append(steps[i])
+
+    return newsteps
