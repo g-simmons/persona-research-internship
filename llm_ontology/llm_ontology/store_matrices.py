@@ -90,32 +90,34 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     ## Use this PATH to load g in the notebooks=
     torch.save(g, f"{output_dir}/{step}")
 
+def main() -> None:
+    parameter_models = ["7B"]
 
-parameter_models = ["7B"]
+    SCRIPT_DIR = pathlib.Path(__file__).parent
+    DATA_DIR = SCRIPT_DIR / "../data"
+    BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
+    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
+        steps = a.readlines()
 
-SCRIPT_DIR = pathlib.Path(__file__).parent
-DATA_DIR = SCRIPT_DIR / "../data"
-BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
+    steps = list(map(lambda x: x[:-1], steps))
+    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
-with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
-    steps = a.readlines()
+    print(len(steps))
 
-steps = list(map(lambda x: x[:-1], steps))
-steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+    newsteps = steps[1:15]
 
-print(len(steps))
+    print(newsteps)
+    print(len(newsteps))
 
-newsteps = steps[1:15]
+    for parameter_model in parameter_models:
+        folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
+        folder.mkdir(parents=True, exist_ok=True)
+        for step in newsteps:
+            generate_unembedding_matrix(parameter_model, step, str(folder))
 
-print(newsteps)
-print(len(newsteps))
-
-for parameter_model in parameter_models:
-    folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
-    folder.mkdir(parents=True, exist_ok=True)
-    for step in newsteps:
-        generate_unembedding_matrix(parameter_model, step, str(folder))
+if __name__ == "__main__":
+    main()
 
 
 
