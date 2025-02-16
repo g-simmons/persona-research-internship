@@ -72,7 +72,7 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
 parameter_models = ["7B"]
 
 
-with open("data/olmo_7B_model_names.txt", "r") as a:
+with open("../data/olmo_7B_model_names.txt", "r") as a:
     steps = a.readlines()
 
 steps = list(map(lambda x: x[:-1], steps))
@@ -80,12 +80,7 @@ steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
 print(len(steps))
 
-newsteps = []
-for i in range(len(steps)):
-    if i % 15 == 0:
-        newsteps.append(steps[i])
-
-newsteps = newsteps[4:]
+newsteps = steps[1:15]
 
 print(newsteps)
 print(len(newsteps))
