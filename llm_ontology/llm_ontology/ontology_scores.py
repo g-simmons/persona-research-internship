@@ -598,33 +598,7 @@ def hierarchy_score(cos_mat: np.ndarray) -> tuple:
     return confidence_interval(samples)
 
 
-# def get_scores(params: str, step: str, multi: bool) -> tuple:
-#     save_wordnet_hypernym(params, step, multi)
-#     mats = get_mats(params, step, multi)
-#     eval_values = get_linear_rep(params, step, multi)
-
-#     return linear_rep_score(eval_values), causal_sep_score(mats[0], mats[1]), hierarchy_score(mats[2])
-
-
-def get_scores(params: str, step: str, multi: bool) -> tuple:
-    """
-    Calculate and return the mean and 90% confidence intervals for all scores.
-    """
-    save_wordnet_hypernym(params, step, multi)
-    mats = get_mats(params, step, multi)
-    eval_values = get_linear_rep(params, step, multi)
-
-    return (
-        linear_rep_score(eval_values),
-        causal_sep_score(mats[0], mats[1]),
-        hierarchy_score(mats[2]),
-    )
-
-
 if __name__ == "__main__":
-    # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-    # parameter_models = ["1.4B"]
-
     parameter_models = ["7B"]
 
     with open("data/olmo_7B_model_names.txt", "r") as a:
