@@ -6,6 +6,11 @@ import torch
 import numpy as np
 import logging
 import pathlib
+from .ontology_scores import (
+    causal_sep_score_simple as causal_sep_score,
+    hierarchy_score_simple as hierarchy_score,
+    linear_rep_score_simple as linear_rep_score
+)
 
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
@@ -18,36 +23,6 @@ if not logger.handlers:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
-
-# SCORES
-def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
-    size = cos_mat.shape
-
-    # 0_diag Hadamard product equivalent
-    for i in range(size[0]):
-        cos_mat[i][i] = 0
-
-    new_mat = cos_mat - adj_mat
-
-    # Frobenius norm
-    return float(np.linalg.norm(new_mat, ord = "fro"))
-
-def hierarchy_score(cos_mat: np.ndarray) -> float:
-    size = cos_mat.shape
-
-    # 0_diag Hadamard product equivalent
-    for i in range(size[0]):
-        cos_mat[i][i] = 0
-
-    # Frobenius norm
-    return float(np.linalg.norm(cos_mat, ord = "fro"))
-
-def linear_rep_score(values: np.ndarray) -> float:
-    sum = 0
-    for i in range(len(values)):
-        sum += values[i].item()
-    return sum / len(values)
-
 
 def save_plot(score: str, output_dir: str, model_name: str, parameter_models, steps):
 

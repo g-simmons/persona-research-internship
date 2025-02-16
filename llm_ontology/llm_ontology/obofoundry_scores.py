@@ -10,9 +10,18 @@ import hierarchical as hrc
 from transformers import AutoTokenizer
 import inflect
 import warnings
+import pathlib
 #import huggingface_hub
 
 warnings.filterwarnings('ignore')
+
+# Global variable for BIGSTORAGE_DIR
+BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
+
+# Find FIGURES_DIR and DATA_DIR relative to the script directory
+SCRIPT_DIR = pathlib.Path(__file__).parent
+FIGURES_DIR = SCRIPT_DIR.parent / "figures"
+DATA_DIR = SCRIPT_DIR.parent / "data"
 
 # Function from get_ontology_hypernym.py
 def save_ontology_hypernym(params: str, step: str, ontology_dir: str):
@@ -21,7 +30,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_dir: str):
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+        cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step,
     )
 
     vocab = tokenizer.get_vocab()
@@ -102,7 +111,7 @@ def save_ontology_hypernym(params: str, step: str, ontology_dir: str):
         return vocab_set.intersection(add_space)
 
     ## save the data
-    with open(f'data/ontologies/noun_synsets_ontology_pythia.json', 'w') as f:
+    with open(FIGURES_DIR / 'ontologies' / 'noun_synsets_ontology_pythia.json', 'w') as f:
         prev_pythia_words = []
         corr_synsets = []
         for synset, lemmas in large_nouns.items():
@@ -118,17 +127,17 @@ def save_ontology_hypernym(params: str, step: str, ontology_dir: str):
 
             f.write(json.dumps({synset: pythia_words}) + "\n")
             
-    nx.write_adjlist(G_noun, f"data/ontologies/noun_synsets_ontology_hypernym_graph.adjlist")
+    nx.write_adjlist(G_noun, DATA_DIR / 'ontologies' / 'noun_synsets_ontology_hypernym_graph.adjlist')
 # Function from 3_Noun_Heatmap
 def generate_noun_heatmaps(params: str, step: str):
     device = torch.device("cpu")
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
+        cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/{params}-unembeddings/{step}').to(device)
+    g = torch.load(BIGSTORAGE_DIR / "raymond" / f"{params}-unembeddings" / step).to(device)
 
     vocab_dict = tokenizer.get_vocab()
     new_vocab_dict = {key.replace(" ", "_"): value for key, value in vocab_dict.items()}

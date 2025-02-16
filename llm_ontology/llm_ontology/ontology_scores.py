@@ -32,6 +32,9 @@ logging.basicConfig(filename="ontology_scores_log_test.log", level=logging.INFO)
 
 # Define constants
 BIGSTORAGE_DIR = Path("/mnt/bigstorage/")
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR / "data"
+FIGURES_DIR = SCRIPT_DIR / "figures"
 
 
 # Import custom modules
@@ -427,13 +430,13 @@ def get_linear_rep(params: str, step: str, multi: bool):
             )
         except Exception as e:
             error_count += 1
-            print(e)
+            logger.info(e)
             logger.info("ERRORR")
             logger.info(e)
-            print(node)
+            logger.info(node)
             messed_up.append(node)
 
-    print(messed_up)
+    logger.info(messed_up)
 
     logger.info("ERRORSS")
     logger.info(error_count)
@@ -469,7 +472,7 @@ def get_linear_rep(params: str, step: str, multi: bool):
     test_train_std = [test_std[i] / train_mean[i] for i in inds]
     random_train_std = [random_std[i] / train_mean[i] for i in inds]
 
-    print(test_train)
+    logger.info(test_train)
 
     fig = plt.figure(figsize=(20, 5))
     plt.plot(inds, test_train, alpha=0.7, label="test")
@@ -511,79 +514,99 @@ def confidence_interval(data: list, confidence: float = 0.90) -> tuple:
     return mean, mean - h, mean + h
 
 
-# def linear_rep_score(values: list) -> float:
-#     return sum(values) / len(values)
-
-
-def linear_rep_score(values: list) -> tuple:
+def linear_rep_score_simple(values: list) -> float:
+    """Calculate the mean of the values.
+    
+    Args:
+        values: List of values to average
+        
+    Returns:
+        float: Mean of the values
     """
-    Calculate the mean and 90% confidence interval of the values.
+    return sum(values) / len(values)
+
+def linear_rep_score_with_ci(values: list) -> tuple:
+    """Calculate the mean and 90% confidence interval of the values.
+    
+    Args:
+        values: List of values to analyze
+        
+    Returns:
+        tuple: (mean, lower_ci, upper_ci)
     """
     return confidence_interval(values)
 
-
-# def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
-#     size = cos_mat.shape
-
-#     # 0_diag Hadamard product equivalent
-#     for i in range(size[0]):
-#         cos_mat[i][i] = 0
-
-#     new_mat = cos_mat - adj_mat
-
-
-#     # Frobenius norm
-#     return np.linalg.norm(new_mat, ord = "fro")
-
-def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> tuple:
-    """
-    Calculate the Frobenius norm and its 90% confidence interval for the causal separation score.
+def causal_sep_score_simple(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
+    """Calculate the causal separation score using Frobenius norm.
+    
+    Args:
+        adj_mat: Adjacency matrix
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        float: Frobenius norm of (cos_mat - adj_mat)
     """
     size = cos_mat.shape
+    cos_mat = cos_mat.copy()  # Don't modify input
 
-    # 0_diag Hadamard product equivalent
+    # Zero diagonal
     for i in range(size[0]):
         cos_mat[i][i] = 0
 
     new_mat = cos_mat - adj_mat
+    return float(np.linalg.norm(new_mat, ord="fro"))
 
-    # Frobenius norm
-    frobenius_norm = np.linalg.norm(new_mat, ord="fro")
+def causal_sep_score_with_ci(adj_mat: np.ndarray, cos_mat: np.ndarray) -> tuple:
+    """Calculate the causal separation score with confidence interval.
+    
+    Args:
+        adj_mat: Adjacency matrix
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        tuple: (score, lower_ci, upper_ci)
+    """
+    score = causal_sep_score_simple(adj_mat, cos_mat)
     # Dummy example: Assume we have multiple samples for confidence interval calculation
-    samples = [
-        frobenius_norm for _ in range(10)
-    ]  # Replace with actual samples if available
+    samples = [score for _ in range(10)]  # Replace with actual samples if available
     return confidence_interval(samples)
 
-
-# def hierarchy_score(cos_mat: np.ndarray) -> float:
-#     size = cos_mat.shape
-
-#     # 0_diag Hadamard product equivalent
-#     for i in range(size[0]):
-#         cos_mat[i][i] = 0
-
-#     # Frobenius norm
-#     return np.linalg.norm(cos_mat, ord = "fro")
-
-
-def hierarchy_score(cos_mat: np.ndarray) -> tuple:
-    """
-    Calculate the Frobenius norm and its 90% confidence interval for the hierarchy score.
+def hierarchy_score_simple(cos_mat: np.ndarray) -> float:
+    """Calculate the hierarchy score using Frobenius norm.
+    
+    Args:
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        float: Frobenius norm of cos_mat with zeroed diagonal
     """
     size = cos_mat.shape
+    cos_mat = cos_mat.copy()  # Don't modify input
 
-    # 0_diag Hadamard product equivalent
+    # Zero diagonal
     for i in range(size[0]):
         cos_mat[i][i] = 0
 
-    # Frobenius norm
-    frobenius_norm = np.linalg.norm(cos_mat, ord="fro")
+    return float(np.linalg.norm(cos_mat, ord="fro"))
+
+def hierarchy_score_with_ci(cos_mat: np.ndarray) -> tuple:
+    """Calculate the hierarchy score with confidence interval.
+    
+    Args:
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        tuple: (score, lower_ci, upper_ci)
+    """
+    score = hierarchy_score_simple(cos_mat)
     # Dummy example: Assume we have multiple samples for confidence interval calculation
-    samples = [
-        frobenius_norm for _ in range(10)
-    ]  # Replace with actual samples if available
+    samples = [score for _ in range(10)]  # Replace with actual samples if available
     return confidence_interval(samples)
+
+# Aliases for backward compatibility
+linear_rep_score = linear_rep_score_with_ci
+causal_sep_score = causal_sep_score_with_ci
+hierarchy_score = hierarchy_score_with_ci
 
 def read_olmo_model_names() -> list[str]:
     """
