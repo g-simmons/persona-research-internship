@@ -585,28 +585,37 @@ def hierarchy_score(cos_mat: np.ndarray) -> tuple:
     ]  # Replace with actual samples if available
     return confidence_interval(samples)
 
-
-if __name__ == "__main__":
-    parameter_models = ["7B"]
-
-    script_dir = Path(__file__).parent
-    data_dir = script_dir / "data"
-    figures_dir = script_dir / "figures"
-
-    with open(data_dir / "olmo_7B_model_names.txt", "r") as a:
+def read_olmo_model_names() -> list[str]:
+    """
+    Read the model names from the olmo_7B_model_names.txt file.
+    """
+    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
         steps = a.readlines()
 
     steps = list(map(lambda x: x[:-1], steps))
     steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
-    print(len(steps))
+    return steps
 
+def sample_from_steps(steps: list[str]) -> list[str]:
+    """
+    Sample every 15th step from the list of steps.
+    """
     newsteps = []
     for i in range(len(steps)):
         if i % 15 == 0:
             newsteps.append(steps[i])
 
-    print(newsteps)
+    return newsteps
+
+
+if __name__ == "__main__":
+    parameter_models = ["7B"]
+
+    steps = read_olmo_model_names()
+    logger.info(len(steps))
+    newsteps = sample_from_steps(steps)
+    logger.info(newsteps)
     
     for parameter_model in parameter_models:
         for step in newsteps:
