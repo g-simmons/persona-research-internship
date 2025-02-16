@@ -208,28 +208,13 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
             return vocab_set.intersection(add_space)
 
     ## save the data
-    if model_name == "pythia":
-        with open("data/noun_synsets_wordnet_gemma.json", "w") as f:
-            for synset, lemmas in large_nouns.items():
-                gemma_words = []
-                for w in lemmas:
-                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
+    with open(f"data/{model_name}/noun_synsets_wordnet_gemma.json", "w") as f:
+        for synset, lemmas in large_nouns.items():
+            gemma_words = [w for w in lemmas for w in _noun_to_gemma_vocab_elements(w)]
+            gemma_words.sort()
+            f.write(json.dumps({synset: gemma_words}) + "\n")
 
-                gemma_words.sort()
-                f.write(json.dumps({synset: gemma_words}) + "\n")
-
-        nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
-    elif model_name == "olmo":
-        with open("data/olmo/noun_synsets_wordnet_gemma.json", "w") as f:
-            for synset, lemmas in large_nouns.items():
-                gemma_words = []
-                for w in lemmas:
-                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
-
-                gemma_words.sort()
-                f.write(json.dumps({synset: gemma_words}) + "\n")
-
-        nx.write_adjlist(G_noun, "data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist")
+    nx.write_adjlist(G_noun, f"data/{model_name}/noun_synsets_wordnet_hypernym_graph.adjlist")
 
 
 def get_mats(params: str, step: str, multi: bool, model_name: str):
