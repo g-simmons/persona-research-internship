@@ -6,6 +6,7 @@ import torch
 import numpy as np
 import logging
 import pathlib
+import os
 
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
@@ -49,7 +50,32 @@ def linear_rep_score(values: np.ndarray) -> float:
     return sum / len(values)
 
 
-def save_plot(score: str, output_dir: str, model_name: str, parameter_models, steps):
+def get_figname_from_fig_metadata(title, output_dir):
+    sanitized_title = title.lower().replace(' ', '_')
+    return f"{output_dir}/{sanitized_title}"
+
+
+def savefig(fig, filename, formats=None):
+    if formats is None:
+        formats = ['png', 'html']
+
+    filename = os.path.splitext(filename)[0]
+    
+    directory = os.path.dirname(filename)
+    if directory:
+        pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
+    
+    if isinstance(fig, alt.Chart):
+        for fmt in formats:
+            output_path = f"{filename}.{fmt}"
+            fig.save(output_path)
+    else:
+        for fmt in formats:
+            output_path = f"{filename}.{fmt}"
+            fig.savefig(output_path)
+    
+
+def save_plot(score: str, output_dir: str):
 
     if score == "causal_sep":
         title = "Causal Separability Scores Multi Word"
@@ -104,62 +130,71 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
 
     nearest = alt.selection_point(nearest=True, on="pointerover",
                                 fields=["Step"], empty=False)
-    vis_idea = {
-        "x": "Step:Q",
-        "y": "Score:Q",
-        "color": "Model Size:N",
-        "tooltip": ["Step", "Score", "Model Size"]
-    }
 
-    line = alt.Chart(df).mark_line(interpolate="linear").encode(**vis_idea).interactive()
-    #TODO parameterize the visualization ideas
-
-    # Transparent selectors across the chart. This is what tells us
-    # the x-value of the cursor
-    selectors = alt.Chart(df).mark_point().encode(
-        # TODO collect these args into a dict
-        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
-        opacity=alt.value(0),
-    ).add_params(
-        nearest
-    )
-    when_near = alt.when(nearest)
-
-    # Draw points on the line, and highlight based on selection
-    points = line.mark_point().encode(
-        opacity=when_near.then(alt.value(1)).otherwise(alt.value(0))
-    )
-
-    # Draw text labels near the points, and highlight based on selection
-    text = line.mark_text(align="left", dx=5, dy=-5).encode(
-        text=when_near.then("Score:Q").otherwise(alt.value(" "))
-    )
-
-    # Draw a rule at the location of the selection
-    rules = alt.Chart(df).mark_rule(color="gray").encode(
-        x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
-    ).transform_filter(
-        nearest
-    )
     
-    properties_dict = {
-        'width': 400,
-        'height': 300,
-        'title': title
+    vis_config = {
+        'interpolate': 'linear',
+        'x': alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        'y': alt.Y('Score:Q', title=y_title),
+        'color': alt.Color('Model Size:N', sort=["70M", "160M", "1.4B", "2.8B"])
     }
-
-    # Put the five layers into a chart and bind the data
-    final_chart = alt.layer(
-        line, selectors, points, rules, text
-    ).properties(**properties_dict).interactive()
-
-    # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
-    # TODO get a filename from get_figname_from_fig_metadata
-    # TODO call savefig with the chart and filename
-    final_chart.save(f'{output_dir}.png')
-    final_chart.save(f'{output_dir}.html')
+    vis_ideas = [vis_config]
+    # chart_ideas = [] #this can be used if we want to record multiple char ideas
     
-    return final_chart
+    for idea in vis_ideas:
+        # Then you would need to split it when using:
+        mark_props = {'interpolate': idea.pop('interpolate')}
+        line = alt.Chart(df).mark_line(**mark_props).encode(**idea)
+
+
+        #TODO parameterize the visualization ideas
+
+        # Transparent selectors across the chart. This is what tells us
+        # the x-value of the cursor
+        selectors = alt.Chart(df).mark_point().encode(
+            # TODO collect these args into a dict
+            x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+            opacity=alt.value(0),
+        ).add_params(
+            nearest
+        )
+        when_near = alt.when(nearest)
+
+        # Draw points on the line, and highlight based on selection
+        points = line.mark_point().encode(
+            opacity=when_near.then(alt.value(1)).otherwise(alt.value(0))
+        )
+
+        # Draw text labels near the points, and highlight based on selection
+        text = line.mark_text(align="left", dx=5, dy=-5).encode(
+            text=when_near.then("Score:Q").otherwise(alt.value(" "))
+        )
+
+        # Draw a rule at the location of the selection
+        rules = alt.Chart(df).mark_rule(color="gray").encode(
+            x=alt.X('Step:Q', title='Steps', scale=alt.Scale(nice=False)),
+        ).transform_filter(
+            nearest
+        )
+        
+        properties_dict = {
+            'width': 400,
+            'height': 300,
+            'title': title
+        }
+
+        # Put the five layers into a chart and bind the data
+        final_chart = alt.layer(
+            line, selectors, points, rules, text
+        ).properties(**properties_dict).interactive()
+
+        # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
+        # TODO get a filename from get_figname_from_fig_metadata
+        # TODO call savefig with the chart and filename
+        final_chart.save(f'{output_dir}.png')
+        final_chart.save(f'{output_dir}.html')
+        
+    return final_chart #change later to return array of charts
 
 
 model_name = "olmo"
@@ -199,7 +234,7 @@ if model_name == "olmo":
     olmo_dir = figures_dir / "model_score_plots_olmo_multi"
     plot1 = save_plot("causal_sep", str(olmo_dir / "causal_sep_scores"), model_name, parameter_models, newsteps)
     plot2 = save_plot("hierarchy", str(olmo_dir / "hierarchy_scores"), model_name, parameter_models, newsteps)
-    # plot3 = save_plot("linear", str(olmo_dir / "linear_rep_scores"), model_name, parameter_models, newsteps)
+    #plot3 = save_plot("linear", str(olmo_dir / "linear_rep_scores"), model_name, parameter_models, newsteps)
 
     combined = alt.hconcat(plot1, plot2)
     combined.save(str(olmo_dir / "combined_scores.html"))
