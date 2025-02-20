@@ -1,10 +1,26 @@
 #!/usr/bin/env python3
 
+import logging
+logger = logging.getLogger(__name__)
+
+# Set up file handler
+file_handler = logging.FileHandler('obo_depth_scatterplots.log')
+file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
+
+# Set up stdout handler 
+stdout_handler = logging.StreamHandler()
+stdout_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+stdout_handler.setFormatter(stdout_formatter)
+logger.addHandler(stdout_handler)
+
+# Set log level
+logger.setLevel(logging.INFO)
 
 import os
 import json
 import networkx as nx
-# from nltk.corpus import wordnet as wn
 from transformers import AutoTokenizer
 
 import inflect
@@ -27,6 +43,9 @@ import pandas as pd
 
 from utils import savefig
 import argparse
+from pathlib import Path
+
+BIGSTORAGE_DIR = Path("/mnt/bigstorage")
 
 # returns the synsets that make it through the filter, in order of heatmap row
 def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
@@ -35,10 +54,10 @@ def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
+        cache_dir=BIGSTORAGE_DIR / f"raymond/huggingface_cache/pythia-{params}-deduped/{step}"
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g = torch.load(BIGSTORAGE_DIR / f'raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
@@ -109,7 +128,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
 
 # saves a depth scatterplot, you need to have already saved the row terms
 def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: int, multi: bool, score: str):
-    ontology_dir = f"/mnt/bigstorage/raymond/owl/{ontology_name}.owl"
+    ontology_dir = BIGSTORAGE_DIR / f"raymond/owl/{ontology_name}.owl"
 
     term_txt_dir = "owl_row_terms/" + ontology_name + "_row_terms.txt"
 
@@ -122,7 +141,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
     depth, scores, terms, term_classes = get_data(adj, cos, hier, term_txt_dir, ontology_class.Onto(ontology_dir), score)
     df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
 
-    print(df)
+    logger.info(df)
 
     vis_idea_1 = {
         "x": "Depth",
@@ -175,6 +194,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print(args)
+    logger.info(args)
     save_row_terms(args.ontology, args.params, args.step, args.filter, args.multi)
     save_depth_scatterplot(args.ontology, args.params, args.step, args.filter, args.multi, args.score)

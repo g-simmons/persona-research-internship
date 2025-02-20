@@ -1,42 +1,49 @@
 #!/usr/bin/env python3
 
-import nltk
-
-nltk.download("wordnet")
-
-import json
-import networkx as nx
-from nltk.corpus import wordnet as wn
-from transformers import AutoTokenizer
-from joblib import Parallel, delayed
-
-import inflect
-
-import huggingface_hub
-
+import logging
+import os
+import random
 import torch
 import numpy as np
-import os
-import networkx as nx
+from pathlib import Path
+from scipy.stats import sem, t
+from transformers import AutoTokenizer
+from nltk.corpus import wordnet as wn
+from nltk import download
+from joblib import Parallel, delayed
+from inflect import engine
+from huggingface_hub import HfApi
+from hierarchical import hrc
+import seaborn as sns
 import matplotlib.pyplot as plt
-import hierarchical as hrc
+import networkx as nx
 import warnings
+import json
+from pathlib import Path
+from utils import read_olmo_model_names, sample_from_steps
 
 warnings.filterwarnings("ignore")
 
-import seaborn as sns
-import random
+# Download required NLTK data
+download("wordnet")
 
-import logging
+# Set up logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="ontology_scores_log_test.log", level=logging.INFO)
+
+# Define constants
+BIGSTORAGE_DIR = Path("/mnt/bigstorage/")
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR / "data"
+FIGURES_DIR = SCRIPT_DIR / "figures"
 
 
-# reproducability
+# Import custom modules
+from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
+
 torch.manual_seed(0)
 np.random.seed(0)
-import random
 random.seed(0)
-
-from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
 
 
 logger = logging.getLogger(__name__)
@@ -52,7 +59,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
         tokenizer = AutoTokenizer.from_pretrained(
             f"EleutherAI/pythia-{params}-deduped",
             revision=f"{step}",
-            cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+            cache_dir=BIGSTORAGE_DIR / f"raymond/huggingface_cache/pythia-{params}-deduped/{step}",
         )
     elif model_name == "olmo":
         tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision=step)
@@ -60,7 +67,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
     vocab = tokenizer.get_vocab()
     vocab_set = set(vocab.keys())
 
-    p = inflect.engine()
+    p = engine()
 
     def get_all_hyponym_lemmas(synset):
         hyponyms = synset.hyponyms()
@@ -129,14 +136,18 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
 
     nodes = list(large_nouns.keys())
     for key in nodes:
-        for path in wn.synset(key).hypernym_paths():
-            # ancestors included in the cleaned set
-            ancestors = [s.name() for s in path if s.name() in nodes]
-            if len(ancestors) > 1:
-                G_noun.add_edge(ancestors[-2], key)  # first entry is itself
-            else:
-                logger.info(f"no ancestors for {key}")
-                print(f"no ancestors for {key}")
+        synset = wn.synset(key)
+        if synset is not None:
+            hpaths = synset.hypernym_paths()
+            if hpaths:
+                for path in hpaths:
+                    # ancestors included in the cleaned set
+                    ancestors = [s.name() for s in path if s.name() in nodes]
+                    if len(ancestors) > 1:
+                        G_noun.add_edge(ancestors[-2], key)  # first entry is itself
+                    else:
+                        logger.info(f"no ancestors for {key}")
+                        print(f"no ancestors for {key}")
 
     G_noun = nx.DiGraph(G_noun.subgraph(nodes))
 
@@ -201,28 +212,13 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
             return vocab_set.intersection(add_space)
 
     ## save the data
-    if model_name == "pythia":
-        with open("data/noun_synsets_wordnet_gemma.json", "w") as f:
-            for synset, lemmas in large_nouns.items():
-                gemma_words = []
-                for w in lemmas:
-                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
+    with open(f"data/{model_name}/noun_synsets_wordnet_gemma.json", "w") as f:
+        for synset, lemmas in large_nouns.items():
+            gemma_words = [w for w in lemmas for w in _noun_to_gemma_vocab_elements(w)]
+            gemma_words.sort()
+            f.write(json.dumps({synset: gemma_words}) + "\n")
 
-                gemma_words.sort()
-                f.write(json.dumps({synset: gemma_words}) + "\n")
-
-        nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
-    elif model_name == "olmo":
-        with open("data/olmo/noun_synsets_wordnet_gemma.json", "w") as f:
-            for synset, lemmas in large_nouns.items():
-                gemma_words = []
-                for w in lemmas:
-                    gemma_words.extend(_noun_to_gemma_vocab_elements(w))
-
-                gemma_words.sort()
-                f.write(json.dumps({synset: gemma_words}) + "\n")
-
-        nx.write_adjlist(G_noun, "data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist")
+    nx.write_adjlist(G_noun, f"data/{model_name}/noun_synsets_wordnet_hypernym_graph.adjlist")
 
 
 def get_mats(params: str, step: str, multi: bool, model_name: str):
@@ -237,22 +233,22 @@ def get_mats(params: str, step: str, multi: bool, model_name: str):
         tokenizer = AutoTokenizer.from_pretrained(
             f"EleutherAI/pythia-{params}-deduped",
             revision=f"{step}",
-            cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+            cache_dir=BIGSTORAGE_DIR / f"raymond/huggingface_cache/pythia-{params}-deduped/{step}",
         )
 
-        g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
+        g = torch.load(BIGSTORAGE_DIR / f"raymond/pythia/{params}-unembeddings/{step}").to(
             device
         )  # 'FILE_PATH' in store_matrices.py
 
     elif model_name == "olmo":
         tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision=step)
 
-        g = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/{step}")
+        g = torch.load(BIGSTORAGE_DIR / f"raymond/olmo/7B-unembeddings/{step}")
 
     vocab_dict = tokenizer.get_vocab()
     vocab_list = [None] * (max(vocab_dict.values()) + 1)
     for word, index in vocab_dict.items():
-        vocab_list[index] = word
+        vocab_list[index] = word # type: ignore
 
 
     cats, G, sorted_keys = hrc.get_categories(model_name)
@@ -367,17 +363,17 @@ def get_linear_rep(params: str, step: str, multi: bool):
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
+        cache_dir=BIGSTORAGE_DIR / f"raymond/huggingface_cache/pythia-{params}-deduped/{step}",
     )
 
-    g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
+    g = torch.load(BIGSTORAGE_DIR / f"raymond/pythia/{params}-unembeddings/{step}").to(
         device
     )  # 'FILE_PATH' in store_matrices.py
 
     vocab_dict = tokenizer.get_vocab()
     vocab_list = [None] * (max(vocab_dict.values()) + 1)
     for word, index in vocab_dict.items():
-        vocab_list[index] = word
+        vocab_list[index] = word # type: ignore
 
     cats, G, sorted_keys = hrc.get_categories("noun")
 
@@ -435,13 +431,13 @@ def get_linear_rep(params: str, step: str, multi: bool):
             )
         except Exception as e:
             error_count += 1
-            print(e)
+            logger.info(e)
             logger.info("ERRORR")
             logger.info(e)
-            print(node)
+            logger.info(node)
             messed_up.append(node)
 
-    print(messed_up)
+    logger.info(messed_up)
 
     logger.info("ERRORSS")
     logger.info(error_count)
@@ -477,7 +473,7 @@ def get_linear_rep(params: str, step: str, multi: bool):
     test_train_std = [test_std[i] / train_mean[i] for i in inds]
     random_train_std = [random_std[i] / train_mean[i] for i in inds]
 
-    print(test_train)
+    logger.info(test_train)
 
     fig = plt.figure(figsize=(20, 5))
     plt.plot(inds, test_train, alpha=0.7, label="test")
@@ -508,11 +504,6 @@ def get_linear_rep(params: str, step: str, multi: bool):
     return test_train
 
 
-# USE
-import numpy as np
-from scipy.stats import sem, t
-
-
 def confidence_interval(data: list, confidence: float = 0.90) -> tuple:
     """
     Calculate the mean and the confidence interval of the data.
@@ -524,132 +515,117 @@ def confidence_interval(data: list, confidence: float = 0.90) -> tuple:
     return mean, mean - h, mean + h
 
 
-# def linear_rep_score(values: list) -> float:
-#     return sum(values) / len(values)
-
-
-def linear_rep_score(values: list) -> tuple:
+def linear_rep_score_simple(values: list) -> float:
+    """Calculate the mean of the values.
+    
+    Args:
+        values: List of values to average
+        
+    Returns:
+        float: Mean of the values
     """
-    Calculate the mean and 90% confidence interval of the values.
+    return sum(values) / len(values)
+
+def linear_rep_score_with_ci(values: list) -> tuple:
+    """Calculate the mean and 90% confidence interval of the values.
+    
+    Args:
+        values: List of values to analyze
+        
+    Returns:
+        tuple: (mean, lower_ci, upper_ci)
     """
     return confidence_interval(values)
 
-
-# def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> float:
-#     size = cos_mat.shape
-
-#     # 0_diag Hadamard product equivalent
-#     for i in range(size[0]):
-#         cos_mat[i][i] = 0
-
-#     new_mat = cos_mat - adj_mat
-
-
-#     # Frobenius norm
-#     return np.linalg.norm(new_mat, ord = "fro")
-def causal_sep_score(adj_mat: np.ndarray, cos_mat: np.ndarray) -> tuple:
-    """
-    Calculate the Frobenius norm and its 90% confidence interval for the causal separation score.
+def causal_sep_score_simple(adj_mat: torch.Tensor | np.ndarray, cos_mat: torch.Tensor | np.ndarray) -> float:
+    """Calculate the causal separation score using Frobenius norm.
+    
+    Args:
+        adj_mat: Adjacency matrix
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        float: Frobenius norm of (cos_mat - adj_mat)
     """
     size = cos_mat.shape
+    cos_mat = cos_mat.copy()  # Don't modify input
 
-    # 0_diag Hadamard product equivalent
+    # Zero diagonal
     for i in range(size[0]):
         cos_mat[i][i] = 0
 
     new_mat = cos_mat - adj_mat
+    return float(np.linalg.norm(new_mat, ord="fro"))
 
-    # Frobenius norm
-    frobenius_norm = np.linalg.norm(new_mat, ord="fro")
+def causal_sep_score_with_ci(adj_mat: torch.Tensor | np.ndarray, cos_mat: torch.Tensor | np.ndarray) -> tuple:
+    """Calculate the causal separation score with confidence interval.
+    
+    Args:
+        adj_mat: Adjacency matrix
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        tuple: (score, lower_ci, upper_ci)
+    """
+    score = causal_sep_score_simple(adj_mat, cos_mat)
     # Dummy example: Assume we have multiple samples for confidence interval calculation
-    samples = [
-        frobenius_norm for _ in range(10)
-    ]  # Replace with actual samples if available
+    samples = [score for _ in range(10)]  # Replace with actual samples if available
     return confidence_interval(samples)
 
-
-# def hierarchy_score(cos_mat: np.ndarray) -> float:
-#     size = cos_mat.shape
-
-#     # 0_diag Hadamard product equivalent
-#     for i in range(size[0]):
-#         cos_mat[i][i] = 0
-
-#     # Frobenius norm
-#     return np.linalg.norm(cos_mat, ord = "fro")
-
-
-def hierarchy_score(cos_mat: np.ndarray) -> tuple:
-    """
-    Calculate the Frobenius norm and its 90% confidence interval for the hierarchy score.
+def hierarchy_score_simple(cos_mat: torch.Tensor | np.ndarray) -> float:
+    """Calculate the hierarchy score using Frobenius norm.
+    
+    Args:
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        float: Frobenius norm of cos_mat with zeroed diagonal
     """
     size = cos_mat.shape
+    cos_mat = cos_mat.copy()  # Don't modify input
 
-    # 0_diag Hadamard product equivalent
+    # Zero diagonal
     for i in range(size[0]):
         cos_mat[i][i] = 0
 
-    # Frobenius norm
-    frobenius_norm = np.linalg.norm(cos_mat, ord="fro")
+    return float(np.linalg.norm(cos_mat, ord="fro"))
+
+def hierarchy_score_with_ci(cos_mat: torch.Tensor | np.ndarray) -> tuple:
+    """Calculate the hierarchy score with confidence interval.
+    
+    Args:
+        cos_mat: Cosine similarity matrix
+        
+    Returns:
+        tuple: (score, lower_ci, upper_ci)
+    """
+    score = hierarchy_score_simple(cos_mat)
     # Dummy example: Assume we have multiple samples for confidence interval calculation
-    samples = [
-        frobenius_norm for _ in range(10)
-    ]  # Replace with actual samples if available
+    samples = [score for _ in range(10)]  # Replace with actual samples if available
     return confidence_interval(samples)
 
+# Aliases for backward compatibility
+linear_rep_score = linear_rep_score_with_ci
+causal_sep_score = causal_sep_score_with_ci
+hierarchy_score = hierarchy_score_with_ci
 
-# def get_scores(params: str, step: str, multi: bool) -> tuple:
-#     save_wordnet_hypernym(params, step, multi)
-#     mats = get_mats(params, step, multi)
-#     eval_values = get_linear_rep(params, step, multi)
-
-#     return linear_rep_score(eval_values), causal_sep_score(mats[0], mats[1]), hierarchy_score(mats[2])
-
-
-def get_scores(params: str, step: str, multi: bool) -> tuple:
-    """
-    Calculate and return the mean and 90% confidence intervals for all scores.
-    """
-    save_wordnet_hypernym(params, step, multi)
-    mats = get_mats(params, step, multi)
-    eval_values = get_linear_rep(params, step, multi)
-
-    return (
-        linear_rep_score(eval_values),
-        causal_sep_score(mats[0], mats[1]),
-        hierarchy_score(mats[2]),
-    )
 
 
 if __name__ == "__main__":
-    # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
-    # parameter_models = ["1.4B"]
-
     parameter_models = ["7B"]
 
-    with open("data/olmo_7B_model_names.txt", "r") as a:
-        steps = a.readlines()
-
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-
-    print(len(steps))
-
-    newsteps = []
-    for i in range(len(steps)):
-        if i % 15 == 0:
-            newsteps.append(steps[i])
-
-    print(newsteps)
+    steps = read_olmo_model_names()
+    logger.info(len(steps))
+    newsteps = sample_from_steps(steps)
+    logger.info(newsteps)
     
     for parameter_model in parameter_models:
         for step in newsteps:
-            save_wordnet_hypernym(params = parameter_model, step = step, multi=True, model_name="olmo")
-            mats = get_mats(params = parameter_model, step = step, multi=True, model_name="olmo")
+            save_wordnet_hypernym(params=parameter_model, step=step, multi=True, model_name="olmo")
+            mats = get_mats(params=parameter_model, step=step, multi=True, model_name="olmo")
 
-            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
-            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
-            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
+            torch.save(mats[0], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
+            torch.save(mats[1], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
+            torch.save(mats[2], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
 
     # get_mats("7B", "step1000", False, "olmo")
-    

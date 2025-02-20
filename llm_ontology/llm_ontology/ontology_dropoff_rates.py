@@ -9,10 +9,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import hierarchical as hrc
 import warnings
+import pathlib
 warnings.filterwarnings('ignore')
 
 import ontology_class
 
+# Global variable for BIGSTORAGE_DIR
+BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
 # run this AFTER running get_ontology_hypernym.py
 # params and step needs to match the params and step in get_ontology_hypernym.py
@@ -22,10 +25,10 @@ def get_mat_dim(params: str, step: str, filter: int):
     tokenizer = AutoTokenizer.from_pretrained(
         f"EleutherAI/pythia-{params}-deduped",
         revision=f"{step}",
-        cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}"
+        cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step
     )
 
-    g = torch.load(f'/mnt/bigstorage/raymond/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g = torch.load(BIGSTORAGE_DIR / "raymond" / f"{params}-unembeddings" / step).to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
@@ -47,24 +50,28 @@ def get_mat_dim(params: str, step: str, filter: int):
 
 dropoff_points = {}
 
-temp = 100000   # arbitrary number
-counter = 0
-while temp > 1:
-    temp = get_mat_dim("1.4B", "step99000", counter)
-    counter += 1
-    print("DIM:" + str(temp))
-    dropoff_points[counter] = temp
+def main():
+    temp = 100000   # arbitrary number
+    counter = 0
+    while temp > 1:
+        temp = get_mat_dim("1.4B", "step99000", counter)
+        counter += 1
+        print("DIM:" + str(temp))
+        dropoff_points[counter] = temp
 
 
 
-# plot
-x = list(dropoff_points.keys())
-y = list(dropoff_points.values())
+    # plot
+    x = list(dropoff_points.keys())
+    y = list(dropoff_points.values())
 
-plt.plot(x, y)
+    plt.plot(x, y)
 
-plt.title('Synset Dropoff Rate')
-plt.xlabel('Filter')
-plt.ylabel('Heatmap Dimension')
+    plt.title('Synset Dropoff Rate')
+    plt.xlabel('Filter')
+    plt.ylabel('Heatmap Dimension')
 
-plt.savefig('dropoffTEST.png')
+    plt.savefig('dropoffTEST.png')
+
+if __name__ == "__main__":
+    main()

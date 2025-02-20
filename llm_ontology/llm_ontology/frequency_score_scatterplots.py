@@ -1,53 +1,95 @@
 #!/usr/bin/env python3
 
+import json
+import logging
+import pathlib
+import numpy as np
 import torch
-from ontology_scores import *
+import seaborn as sns
 import matplotlib.pyplot as plt
+from utils import savefig, figname_from_fig_metadata
+from .ontology_scores import causal_sep_score_simple as causal_sep_score
 
+# Set up logger
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
 
+# Global paths
+BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
-def save_scatterplot(adj: torch.Tensor, cos: torch.Tensor, row_terms_txt_dir: str, term_freq_json_dir: str):
-    size = cos.shape
-    with open(row_terms_txt_dir, "r") as f:
-        row_terms = f.readlines()
-        row_terms = list(map(lambda x: x[:-1], row_terms))
+def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndarray, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path) -> None:
+    """Create and save a scatterplot comparing term frequencies to causal separability scores.
     
-    term_freq = {}
-    with open(term_freq_json_dir, 'r') as f:
+    Args:
+        adj: Adjacency matrix tensor
+        cos: Cosine similarity matrix tensor 
+        row_terms_path: Path to file containing row terms
+        term_freq_path: Path to JSON file containing term frequencies
+    """
+    # Load terms and frequencies
+    with open(row_terms_path, "r") as f:
+        row_terms = [line.strip() for line in f.readlines()]
+    
+    with open(term_freq_path, 'r') as f:
         term_freq = json.load(f)
 
-    # 0_diag Hadamard product equivalent
-    # TODO call causal separability score function here
-    for i in range(size[0]):
-        cos[i][i] = 0
+    # Calculate causal separability score
+    score = causal_sep_score(adj, cos)
     
-    # term scores calculation
-    scores = {}     # freq: score
-    for i in range(size[0]):
+    # Map frequencies to scores
+    scores = {}  # freq: score
+    for i, term in enumerate(row_terms):
         diff = cos[i] - adj[i]
-        scores[term_freq[row_terms[i]]] = np.linalg.norm(diff)
+        scores[term_freq[term]] = float(np.linalg.norm(diff))
 
-
-    # scatterplot
+    # Create scatterplot
     freqs = list(scores.keys())
     term_scores = list(scores.values())
-    plt.scatter(freqs, term_scores)
+    
+    # Set up the plot style
+    sns.set_style("whitegrid")
+    plt.figure(figsize=(10, 6))
+    
+    # Create scatterplot with seaborn
+    sns.scatterplot(x=freqs, y=term_scores, alpha=0.6)
     plt.xlabel("Pretraining Term Frequency")
     plt.ylabel("Term Causal Separability Score")
 
-    # TODO get a filename from get_figname_from_fig_metadata
-    # TODO call savefig with the chart and filename
-    plt.savefig("scatterplotTEST.png")
-
+    # Save plot
+    metadata = {
+        "type": "frequency_score_scatterplot",
+        "title": "Term Frequency vs Causal Separability Score"
+    }
+    figure_name = figname_from_fig_metadata(metadata)
+    
+    script_dir = pathlib.Path(__file__).parent
+    figures_dir = script_dir.parent / "figures"
+    
+    savefig(
+        fig=plt.gcf(),
+        figures_dir=figures_dir,
+        figure_name=figure_name,
+        formats=["png"]
+    )
     plt.clf()
 
+def main() -> None:
+    param_model = "160M"
+    step = "step143000"
 
+    adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-1.pt"))
+    cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-2.pt"))
 
+    script_dir = pathlib.Path(__file__).parent
+    row_terms_path = script_dir / "wordnet_row_terms.txt"
+    term_freq_path = script_dir / "term_frequencies/wordnet-frequencies.json"
 
-param_model = "160M"
-step = "step143000"
+    save_scatterplot(adj, cos, row_terms_path, term_freq_path)
 
-adj = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{param_model}/{param_model}-{step}-1.pt")
-cos = torch.load(f"/mnt/bigstorage/raymond/heatmaps/{param_model}/{param_model}-{step}-2.pt")
-
-save_scatterplot(adj, cos, "wordnet_row_terms.txt", "term_frequencies/wordnet-frequencies.json")
+if __name__ == "__main__":
+    main()
