@@ -134,6 +134,34 @@ def main() -> None:
             logger.info(f"Processing model {parameter_model} at step {step}")
             generate_unembedding_matrix(parameter_model, step, str(folder))
 
+def run_single_step():
+    parameter_models = ["7B"]
+
+    SCRIPT_DIR = pathlib.Path(__file__).parent
+    DATA_DIR = SCRIPT_DIR / "../data"
+    BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
+
+    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
+        steps = a.readlines()
+
+    steps = list(map(lambda x: x[:-1], steps))
+    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+
+    logger.info(f"Total number of steps: {len(steps)}")
+
+    newstep = steps[1]
+    print(newstep)
+
+    logger.info(f"Selected step: {newstep}")
+    logger.info(f"Number of selected step: {1}")
+
+    for parameter_model in parameter_models:
+        folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
+        folder.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Processing model {parameter_model} at step {newstep}")
+        generate_unembedding_matrix(parameter_model, newstep, str(folder))
+
+
 if __name__ == "__main__":
     main()
 
