@@ -2,13 +2,17 @@
 
 import torch
 import numpy as np
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
 from transformers import GPTNeoXForCausalLM
 from tqdm import tqdm
 import os
 import pathlib
 import logging
 from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
+from huggingface_hub import hf_hub_download
+import json
+import psutil
+import gc
   # pip install ai2-olmo
 
 # Set up logging
@@ -51,6 +55,52 @@ logger.addHandler(stdout_handler)
 # ## Use this PATH to load g in the notebooks=
 # torch.save(g, f"FILE_PATH")
 
+def get_memory_usage():
+    """Get current memory usage in GB"""
+    process = psutil.Process(os.getpid())
+    memory_gb = process.memory_info().rss / 1024 / 1024 / 1024
+    return memory_gb
+
+def load_olmo_last_layer(model_name):
+    """Load only the last layer"""
+    initial_memory = get_memory_usage()
+    
+    # Get the model config first
+    config = AutoConfig.from_pretrained(model_name)
+    last_layer_idx = config.num_hidden_layers - 1
+    
+    # Define last layer weight keys
+    last_layer_keys = [
+        f"model.layers.{last_layer_idx}.self_attn.q_proj",
+        f"model.layers.{last_layer_idx}.self_attn.k_proj",
+        f"model.layers.{last_layer_idx}.self_attn.v_proj",
+        f"model.layers.{last_layer_idx}.self_attn.o_proj",
+        f"model.layers.{last_layer_idx}.mlp.gate_proj",
+        f"model.layers.{last_layer_idx}.mlp.up_proj",
+        f"model.layers.{last_layer_idx}.mlp.down_proj",
+        f"model.layers.{last_layer_idx}.input_layernorm",
+        f"model.layers.{last_layer_idx}.post_attention_layernorm"
+    ]
+    
+    # Load index file
+    index_file = hf_hub_download(model_name, "pytorch_model.bin.index.json")
+    with open(index_file, 'r') as f:
+        index = json.load(f)
+    
+    last_layer_weights = {}
+    
+    # Load only last layer weights
+    for key in last_layer_keys:
+        for weight_key, filename in index['weight_map'].items():
+            if key in weight_key:
+                checkpoint_file = hf_hub_download(model_name, filename)
+                weights = torch.load(checkpoint_file, map_location='cpu')
+                last_layer_weights[key] = weights[key]
+                break
+    
+    final_memory = get_memory_usage()
+    return last_layer_weights, final_memory - initial_memory
+
 def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str):
     # TODO parameterize instead of comment
 
@@ -71,6 +121,11 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     # 1. Profile a run of store_matrices.py to confirm that whole model loading takes a long time
     # 2. If it takes a long time, find way to load only the last layer of the model
     # This might require working in Pytorch instead of relying on huggingface
+    
+    #model_name = "allenai/OLMo-7B"
+    #last_layer_weights, config = load_olmo_last_layer(model_name)
+    #print("Loaded weights:", list(last_layer_weights.keys()))
+
     model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
 
     tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
