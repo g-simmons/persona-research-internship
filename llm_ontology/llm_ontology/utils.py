@@ -1,8 +1,6 @@
 from pathlib import Path
 import pandas as pd
 
-import pandas as pd
-
 from typing import List, Callable, Optional, Union, Literal
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure, SubFigure
@@ -10,6 +8,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from seaborn.axisgrid import FacetGrid
 import altair as alt
 import logging
+import os
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -143,3 +142,16 @@ def sample_from_steps(steps: list[str]) -> list[str]:
             newsteps.append(steps[i])
 
     return newsteps
+
+
+def set_huggingface_cache(workstation: bool = True, cache_dir: str = None, logger = None) -> Path:
+    if not workstation and not cache_dir:
+        cache_dir = "~/.cache/huggingface/hub"
+    if workstation and not cache_dir:
+        cache_dir = "/mnt/bigstorage/raymond/huggingface_cache"
+    if logger:
+        logger.info(f"Setting HuggingFace cache to {cache_dir}")
+    os.environ["HF_HOME"] = cache_dir
+    os.environ["HF_HUB_CACHE"] = cache_dir
+
+    return Path(cache_dir)
