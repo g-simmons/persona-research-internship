@@ -41,11 +41,15 @@ import obo_ontology_heatmaps
 import altair as alt
 import pandas as pd
 
-from utils import savefig
+from utils import savefig, set_huggingface_cache
 import argparse
 from pathlib import Path
 
 BIGSTORAGE_DIR = Path("/mnt/bigstorage")
+
+
+HF_CACHE = set_huggingface_cache(workstation=False)
+
 
 # returns the synsets that make it through the filter, in order of heatmap row
 def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
@@ -147,10 +151,28 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         "x": "Depth",
         "y": "Score",
         "color": "Term Class",
-        "tooltip": ["Term", "Depth", "Score", "Term Class"]
+        "tooltip": ["Term", "Depth", "Score", "Term Class"],
+        "name": "Depth VS Score 1"
     }
-    # TODO define other vis ideas
-    vis_ideas = [vis_idea_1]
+
+
+    vis_idea_2 = {
+        "x": "Score",
+        "y": "Depth",
+        "color": "Term Class",
+        "tooltip": ["Term", "Depth", "Score", "Term Class"],
+        "name": "Score VS Depth"
+    }
+
+    vis_idea_3 = {
+        "x": "Depth",
+        "y": "Score",
+        "color": "Term",
+        "tooltip": ["Term", "Depth", "Score"],
+        "name": "Depth VS Score"
+    }
+
+    vis_ideas = [vis_idea_1, vis_idea_2, vis_idea_3] 
 
     for vis_idea in vis_ideas:
 
@@ -160,8 +182,8 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         # TODO call savefig with the chart and filename
         chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
         chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
-
-
+        # filename_html = 
+        # filename_png = 
 
 if __name__ == "__main__":
     # # SETTINGS
