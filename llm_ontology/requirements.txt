@@ -1,11 +1,13 @@
-json 
 networkx 
 transformers 
 inflect 
 numpy 
 matplotlib 
 seaborn
-torch --index-url https://download.pytorch.org/whl/cu118
+# torch --index-url https://download.pytorch.org/whl/cu118
 scikit-learn
 owlready2
 pronto
+altair
+ai2-olmo
+datasets

@@ -27,5 +27,5 @@ def profile_function(func, *args, **kwargs):
 if __name__ == "__main__":
 
     #profile_function(get_mats, "7B", "step1000", False, "olmo")
-    #profile_function(store_matrices.run_single_step)
-    store_matrices.run_single_step()
+    profile_function(store_matrices.run_single_step)
+    #store_matrices.run_single_step()
