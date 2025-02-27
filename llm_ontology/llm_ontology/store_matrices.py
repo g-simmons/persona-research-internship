@@ -171,54 +171,8 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     
     model_name = "allenai/OLMo-7B"
     cache_dir = f"/mnt/bigstorage/raymond/huggingface_cache/OLMo-{parameter_model}/{step}"
-    # last_layer_weights, config, penultimate_activations = load_olmo_last_layer(parameter_model, step, cache_dir)
-    # print("Loaded weights:", list(last_layer_weights.keys()))
-    # print('pen', penultimate_activations)
-    
-    # for elem in list(last_layer_weights.keys()):
-    #     print(last_layer_weights[elem])
-    # print(inspect.getsource(OLMoForCausalLM.forward))
-    #print("config", config)
-    # """config={
-    #     "d_model": 4096,
-    #     "vocab_size": 50280,
-    #     "n_layers": 32,
-    #     "n_heads": 32,
-    #     "mlp_hidden_size": 22016
-    # }"""
-
-    # att_proj_weight = last_layer_weights['model.transformer.blocks.31.att_proj.weight']
-    # attn_out_weight = last_layer_weights['model.transformer.blocks.31.attn_out.weight']
-    # ff_proj_weight = last_layer_weights['model.transformer.blocks.31.ff_proj.weight']
-    # ff_out_weight = last_layer_weights['model.transformer.blocks.31.ff_out.weight']
-
-    # def last_layer_forward(x):
-    #     # Attention block
-    #     x_attn = F.linear(x, att_proj_weight, bias=None)
-    #     x_attn = F.gelu(x_attn)  # Example activation function
-    #     x_attn = F.linear(x_attn, attn_out_weight, bias=None)
-    #     x = x + x_attn  # Residual connection
-    #     x = layer_norm1(x)  # Layer normalization
-
-    #     # Feedforward block
-    #     x_ff = F.linear(x, ff_proj_weight, bias=None)
-    #     x_ff = F.gelu(x_ff)  # Example activation function
-    #     x_ff = F.linear(x_ff, ff_out_weight, bias=None)
-    #     x = x + x_ff  # Residual connection
-    #     x = layer_norm2(x)  # Layer normalization
-
-    #     return x
 
     model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
-
-    # tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
-
-    # x = torch.randn((config.vocab_size, config.d_model))
-    # #x = torch.randn((config["vocab_size"], config["d_model"]))
-    # gamma_approx = last_layer_forward(x).detach()  # Approximate output embedding
-
-    # # Get dimensions (W = vocab size, d = embedding size)
-    # W, d = gamma_approx.shape  
 
     GPU = 0
 
@@ -265,8 +219,6 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
 
     ## Use this PATH to load g in the notebooks=
     torch.save(g, f"{output_dir}/{step}")
-    #print("g shape:", g.shape)
-    #print("First few values of g:", g[:5])  # Print first 5 rows
 
 
 def main() -> None:
@@ -313,7 +265,6 @@ def run_single_step():
     logger.info(f"Total number of steps: {len(steps)}")
 
     newstep = steps[1]
-    print(newstep)
 
     logger.info(f"Selected step: {newstep}")
     logger.info(f"Number of selected step: {1}")
