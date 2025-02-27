@@ -9,5 +9,4 @@ scikit-learn
 owlready2
 pronto
 altair
-ai2-olmo
-datasets
+>>>>>>> eff69c604b8e3a477cf97e4ecabb01a84c0a35e1

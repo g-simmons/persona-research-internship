@@ -15,3 +15,124 @@
 2025-02-20 00:24:14,384 - store_matrices - INFO - Processing model 7B at step step4000-tokens18B
 2025-02-20 00:26:36,299 - store_matrices - INFO - Processing model 7B at step step5000-tokens22B
 2025-02-20 00:35:28,483 - store_matrices - INFO - Processing model 7B at step step6000-tokens27B
+2025-02-20 11:00:04,307 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 11:00:04,307 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 11:00:04,307 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 11:00:04,307 - store_matrices - INFO - Processing model 7B at step s
+2025-02-20 11:14:57,460 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 11:14:57,460 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 11:14:57,460 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 11:14:57,461 - store_matrices - INFO - Processing model 7B at step s
+2025-02-20 11:23:36,704 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 11:23:36,704 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 11:23:36,704 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 11:24:12,142 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 11:24:12,142 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 11:24:12,142 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 11:24:12,142 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-20 13:36:36,894 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 13:36:36,894 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 13:36:36,894 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 13:36:36,895 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-20 13:41:01,701 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 13:41:01,701 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 13:41:01,702 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 13:41:01,703 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-20 13:47:29,912 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 13:47:29,912 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 13:47:29,912 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 13:47:29,913 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-20 13:51:17,856 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 13:51:17,857 - store_matrices - INFO - Selected step: step1000-tokens4B
+2025-02-20 13:51:17,857 - store_matrices - INFO - Number of selected step: 1
+2025-02-20 13:51:17,857 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:01:48,518 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:01:48,518 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:01:48,518 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:01:48,519 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:09:09,841 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:09:09,841 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:09:09,841 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:09:09,841 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:09:25,393 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:09:25,394 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:09:25,394 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:09:25,394 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:09:26,174 - __main__ - INFO - Processing model 7B at step step2000-tokens9B
+2025-02-22 13:10:12,030 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:10:12,030 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:10:12,030 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:10:12,030 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:10:12,640 - __main__ - INFO - Processing model 7B at step step2000-tokens9B
+2025-02-22 13:11:45,803 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:11:45,803 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:11:45,803 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:11:45,803 - __main__ - INFO - Processing model 7B at step step0-tokens0B
+2025-02-22 13:12:04,426 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:12:04,426 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:12:04,426 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:12:04,426 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:13:16,889 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:13:16,890 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:13:16,890 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:13:16,890 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:16:57,651 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:16:57,651 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:16:57,651 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:16:57,651 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:17:41,106 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:17:41,106 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:17:41,106 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:17:41,106 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:18:39,389 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:18:39,390 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:18:39,390 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:18:39,390 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:19:10,639 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:19:10,639 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:19:10,639 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:19:10,639 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:22:42,035 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:22:42,035 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:22:42,035 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:22:42,035 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:25:07,217 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:25:07,217 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:25:07,217 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:25:07,217 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:25:58,114 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:25:58,114 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:25:58,114 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:25:58,114 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:26:50,392 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:26:50,392 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:26:50,392 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:26:50,392 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:27:14,367 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:27:14,367 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:27:14,367 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:27:14,367 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:27:33,390 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:27:33,390 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:27:33,390 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:27:33,391 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:28:04,118 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:28:04,118 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:28:04,118 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:28:04,118 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:30:50,683 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:30:50,684 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:30:50,684 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:30:50,684 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:31:16,294 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:31:16,294 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:31:16,294 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:31:16,295 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:31:45,994 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:31:45,994 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:31:45,994 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:31:45,994 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-22 13:32:30,591 - __main__ - INFO - Total number of steps: 558
+2025-02-22 13:32:30,591 - __main__ - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-22 13:32:30,591 - __main__ - INFO - Number of selected steps: 14
+2025-02-22 13:32:30,592 - __main__ - INFO - Processing model 7B at step step1000-tokens4B
