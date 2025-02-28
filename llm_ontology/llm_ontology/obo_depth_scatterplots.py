@@ -46,6 +46,8 @@ import argparse
 from pathlib import Path
 
 BIGSTORAGE_DIR = Path("/mnt/bigstorage")
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
 
 
 HF_CACHE = set_huggingface_cache(workstation=False)
@@ -80,14 +82,15 @@ def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
     cats, G, sorted_keys = hrc.get_categories_ontology(ontology_name, filter)
     return cats
 
-# saves row terms to text file in `owl_row_terms` directory
 def save_row_terms(ontology_name: str, params: str, step: str, filter: int, multi: bool):
-    # ontology_name = ontology_dir.split("/")[-1][:-4]
-
+    """
+    Saves the row terms of an ontology to a text file in the `owl_row_terms` directory.
+    """
+    logger.info(f"Saving row terms for {ontology_name}")
     obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
     cats = get_mat_dim(ontology_name, params, step, filter)  #50
     if len(cats) > 30:      #number of rows(number of synsets that make it past the filter), if greater than 30 synsets, then save the row terms
-        with open(f"../data/owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
+        with open(DATA_DIR / "owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
             for term in list(cats.keys()):
                 f.write(term + "\n")
 
@@ -132,6 +135,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
 
 # saves a depth scatterplot, you need to have already saved the row terms
 def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: int, multi: bool, score: str):
+    logger.info(f"Saving depth scatterplot for {ontology_name}")
     ontology_dir = BIGSTORAGE_DIR / f"raymond/owl/{ontology_name}.owl"
 
     term_txt_dir = "../data/owl_row_terms/" + ontology_name + "_row_terms.txt"
@@ -145,7 +149,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
     depth, scores, terms, term_classes = get_data(adj, cos, hier, term_txt_dir, ontology_class.Onto(ontology_dir), score)
     df = pd.DataFrame({'Depth': depth, 'Score': scores, 'Term': terms, "Term Class": term_classes})
 
-    logger.info(df)
+    logger.debug(df)
 
     vis_idea_1 = {
         "x": "Depth",
@@ -172,6 +176,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
     vis_ideas = [vis_idea_1, vis_idea_2, vis_idea_3] 
 
     for vis_idea in vis_ideas:
+        logger.info(f"Saving depth scatterplot for {ontology_name} with vis idea {vis_idea}")
 
         chart = alt.Chart(df).mark_circle(size=60).encode(**vis_idea).interactive()
         # TODO uniquely name the file associated with the vis idea
