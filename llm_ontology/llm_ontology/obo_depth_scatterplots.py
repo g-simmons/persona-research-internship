@@ -87,7 +87,7 @@ def save_row_terms(ontology_name: str, params: str, step: str, filter: int, mult
     obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
     cats = get_mat_dim(ontology_name, params, step, filter)  #50
     if len(cats) > 30:      #number of rows(number of synsets that make it past the filter), if greater than 30 synsets, then save the row terms
-        with open(f"owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
+        with open(f"../data/owl_row_terms/{ontology_name}_row_terms.txt", "w") as f:
             for term in list(cats.keys()):
                 f.write(term + "\n")
 
@@ -134,7 +134,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
 def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: int, multi: bool, score: str):
     ontology_dir = BIGSTORAGE_DIR / f"raymond/owl/{ontology_name}.owl"
 
-    term_txt_dir = "owl_row_terms/" + ontology_name + "_row_terms.txt"
+    term_txt_dir = "../data/owl_row_terms/" + ontology_name + "_row_terms.txt"
 
     obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
     mats = obo_ontology_heatmaps.get_mats(params, step, multi, filter, ontology_name)
@@ -151,8 +151,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         "x": "Depth",
         "y": "Score",
         "color": "Term Class",
-        "tooltip": ["Term", "Depth", "Score", "Term Class"],
-        "name": "Depth VS Score 1"
+        "tooltip": ["Term", "Depth", "Score", "Term Class"]
     }
 
 
@@ -160,16 +159,14 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         "x": "Score",
         "y": "Depth",
         "color": "Term Class",
-        "tooltip": ["Term", "Depth", "Score", "Term Class"],
-        "name": "Score VS Depth"
+        "tooltip": ["Term", "Depth", "Score", "Term Class"]
     }
 
     vis_idea_3 = {
         "x": "Depth",
         "y": "Score",
         "color": "Term",
-        "tooltip": ["Term", "Depth", "Score"],
-        "name": "Depth VS Score"
+        "tooltip": ["Term", "Depth", "Score"]
     }
 
     vis_ideas = [vis_idea_1, vis_idea_2, vis_idea_3] 
@@ -184,6 +181,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
         # filename_html = 
         # filename_png = 
+        savefig(chart, f"figures/depth_scatterplots_3/{ontology_name}_depth_scatterplot", formats=["html", "png"], overwrite=True)
 
 if __name__ == "__main__":
     # # SETTINGS
