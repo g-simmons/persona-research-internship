@@ -41,7 +41,7 @@ import obo_ontology_heatmaps
 import altair as alt
 import pandas as pd
 
-from utils import savefig, set_huggingface_cache
+from utils import savefig, set_huggingface_cache, figname_from_fig_metadata
 import argparse
 from pathlib import Path
 
@@ -182,11 +182,14 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         # TODO uniquely name the file associated with the vis idea
         # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
         # TODO call savefig with the chart and filename
-        chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
-        chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
-        # filename_html = 
-        # filename_png = 
-        savefig(chart, f"figures/depth_scatterplots_3/{ontology_name}_depth_scatterplot", formats=["html", "png"], overwrite=True)
+        metadata_str = figname_from_fig_metadata(vis_idea)
+        savefig(
+            fig=chart, 
+            figure_name=f"depth_scatterplots_3/{ontology_name}_depth_scatterplot_{metadata_str}",
+            figures_dir=SCRIPT_DIR / "../figures/", 
+            formats=["html"], 
+            overwrite=True
+            )
 
 if __name__ == "__main__":
     # # SETTINGS
