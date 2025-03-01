@@ -108,6 +108,11 @@ def load_olmo_last_layer(model_name):
     return last_layer_weights, final_memory - initial_memory
 
 def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str):
+    """
+    Apply the causal inner product to the unembedding matrix and save it.
+    The causal inner product is estimated as the product of the square root of the 
+    covariance matrix of the unembedding vectors and the centered unembedding vectors.
+    """
     # TODO parameterize instead of comment
 
     # model = GPTNeoXForCausalLM.from_pretrained(
