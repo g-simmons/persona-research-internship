@@ -8,7 +8,7 @@ import torch
 import seaborn as sns
 import matplotlib.pyplot as plt
 from utils import savefig, figname_from_fig_metadata
-from .ontology_scores import causal_sep_score_simple as causal_sep_score
+from ontology_scores import causal_sep_score_simple as causal_sep_score
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -74,7 +74,8 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
         fig=plt.gcf(),
         figures_dir=figures_dir,
         figure_name=figure_name,
-        formats=["png"]
+        formats=["png"],
+        overwrite=True
     )
     plt.clf()
 
@@ -82,8 +83,8 @@ def main() -> None:
     param_model = "160M"
     step = "step143000"
 
-    adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-1.pt"))
-    cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-2.pt"))
+    adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{param_model}/{param_model}-{step}-1.pt"), weights_only=False)
+    cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{param_model}/{param_model}-{step}-2.pt"), weights_only=False)
 
     script_dir = pathlib.Path(__file__).parent
     row_terms_path = script_dir / "wordnet_row_terms.txt"
