@@ -3,7 +3,7 @@
 import torch
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
-from transformers import GPTNeoXForCausalLM
+from transformers import GPTNeoXForCausalLM, PretrainedConfig
 from tqdm import tqdm
 import os
 import pathlib
@@ -13,6 +13,12 @@ from huggingface_hub import hf_hub_download
 import json
 import psutil
 import gc
+from pathlib import Path
+from safetensors.torch import load_file
+import inspect
+import torch.nn.functional as F
+
+
   # pip install ai2-olmo
 
 # Set up logging
@@ -122,24 +128,34 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     # 2. If it takes a long time, find way to load only the last layer of the model
     # This might require working in Pytorch instead of relying on huggingface
     
-    #model_name = "allenai/OLMo-7B"
-    #last_layer_weights, config = load_olmo_last_layer(model_name)
-    #print("Loaded weights:", list(last_layer_weights.keys()))
+    model_name = "allenai/OLMo-7B"
+    cache_dir = f"/mnt/bigstorage/raymond/huggingface_cache/OLMo-{parameter_model}/{step}"
 
     model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
 
-    tokenizer = OLMoTokenizerFast.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
+    GPU = 0
 
     ### load unembdding vectors ###
     gamma = model.get_output_embeddings().weight.detach()
+    if GPU:
+        gamma = gamma.to('cuda')
+    # import code
+    # code.interact(local=dict(globals(), **locals()))
     W, d = gamma.shape
+
     gamma_bar = torch.mean(gamma, dim = 0)
     centered_gamma = gamma - gamma_bar
 
     ### compute Cov(gamma) and tranform gamma to g ###
     Cov_gamma = centered_gamma.T @ centered_gamma / W
+    # import code
+    # code.interact(local=dict(globals(), **locals()))
 
-    # eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma)
+    if GPU:
+        eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma) # for hermitian matrices
+    else:
+        eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
+    # eigenvalues, eigenvectors = torch.linalg.eig(Cov_gamma) # for not necessarily hermitian matrices
 
     # NOTE: 
     #     Intel oneMKL ERROR: Parameter 8 was incorrect on entry to SSYEVD.
@@ -150,17 +166,19 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     #     eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma)
     # RuntimeError: false INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/native/BatchLinearAlgebra.cpp":1601, please report a bug to PyTorch. linalg.eigh: Argument 8 has illegal value. Most certainly there is a bug in the implementation calling the backend library.
 
-    eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
-    eigenvalues = torch.from_numpy(eigenvalues)
-    eigenvectors = torch.from_numpy(eigenvectors)
+    # eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
+    if not GPU:
+        eigenvalues = torch.from_numpy(eigenvalues)
+        eigenvectors = torch.from_numpy(eigenvectors)
 
     inv_sqrt_Cov_gamma = eigenvectors @ torch.diag(1/torch.sqrt(eigenvalues)) @ eigenvectors.T
-    sqrt_Cov_gamma = eigenvectors @ torch.diag(torch.sqrt(eigenvalues)) @ eigenvectors.T
+    # sqrt_Cov_gamma = eigenvectors @ torch.diag(torch.sqrt(eigenvalues)) @ eigenvectors.T
     g = centered_gamma @ inv_sqrt_Cov_gamma
 
 
     ## Use this PATH to load g in the notebooks=
     torch.save(g, f"{output_dir}/{step}")
+
 
 def main() -> None:
     parameter_models = ["7B"]
@@ -185,9 +203,10 @@ def main() -> None:
     for parameter_model in parameter_models:
         folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
         folder.mkdir(parents=True, exist_ok=True)
-        for step in newsteps:
-            logger.info(f"Processing model {parameter_model} at step {step}")
-            generate_unembedding_matrix(parameter_model, step, str(folder))
+        step = steps[1]
+        # for step in newsteps:
+        logger.info(f"Processing model {parameter_model} at step {step}")
+        generate_unembedding_matrix(parameter_model, step, str(folder))
 
 def run_single_step():
     parameter_models = ["7B"]
@@ -205,7 +224,6 @@ def run_single_step():
     logger.info(f"Total number of steps: {len(steps)}")
 
     newstep = steps[1]
-    print(newstep)
 
     logger.info(f"Selected step: {newstep}")
     logger.info(f"Number of selected step: {1}")
