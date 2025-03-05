@@ -92,4 +92,4 @@ final_chart = alt.vconcat(chart_causal, chart_hierarchy, chart_linear).resolve_s
 ).interactive()
 
 # Save the final chart to an HTML file
-final_chart.save("/llm_ontology/figures/plot_term_scores.html")_
+final_chart.save("/llm_ontology/figures/plot_term_scores.html")
