@@ -7,7 +7,7 @@ import json
 # Define models, steps, and chosen terms
 models = ["70M", "160M", "1.4B"]
 steps = list(range(1000, 143000, 2000))
-chosen_terms = ["communication.n.02", "measure.n.02", "set.n.02"]
+chosen_terms = ["communication.n.02", "measure.n.02", "set.n.02", "location.n.01", "solid.n.01"]
 
 # Load the index-to-term mapping only once
 with open("llm_ontology/data/index_to_term_pythia.json", "r") as f:
@@ -30,7 +30,7 @@ for model in models:
         hier = torch.load(f"{base_path}-3.pt", weights_only=False)
         linear = torch.load(f"{base_path}-4.pt", weights_only=False).numpy()
         
-        # Compute per-term scores only for the chosen indices by slicing the tensors
+        # Compute per-term scores for the chosen indices by slicing the tensors
         causal_sep_scores = np.sum((adj[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
         hierarchy_scores = np.sum((hier[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
         linear_rep_scores = linear[filtered_indices]  # Each value represents the score per term
@@ -58,38 +58,19 @@ df_melted = df_all_scores.melt(
     var_name="score_type", value_name="score"
 )
 
-# Create separate charts for each score type
-chart_causal = alt.Chart(df_melted[df_melted['score_type'] == 'causal_sep_score']).mark_line().encode(
+# Create a chart with rows representing score types and columns representing models.
+# Color now represents the different terms.
+final_chart = alt.Chart(df_melted).mark_line().encode(
     x=alt.X('step:Q', title='Training Steps'),
     y=alt.Y('score:Q', title='Ontology Score'),
-    color=alt.Color('model:N', title='Model'),
+    color=alt.Color('term:N', title='Term'),
     tooltip=['step', 'score', 'term', 'score_type', 'model']
 ).facet(
-    column=alt.Column('term:N', title='Term')
-).properties(title="Causal Separation Score")
-
-chart_hierarchy = alt.Chart(df_melted[df_melted['score_type'] == 'hierarchy_score']).mark_line().encode(
-    x=alt.X('step:Q', title='Training Steps'),
-    y=alt.Y('score:Q', title='Ontology Score'),
-    color=alt.Color('model:N', title='Model'),
-    tooltip=['step', 'score', 'term', 'score_type', 'model']
-).facet(
-    column=alt.Column('term:N', title='Term')
-).properties(title="Hierarchy Score")
-
-chart_linear = alt.Chart(df_melted[df_melted['score_type'] == 'linear_rep_score']).mark_line().encode(
-    x=alt.X('step:Q', title='Training Steps'),
-    y=alt.Y('score:Q', scale=alt.Scale(domain=[0, 1]), title='Ontology Score'),
-    color=alt.Color('model:N', title='Model'),
-    tooltip=['step', 'score', 'term', 'score_type', 'model']
-).facet(
-    column=alt.Column('term:N', title='Term')
-).properties(title="Linear Representation Score")
-
-# Vertically concatenate the three charts to form a single interactive visualization
-final_chart = alt.vconcat(chart_causal, chart_hierarchy, chart_linear).resolve_scale(
+    row=alt.Row('score_type:N', title='Score Type'),
+    column=alt.Column('model:N', title='Model')
+).resolve_scale(
     y='independent'
 ).interactive()
 
 # Save the final chart to an HTML file
-final_chart.save("/llm_ontology/figures/plot_term_scores.html")
+final_chart.save("plot_term_scores.html")
