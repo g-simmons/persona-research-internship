@@ -6,6 +6,7 @@ import torch
 import numpy as np
 import logging
 import pathlib
+import os
 
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
@@ -94,6 +95,7 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
         # df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.RangeIndex(start = 1000, stop = 145000, step = 2000, name="Step"))
         steps_nums = [int(step.split("p")[1]) for step in steps]
         df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
+        df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
 
     if model_name == "olmo":
         steps_nums = [int(step.split('-')[0].split('p')[1]) for step in steps]
@@ -107,7 +109,7 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     vis_idea = {
         "x": "Step:Q",
         "y": "Score:Q",
-        "color": "Model Size:N",
+        "color": alt.Color("Model Size:N", sort=parameter_models),
         "tooltip": ["Step", "Score", "Model Size"]
     }
 
@@ -162,7 +164,7 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     return final_chart
 
 
-model_name = "olmo"
+model_name = "pythia"
 script_dir = pathlib.Path(__file__).parent
 figures_dir = script_dir.parent / "figures"
 
@@ -183,16 +185,16 @@ if model_name == "pythia":
 if model_name == "olmo":
     # stuff
     data_path = script_dir.parent / "data" / "olmo_7B_model_names.txt"
-    with open(data_path, "r") as a:
-        steps = a.readlines()
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-    logger.info(f"Number of steps: {len(steps)}")
-    newsteps = []
-    for i in range(len(steps)):
-        if i % 15 == 0:
-            newsteps.append(steps[i])
+
+    steps = []
+    for path in os.listdir("/mnt/bigstorage/raymond/heatmaps-olmo/7B"):
+        if int(path.split("-")[2][0]) == 1:
+            steps.append(path.split('.')[0][:-2])
+    newsteps = sorted(steps, key=lambda x: int(x.split('-')[0].split('p')[1]))
+    print(newsteps)
+
     logger.info(f"Selected steps: {newsteps}")
+
     parameter_models = ["7B"]
 
     # saving plots
