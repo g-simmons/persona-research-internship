@@ -1,0 +1,17 @@
+2025-02-19 22:36:01,387 - store_matrices - INFO - Total number of steps: 558
+2025-02-19 22:36:01,387 - store_matrices - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-19 22:36:01,388 - store_matrices - INFO - Number of selected steps: 14
+2025-02-19 22:36:01,388 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-19 22:49:40,477 - store_matrices - INFO - Processing model 7B at step step2000-tokens9B
+2025-02-19 23:03:16,203 - store_matrices - INFO - Processing model 7B at step step3000-tokens13B
+2025-02-19 23:25:57,513 - store_matrices - INFO - Processing model 7B at step step4000-tokens18B
+2025-02-19 23:39:24,326 - store_matrices - INFO - Processing model 7B at step step5000-tokens22B
+2025-02-20 00:17:02,528 - store_matrices - INFO - Total number of steps: 558
+2025-02-20 00:17:02,529 - store_matrices - INFO - Selected steps: ['step1000-tokens4B', 'step2000-tokens9B', 'step3000-tokens13B', 'step4000-tokens18B', 'step5000-tokens22B', 'step6000-tokens27B', 'step7000-tokens31B', 'step8000-tokens35B', 'step9000-tokens40B', 'step10000-tokens44B', 'step11000-tokens49B', 'step12000-tokens53B', 'step13000-tokens58B', 'step14000-tokens62B']
+2025-02-20 00:17:02,529 - store_matrices - INFO - Number of selected steps: 14
+2025-02-20 00:17:02,529 - store_matrices - INFO - Processing model 7B at step step1000-tokens4B
+2025-02-20 00:19:32,951 - store_matrices - INFO - Processing model 7B at step step2000-tokens9B
+2025-02-20 00:21:57,624 - store_matrices - INFO - Processing model 7B at step step3000-tokens13B
+2025-02-20 00:24:14,384 - store_matrices - INFO - Processing model 7B at step step4000-tokens18B
+2025-02-20 00:26:36,299 - store_matrices - INFO - Processing model 7B at step step5000-tokens22B
+2025-02-20 00:35:28,483 - store_matrices - INFO - Processing model 7B at step step6000-tokens27B

@@ -5,6 +5,7 @@ import torch
 from sklearn.covariance import ledoit_wolf
 from sklearn.decomposition import PCA
 from typing import Dict, Any
+from typing import Dict, Any, Union
 
 import numpy as np
 
@@ -155,60 +156,69 @@ def get_words_sim_to_vec(query: torch.tensor, unembed, vocab_list, k=300):
     similar_indices = torch.topk(unembed @ query, k, largest=True).indices.cpu().numpy()
     return [vocab_list[idx] for idx in similar_indices]
 
-def estimate_single_dir_from_embeddings(category_embeddings):
-    category_mean = category_embeddings.mean(dim=0)
+def estimate_single_dir_from_embeddings(category_embeddings: torch.Tensor, device: Union[torch.device, str] = "cpu"):
+    # NOTE: What would it take to have this all on GPU?
+    # Major steps:
+    # 1. Get mean of category embeddings.
+    # 2. Get covariance of category embeddings.
+    # 3. Get pseudo-inverse of covariance.
+    # 4. Get LDA direction.
+    # 5. Normalize LDA direction.
+    # 6. Multiply mean by LDA direction.
 
-    logger.info("category_embeddings")
-    logger.info(category_embeddings)
+    # only thing stopping this from being on GPU is ledoit_wolf.
 
-    embeddingnan = torch.isnan(category_embeddings)
-    logger.info("nan in category_embeddings")
-    logger.info(True in embeddingnan)
+    if device == "cpu":
+        category_mean = category_embeddings.mean(dim=0)
+        logger.info(f"category_embeddings: {category_embeddings}")
 
-    cov = ledoit_wolf(category_embeddings.cpu().numpy())
-    # logger.info("cov1")
-    # logger.info(cov)
+        cov = ledoit_wolf(category_embeddings.cpu().numpy())
+        # logger.info("cov1")
+        # logger.info(cov)
+        embeddingnan = torch.isnan(category_embeddings)
+        logger.info(f"nan in category_embeddings: {True in embeddingnan}")
 
-    cov = torch.tensor(cov[0], device = category_embeddings.device)
-    logger.info("cov2")
-    logger.info(cov)
+        # NOTE: ledoit_wolf is implemented in sklearn but perhaps not in torch, otherwise Park probably would have used it.
+        cov = ledoit_wolf(category_embeddings.cpu().numpy())
+        logger.info(f"cov1: {cov}")
 
-    covnan = torch.isnan(cov)
-    logger.info("nan in cov")
-    logger.info(True in covnan)
-    
+        cov = torch.tensor(cov[0], device=category_embeddings.device)
+        logger.info(f"cov2: {cov}")
 
-    # pseudo_inv = torch.linalg.pinv(cov)
-    pseudo_inv = np.linalg.pinv(cov)
-    pseudo_inv = torch.tensor(pseudo_inv)
+        covnan = torch.isnan(cov)
+        logger.info(f"nan in cov: {True in covnan}")
+        
 
-
-    lda_dir = pseudo_inv @ category_mean
-
-    logger.info("pseudo_inv")
-    logger.info(pseudo_inv)
-    # logger.info("category_mean")
-    # logger.info(category_mean)
-    # logger.info("lda_dir")
-    # logger.info(lda_dir)
-    logger.info("LDA dir norm")
-    logger.info(torch.norm(lda_dir))
-
-    # if True in torch.isnan(torch.norm(lda_dir)):
-    #     torch.save(category_embeddings, "category_embeddings.pt")
-    #     torch.save(cov, "cov.pt")
+        # pseudo_inv = torch.linalg.pinv(cov)
+        # NOTE: torch pseudo-inverse created NaN values, but numpy did not.
+        pseudo_inv = np.linalg.pinv(cov)
+        pseudo_inv = torch.tensor(pseudo_inv)
 
 
-    # logger.info("ranksanshit")
-    # logger.info(torch.linalg.matrix_rank(category_embeddings))
-    # logger.info(torch.linalg.matrix_rank(cov))
-    logger.info(category_embeddings.shape)
-    logger.info(cov.shape)
-    
+        lda_dir = pseudo_inv @ category_mean
+
+        logger.info("pseudo_inv")
+        logger.info(pseudo_inv)
+        # logger.info("category_mean")
+        # logger.info(category_mean)
+        # logger.info("lda_dir")
+        # logger.info(lda_dir)
+        logger.info("LDA dir norm")
+        logger.info(torch.norm(lda_dir))
+
+        # if True in torch.isnan(torch.norm(lda_dir)):
+        #     torch.save(category_embeddings, "category_embeddings.pt")
+        #     torch.save(cov, "cov.pt")
 
 
-    lda_dir = lda_dir / torch.norm(lda_dir)
-    lda_dir = (category_mean @ lda_dir) * lda_dir
+        # logger.info("ranksanshit")
+        # logger.info(torch.linalg.matrix_rank(category_embeddings))
+        # logger.info(torch.linalg.matrix_rank(cov))
+        logger.info(category_embeddings.shape)
+        logger.info(cov.shape)
+
+        lda_dir = lda_dir / torch.norm(lda_dir)
+        lda_dir = (category_mean @ lda_dir) * lda_dir
 
     return lda_dir, category_mean
 
