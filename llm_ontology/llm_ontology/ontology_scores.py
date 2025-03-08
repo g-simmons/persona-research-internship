@@ -40,7 +40,7 @@ from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename=f"ontology_scores_log_test.log", level=logging.INFO)
+logging.basicConfig(filename=f"pca_scores.log", level=logging.INFO)
 
 
 # Internal
@@ -202,7 +202,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
 
     ## save the data
     if model_name == "pythia":
-        with open("data/noun_synsets_wordnet_gemma.json", "w") as f:
+        with open("../data/noun_synsets_wordnet_gemma.json", "w") as f:
             for synset, lemmas in large_nouns.items():
                 gemma_words = []
                 for w in lemmas:
@@ -211,7 +211,7 @@ def save_wordnet_hypernym(params: str, step: str, multi: bool, model_name: str):
                 gemma_words.sort()
                 f.write(json.dumps({synset: gemma_words}) + "\n")
 
-        nx.write_adjlist(G_noun, "data/noun_synsets_wordnet_hypernym_graph.adjlist")
+        nx.write_adjlist(G_noun, "../data/noun_synsets_wordnet_hypernym_graph.adjlist")
     elif model_name == "olmo":
         with open("../data/olmo/noun_synsets_wordnet_gemma.json", "w") as f:
             for synset, lemmas in large_nouns.items():
@@ -625,31 +625,37 @@ if __name__ == "__main__":
     # steps = [f"step{i}" for i in range(1000, 145000, 2000)]
     # parameter_models = ["1.4B"]
 
-    parameter_models = ["7B"]
+    # parameter_models = ["7B"]
 
-    with open("data/olmo_7B_model_names.txt", "r") as a:
-        steps = a.readlines()
+    # with open("data/olmo_7B_model_names.txt", "r") as a:
+    #     steps = a.readlines()
 
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+    # steps = list(map(lambda x: x[:-1], steps))
+    # steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
-    print(len(steps))
+    # print(len(steps))
 
-    newsteps = []
-    for i in range(len(steps)):
-        if i % 15 == 0:
-            newsteps.append(steps[i])
+    # newsteps = []
+    # for i in range(len(steps)):
+    #     if i % 15 == 0:
+    #         newsteps.append(steps[i])
 
-    print(newsteps)
+    # print(newsteps)
     
-    for parameter_model in parameter_models:
-        for step in newsteps:
-            save_wordnet_hypernym(params = parameter_model, step = step, multi=True, model_name="olmo")
-            mats = get_mats(params = parameter_model, step = step, multi=True, model_name="olmo")
+    # for parameter_model in parameter_models:
+    #     for step in newsteps:
+    #         save_wordnet_hypernym(params = parameter_model, step = step, multi=True, model_name="olmo")
+    #         mats = get_mats(params = parameter_model, step = step, multi=True, model_name="olmo")
 
-            torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
-            torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
-            torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
+    #         torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
+    #         torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
+    #         torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
+
+
+    save_wordnet_hypernym(params = "70M", step = "step143000", multi=True, model_name="pythia")
+
+
+    mats = get_mats(params = "70M", step = "step143000", multi=True, model_name="pythia")
 
     # get_mats("7B", "step1000", False, "olmo")
     
