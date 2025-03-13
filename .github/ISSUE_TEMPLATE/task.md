@@ -27,3 +27,6 @@ assignees: ''
 ### Artifacts (models, etc.)
 ### Figures
 ### Writing
+
+## Dependencies
+*does anything else need to happen before this issue can be completed?*
