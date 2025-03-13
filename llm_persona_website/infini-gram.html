@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <title>Drawing with Prompts</title>
+</head>
+<body style="background-color:white;">
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a class='blog-link' href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
+                    <a class='blog-link' href="infini-gram.html">Using Infini-Gram</a>
+                    <a class='blog-link' href="profiling.html">Profiling Optimization</a>
+                    
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <div class="dropdown">
+            <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+            <a href="people.html">People</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="blog-title">
+                <h1>Infini-gram and its uses in our Ontology Topology Project </h1>
+            </div>
+            <div class="meta-data">
+                <p>Date: 2/6/2025</p>
+                <p>Author: Logan Somoza</p>
+            </div>
+            <div class="content">
+                <h2>Introduction</h2>
+                <p>Infini-gram is an n-gram Language Model developed at the University of Washington. Infini-gram utilizes the largest possible “n” context rather than a fixed context like traditional n-gram models. The unbounded context allows infini-gram to provide more accurate n-gram predictions than traditional models. Infini-gram’s efficient use of a suffix array allows it to have fast expression lookups within large text corpora without using large amounts of space. In our paper, “Ontologies in Language Model Unembedding Matrices”, we used infini-gram to calculate frequencies of terms in comparison to language models’ ontological accuracy of these terms. Infini-gram’s term lookup performance made it a helpful tool in collecting this data but it has many uses outside of expression counting including:
+                    <ul style="list-style-type: disc;">
+                        <li>Counting the number of occurrences of terms of any length within text corpuses or training data. </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>Finding the probability of the last token of a given term
+                        </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>Finding probable next word predictions for a given term (using the greatest possible token context)
+                        </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>Find samples of all documents containing a given term
+                        </li>
+                    </ul>
+            
+                <h2>How Infini-gram Works</h2>
+                <p>Infini-gram’s largest possible “n” is defined as the longest context string for which there are more than 0 results inside of the corpus. 
+                </p>
+                <p>
+                    For example, given the prompt “...conducts research at the Paul G. Allen School of Computer Science and Engineering, University of”, a traditional 5-gram LM will use “Engineering, University of” (5 tokens) as context while the infini-gram model will find the count of the largest possible context string available in the corpus: “research at the Paul G. Allen School of Computer Science and Engineering, University of” for which the only possible continuation of the string is “_Washington”. (As provided by infini-gram’s site <a class="link" href="https://infini-gram.io/" target="_blank">here</a>.)
+                </p>
+                    
+                <div class="fig-cap">
+                    <img src="assets/images/infini-gram-n-diagram.png" alt="Shotgun Spread Effect created by sentence generation via a covariance matrix" class="figure-img" onclick="openModal(this.src)">
+                    <figcaption>Image from Infini-gram's site showing the differences between 5 token context and unbounded context</figcaption>
+                </div>
+                <p>Infini-gram is able to utilize this strategy through its use of a suffix array. In order to create this array, every possible suffix that makes up the targeted corpus is given an integer index based off of their position in the corpus. The indices are lexicographically sorted based on the lexicographical order of the suffixes that they represent and are stored in the suffix array. The lexicographically sorted nature of the suffix arrays allows infini-gram to use binary searches to find and count lexicographically equal occurrences of a given term. Infini-gram achieves O(n) space and (when searching for a term T) \(O(logn* |T|)\) searching rather than traditional O(n*|T|). 
+                </p>
+                <div class="infini-gram-uses">
+                    <h2>How to use Infini-gram</h2>
+                    <p>There are two ways to access infini-gram, the infini-gram python <a class="link" href="https://infini-gram.io/pkg_doc.html" target="_blank">package</a> and the infini-gram <a class="link" href="https://infini-gram.io/api_doc.html" target="_blank">package</a>. More detailed instructions for the package and API can be found on infini-gram’s website. 
+                    </p>
+                </div>
+                <div class="infini-gram-api">
+                    <h2>Using the Infini-gram API</h2>
+                    <p>A more detailed explanation for installation and use can be found on Infini-gram’s API <a class="link" href="https://infini-gram.io/api_doc.html" target="_blank">page</a>.
+                    </p>
+                    <p>You can access infini-gram through a HTTP POST request with a JSON payload at the endpoint: https://api.infini-gram.io/. This payload should include an ‘index’ (the training data index for the training data you want to collect information about), the ‘query_type’ (for our purposes we used it to find word counts), and the ‘query’ (for this case, we queried the term we wanted to collect a word count for).
+                    </p>
+                </div>
+                <div class="infini-gram-pkg">
+                    <h2>Using the Infini-gram Python Package</h2>
+                    <p>A more detailed explanation for installation and use can be found on Infini-gram’s python package <a class="link" href="https://infini-gram.io/pkg_doc.html" target="_blank">page</a>.
+                    </p>
+                    <ol>
+                        <li>Make sure that you have all of infini-gram’s systems requirements
+                        </li>
+                            <ol type="a">
+                                <li>Infini-gram only works on Linux systems</li>
+                                <li>The package only supports architectures, x86_64 and i686</li>
+                                <li>In order to run infini-gram properly, the Python version must be at least version 3.8</li>
+                            </ol>
+                        <li>Install infini-gram: pip install infini-gram
+                        </li>
+                        <li>Download your selected pre-built index
+                            <ol type="a">
+                                <li>You can also build your own indexes </li>
+                            </ol>
+                        </li>
+                    </ol>
+                    <p>For example:</p>
+                    <pre><code class="language-python">{
+  ‘Index’: ‘v4_pileval_llama’,
+  ‘query_type’: ‘count’,
+  ‘query’: ‘programmer’
+}</code></pre>
+                                          <p>You can send these requests through shell or python scripts. 
+                                          </p>
+                                          <p>Curl:</p>
+                                          <pre><code class="language-python">curl -X POST -H "Content-Type: application/json" -d '{"index": "v4_rpj_llama_s4", "query_type": "count", "query": "programmer"}' https://api.infini-gram.io/</code></pre>
+                                          <p>Python:
+                                          </p>
+                                          <pre><code class="language-python">import requests
+                      
+payload = {
+  'index': 'v4_rpj_llama_s4',
+  'query_type': 'count',
+  'query': 'programmer',
+}
+result = requests.post('https://api.infini-gram.io/', json=payload).json()
+print(result)</code></pre>
+                    <p>After Infini-gram is installed, you can utilize it for any of the uses listed above
+                        (details can be found on Infini-gram’s Python Package page)
+                    </p>
+                    <p>The infini-gram indices are read-only so you can run infini-gram in parallel on the same index. This can greatly increase the speed of collection of term counts or probabilities if you have access to parallel computing resources. 
+                    </p>
+                </div>
+                <div class="ontology-topology">
+                    <h2>Use in our project</h2>
+                    <p>In our paper, “Ontologies in Language Model Unembedding Matrices” we needed to determine the frequency of terms within training data in order to compare these frequencies to the ontological representations. In order to collect these frequencies, we utilized a powerful tool: infini-gram. Infini-gram allowed us to collect term frequencies of ontology terms within the llama(specific version) corpus. We then analyzed these terms by comparing how their frequency in the corpus affected their ontology scores in order to determine the connections between these factors. Through our work with infini-gram we have discovered its usefulness and the many uses it has in studying pre-training data or large corpuses.
+                    </p>
+                    <p>An example package usage from our project:
+                    </p>
+                    <pre><code>from infini_gram.engine import InfiniGramEngine
+                        from transformers import AutoTokenizer
+                        
+                        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", add_bos_token=False, add_eos_token=False)
+                        engine = InfiniGramEngine(index_dir='index/v4_pileval_llama', eos_token_id=tokenizer.eos_token_id)</code></pre>
+                    <p>In our project, we needed to calculate approximately 2.9 million frequencies over 115 OBO Foundry files. To collect these frequencies, we utilized both Infini-gram’s API and Python Package. The Python Package was able to calculate an average of 1.1714 frequency calculations per second. Calculating these frequencies sequentially would have taken approximately 945 hours.
+                    </p>
+                    <p>In order to increase the speed of our data collection, we used Joblib’s parallelization to run these infini-gram frequency count calculations over multiple OBO-Foundry data sets in parallel with 40 cors running simultaneously. Due to this, we were able to collect our frequencies much faster. We also used chunking to improve speeds to save progress in the event of errors or other issues. 
+                    </p>
+                    <p>To learn more about our project or to review our usage of infini-gram, see our Ontology Topology research project or project github <a class="link" href="https://github.com/g-simmons/persona-research-internship" target="_blank">repository</a>. Within the github repository in folder “llm_ontology” you will find our frequency collection python script: frequencies.py which you as well as our collected frequencies within the folder: “/data/term_frequencies/”. 
+                    </p>
+                    <p>You can also collect further frequencies within the terminal by running the file from the terminal with “python frequencies.py <path to folder with txt files of terms to be collected> <path to output folder where frequencies will be stored> <names of specified files to collect>”.
+                    </p>
+                </div>
+                <div class="troubleshooting">
+                    <h2>Use in our project</h2>
+                    <p>During our use of infini-gram in our project, we have come up with some best practices:
+                    </p>
+                    <ul style="list-style-type: disc;">
+                        <li>While infini-gram only works for Python versions later than 3.8, we also experienced some python interpreter issues with Python 3.13. Python 3.12.8 provided the most stable experience but any version between 3.8-3.12.8 should provide the best results. 
+                        </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>In order to prevent indexing issues, double check your indexing paths before you call them and make sure that you have enough space to download large training data indexes. 
+                        </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>
+                            Infini-gram enforces unspecified rate limits that prevent excessive API calls. In order to reduce the effects of these rate limits, you can include retries on errors into your code in case an error occurs. Also, you can utilize timeouts to prevent exceeding the infini-gram rate limits.
+                        </li>
+                    </ul>
+                    <ul style="list-style-type: disc;">
+                        <li>
+                            During large scale data collection, you can use chunking like we did in our project to reduce time consuming data movement
+                        </li>
+                    </ul>
+                </div>
+                <div class="conclusion">
+                    <h2>Conclusion</h2>
+                    <p>Infini-gram is a very useful tool in data collection, language models, and training data research. Its creative use of suffix arrays have allowed it to revolutionize n-gram models and greatly improve predictions and expression searches. If you are interested in infini-gram and want to learn more about it, please read the infini-gram paper <a class="link" href="https://arxiv.org/pdf/2401.17377" target="_blank">here</a>. Infini-gram has helped us in our work on Ontology Topologies and we hope it can help you too. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
