@@ -79,7 +79,7 @@
                 </p>
                     
                 <div class="fig-cap">
-                    <img src="assets/images/infini-gram-n-diagram.png" alt="Shotgun Spread Effect created by sentence generation via a covariance matrix" class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets/images/infini-gram-n-diagram.png" alt="Example of Infini-gram's use versus other n-gram models" class="figure-img" onclick="openModal(this.src)">
                     <figcaption>Image from Infini-gram's site showing the differences between 5 token context and unbounded context</figcaption>
                 </div>
                 <p>Infini-gram is able to utilize this strategy through its use of a suffix array. In order to create this array, every possible suffix that makes up the targeted corpus is given an integer index based off of their position in the corpus. The indices are lexicographically sorted based on the lexicographical order of the suffixes that they represent and are stored in the suffix array. The lexicographically sorted nature of the suffix arrays allows infini-gram to use binary searches to find and count lexicographically equal occurrences of a given term. Infini-gram achieves O(n) space and (when searching for a term T) \(O(logn* |T|)\) searching rather than traditional O(n*|T|). 
