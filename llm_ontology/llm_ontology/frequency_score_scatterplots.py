@@ -37,7 +37,8 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
         row_terms = [line.strip() for line in f.readlines()]
     
     with open(term_freq_path, 'r') as f:
-        term_freq = json.load(f)
+        outer_dict = json.load(f)
+        term_freq = outer_dict[list(outer_dict.keys())[0]] #overly complicated, may just modify the structure of the frequencies.json files
 
     # Calculate causal separability score
     #score = causal_sep_score(adj, cos)
@@ -94,7 +95,7 @@ def main() -> None:
 
     script_dir = pathlib.Path(__file__).parent.parent / "data/"
     row_terms_path = script_dir / "owl_row_terms/wordnet_row_terms.txt"
-    term_freq_path = script_dir / "term_frequencies/wordnet-frequencies.json"
+    term_freq_path = script_dir / "term_frequencies/wordnet.txt-frequencies.json"
 
     save_scatterplot(adj, cos, row_terms_path, term_freq_path)
 
