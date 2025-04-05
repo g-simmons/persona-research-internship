@@ -7,8 +7,9 @@ import numpy as np
 import torch
 import seaborn as sns
 import matplotlib.pyplot as plt
+#from utils import savefig, figname_from_fig_metadata
 from utils import savefig, figname_from_fig_metadata
-from .ontology_scores import causal_sep_score_simple as causal_sep_score
+#from .ontology_scores import causal_sep_score_simple as causal_sep_score
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -39,12 +40,14 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
         term_freq = json.load(f)
 
     # Calculate causal separability score
-    score = causal_sep_score(adj, cos)
+    #score = causal_sep_score(adj, cos)
     
     # Map frequencies to scores
     scores = {}  # freq: score
     for i, term in enumerate(row_terms):
         diff = cos[i] - adj[i]
+        #print(term_freq)
+        #print(row_terms)
         scores[term_freq[term]] = float(np.linalg.norm(diff))
 
     # Create scatterplot
@@ -81,12 +84,16 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
 def main() -> None:
     param_model = "160M"
     step = "step143000"
+    model_name = "pythia"
+    if model_name == "pythia":
+        adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{param_model}/{param_model}-{step}-1.pt"), weights_only=False)
+        cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-pythia/{param_model}/{param_model}-{step}-2.pt"), weights_only=False)
+    if model_name == "olmo":
+        adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{param_model}/{param_model}-{step}-1.pt"), weights_only=False)
+        cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{param_model}/{param_model}-{step}-2.pt"), weights_only=False)
 
-    adj = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-1.pt"))
-    cos = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps/{param_model}/{param_model}-{step}-2.pt"))
-
-    script_dir = pathlib.Path(__file__).parent
-    row_terms_path = script_dir / "wordnet_row_terms.txt"
+    script_dir = pathlib.Path(__file__).parent.parent / "data/"
+    row_terms_path = script_dir / "owl_row_terms/wordnet_row_terms.txt"
     term_freq_path = script_dir / "term_frequencies/wordnet-frequencies.json"
 
     save_scatterplot(adj, cos, row_terms_path, term_freq_path)

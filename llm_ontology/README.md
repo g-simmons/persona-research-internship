@@ -2,21 +2,32 @@ This codebase extends the work from Park, et al (2024).
 
 # Environment Setup
 
-Install the `uv` tool.
+First, check if `uv` is installed:
+```bash
+uv --version
+```
 
-Then create a virtual environment and install the dependencies.
+If not installed, install the `uv` tool:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
+Then create and activate a virtual environment with Python 3.12:
 ```bash
 uv venv --python 3.12.0
 source .venv/bin/activate
+```
+
+Install the project dependencies:
+```bash
 uv pip install -r requirements.txt
 ```
 
+Configure Hugging Face cache location:
 ```bash
 export HF_HOME="/mnt/bigstorage/$USER/huggingface_cache"
 export HF_HUB_CACHE="/mnt/bigstorage/$USER/huggingface_cache"
 ```
-
 
 
 # Setup for Experiments
