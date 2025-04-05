@@ -205,7 +205,7 @@ def get_selected_frequencies(ontology_terms_path: str, folder_path: str, *args: 
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    DATA_DIR = script_dir / "data"
+    DATA_DIR = script_dir / "../data"
     ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "ontology-terms"
     TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies"
 

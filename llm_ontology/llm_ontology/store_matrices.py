@@ -107,7 +107,7 @@ def load_olmo_last_layer(model_name):
     final_memory = get_memory_usage()
     return last_layer_weights, final_memory - initial_memory
 
-def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str):
+def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str, GPU = 0):
     """
     Apply the causal inner product to the unembedding matrix and save it.
     The causal inner product is estimated as the product of the square root of the 
@@ -138,7 +138,7 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
 
     model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
 
-    GPU = 0
+    #GPU = 0
 
     ### load unembdding vectors ###
     gamma = model.get_output_embeddings().weight.detach()
@@ -221,9 +221,11 @@ def run_single_step():
     DATA_DIR = SCRIPT_DIR / "../data"
     BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
+    print (DATA_DIR / "olmo_7B_model_names.txt", "r")
     with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
         steps = a.readlines()
 
+    print(steps)
     steps = list(map(lambda x: x[:-1], steps))
     steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
 
@@ -240,9 +242,64 @@ def run_single_step():
         logger.info(f"Processing model {parameter_model} at step {newstep}")
         generate_unembedding_matrix(parameter_model, newstep, str(folder))
 
+def generate_unembeddings_matrix_testspeed():
+    import time
+    import pathlib
+    import matplotlib.pyplot as plt
+    BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
+    folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"7B-unembeddings"
+    folder.mkdir(parents=True, exist_ok=True)
+    nonGpuTimes = []
+    gpuTimes = []
+    for i in range(5):
+        start = time.perf_counter()
+        generate_unembedding_matrix("7B", "step0-tokens0B", str(folder), 0)
+        end = time.perf_counter()
+        print(f"non GPU time {i}:", str(end - start))
+        nonGpuTimes.append(end-start)
+
+        start = time.perf_counter()
+        generate_unembedding_matrix("7B", "step0-tokens0B", str(folder), 1)
+        end = time.perf_counter()
+        print(f"GPU time {i}:", str(end - start))
+        gpuTimes.append(end-start)
+    #nonGpuTimes = [15, 15, 15, 15, 15]
+    #gpuTimes = [5, 10, 15, 12, 13]
+    print(nonGpuTimes)
+    print(gpuTimes)
+    ratioTimes = list(map(lambda non, gpu: non/gpu, nonGpuTimes, gpuTimes))
+    data = [nonGpuTimes, gpuTimes]  # Combine the lists
+    labels = ['Non-GPU', 'GPU']
+
+    # Create the histogram
+    trials = np.arange(len(nonGpuTimes))
+    trial_labels = [i+1 for i in trials]
+    width = 0.35
+
+    # Create the grouped bar chart
+    plt.figure(figsize=(10, 6))
+    plt.bar(trials - width/2, nonGpuTimes, width, label="Non-GPU")
+    plt.bar(trials + width/2, gpuTimes, width, label="GPU")
+    plt.xlabel("Trial")
+    plt.ylabel("Time (seconds)")
+    plt.title("GPU vs. Non-GPU Time Comparison")
+    plt.xticks(trials, trial_labels)  
+    plt.legend()
+    plt.savefig('gpu_vs_nongpu_times.png')
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(trials, ratioTimes, width, label="Non-GPU/GPU")
+    plt.xlabel("Trial")
+    plt.ylabel("Ratio (Non-GPU/GPU times)")
+    plt.title("GPU, Non-GPU Time Comparison ratio")
+    plt.xticks(trials, trial_labels)
+    plt.legend()
+    plt.savefig('gpu_vs_nongpu_ratio_times.png')
 
 if __name__ == "__main__":
     main()
+    #run_single_step()
+    #generate_unembeddings_matrix_testspeed()
 
 
 

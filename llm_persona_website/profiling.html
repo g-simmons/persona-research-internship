@@ -6,7 +6,26 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/images/favicon.ico">
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <script>
+        window.MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]  // Enable inline math using $...$
+          }
+        };
+    </script>
     <title>Drawing with Prompts</title>
+    <style>
+        a {
+            all: unset;
+            color: var(--primary-color);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body style="background-color:white;">
     <header>
@@ -20,6 +39,8 @@
                 <div class="dropdown-content">
                     <a class='blog-link' href="prompt_skywriting.html">Drawing with Prompts</a>
                     <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
+                    <a class='blog-link' href="infini-gram.html">Using Infini-Gram</a>
+                    <a class='blog-link' href="profiling.html">Profiling Optimization</a>
                     
                 </div>
             </div>
@@ -36,11 +57,11 @@
     <main>
         <div class="container">
             <div class="blog-title">
-                <h1>SkyWrite: Transforming Text into Thematic Visual Shapes through Embeddings</h1>
+                <h1>Code Optimization Through the Lens of Profiling</h1>
             </div>
             <div class="meta-data">
-                <p>Date: 4/14/2024</p>
-                <p>Author: Brody Roberts</p>
+                <p>Date: 3/10/2025</p>
+                <p>Author: Logan Somoza</p>
             </div>
             <div class="content">
                 <h2>Introduction</h2>
@@ -50,7 +71,7 @@
                 <p>The project in its current state can be found at https://thanhyto.github.io/skywrite/
                 </p>-->
             
-                <h2>How SkyWrite Works</h2>
+                <h2>Transforming Matrices</h2>
                 <p>One of our most time consuming functions that we wanted to optimize was generate_unembeddings_matrix. This function computes the causal inner product matrix. Getting the unembedding matrix requires loading the model weights from disk to memory. Scores require computing the eigenvalues and eigenvectors of the covariance matrix of the unembedding matrix. The eigendecomposition is used to apply the causal inner product, a transformation derived by Park et. al. The causal inner product requires multiplying the inverse square root of the covariance matrix of the unembedding matrix by the centered unembedding matrix. The inverse square root can be conveniently computed through the eigendecomposition.</p>
                 <p>Prior to starting this optimization, we knew that the outer function that computes the causal inner product matrix was slow, but we weren’t sure why, we suspected that loading the model from disk through the subfunction, “OLMoForCausalLM.from_pretrained()” was the cause. This function computes a transformation of the unembedding matrix from a causal language model (CLM), specifically from an OLMo model (a model from AllenAI) and saves the transformed matrix.</p>
                 <p>However, after profiling the generate_unembeddings_matrix function, we learned that “OLMoForCausalLM.from_pretrained()” ran much faster than expected and most of the time was actually spent on calculating eigenvalues and eigenvectors of the covariance matrix. We calculated this using eigh() which was the most time consuming sub function of generate_unembeddings_matrix(). 
@@ -60,20 +81,28 @@
                     <img src="assets/images/profiling_screenshot.png" alt="Snapshot of our profiling output">
                     <figcaption>Snapshot of profiling our run_single_step() function</figcaption>
                 </div>
-                <!--$$
-                    = \mathbb{E}_{\text{binary concepts}}\left(\cos(\text{test-word}, \text{concept vector})\right)
-                $$-->
                 
                 <p>From this information we realized that we could load in numpy arrays more quickly by using CUDA GPU rather than running these calculations on the CPU which is torch’s default setting. By using profiling to objectively identify time consuming processes instead of relying on our intuition to determine what seemingly would be the most time consuming, we could focus our optimization analysis on the more time consuming process, eigenvalue calculation. 
                 </p>
-                <img src="assets/images/causal_inner_equation.png" alt="Causal inner product equation">
-                <p>We need to calculate the Cov(gamma)^(-½). In order to calculate this optimally, we can compute the eigenvalues of the Cov matrix and use the matrix multiplication rule:</p>
-                <img src="assets/images/diagonalization_rule.png" alt="Causal inner product equation">
+                $$
+                    g(y) = Cov(\gamma)^{-\frac{1}{2}}(\gamma(y)-\mathbb{E}[\gamma])
+                $$
+                <!--<img src="assets/images/causal_inner_equation.png" alt="Causal inner product equation">-->
+                <p>We need to calculate the $ \text{Cov}(\gamma)^{-\frac{1}{2}} $. In order to calculate this optimally, we can compute the eigenvalues of the Cov matrix and use the matrix multiplication rule:</p>
+                $$
+                    A^k = Q\Lambda^kQ^T
+                $$
+                <!--<img src="assets/images/diagonalization_rule.png" alt="Causal inner product equation">-->
                 <p>To find that:</p>
-                <img src="assets/images/inverse_covarian_equation.png" alt="Causal inner product equation">
+                $$
+                    Cov(\gamma)^{-\frac{1}{2}} = Q\Lambda^{-\frac{1}{2}}Q^T
+                $$
+                <!--<img src="assets/images/inverse_covarian_equation.png" alt="Causal inner product equation">-->
                 <p>With  being a matrix comprised of the eigenvalues of Cov() and Q being a matrix made up of eigenvectors of Cov(). There are several ways that the eigenvectors and eigenvalues can be computed. Both torch and numpy implement eig() and eigh() methods. The difference between eig() and eigh() is that the latter is optimized for Hermitian matrices. We preferred to use an eigh() method since our matrix is symmetric and the eigh method should be faster in theory on symmetric matrices.</p>
                 <p>Additionally, torch methods can run on the GPU or on the CPU. We ran into issues before with torch, and switched to numpy. This was fine for initial experiments, but eventually the throughput requirements of the project increased and it made sense to consider optimization. Torch on the CPU leads to an error: Intel oneMKL ERROR: Parameter 8 was incorrect on entry to SSYEVD. After reading this <a class="link" href="https://github.com/pytorch/pytorch/issues/92141" target="_blank">issue</a>, it seemed that this was a known issue in pytorch. The size of the matrix sent to eigh() was too big for some low-level interface in torch. However, torch on the GPU worked. </p>
-                <p>At this point we had two working methods: numpy eigh on the CPU, and torch eigh on the GPU. We added a conditional to the get_unembedding_matrix method to compare and timed each. We ran the get_unembedding matrix on the GPU and CPU for the OLMo-7B model, and found that the CPU implementation took approx 25s and the GPU implementation took approx 5 seconds, a 5x speedup.</p>
+                <p>At this point we had two working methods: numpy eigh on the CPU, and torch eigh on the GPU. We added a conditional to the get_unembedding_matrix method to compare and timed each. We ran the get_unembedding matrix on the GPU and CPU for the OLMo-7B model, and found that the CPU implementation took on average about 15 seconds and the GPU implementation took approximately 5 seconds, a 3x speedup. Also, the GPU implementation seemed to be less affected by other running processes. When running these tests in tandem with other computationally intensive processes, the CPU implementation increased to an upwards of 53 seconds while the GPU implementation stayed relatively stable at around 5 seconds.</p>
+                <img src="assets/images/gpu_vs_nongpu_times.png" alt="graph representing gpu vs and non-gpu calculation time ratios">
+                <img src="assets/images/gpu_vs_nongpu_ratio_times.png" alt="graph comparing gpu vs and non-gpu calculation time taken">
                 <h2>Using cProfile</h2>
                 
                 <p>We created a profiling script “profile_function.py” which can profile specified functions and output the profiling information onto a text file.
