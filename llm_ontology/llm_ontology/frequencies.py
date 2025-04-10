@@ -180,6 +180,7 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str) -> None:
                 uncompleted_files.append(file)
     else:
         uncompleted_files = file_list
+    print('file-list', uncompleted_files)
     Parallel(n_jobs=16)(
         delayed(add_file_frequencies_to_json)(file, ontology_terms_path, folder_path)
         for file in uncompleted_files
