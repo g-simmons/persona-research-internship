@@ -666,13 +666,32 @@
                 <div>
                     <h2>3. Research Question 3: How does term frequency affect ontology score?</h2>
 
-                    <figure>
-                        <img src="assets/ontology_figures/typ=frequency_score_scatterplot_tit=Term Frequency vs Causal Separability Score.png" 
+                    <figure style="margin: 0 20px;">
+                        <img src="assets/ontology_figures/frequency_score_scatterplot_olmo.png" 
+                             alt="Term frequency vs causal separability score scatterplot for Olmo"
+                             class="figure-img"
+                             onclick="openModal(this.src)">
+                        <figcaption style="text-align: center;">Olmo 7B: Term frequency vs causal separability score</figcaption>
+                    </figure>
+                    <figure style="margin: 0 20px;">
+                        <img src="assets/ontology_figures/frequency_score_scatterplot_pythia.png" 
+                             alt="Term frequency vs causal separability score scatterplot for Pythia"
+                             class="figure-img"
+                             onclick="openModal(this.src)">
+                        <figcaption style="text-align: center;">Pythia 2.8B: Term frequency vs causal separability score</figcaption>
+                    </figure>
+                    <!--<figure>
+                        <img src="assets/ontology_figures/frequency_score_scatterplot_olmo.png" 
+                            alt="Term frequency vs causal separability score scatterplot"
+                            class="figure-img"
+                            onclick="openModal(this.src)">
+                        <img src="assets/ontology_figures/frequency_score_scatterplot_pythia.png" 
                             alt="Term frequency vs causal separability score scatterplot"
                             class="figure-img"
                             onclick="openModal(this.src)">
                         <figcaption>Relationship between term frequency in The Pile dataset and causal separability scores. Each point represents a WordNet term, with its frequency on the x-axis and its causal separability score on the y-axis.</figcaption>
-                    </figure>
+                    </figure>-->
+
                     <!--<span class="todo">
                         TODO: Add term frequency vs. ontology score figures
                     </span>-->
