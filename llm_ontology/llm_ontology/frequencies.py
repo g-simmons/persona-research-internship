@@ -28,10 +28,11 @@ def get_term_frequency_package(term: str) -> int:
     return result["count"]
 
 
-def get_term_frequency_api(term: str) -> int:
+def get_term_frequency_api(term: str, index: str = "v4_pileval_llama") -> int:
+    #print('here', index)
     url = "https://api.infini-gram.io/"
     headers = {"Content-Type": "application/json"}
-    payload = {"index": "v4_pileval_llama", "query_type": "count", "query": term}
+    payload = {"index": index, "query_type": "count", "query": term}
 
     response = requests.post(url, headers=headers, json=payload)
     response.raise_for_status()
@@ -55,14 +56,23 @@ def get_term_dict_timed(terms: list[str]) -> dict[str, int]:
     return term_dict
 
 
-def get_term_dict(terms: list[str]) -> dict[str, int]:
+def get_term_dict(terms: list[str], api: bool = False, index: str = "v4_pileval_llama") -> dict[str, int]:
+    term_dict = {}
+    from datetime import datetime
+    for term in terms:
+        if api:
+            term_dict[term] = get_term_frequency_api(term, index)
+        else:
+            term_dict[term] = get_term_frequency_package(term)
+    return term_dict
+
+def get_term_dict_api(terms: list[str], index: str = "v4_pileval_llama") -> dict[str, int]:
     term_dict = {}
     from datetime import datetime
 
     for term in terms:
-        term_dict[term] = get_term_frequency_package(term)
+        term_dict[term] = get_term_frequency_api(term, index)
     return term_dict
-
 
 def get_terms_from_file_string(file_string: str) -> list[str]:
     return file_string.split("\n")
@@ -81,8 +91,15 @@ def add_frequencies_to_json(
     word_list: list[str],
     folder_path: str,
     chunk_size: int = 25,
+    index: str = "v4_pileval_llama",
+    api: bool = False,
     collection_type: str | None = None
 ) -> None:
+    if index != "v4_pileval_llama":
+        # Create new folder with index name and update folder path
+        index_folder = os.path.join(folder_path, index)
+        os.makedirs(index_folder, exist_ok=True)
+        folder_path = index_folder
     progress_file = os.path.join(folder_path, f"progress-{file_name}.txt")
     json_file_path = os.path.join(folder_path, f"{file_name}-frequencies.json")
     all_files_progress_path = os.path.join(folder_path, "completed-frequencies.txt")
@@ -111,7 +128,7 @@ def add_frequencies_to_json(
             counter = 0
         for i in range(last_index, len(word_list) - chunk_size, chunk_size):
             chunk = word_list[i : i + chunk_size]
-            term_dict = get_term_dict(chunk)
+            term_dict = get_term_dict(chunk, api=api, index=index)
             data[file_name].update(term_dict)
             with open(json_file_path, "w") as f:
                 json.dump(data, f, indent=4)
@@ -124,7 +141,7 @@ def add_frequencies_to_json(
         if counter < len(word_list):
             # print(f'Adding words, {counter}-{len(word_list)} to {json_file_path}')
             chunk = word_list[counter : len(word_list)]
-            term_dict = get_term_dict(chunk)
+            term_dict = get_term_dict(chunk, api=api, index=index)
             data[file_name].update(term_dict)
             with open(json_file_path, "w") as f:
                 json.dump(data, f, indent=4)
@@ -145,9 +162,13 @@ def add_file_frequencies_to_json(
     file_name: str,
     ontology_terms_path: str, 
     folder_path: str,
+    index: str = "v4_pileval_llama",
+    api: bool = False,
     collection_type: str | None = None
 ) -> None:
-    print(file_name, ontology_terms_path)
+    #print(file_name, ontology_terms_path)
+    #if index:
+        #print("index", index)
     word_list = get_terms_from_file_string(
         get_file_string(file_name, ontology_terms_path)
     )
@@ -160,7 +181,7 @@ def add_file_frequencies_to_json(
         else:
             i += 1
     unique_list = list(OrderedDict.fromkeys(word_list))
-    add_frequencies_to_json(file_name, unique_list, folder_path, 1000, collection_type)
+    add_frequencies_to_json(file_name, unique_list, folder_path, 1000, index=index, api=api,collection_type=collection_type)
 
 
 def get_all_frequencies(ontology_terms_path: str, folder_path: str) -> None:
@@ -209,8 +230,13 @@ if __name__ == "__main__":
     DATA_DIR = script_dir / "../data"
     ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "ontology-terms"
     TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies"
-
-    parser = argparse.ArgumentParser(description="Process term frequencies")
+    indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama"]
+    Parallel(n_jobs=3)(
+        delayed(add_file_frequencies_to_json)("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index, True)
+        for index in indices
+    )
+    #add_file_frequencies_to_json("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index="v4_dolmasample_olmo", api="True")
+    """parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument(
         "--ontology-terms-path",
         default=ONTOLOGY_TERMS_PATH,
@@ -226,4 +252,4 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    get_selected_frequencies(args.ontology_terms_path, args.folder_path, *args.files)
+    get_selected_frequencies(args.ontology_terms_path, args.folder_path, *args.files)"""
