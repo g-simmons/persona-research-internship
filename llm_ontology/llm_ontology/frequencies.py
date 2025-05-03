@@ -14,12 +14,12 @@ from transformers import AutoTokenizer
 from joblib import Parallel, delayed
 
 
-def get_term_frequency_package(term: str) -> int:
+def get_term_frequency_package(term: str, index_dir: str) -> int:
     tokenizer = AutoTokenizer.from_pretrained(
         "meta-llama/Llama-2-7b-hf", add_bos_token=False, add_eos_token=False
     )
     engine = InfiniGramEngine(
-        index_dir="/mnt/bigstorage/infinigram_indices/v4_pileval_llama",
+        index_dir=index_dir,
         eos_token_id=tokenizer.eos_token_id,
     )
     input_ids = tokenizer.encode(term)
@@ -39,7 +39,7 @@ def get_term_frequency_api(term: str, index: str = "v4_pileval_llama") -> int:
     return response.json()["count"]
 
 
-def get_term_dict_timed(terms: list[str]) -> dict[str, int]:
+def get_term_dict_timed(terms: list[str], index_dir: str) -> dict[str, int]:
     term_dict = {}
     from datetime import datetime
 
@@ -47,9 +47,7 @@ def get_term_dict_timed(terms: list[str]) -> dict[str, int]:
     earlier = datetime.now()
     early_timestamp = earlier.timestamp()
     for term in terms:
-        term_dict[term] = get_term_frequency_package(term)
-        # print(f'{term} pkg:', get_term_frequency_package(term))
-        # print(f'{term} api:', get_term_frequency_api(term))
+        term_dict[term] = get_term_frequency_package(term, index_dir)
     now = datetime.now()
     timestamp = now.timestamp()
     print(f"time taken: {timestamp - early_timestamp}")
@@ -90,6 +88,7 @@ def add_frequencies_to_json(
     file_name: str,
     word_list: list[str],
     folder_path: str,
+    index_dir: str,
     chunk_size: int = 25,
     index: str = "v4_pileval_llama",
     api: bool = False,
@@ -184,7 +183,7 @@ def add_file_frequencies_to_json(
     add_frequencies_to_json(file_name, unique_list, folder_path, 1000, index=index, api=api,collection_type=collection_type)
 
 
-def get_all_frequencies(ontology_terms_path: str, folder_path: str) -> None:
+def get_all_frequencies(ontology_terms_path: str, folder_path: str, index_dir: str) -> None:
     progress_file = os.path.join(folder_path, "completed-frequencies.txt")
     file_list = sorted(get_file_names(ontology_terms_path))
     if os.path.exists(progress_file):
@@ -203,7 +202,7 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str) -> None:
         uncompleted_files = file_list
     print('file-list', uncompleted_files)
     Parallel(n_jobs=16)(
-        delayed(add_file_frequencies_to_json)(file, ontology_terms_path, folder_path)
+        delayed(add_file_frequencies_to_json)(file, ontology_terms_path, folder_path, index_dir)
         for file in uncompleted_files
     )
 
@@ -212,14 +211,14 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str) -> None:
 def get_file_names(path: str) -> list[str]:
     return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-def get_selected_frequencies(ontology_terms_path: str, folder_path: str, *args: str) -> None:
+def get_selected_frequencies(ontology_terms_path: str, folder_path: str, index_dir: str, *args: str) -> None:
     if not args:
-        get_all_frequencies(ontology_terms_path, folder_path)
+        get_all_frequencies(ontology_terms_path, folder_path, index_dir)
     else:
         file_list = args
         Parallel(n_jobs=16)(
             delayed(add_file_frequencies_to_json)(
-                file, ontology_terms_path, folder_path
+                file, ontology_terms_path, folder_path, index_dir
             )
             for file in file_list
         )
@@ -246,6 +245,11 @@ if __name__ == "__main__":
         "--folder-path",
         default=TERM_FREQUENCIES_PATH,
         help="Path to output folder",
+    )
+    parser.add_argument(
+        "--index-dir",
+        default=DEFAULT_INDEX_DIR,
+        help="Path to the infinigram index directory",
     )
     parser.add_argument(
         "files", nargs="*", help="Optional list of specific files to process"

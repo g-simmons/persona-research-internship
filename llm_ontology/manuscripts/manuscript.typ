@@ -186,6 +186,14 @@ where $bb(1)$ is the appropriately-sized identity matrix,
 
 #text(fill:gray.lighten(60%))[#lorem(550)]
 
+
+== Individual Term Ontology Scores
+Given that the matrices used to calculate the scores above consist of representations of individual ontology terms, we propose individual term ontology scores.
+
+[insert some math stuff here idk how]
+
+
+
 = Results
 
 == Experiment 2: Ontology score vs. model quality
@@ -264,21 +272,24 @@ Each term in the ontology appears as a row/column in the symmetric matrices in F
 === Background
 Within the Pythia model suite, models of increasing parameter sizes use larger unembedding matrices. This results in each token being encoded in increasingly higher-dimensional unembedding spaces. For example, the Pythia 70M models encode tokens with 480 dimensions, while the 12B models use 4096 dimensions[fact check this].
 
-This higher dimensionality significantly increases the computation time of ontology scores, which possibly makes it unreasonable to evaluate high parameter models.
+This higher dimensionality significantly increases the computation time of ontology scores, making it unreasonable to repeatedly evaluate high parameter models.
 
 For this reason we investigate the effects of reducing dimensionality on the resulting accuracy of ontology scores[rewrite this setnence idk]. The goal of this experiment is to determine if there is a certain dimension for the various Pythia models at which significant computation time is saved while retaining  the original trends of the ontology scores.
 
 === Methods
-Using Principal Component Analysis(PCA) to reduce the dimensionality of the unembedding matrices to various dimensions, then recalculate ontology scores of 160M and 1.4B parameter models every 2000 steps from 1000 to 143000 steps. These scores are then compared with the original scores, taking a mean squared error of the score differences over all the training steps.
+Using Principal Component Analysis(PCA) to reduce the dimensionality of the unembedding matrices to various dimensions, ontology scores of 160M and 1.4B parameter models were recalculated every 2000 steps from 1000 to 143000 steps. These scores are then compared with the original scores, taking a mean squared error of the score differences over the respective training steps.
 
 === Results
-The mean squared errors were plotted against the reduced dimension
+The mean squared errors were plotted against the reduced dimension for model sizes 160M and 1.4B.
 
 #figure(caption: [Ontology scores vs. training steps for different Pythia model sizes],
-image("figures/figure-1-sketch.png")
+image("figures/baba.png")
 )
 
 
+== Experiment 6: Is term depth correlated with term ontology score?
+=== Background
+ 
 
 
 
