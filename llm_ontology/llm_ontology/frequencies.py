@@ -229,13 +229,13 @@ if __name__ == "__main__":
     DATA_DIR = script_dir / "../data"
     ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "ontology-terms"
     TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies"
-    indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama"]
+    """indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama"]
     Parallel(n_jobs=3)(
         delayed(add_file_frequencies_to_json)("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index, True)
         for index in indices
-    )
+    )"""
     #add_file_frequencies_to_json("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index="v4_dolmasample_olmo", api="True")
-    """parser = argparse.ArgumentParser(description="Process term frequencies")
+    parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument(
         "--ontology-terms-path",
         default=ONTOLOGY_TERMS_PATH,
@@ -246,14 +246,14 @@ if __name__ == "__main__":
         default=TERM_FREQUENCIES_PATH,
         help="Path to output folder",
     )
-    parser.add_argument(
+    """parser.add_argument(
         "--index-dir",
         default=DEFAULT_INDEX_DIR,
         help="Path to the infinigram index directory",
-    )
+    )"""
     parser.add_argument(
         "files", nargs="*", help="Optional list of specific files to process"
     )
 
     args = parser.parse_args()
-    get_selected_frequencies(args.ontology_terms_path, args.folder_path, *args.files)"""
+    get_selected_frequencies(args.ontology_terms_path, args.folder_path, *args.files)
