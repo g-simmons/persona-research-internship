@@ -235,6 +235,7 @@ if __name__ == "__main__":
         for index in indices
     )"""
     #add_file_frequencies_to_json("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index="v4_dolmasample_olmo", api="True")
+    DEFAULT_INDEX_DIR = 
     parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument(
         "--ontology-terms-path",
@@ -246,11 +247,11 @@ if __name__ == "__main__":
         default=TERM_FREQUENCIES_PATH,
         help="Path to output folder",
     )
-    """parser.add_argument(
+    parser.add_argument(
         "--index-dir",
         default=DEFAULT_INDEX_DIR,
         help="Path to the infinigram index directory",
-    )"""
+    )
     parser.add_argument(
         "files", nargs="*", help="Optional list of specific files to process"
     )
