@@ -47,7 +47,7 @@ random.seed(0)
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename=f"ontology_scores_log_test.log", level=logging.INFO)
+logging.basicConfig(filename=f"pca_scores.log", level=logging.INFO)
 
 
 # Internal

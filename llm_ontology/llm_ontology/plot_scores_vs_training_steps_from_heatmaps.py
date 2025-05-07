@@ -73,9 +73,8 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
 
     if model_name == "pythia":
         steps_nums = [int(step.split("p")[1]) for step in steps]
-        df = pd.DataFrame(new_scores, 
-                         columns=parameter_models, 
-                         index=pd.Index(steps_nums, name="Step"))
+        df = pd.DataFrame(new_scores, columns=parameter_models, index=pd.Index(steps_nums, name="Step"))
+        df = df.reset_index().melt("Step", var_name="Model Size", value_name="Score")
 
     if model_name == "olmo":
         steps_nums = [int(step.split('-')[0].split('p')[1]) for step in steps]
@@ -91,7 +90,7 @@ def save_plot(score: str, output_dir: str, model_name: str, parameter_models, st
     vis_idea = {
         "x": "Step:Q",
         "y": "Score:Q",
-        "color": "Model Size:N",
+        "color": alt.Color("Model Size:N", sort=parameter_models),
         "tooltip": ["Step", "Score", "Model Size"]
     }
     vis_ideas = [vis_idea]

@@ -3,6 +3,8 @@ import networkx as nx
 
 import torch
 from sklearn.covariance import ledoit_wolf
+from sklearn.decomposition import PCA
+from typing import Dict, Any
 from typing import Dict, Any, Union
 
 import numpy as np
@@ -36,7 +38,9 @@ def get_categories(model_name = 'noun'):
                 cats.update(json.loads(line))
         G = nx.read_adjlist(PROJECT_ROOT / "data/olmo/noun_synsets_wordnet_hypernym_graph.adjlist", create_using=nx.DiGraph())
     
+
     # cats = {k: list(set(v)) for k, v in cats.items() if len(set(v)) > 50}
+    # cats = {k: v for k, v in cats.items() if len(set(v)) > 50}
     cats = {k: v for k, v in cats.items() if len(set(v)) > 50}
 
     # cats = {k: list(set(v)) for k, v in cats.items()}
@@ -59,6 +63,7 @@ def get_categories(model_name = 'noun'):
     sorted_keys = list(nx.topological_sort(G))
 
     cats = {k: cats[k] for k in sorted_keys}
+
 
     return cats, G, sorted_keys
 
@@ -167,6 +172,9 @@ def estimate_single_dir_from_embeddings(category_embeddings: torch.Tensor, devic
         category_mean = category_embeddings.mean(dim=0)
         logger.info(f"category_embeddings: {category_embeddings}")
 
+        cov = ledoit_wolf(category_embeddings.cpu().numpy())
+        # logger.info("cov1")
+        # logger.info(cov)
         embeddingnan = torch.isnan(category_embeddings)
         logger.info(f"nan in category_embeddings: {True in embeddingnan}")
 
@@ -203,13 +211,11 @@ def estimate_single_dir_from_embeddings(category_embeddings: torch.Tensor, devic
         #     torch.save(cov, "cov.pt")
 
 
-        logger.info("ranksanshit")
-        logger.info(torch.linalg.matrix_rank(category_embeddings))
-        logger.info(torch.linalg.matrix_rank(cov))
+        # logger.info("ranksanshit")
+        # logger.info(torch.linalg.matrix_rank(category_embeddings))
+        # logger.info(torch.linalg.matrix_rank(cov))
         logger.info(category_embeddings.shape)
         logger.info(cov.shape)
-        
-
 
         lda_dir = lda_dir / torch.norm(lda_dir)
         lda_dir = (category_mean @ lda_dir) * lda_dir
@@ -225,6 +231,37 @@ def estimate_cat_dir(category_lemmas, unembed, vocab_dict, multi: bool) -> Dict[
     lda_dir, category_mean = estimate_single_dir_from_embeddings(category_embeddings)
     
     return {'lda': lda_dir, 'mean': category_mean}
+
+
+def estimate_cat_dir_pca(category_lemmas, unembed, vocab_dict, multi: bool, new_dim: int) -> Dict[str, Any]:
+    if multi:
+        category_embeddings = get_category_embeddings(category_to_indices_multi_word(category_lemmas, vocab_dict), unembed)
+    else:
+        category_embeddings = unembed[category_to_indices(category_lemmas, vocab_dict)]
+    
+    # pca = PCA(n_components = new_dim)
+
+
+    # with open("test.txt", "a") as f:
+    #     # f.write(str(category_embeddings.shape))
+    #     # f.write("\n")
+
+    #     reduced_points = pca.fit_transform(category_embeddings)
+    #     # f.write(str(reduced_points))
+    #     # f.write("\n")
+    #     # f.write(str(reduced_points.shape))
+    #     # f.write("\n")
+
+    #     f.write(str(pca.explained_variance_ratio_) + ", ")
+
+    #     reduced_points = torch.tensor(reduced_points)
+
+    lda_dir, category_mean = estimate_single_dir_from_embeddings(reduced_points)
+    
+    return {'lda': lda_dir, 'mean': category_mean}
+
+
+
 
 
 import inflect
