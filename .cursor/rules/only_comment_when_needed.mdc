@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Only Comment When Needed... IMPORTANT!!!!
+description: Only comment WHEN ABSOLUTELY NECESSARY. Prefer descriptive variable and function names and docstrings rather than commenting.
+

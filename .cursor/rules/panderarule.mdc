@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Always use Pandera typehints on functions with dataframes.
+
+description: Use Pandera to use typehint input and output for all functions that use dataframes. Here is an example: https://pandera.readthedocs.io/en/stable/dataframe_models.html
