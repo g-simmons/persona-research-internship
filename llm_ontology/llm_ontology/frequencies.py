@@ -14,9 +14,9 @@ from transformers import AutoTokenizer
 from joblib import Parallel, delayed
 
 
-def get_term_frequency_package(term: str, index_dir: str) -> int:
+def get_term_frequency_package(term: str, index_dir: str = "/mnt/bigstorage/infinigram_indices/test_index/v4_dolmasample_olmo") -> int:
     tokenizer = AutoTokenizer.from_pretrained(
-        "meta-llama/Llama-2-7b-hf", add_bos_token=False, add_eos_token=False
+        "allenai/OLMo-1B", add_bos_token=False, add_eos_token=False, trust_remote_code=True
     )
     engine = InfiniGramEngine(
         index_dir=index_dir,
@@ -28,7 +28,7 @@ def get_term_frequency_package(term: str, index_dir: str) -> int:
     return result["count"]
 
 
-def get_term_frequency_api(term: str, index: str = "v4_pileval_llama") -> int:
+def get_term_frequency_api(term: str, index: str = "v4_olmo-2-0325-32b-instruct_llama") -> int:
     #print('here', index)
     url = "https://api.infini-gram.io/"
     headers = {"Content-Type": "application/json"}
@@ -88,8 +88,8 @@ def add_frequencies_to_json(
     file_name: str,
     word_list: list[str],
     folder_path: str,
-    index_dir: str,
-    chunk_size: int = 25,
+    index_dir: str = "/mnt/bigstorage/infinigram_indices/v4_dolmasample_olmo",
+    chunk_size: int = 1000,
     index: str = "v4_pileval_llama",
     api: bool = False,
     collection_type: str | None = None
@@ -180,7 +180,7 @@ def add_file_frequencies_to_json(
         else:
             i += 1
     unique_list = list(OrderedDict.fromkeys(word_list))
-    add_frequencies_to_json(file_name, unique_list, folder_path, 1000, index=index, api=api,collection_type=collection_type)
+    add_frequencies_to_json(file_name=file_name, word_list=unique_list, folder_path=folder_path, chunk_size=250, index=index, api=api,collection_type=collection_type)
 
 
 def get_all_frequencies(ontology_terms_path: str, folder_path: str, index_dir: str) -> None:
@@ -201,7 +201,7 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str, index_dir: s
     else:
         uncompleted_files = file_list
     print('file-list', uncompleted_files)
-    Parallel(n_jobs=16)(
+    Parallel(n_jobs=-8)(
         delayed(add_file_frequencies_to_json)(file, ontology_terms_path, folder_path, index_dir)
         for file in uncompleted_files
     )
@@ -209,14 +209,19 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str, index_dir: s
 
 
 def get_file_names(path: str) -> list[str]:
-    return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    #return [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    #file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and 'multi' in f.lower()]
+    print(file_names)
+    return file_names
+
 
 def get_selected_frequencies(ontology_terms_path: str, folder_path: str, index_dir: str, *args: str) -> None:
     if not args:
         get_all_frequencies(ontology_terms_path, folder_path, index_dir)
     else:
         file_list = args
-        Parallel(n_jobs=16)(
+        Parallel(n_jobs=-8)(
             delayed(add_file_frequencies_to_json)(
                 file, ontology_terms_path, folder_path, index_dir
             )
@@ -227,15 +232,15 @@ def get_selected_frequencies(ontology_terms_path: str, folder_path: str, index_d
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
     DATA_DIR = script_dir / "../data"
-    ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "ontology-terms"
-    TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies"
+    ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "processed-ontology-terms"
+    TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies" / "multi-word-frequencies_v4_dolmasample_olmo"
     """indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama"]
     Parallel(n_jobs=3)(
         delayed(add_file_frequencies_to_json)("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index, True)
         for index in indices
     )"""
     #add_file_frequencies_to_json("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index="v4_dolmasample_olmo", api="True")
-    DEFAULT_INDEX_DIR = 
+    DEFAULT_INDEX_DIR = "v4_olmo-2-0325-32b-instruct_llama"
     parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument(
         "--ontology-terms-path",
@@ -257,4 +262,4 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    get_selected_frequencies(args.ontology_terms_path, args.folder_path, *args.files)
+    get_selected_frequencies(args.ontology_terms_path, args.folder_path, args.index_dir, *args.files)
