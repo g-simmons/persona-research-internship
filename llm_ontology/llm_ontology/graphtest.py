@@ -6,5 +6,5 @@ y = [1,2,3,4,5]
 plt.plot(x,y)
 plt.title('BOBOBAOSBOS')
 plt.xlabel('15')
-plt.ylabel('Testing2222')
+plt.ylabel('Testing123')
 plt.show()
