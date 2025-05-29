@@ -33,7 +33,7 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          python actions.py
+          python check_figure_code_placeholder.py
 
 
 #todo
