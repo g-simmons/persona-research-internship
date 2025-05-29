@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
+      - run: echo "OPENROUTER_API_KEY=${{ env.OPENROUTER_API_KEY }}" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
         with:
