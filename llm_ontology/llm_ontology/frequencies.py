@@ -14,7 +14,7 @@ from transformers import AutoTokenizer
 from joblib import Parallel, delayed
 
 
-def get_term_frequency_package(term: str, index_dir: str = "/mnt/bigstorage/infinigram_indices/test_index/v4_dolmasample_olmo") -> int:
+def get_term_frequency_package(term: str, index_dir: str = "/mnt/bigstorage/infinigram_indices/v4_olmo-2-0325-32b-instruct_llama") -> int:
     tokenizer = AutoTokenizer.from_pretrained(
         "allenai/OLMo-1B", add_bos_token=False, add_eos_token=False, trust_remote_code=True
     )
@@ -27,6 +27,22 @@ def get_term_frequency_package(term: str, index_dir: str = "/mnt/bigstorage/infi
     input_ids = tokenizer.encode(term)
     return result["count"]
 
+def get_term_average(term: str, index_dir: str = "/mnt/bigstorage/infinigram_indices/v4_olmo-2-0325-32b-instruct_llama", split_type=" "):
+    tokenizer = AutoTokenizer.from_pretrained(
+        "allenai/OLMo-1B", add_bos_token=False, add_eos_token=False, trust_remote_code=True
+    )
+    engine = InfiniGramEngine(
+        index_dir=index_dir,
+        eos_token_id=tokenizer.eos_token_id,
+    )
+    total_count = 0
+    words = term.split(split_type)
+    for word in words:
+        input_ids = tokenizer.encode(word)
+        result = engine.count(input_ids=input_ids)
+        total_count += result["count"]
+    #input_ids = tokenizer.encode(term)
+    return total_count // len(words)
 
 def get_term_frequency_api(term: str, index: str = "v4_olmo-2-0325-32b-instruct_llama") -> int:
     #print('here', index)
@@ -88,7 +104,7 @@ def add_frequencies_to_json(
     file_name: str,
     word_list: list[str],
     folder_path: str,
-    index_dir: str = "/mnt/bigstorage/infinigram_indices/v4_dolmasample_olmo",
+    index_dir,
     chunk_size: int = 1000,
     index: str = "v4_pileval_llama",
     api: bool = False,
@@ -102,7 +118,7 @@ def add_frequencies_to_json(
     progress_file = os.path.join(folder_path, f"progress-{file_name}.txt")
     json_file_path = os.path.join(folder_path, f"{file_name}-frequencies.json")
     all_files_progress_path = os.path.join(folder_path, "completed-frequencies.txt")
-
+    print(index)
     try:
         if os.path.exists(json_file_path):
             with open(json_file_path) as f:
@@ -161,7 +177,7 @@ def add_file_frequencies_to_json(
     file_name: str,
     ontology_terms_path: str, 
     folder_path: str,
-    index: str = "v4_pileval_llama",
+    index,
     api: bool = False,
     collection_type: str | None = None
 ) -> None:
@@ -202,7 +218,7 @@ def get_all_frequencies(ontology_terms_path: str, folder_path: str, index_dir: s
         uncompleted_files = file_list
     print('file-list', uncompleted_files)
     Parallel(n_jobs=-8)(
-        delayed(add_file_frequencies_to_json)(file, ontology_terms_path, folder_path, index_dir)
+        delayed(add_file_frequencies_to_json)(filename=file, ontology_terms_path=ontology_terms_path, folder_path=folder_path, index=index_dir)
         for file in uncompleted_files
     )
 
@@ -233,14 +249,14 @@ if __name__ == "__main__":
     script_dir = Path(__file__).parent
     DATA_DIR = script_dir / "../data"
     ONTOLOGY_TERMS_PATH = DATA_DIR / "term_frequencies" / "processed-ontology-terms"
-    TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies" / "multi-word-frequencies_v4_dolmasample_olmo"
+    TERM_FREQUENCIES_PATH = DATA_DIR / "term_frequencies" / "multi-word-frequencies_v4_pileval_gpt2"
     """indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama"]
     Parallel(n_jobs=3)(
         delayed(add_file_frequencies_to_json)("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index, True)
         for index in indices
     )"""
     #add_file_frequencies_to_json("wordnet.txt", ONTOLOGY_TERMS_PATH, TERM_FREQUENCIES_PATH, index="v4_dolmasample_olmo", api="True")
-    DEFAULT_INDEX_DIR = "v4_olmo-2-0325-32b-instruct_llama"
+    DEFAULT_INDEX_DIR = "v4_pileval_gpt2"
     parser = argparse.ArgumentParser(description="Process term frequencies")
     parser.add_argument(
         "--ontology-terms-path",
