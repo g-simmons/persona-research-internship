@@ -6,6 +6,8 @@ import os
 import json
 import logging
 from pydantic import BaseModel
+import tempfile
+import shutil
 
 
 class CodeContribution(BaseModel):
@@ -261,7 +263,15 @@ def _get_total_code_contributions() -> List[CodeContribution]:
     # Use git log with --numstat to get per-author line additions for .py files
     try:
         # Get all .py files relative to the repo root
-        py_files = [str(f.relative_to(code_dir.parent)) for f in code_dir.glob("*.py")]
+        # When in worktree, we need to be more careful about paths
+        py_files = []
+        for f in code_dir.glob("*.py"):
+            try:
+                py_files.append(str(f.relative_to(code_dir.parent.parent)))
+            except ValueError:
+                # If relative_to fails, try with just the parent
+                py_files.append(str(f.relative_to(code_dir.parent)))
+        
         if not py_files:
             logger.warning("No Python files found for code contribution analysis.")
             return []
@@ -272,7 +282,7 @@ def _get_total_code_contributions() -> List[CodeContribution]:
         ]
         result = subprocess.run(
             cmd,
-            cwd=code_dir.parent,
+            cwd=code_dir.parent.parent,  # Go to repo root
             capture_output=True,
             text=True,
             check=True,
@@ -300,118 +310,269 @@ def _get_total_code_contributions() -> List[CodeContribution]:
 
     return [CodeContribution(author=author, lines=lines) for author, lines in contributions.items()]
 
+def create_worktree(target_branch: str = "main") -> Tuple[Optional[Path], str]:
+    """
+    Create a git worktree for the target branch.
+    
+    Returns:
+        Tuple of (worktree_path, original_branch)
+        Returns (None, original_branch) if worktree creation fails
+    """
+    # Get the current branch
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    original_branch = result.stdout.strip()
+    
+    # First, fetch origin to get latest changes
+    try:
+        subprocess.run(["git", "fetch", "origin"], check=True)
+        logger.info("Fetched latest changes from origin")
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"Failed to fetch origin: {e}")
+    
+    # Create a temporary directory for the worktree
+    temp_dir = tempfile.mkdtemp(prefix="lint_worktree_")
+    worktree_path = Path(temp_dir)
+    
+    # Try to add the worktree with origin/main
+    try:
+        subprocess.run(
+            ["git", "worktree", "add", str(worktree_path), "origin/main"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Created worktree at {worktree_path} for branch origin/main")
+        return worktree_path, original_branch
+    except subprocess.CalledProcessError as e:
+        logger.warning(f"Failed to create worktree: {e}")
+        # Clean up the temp directory
+        shutil.rmtree(temp_dir)
+        return None, original_branch
+
+
+def cleanup_worktree(worktree_path: Path) -> None:
+    """
+    Clean up the git worktree.
+    """
+    try:
+        # Remove the worktree
+        subprocess.run(
+            ["git", "worktree", "remove", str(worktree_path), "--force"],
+            check=True
+        )
+        logger.info(f"Removed worktree at {worktree_path}")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to remove worktree: {e}")
+        # Try to clean up manually
+        if worktree_path.exists():
+            shutil.rmtree(worktree_path)
+
+
+def get_git_info() -> Tuple[str, str]:
+    """
+    Get current commit hash and branch name.
+    
+    Returns:
+        Tuple of (commit_hash, branch_name)
+    """
+    # Get commit hash
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    commit_hash = result.stdout.strip()[:8]  # Short hash
+    
+    # Get branch name
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    branch_name = result.stdout.strip()
+    
+    # If we're in detached HEAD state, try to get the remote branch name
+    if branch_name == "HEAD":
+        # Check if we're on origin/main
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--verify", "origin/main"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            origin_main_commit = result.stdout.strip()
+            
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            current_commit = result.stdout.strip()
+            
+            if origin_main_commit == current_commit:
+                branch_name = "origin/main"
+        except subprocess.CalledProcessError:
+            pass
+    
+    return commit_hash, branch_name
+
+
 def main() -> None:
     """Main function to run the linting process."""
-    linting_results = lint_code()
-    total_code_contributions = _get_total_code_contributions()
-
-    with open("linter_data.jsonl", "w") as f:
-        for result in linting_results:
-            f.write(result.model_dump_json() + "\n")
-
-    with open("total_code_contributions.jsonl", "w") as f:
-        for contribution in total_code_contributions:
-            f.write(contribution.model_dump_json() + "\n")
-
-    import pandas as pd
-    linter_data = pd.read_json('../shell_scripts/linter_data.jsonl', lines=True)
-    total_contributions_data = pd.read_json('../shell_scripts/total_code_contributions.jsonl', lines=True)
-
-    linter_data = linter_data[linter_data.author != 'Not Committed Yet']
-    linter_data = linter_data[linter_data.author != 'Zach Wang']
-    grouped = linter_data.groupby(['type', 'author']).agg({'lineno': 'count'}).reset_index()
-    grouped['total_lines'] = grouped.author.map(total_contributions_data.set_index('author')['lines'])
-    grouped['fraction'] = grouped['lineno'] / grouped['total_lines']
-
-    from itertools import product
-    import numpy as np
-
-    unique_authors = grouped.author.unique()
-    unique_types = grouped.type.unique()
-
-    for type, author in product(unique_types, unique_authors):
-        print(type, author)
-        if len(grouped[(grouped.type == type) & (grouped.author == author)]) == 0:
-            grouped = pd.concat([grouped, pd.DataFrame({'type': [type], 'author': [author], 'lineno': [0], 'total_lines': [0], 'fraction': [np.nan]})], ignore_index=True)
-
-            grouped.sort_values(by='fraction', ascending=False).sort_values(by='type', ascending=False)
+    # Create worktree and switch to main branch
+    worktree_path, original_branch = create_worktree("main")
     
-    grouped_not_incl_gabe = grouped[grouped.author != 'Gabriel Simmons']
+    # Store original working directory
+    original_cwd = Path.cwd()
+    
+    try:
+        if worktree_path is not None:
+            # Change to worktree directory
+            os.chdir(worktree_path / "llm_ontology" / "shell_scripts")
+            
+            # Update CODE_DIR to point to the worktree
+            global CODE_DIR
+            CODE_DIR = worktree_path / "llm_ontology" / "llm_ontology"
+            
+            # Get git info from the worktree
+            commit_hash, branch_name = get_git_info()
+        else:
+            # Run analysis in current directory
+            logger.info("Running analysis in current directory")
+            commit_hash, branch_name = get_git_info()
+        
+        linting_results = lint_code(CODE_DIR)
+        total_code_contributions = _get_total_code_contributions()
 
-    clown_quotes = {
-        'hardcoded_path': 'i guess the code doesn\'t need to be portable...',
-        'plt.': 'five figures on one is fine, right?',
-        'print': 'everyone needs to know about this'
-    }
+        with open("linter_data.jsonl", "w") as f:
+            for result in linting_results:
+                f.write(result.model_dump_json() + "\n")
 
-    technical_notes = {
-        'hardcoded_path': 'Hardcoded paths to data and outputs make it difficult for multiple people to work on the same codebase. They also make the code sensitive to the current working directory, which hurts reproducibility.',
-        'plt.': 'Matplotlib\'s plt.xyz methods act on the "current figure", a global variable. This is bad practice, and can lead to bugs when multiple figures are in use. Specify a figure and call `fig.xyz` or `ax.xyz` instead.',
-        'print': 'Use a logger instead.'
-    }
+        with open("total_code_contributions.jsonl", "w") as f:
+            for contribution in total_code_contributions:
+                f.write(contribution.model_dump_json() + "\n")
 
-    from datetime import datetime
+        import pandas as pd
+        linter_data = pd.read_json('linter_data.jsonl', lines=True)
+        total_contributions_data = pd.read_json('total_code_contributions.jsonl', lines=True)
 
-    def generate_contributions_report(grouped, total_contributions_data, unique_authors) -> str:
-        output = ""
-        output += "\n## Code Contributions\n"
-        output += "| Author | Lines of Code |\n"
-        output += "|--------|---------------|\n"
-        # Prepare a DataFrame for sorting
-        df = total_contributions_data[total_contributions_data['author'].isin(unique_authors)]
-        df = df[df['author'] != 'Gabriel Simmons']
-        df_sorted = df.sort_values(by='lines', ascending=False)
-        for _, row in df_sorted.iterrows():
-            output += f"| {row['author']} | {row['lines']} |\n"
-        return output
+        linter_data = linter_data[linter_data.author != 'Not Committed Yet']
+        linter_data = linter_data[linter_data.author != 'Zach Wang']
+        grouped = linter_data.groupby(['type', 'author']).agg({'lineno': 'count'}).reset_index()
+        grouped['total_lines'] = grouped.author.map(total_contributions_data.set_index('author')['lines'])
+        grouped['fraction'] = grouped['lineno'] / grouped['total_lines']
 
-    def generate_antipatterns_report(grouped, unique_types) -> str:
-        output = ""
-        output += f"\n## Code Anti-Patterns"
-        for type in unique_types:
-            output += f"\n### {type}"
-            output += f"\n_{technical_notes[type]}_"
-            output += "\n"
-            output += "||||"
-            output += "\n|--|--|--|"
-            # get the top and bottom author for this type by fraction
-            type_group = grouped[grouped.type == type].sort_values(by='fraction', ascending=False)
-            top_row = type_group.iloc[0]
-            bottom_row = type_group.sort_values(by='fraction', ascending=True).iloc[0]
-            top_author = top_row.author
-            top_fraction = top_row.fraction
-            bottom_author = bottom_row.author
-            bottom_fraction = bottom_row.fraction
+        from itertools import product
+        import numpy as np
 
-            # Format author names and fractions
-            def format_author(author):
-                return f"**{author}**"
-            def format_fraction(frac):
-                if frac is None or (isinstance(frac, float) and (frac != frac)):
-                    return "N/A"
-                return f"{frac:.2%}"
+        unique_authors = grouped.author.unique()
+        unique_types = grouped.type.unique()
 
-            # Lone ranger case
-            if top_author == bottom_author:
-                output += f"\n| :cowboy_hat_face: **_lone ranger_** | {format_author(top_author)} ({format_fraction(top_fraction)} of total contributions) | |"
-            else:
-                output += f"\n| :innocent: **_innocent_** | {format_author(bottom_author)} ({format_fraction(bottom_fraction)} of total contributions) | Way to go! |"
-                output += f"\n| :clown_face: **_class clown_** | {format_author(top_author)} ({format_fraction(top_fraction)} of total contributions) | {clown_quotes[type]} |"
-        return output
+        for type, author in product(unique_types, unique_authors):
+            print(type, author)
+            if len(grouped[(grouped.type == type) & (grouped.author == author)]) == 0:
+                grouped = pd.concat([grouped, pd.DataFrame({'type': [type], 'author': [author], 'lineno': [0], 'total_lines': [0], 'fraction': [np.nan]})], ignore_index=True)
 
-    def generate_report(grouped, total_contributions_data, unique_authors, unique_types) -> str:
-        output = ""
-        date = datetime.now().strftime("%Y-%m-%d")
-        title = f"Code Report {date}"
-        output += f"\n# {title}"
-        output += generate_contributions_report(grouped, total_contributions_data, unique_authors)
-        output += generate_antipatterns_report(grouped, unique_types)
-        return output
+                grouped.sort_values(by='fraction', ascending=False).sort_values(by='type', ascending=False)
+        
+        grouped_not_incl_gabe = grouped[grouped.author != 'Gabriel Simmons']
 
-    output = generate_report(grouped_not_incl_gabe, total_contributions_data, unique_authors, unique_types)
+        clown_quotes = {
+            'hardcoded_path': 'i guess the code doesn\'t need to be portable...',
+            'plt.': 'five figures on one is fine, right?',
+            'print': 'everyone needs to know about this',
+            'debugger': 'let\'s debug in production!'
+        }
 
-    with open('report.md', 'w') as f:
-        f.write(output)
+        technical_notes = {
+            'hardcoded_path': 'Hardcoded paths to data and outputs make it difficult for multiple people to work on the same codebase. They also make the code sensitive to the current working directory, which hurts reproducibility.',
+            'plt.': 'Matplotlib\'s plt.xyz methods act on the "current figure", a global variable. This is bad practice, and can lead to bugs when multiple figures are in use. Specify a figure and call `fig.xyz` or `ax.xyz` instead.',
+            'print': 'Use a logger instead.',
+            'debugger': 'Debugger statements should not be committed to production code.'
+        }
+
+        from datetime import datetime
+
+        def generate_contributions_report(grouped, total_contributions_data, unique_authors) -> str:
+            output = ""
+            output += "\n## Code Contributions\n"
+            output += "| Author | Lines of Code |\n"
+            output += "|--------|---------------|\n"
+            # Prepare a DataFrame for sorting
+            df = total_contributions_data[total_contributions_data['author'].isin(unique_authors)]
+            df = df[df['author'] != 'Gabriel Simmons']
+            df_sorted = df.sort_values(by='lines', ascending=False)
+            for _, row in df_sorted.iterrows():
+                output += f"| {row['author']} | {row['lines']} |\n"
+            return output
+
+        def generate_antipatterns_report(grouped, unique_types) -> str:
+            output = ""
+            output += f"\n## Code Anti-Patterns"
+            for type in unique_types:
+                output += f"\n### {type}"
+                output += f"\n_{technical_notes[type]}_"
+                output += "\n"
+                output += "||||"
+                output += "\n|--|--|--|"
+                # get the top and bottom author for this type by fraction
+                type_group = grouped[grouped.type == type].sort_values(by='fraction', ascending=False)
+                top_row = type_group.iloc[0]
+                bottom_row = type_group.sort_values(by='fraction', ascending=True).iloc[0]
+                top_author = top_row.author
+                top_fraction = top_row.fraction
+                bottom_author = bottom_row.author
+                bottom_fraction = bottom_row.fraction
+
+                # Format author names and fractions
+                def format_author(author):
+                    return f"**{author}**"
+                def format_fraction(frac):
+                    if frac is None or (isinstance(frac, float) and (frac != frac)):
+                        return "N/A"
+                    return f"{frac:.2%}"
+
+                # Lone ranger case
+                if top_author == bottom_author:
+                    output += f"\n| :cowboy_hat_face: **_lone ranger_** | {format_author(top_author)} ({format_fraction(top_fraction)} of total contributions) | |"
+                else:
+                    output += f"\n| :innocent: **_innocent_** | {format_author(bottom_author)} ({format_fraction(bottom_fraction)} of total contributions) | Way to go! |"
+                    output += f"\n| :clown_face: **_class clown_** | {format_author(top_author)} ({format_fraction(top_fraction)} of total contributions) | {clown_quotes[type]} |"
+            return output
+
+        def generate_report(grouped, total_contributions_data, unique_authors, unique_types, commit_hash: str, branch_name: str) -> str:
+            output = ""
+            date = datetime.now().strftime("%Y-%m-%d")
+            title = f"Code Report {date}"
+            output += f"\n# {title}"
+            output += f"\n_Generated from branch: **{branch_name}** (commit: {commit_hash})_\n"
+            output += generate_contributions_report(grouped, total_contributions_data, unique_authors)
+            output += generate_antipatterns_report(grouped, unique_types)
+            return output
+
+        output = generate_report(grouped_not_incl_gabe, total_contributions_data, unique_authors, unique_types, commit_hash, branch_name)
+
+        # Change back to original directory to write files
+        os.chdir(original_cwd)
+        
+        with open('report.md', 'w') as f:
+            f.write(output)
+            
+    finally:
+        # Always return to original directory
+        os.chdir(original_cwd)
+        # Clean up the worktree if it was created
+        if worktree_path is not None:
+            cleanup_worktree(worktree_path)
 
 
 
