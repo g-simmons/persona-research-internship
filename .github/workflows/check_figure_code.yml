@@ -1,0 +1,37 @@
+name: Check Figure
+
+on:
+  push:
+    paths:
+      - '**/*.py'
+
+permissions:
+  contents: read
+
+jobs:
+  release-build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full git history for git diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai requests
+
+      - name: Run Figure Code
+        env:
+          GITHUB_BEFORE: ${{ github.event.before }}
+          GITHUB_SHA: ${{ github.sha }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          python check_figure_code_placeholder.py
