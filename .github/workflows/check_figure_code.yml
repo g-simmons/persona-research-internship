@@ -11,8 +11,8 @@ permissions:
 jobs:
   release-build:
     runs-on: ubuntu-latest
-    environment: production
     steps:
+      - run: echo "OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -32,11 +32,6 @@ jobs:
         env:
           GITHUB_BEFORE: ${{ github.event.before }}
           GITHUB_SHA: ${{ github.sha }}
-          OPENROUTER_API_KEY: ${{ vars.OPENROUTER_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           python check_figure_code_placeholder.py
-
-#todo
-
-
-
