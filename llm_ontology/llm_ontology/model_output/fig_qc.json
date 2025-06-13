@@ -1,0 +1,31 @@
+{
+  "x-axis title": "Pretraining Term Frequency",
+  "y-axis title": "Term Causal Separability Score",
+  "x-axis ticks": [
+    "0.1",
+    "1",
+    "10",
+    "100",
+    "1000",
+    "10000"
+  ],
+  "y-axis ticks": [
+    "0.0",
+    "0.2",
+    "0.4",
+    "0.6",
+    "0.8",
+    "1.0"
+  ],
+  "x-axis scale": "log",
+  "y-axis scale": "linear",
+  "legend": "Frequency/Score",
+  "font size": "12",
+  "colors": [
+    "blue"
+  ],
+  "figure size": "600x400",
+  "saving the figure": "interactive_frequency_score_scatterplot_example.html",
+  "matplotlib vs. altair": "altair",
+  "location": "/figures"
+}

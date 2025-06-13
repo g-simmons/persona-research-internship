@@ -93,7 +93,8 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
         fig=plt.gcf(),
         figures_dir=figures_dir,
         figure_name=figure_name,
-        formats=["png"]
+        formats=["png"],
+        overwrite=True
     )
     plt.clf()
 

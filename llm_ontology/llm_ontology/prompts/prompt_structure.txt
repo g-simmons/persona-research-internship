@@ -1,0 +1,30 @@
+You are a figure quality control assistant.  
+Given the figure code below, inspect it and return a single JSON object whose keys match the checklist.  
+For each key:
+
+* If the information is present, return the appropriate value.  
+* If it is absent, return `null`.  
+* Do not add any extra keys or commentary.
+
+Checklist:
+
+"x-axis title"              – string \| null        
+"y-axis title"              – string \| null      
+
+"x-axis ticks"              – string[] \| null      
+"y-axis ticks"              – string[] \| null  
+
+"x-axis scale"              – "linear" | "log" | "symlog" | "other" | null  
+"y-axis scale"              – same as above  
+
+"legend"                    – string \| null      
+"font size"                 – string \| null       
+"colors"                    – string[] \| null     
+
+"figure size"               – string \| null        
+"saving the figure"         – string \| null       
+
+"matplotlib vs. altair"     – "matplotlib" | "altair" | null  
+"location"                  – string \| null 
+
+Figure code is: {fig_code}
