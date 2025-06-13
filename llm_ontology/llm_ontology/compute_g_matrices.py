@@ -7,6 +7,7 @@ from transformers import GPTNeoXForCausalLM, AutoConfig
 import os
 import pathlib
 import logging
+import argparse
 from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
 from huggingface_hub import HfApi, get_safetensors_metadata
 from huggingface_hub.utils._safetensors import TensorInfo
@@ -172,43 +173,111 @@ def get_olmo_model_names() -> list[str]:
     return olmo_model_names
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Compute gamma matrices for OLMo models",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    
+    parser.add_argument(
+        "--model-names",
+        type=str,
+        nargs="+",
+        help="Model names to process (e.g., allenai/OLMo-1B). If not specified, uses all OLMo models"
+    )
+    
+    parser.add_argument(
+        "--revisions",
+        type=str,
+        nargs="+",
+        help="Specific revisions/steps to process. If not specified, processes all revisions"
+    )
+    
+    parser.add_argument(
+        "--user",
+        type=str,
+        default=None,
+        help="User name for storage paths. Defaults to current user"
+    )
+    
+    parser.add_argument(
+        "--parallel",
+        action="store_true",
+        help="Use parallel processing"
+    )
+    
+    parser.add_argument(
+        "--n-jobs",
+        type=int,
+        default=4,
+        help="Number of parallel jobs"
+    )
+    
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Debug mode - only process 3 random revisions per model"
+    )
+    
+    parser.add_argument(
+        "--fast",
+        action="store_true",
+        default=True,
+        help="Use fast mode for save_gamma_matrix (downloads only required weights)"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Output directory for saving matrices"
+    )
+    
+    parser.add_argument(
+        "--use-gpu",
+        action="store_true",
+        help="Use GPU for computations"
+    )
+    
+    return parser.parse_args()
+
+
 def main():
-    # save_gamma_matrix("allenai/OLMo-1B", "main", "gabe", fast=True)
-
-    slow = torch.load("OLMo-1B-main-slow.pt")
-    fast = torch.load("OLMo-1B-main.pt")
-    from ptpython import embed
-    embed(globals(), locals(), vi_mode=True)
-
-    # parallel: bool = False
-    # debug: bool = True
-    # user: str = get_current_user()
-    # model_names: list[str] = get_olmo_model_names()
-    # name_revisions = {}
-
-    # for model_name in model_names:
-    #     revisions: list[str] = get_olmo_model_revisions(model_name)
-
-    #     if debug:
-    #         revisions = random.sample(revisions, 3)
-
-    #     name_revisions[model_name] = revisions
-
-    # if parallel:
-    #     with joblib_progress(
-    #         "Calculating gamma matrices...",
-    #         total=sum(len(revisions) for revisions in name_revisions.values()),
-    #     ):
-    #         Parallel(n_jobs=4)(
-    #             delayed(save_gamma_matrix)(model_name, revision, user)
-    #             for model_name in model_names
-    #             for revision in name_revisions[model_name]
-    #         )
-    # else:
-    #     for model_name in model_names:
-    #         for revision in name_revisions[model_name]:
-    #             gamma = save_gamma_matrix(model_name, revision, user)
-    #             logger.info(f"{model_name} {revision}")
+    args = parse_args()
+    
+    user = args.user or get_current_user()
+    model_names = args.model_names or get_olmo_model_names()
+    
+    if args.revisions:
+        # Process specific revisions
+        revisions_to_process = args.revisions
+    else:
+        # Get all revisions for each model
+        revisions_to_process = []
+        for model_name in model_names:
+            model_revisions = get_olmo_model_revisions(model_name)
+            if args.debug:
+                model_revisions = random.sample(model_revisions, min(3, len(model_revisions)))
+            revisions_to_process.extend(model_revisions)
+    
+    # Create all model-revision combinations
+    model_revision_pairs = []
+    for model_name in model_names:
+        for revision in revisions_to_process:
+            model_revision_pairs.append((model_name, revision))
+    
+    if args.parallel:
+        with joblib_progress(
+            "Calculating gamma matrices...",
+            total=len(model_revision_pairs),
+        ):
+            Parallel(n_jobs=args.n_jobs)(
+                delayed(save_gamma_matrix)(model_name, revision, user, fast=args.fast)
+                for model_name, revision in model_revision_pairs
+            )
+    else:
+        for model_name, revision in model_revision_pairs:
+            save_gamma_matrix(model_name, revision, user, fast=args.fast)
+            logger.info(f"Saved gamma matrix for {model_name} at revision {revision}")
 
 
 if __name__ == "__main__":
