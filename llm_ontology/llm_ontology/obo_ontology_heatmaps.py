@@ -5,6 +5,7 @@
 
 import json
 import networkx as nx
+import argparse
 
 # from nltk.corpus import wordnet as wn
 from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast
@@ -335,36 +336,113 @@ def get_mats(
     return mats
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Generate ontology heatmaps',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    
+    parser.add_argument(
+        '--params', 
+        type=str, 
+        default='70M',
+        help='Model parameter size'
+    )
+    
+    parser.add_argument(
+        '--step-int', 
+        type=int, 
+        default=143000,
+        help='Training step number'
+    )
+    
+    parser.add_argument(
+        '--step', 
+        type=str,
+        help='Training step string (e.g., step143000). If provided, overrides --step-int'
+    )
+    
+    parser.add_argument(
+        '--ontology-name', 
+        type=str, 
+        default='cl',
+        help='Name of ontology file without .owl extension'
+    )
+    
+    parser.add_argument(
+        '--multiword', 
+        action='store_true', 
+        default=True,
+        help='Whether to use multiword processing'
+    )
+    
+    parser.add_argument(
+        '--filter', 
+        type=int, 
+        default=15,
+        help='Filter out synsets with less than this many terms'
+    )
+    
+    parser.add_argument(
+        '--action',
+        type=str,
+        choices=['save_hypernym', 'get_mats', 'both'],
+        default='both',
+        help='Action to perform'
+    )
+    
+    parser.add_argument(
+        '--output-dir',
+        type=str,
+        help='Output directory for saving matrices'
+    )
+    
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    
+    # Determine step string
+    if args.step:
+        step = args.step
+    else:
+        step = f"step{args.step_int}"
+    
+    logger.info(f"Processing {args.params} at {step} with ontology {args.ontology_name}")
+    
+    if args.action in ['save_hypernym', 'both']:
+        save_ontology_hypernym(
+            params=args.params, 
+            step=step, 
+            ontology_name=args.ontology_name, 
+            multi=args.multiword
+        )
+    
+    if args.action in ['get_mats', 'both']:
+        mats = get_mats(
+            params=args.params,
+            step=step,
+            multi=args.multiword,
+            filter=args.filter,
+            ontology_name=args.ontology_name
+        )
+        
+        logger.info(f"Matrix 0 shape: {mats[0].shape}")
+        logger.info(f"Matrix 1 shape: {mats[1].shape}")
+        logger.info(f"Matrix 2 shape: {mats[2].shape}")
+        
+        # Save matrices if output directory specified
+        if args.output_dir:
+            output_path = pathlib.Path(args.output_dir)
+            output_path.mkdir(parents=True, exist_ok=True)
+            
+            torch.save(mats[0], output_path / f"{args.ontology_name}_{step}_adj.pt")
+            torch.save(mats[1], output_path / f"{args.ontology_name}_{step}_lda_dirs.pt")
+            torch.save(mats[2], output_path / f"{args.ontology_name}_{step}_lda_diff.pt")
+            
+            logger.info(f"Matrices saved to {output_path}")
+
+
 if __name__ == "__main__":
-    # import argparse
-
-    # parser = argparse.ArgumentParser(description='Generate ontology heatmaps')
-    # parser.add_argument('--params', type=str, default='70M',
-    #                     help='Model parameter size (default: 70M)')
-    # parser.add_argument('--step_int', type=int, default=99000,
-    #                     help='Training step number (default: 99000)')
-    # parser.add_argument('--ontology_name', type=str, default='aism',
-    #                     help='Name of ontology file without .owl extension (default: aism)')
-    # parser.add_argument('--multiword', action='store_true', default=True,
-    #                     help='Whether to use multiword processing (default: True)')
-    # parser.add_argument('--filter', type=int, default=15,
-    #                     help='Filter out synsets with less than this many terms (default: 15)')
-    # args = parser.parse_args()
-
-    # step = f"step{args.step_int}"
-
-    # save_ontology_hypernym(args.params, step, ontology_name=args.ontology_name, multi=args.multiword)
-    # mats = get_mats(
-    #     params=args.params,
-    #     step=step,
-    #     multi=args.multiword,
-    #     filter=args.filter,
-    #     ontology_name=args.ontology_name
-    # )
-
-    save_ontology_hypernym("70M", "step143000", "cl", True)
-    mats = get_mats("70M", "step143000", True, 15, "cl")
-
-    logger.info(f"Matrix 0 shape: {mats[0].shape}")
-    logger.info(f"Matrix 1 shape: {mats[1].shape}")
-    logger.info(f"Matrix 2 shape: {mats[2].shape}")
+    main()

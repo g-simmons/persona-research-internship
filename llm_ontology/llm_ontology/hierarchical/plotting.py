@@ -31,8 +31,10 @@ def cos_heatmap(mats, titles = None, figsize = (19, 8),
         cmap = "mako" if use_absvals else "icefire"
 
     ims = []
+    axes = []
     for i in range(len(mats)):
-        ax = plt.subplot(gs[0, i])
+        ax = fig.add_subplot(gs[0, i])
+        axes.append(ax)
         im = ax.imshow(mats[i], aspect = 'equal', cmap=cmap,
                        vmin=vmin, vmax=vmax, interpolation='nearest')
         ims.append(im)
@@ -51,13 +53,14 @@ def cos_heatmap(mats, titles = None, figsize = (19, 8),
         if titles != None:
             ax.set_title(titles[i])
 
-    divider = make_axes_locatable(ax)
+    # Use the last axis for colorbar positioning
+    divider = make_axes_locatable(axes[-1])
     cax = divider.append_axes("right", size="5%", pad=0.2)
-    cbar = plt.colorbar(ims[-1], cax=cax, orientation='vertical')
+    cbar = fig.colorbar(ims[-1], cax=cax, orientation='vertical')
 
-    plt.tight_layout()
+    fig.tight_layout()
     if save_as != None:
-        plt.savefig(f"figures/{save_as}.pdf", bbox_inches='tight')
+        fig.savefig(f"figures/{save_as}.pdf", bbox_inches='tight')
     plt.show()
 
 def proj_2d(dir1, dir2, unembed, vocab_list, ax,

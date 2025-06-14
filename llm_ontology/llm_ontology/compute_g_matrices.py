@@ -14,19 +14,23 @@ from huggingface_hub.utils._safetensors import TensorInfo
 from joblib_progress import joblib_progress
 from safetensors import safe_open
 
-# Set up logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
-file_handler = logging.FileHandler("compute_g_matrices.log")
-stdout_handler = logging.StreamHandler()
+def setup_logger() -> logging.Logger:
+    script_dir = pathlib.Path(__file__).parent
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    file_handler = logging.FileHandler(script_dir / "../logs" / "compute_g_matrices.log")
+    stdout_handler = logging.StreamHandler()
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    file_handler.setFormatter(formatter)
+    stdout_handler.setFormatter(formatter)
 
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-file_handler.setFormatter(formatter)
-stdout_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    logger.addHandler(stdout_handler)
 
-logger.addHandler(file_handler)
-logger.addHandler(stdout_handler)
+    return logger
+
+logger = setup_logger()
 
 model_name = "allenai/OLMo-1.4B"
 
@@ -66,12 +70,24 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
         tensor_info: TensorInfo = metadata.files_metadata[file].tensors[matrix_name]
         # tensor_info is something like TensorInfo(dtype='F32', shape=[50304, 2048], data_offsets=(4294967296, 4707057664), parameter_count=103022592)
 
-        # Let's download only these bytes using the data_offsets
+        # Get the safetensors header size to calculate correct byte offsets
+        # Safetensors metadata offsets are relative to start of tensor data section, not file start
         url = f"https://huggingface.co/{model_name}/resolve/{revision}/model.safetensors"
+        
+        # Read first 8 bytes to get header size
+        header_response = requests.get(url, headers={"Range": "bytes=0-7"})
+        header_response.raise_for_status()
+        header_size = int.from_bytes(header_response.content, byteorder='little')
+        
+        # Calculate actual byte positions in file
+        header_overhead = 8 + header_size  # 8 bytes for header size + JSON metadata
+        actual_start = header_overhead + tensor_info.data_offsets[0]
+        actual_end = header_overhead + tensor_info.data_offsets[1] - 1
+        
+        # Download tensor data with corrected offsets
         headers = {
-            "Range": f"bytes={tensor_info.data_offsets[0]}-{tensor_info.data_offsets[1] - 1}"
+            "Range": f"bytes={actual_start}-{actual_end}"
         }
-
 
         response = requests.get(url, headers=headers)
         response.raise_for_status()
@@ -96,7 +112,8 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
 
         gamma = model.get_output_embeddings().weight.detach()  # type: ignore
 
-    torch.save(gamma, f"{model_name.split('/')[-1]}-{revision}.pt")
+    suffix = "" if fast else "-slow"
+    torch.save(gamma, f"{model_name.split('/')[-1]}-{revision}{suffix}.pt")
 
 
 def generate_unembedding_matrix(

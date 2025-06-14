@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Use Pathlib for file paths
+
+description: Use Pathlib for file paths instead of string concatenation or the os library. This is more readable and less error-prone.
+
+Examples:
+```python
+import pathlib
+path = pathlib.Path(__file__).parent
+file_path = path / 'file.txt'
+print(file_path)
+```

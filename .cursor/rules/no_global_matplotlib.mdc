@@ -1,0 +1,34 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Never use global matplotlib plt methods
+
+description: Never use global matplotlib `plt` methods for figure creation or modification. Instead, always use object-oriented matplotlib interface with `fig, ax = plt.subplots()` and call methods on the figure or axes objects.
+
+Examples:
+```python
+# BAD - Don't use global plt methods
+import matplotlib.pyplot as plt
+plt.figure()
+plt.plot(x, y)
+plt.xlabel('X Label')
+plt.ylabel('Y Label')
+plt.title('Title')
+plt.show()
+
+# GOOD - Use object-oriented interface
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.set_xlabel('X Label')
+ax.set_ylabel('Y Label')
+ax.set_title('Title')
+plt.show()  # Only global method allowed for display
+
+# For multiple subplots
+fig, axes = plt.subplots(2, 2)
+axes[0, 0].plot(x, y)
+axes[0, 1].scatter(x, y)
+```
