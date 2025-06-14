@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "A package for analyzing LLM representations of ontological structures"
 readme = "README.md"
 requires-python = ">=3.8"
+license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
