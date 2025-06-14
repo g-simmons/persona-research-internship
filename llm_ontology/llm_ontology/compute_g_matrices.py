@@ -98,7 +98,7 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         data = response.content
-        gamma = torch.frombuffer(data, dtype=torch.float32).reshape(tensor_info.shape)
+        gamma = torch.frombuffer(data, dtype=torch.float32).reshape(tensor_info.shape).clone()
     
     else:
         if "OLMo" in model_name:

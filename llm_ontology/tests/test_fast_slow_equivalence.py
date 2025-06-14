@@ -71,16 +71,6 @@ def test_fast_slow_equivalence():
         logger.info(f"Max difference: {torch.max(diff)}")
         logger.info(f"Mean difference: {torch.mean(diff)}")
     
-    # Overall result
-    all_match = shape_match and dtype_match and content_match
-    
-    if all_match:
-        logger.info("🎉 SUCCESS! Fast and slow methods produce identical tensors")
-        logger.info("✅ Shape, dtype, and content all match perfectly")
-    else:
-        logger.info("❌ FAILURE! Methods produce different results")
-        logger.info(f"Shape match: {shape_match}, Dtype match: {dtype_match}, Content match: {content_match}")
-    
     # Clean up test files
     try:
         os.remove(fast_filename)
@@ -89,7 +79,13 @@ def test_fast_slow_equivalence():
     except Exception as e:
         logger.warning(f"Could not clean up test files: {e}")
     
-    return all_match
+    # Assert that all comparisons pass
+    assert shape_match, f"Shapes don't match: fast={fast_matrix.shape}, slow={slow_matrix.shape}"
+    assert dtype_match, f"Dtypes don't match: fast={fast_matrix.dtype}, slow={slow_matrix.dtype}"
+    assert content_match, f"Contents don't match (max diff: {torch.max(torch.abs(fast_matrix - slow_matrix)) if not content_match else 'N/A'})"
+    
+    logger.info("🎉 SUCCESS! Fast and slow methods produce identical tensors")
+    logger.info("✅ Shape, dtype, and content all match perfectly")
 
 if __name__ == "__main__":
     test_fast_slow_equivalence()
