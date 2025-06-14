@@ -42,7 +42,9 @@ jobs:
       run: |
         cd llm_ontology
         uv venv --python 3.10
+        # Install torch first with CPU index
         uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+        # Install other requirements (torch already installed, so it will be skipped)
         uv pip install -r requirements.txt
         uv pip install pytest pytest-cov
         uv pip install -e .
