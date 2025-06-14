@@ -35,9 +35,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential
     
-    - name: Install Python dependencies
+    - name: Create virtual environment and install dependencies
       run: |
         cd llm_ontology
+        uv venv --python 3.10
         uv pip install torch --index-url https://download.pytorch.org/whl/cpu
         uv pip install -r requirements.txt
         uv pip install pytest pytest-cov
