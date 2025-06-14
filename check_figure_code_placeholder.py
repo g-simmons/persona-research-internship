@@ -101,7 +101,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
 
 
 def check_code(fig_code: str) -> FigErrors:
-    call_ai(FIG_QC_PROMPT, fig_code, model_name="meta-llama/llama-4-maverick:free")
+    call_ai(FIG_QC_PROMPT, fig_code, model_name="nvidia/llama-3.1-nemotron-ultra-253b-v1:free")
 
 
 def get_changed_py_files():
