@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'llm_ontology/**'
+  workflow_dispatch:
 
 jobs:
   test:
