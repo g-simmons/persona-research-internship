@@ -17,9 +17,12 @@ from safetensors import safe_open
 
 def setup_logger() -> logging.Logger:
     script_dir = pathlib.Path(__file__).parent
+    logs_dir = script_dir / "../logs"
+    logs_dir.mkdir(exist_ok=True)
+    
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
-    file_handler = logging.FileHandler(script_dir / "../logs" / "compute_g_matrices.log")
+    file_handler = logging.FileHandler(logs_dir / "compute_g_matrices.log")
     stdout_handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     file_handler.setFormatter(formatter)
