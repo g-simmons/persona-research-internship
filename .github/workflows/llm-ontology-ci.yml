@@ -5,10 +5,12 @@ on:
     branches: [ main ]
     paths:
       - 'llm_ontology/**'
+      - '.github/workflows/llm-ontology-ci.yml'
   pull_request:
     branches: [ main ]
     paths:
       - 'llm_ontology/**'
+      - '.github/workflows/llm-ontology-ci.yml'
   workflow_dispatch:
 
 jobs:
