@@ -11,3 +11,4 @@ pronto
 altair
 ai2-olmo
 datasets
+joblib-progress

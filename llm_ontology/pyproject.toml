@@ -36,6 +36,7 @@ dependencies = [
     "altair",
     "ai2-olmo",
     "datasets",
+    "joblib-progress",
 ]
 
 [project.optional-dependencies]
