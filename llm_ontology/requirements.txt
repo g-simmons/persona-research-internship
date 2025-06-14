@@ -10,3 +10,4 @@ owlready2
 pronto
 altair
 ai2-olmo
+datasets

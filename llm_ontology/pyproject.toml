@@ -35,6 +35,7 @@ dependencies = [
     "pronto",
     "altair",
     "ai2-olmo",
+    "datasets",
 ]
 
 [project.optional-dependencies]
