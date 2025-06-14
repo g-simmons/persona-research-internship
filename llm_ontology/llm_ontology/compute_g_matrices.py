@@ -44,7 +44,7 @@ def get_current_user() -> str:
     return os.environ["USER"]
 
 
-def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = True) -> None:
+def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = True, cache_dir: pathlib.Path = None) -> None:
     """
 
     The park paper uses model.get_output_embeddings().weight.detach()
@@ -59,6 +59,9 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
 
     To avoid downloading the whole model (fast mode), we can use the config to check for weight_tying, then get the appropriate embedding matrix from the safetensors metadata.
     """
+    if cache_dir is None:
+        cache_dir = BIGSTORAGE_DIR
+    
     if fast:
         config = AutoConfig.from_pretrained(model_name, revision=revision)
 
@@ -102,13 +105,13 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
             model = OLMoForCausalLM.from_pretrained(
                 model_name,
                 revision=revision,
-                cache_dir=BIGSTORAGE_DIR / user / "huggingface_cache",
+                cache_dir=cache_dir / user / "huggingface_cache",
             )
         elif "pythia" in model_name:
             model = GPTNeoXForCausalLM.from_pretrained(
                 model_name,
                 revision=revision,
-                cache_dir=BIGSTORAGE_DIR / user / "huggingface_cache",
+                cache_dir=cache_dir / user / "huggingface_cache",
             )
         else:
             raise ValueError(f"Model {model_name} not supported")
@@ -174,8 +177,10 @@ def generate_unembedding_matrix(
     torch.save(g, output_path)
 
 
-def get_output_path(model_name: str, step: str, user: str) -> str:
-    return str(BIGSTORAGE_DIR / user / "g_matrices" / f"{model_name}-unembeddings")
+def get_output_path(model_name: str, step: str, user: str, cache_dir: pathlib.Path = None) -> str:
+    if cache_dir is None:
+        cache_dir = BIGSTORAGE_DIR
+    return str(cache_dir / user / "g_matrices" / f"{model_name}-unembeddings")
 
 
 def get_olmo_model_revisions(model_name: str) -> list[str]:
@@ -253,6 +258,13 @@ def parse_args():
     )
     
     parser.add_argument(
+        "--cache-dir",
+        type=str,
+        default=None,
+        help="Cache directory for model downloads. Defaults to /mnt/bigstorage"
+    )
+    
+    parser.add_argument(
         "--use-gpu",
         action="store_true",
         help="Use GPU for computations"
@@ -266,6 +278,7 @@ def main():
     
     user = args.user or get_current_user()
     model_names = args.model_names or get_olmo_model_names()
+    cache_dir = pathlib.Path(args.cache_dir) if args.cache_dir else BIGSTORAGE_DIR
     
     if args.revisions:
         # Process specific revisions
@@ -291,12 +304,12 @@ def main():
             total=len(model_revision_pairs),
         ):
             Parallel(n_jobs=args.n_jobs)(
-                delayed(save_gamma_matrix)(model_name, revision, user, fast=args.fast)
+                delayed(save_gamma_matrix)(model_name, revision, user, fast=args.fast, cache_dir=cache_dir)
                 for model_name, revision in model_revision_pairs
             )
     else:
         for model_name, revision in model_revision_pairs:
-            save_gamma_matrix(model_name, revision, user, fast=args.fast)
+            save_gamma_matrix(model_name, revision, user, fast=args.fast, cache_dir=cache_dir)
             logger.info(f"Saved gamma matrix for {model_name} at revision {revision}")
 
 

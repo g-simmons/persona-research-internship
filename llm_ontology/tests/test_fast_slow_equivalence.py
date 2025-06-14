@@ -19,15 +19,22 @@ def test_fast_slow_equivalence():
     revision = "step100000-tokens419B"
     user = os.environ["USER"]
     
+    # Use a temp directory for cache in CI, otherwise use default
+    if os.getenv("GITHUB_ACTIONS"):
+        cache_dir = Path.home() / ".cache" / "llm_ontology_test"
+        cache_dir.mkdir(parents=True, exist_ok=True)
+    else:
+        cache_dir = None
+    
     logger.info(f"Testing fast vs slow method equivalence for {model_name} at {revision}")
     
     # Generate matrices using both methods
     logger.info("Generating matrix with FAST method...")
-    save_gamma_matrix(model_name, revision, user, fast=True)
+    save_gamma_matrix(model_name, revision, user, fast=True, cache_dir=cache_dir)
     fast_filename = f"{model_name.split('/')[-1]}-{revision}.pt"
     
     logger.info("Generating matrix with SLOW method...")
-    save_gamma_matrix(model_name, revision, user, fast=False)
+    save_gamma_matrix(model_name, revision, user, fast=False, cache_dir=cache_dir)
     slow_filename = f"{model_name.split('/')[-1]}-{revision}-slow.pt"
     
     # Load and compare
