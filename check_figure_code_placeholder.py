@@ -36,8 +36,8 @@ Return your answer as a JSON list, where each element is a dictionary for one fi
 def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     prompt = fig_qc_prompt.format(fig_code=fig_code)
     # Get API key from environment variable
-    OPENROUTER_API_KEY = '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'
-    #OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
+    #OPENROUTER_API_KEY = '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'
+    OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
     if not OPENROUTER_API_KEY:
         raise ValueError("OPENROUTER_API_KEY environment variable is not set")
         
