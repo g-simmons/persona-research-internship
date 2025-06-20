@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#No testing code in the global scope
+
+description: put any testing code or stuff that it looks like it belongs in the main scope in a main() function called by if __name__ == "__main__"

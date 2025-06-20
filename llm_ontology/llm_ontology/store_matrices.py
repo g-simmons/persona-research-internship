@@ -8,6 +8,7 @@ from tqdm import tqdm
 import os
 import pathlib
 import logging
+import argparse
 from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
 from huggingface_hub import hf_hub_download
 import json
@@ -19,18 +20,18 @@ import inspect
 import torch.nn.functional as F
 
 
-  # pip install ai2-olmo
+# pip install ai2-olmo
 
 # Set up logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # Create handlers
-file_handler = logging.FileHandler('store_matrices.log')
+file_handler = logging.FileHandler("store_matrices.log")
 stdout_handler = logging.StreamHandler()
 
 # Create formatters and add it to handlers
-log_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(log_format)
 stdout_handler.setFormatter(log_format)
 
@@ -61,20 +62,22 @@ logger.addHandler(stdout_handler)
 # ## Use this PATH to load g in the notebooks=
 # torch.save(g, f"FILE_PATH")
 
+
 def get_memory_usage():
     """Get current memory usage in GB"""
     process = psutil.Process(os.getpid())
     memory_gb = process.memory_info().rss / 1024 / 1024 / 1024
     return memory_gb
 
+
 def load_olmo_last_layer(model_name):
     """Load only the last layer"""
     initial_memory = get_memory_usage()
-    
+
     # Get the model config first
     config = AutoConfig.from_pretrained(model_name)
     last_layer_idx = config.num_hidden_layers - 1
-    
+
     # Define last layer weight keys
     last_layer_keys = [
         f"model.layers.{last_layer_idx}.self_attn.q_proj",
@@ -85,32 +88,35 @@ def load_olmo_last_layer(model_name):
         f"model.layers.{last_layer_idx}.mlp.up_proj",
         f"model.layers.{last_layer_idx}.mlp.down_proj",
         f"model.layers.{last_layer_idx}.input_layernorm",
-        f"model.layers.{last_layer_idx}.post_attention_layernorm"
+        f"model.layers.{last_layer_idx}.post_attention_layernorm",
     ]
-    
+
     # Load index file
     index_file = hf_hub_download(model_name, "pytorch_model.bin.index.json")
-    with open(index_file, 'r') as f:
+    with open(index_file, "r") as f:
         index = json.load(f)
-    
+
     last_layer_weights = {}
-    
+
     # Load only last layer weights
     for key in last_layer_keys:
-        for weight_key, filename in index['weight_map'].items():
+        for weight_key, filename in index["weight_map"].items():
             if key in weight_key:
                 checkpoint_file = hf_hub_download(model_name, filename)
-                weights = torch.load(checkpoint_file, map_location='cpu')
+                weights = torch.load(checkpoint_file, map_location="cpu")
                 last_layer_weights[key] = weights[key]
                 break
-    
+
     final_memory = get_memory_usage()
     return last_layer_weights, final_memory - initial_memory
 
-def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str, GPU = 0):
+
+def generate_unembedding_matrix(
+    parameter_model: str, step: str, output_dir: str, use_gpu: bool = False
+):
     """
     Apply the causal inner product to the unembedding matrix and save it.
-    The causal inner product is estimated as the product of the square root of the 
+    The causal inner product is estimated as the product of the square root of the
     covariance matrix of the unembedding vectors and the centered unembedding vectors.
     """
     # TODO parameterize instead of comment
@@ -126,183 +132,154 @@ def generate_unembedding_matrix(parameter_model: str, step: str, output_dir: str
     # cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{parameter_model}-deduped/{step}",
     # )
 
+    model = OLMoForCausalLM.from_pretrained(
+        f"allenai/OLMo-{parameter_model}", revision=step
+    )
+
+    # load unembdding vectors
+    gamma = model.get_output_embeddings().weight.detach() # type: ignore
+
+    if use_gpu:
+        gamma = gamma.to("cuda")
     
-    # TODO
-    # load only the last layer of the model instead of the entire model
-    # 1. Profile a run of store_matrices.py to confirm that whole model loading takes a long time
-    # 2. If it takes a long time, find way to load only the last layer of the model
-    # This might require working in Pytorch instead of relying on huggingface
-    
-    model_name = "allenai/OLMo-7B"
-    cache_dir = f"/mnt/bigstorage/raymond/huggingface_cache/OLMo-{parameter_model}/{step}"
-
-    model = OLMoForCausalLM.from_pretrained(f"allenai/OLMo-{parameter_model}", revision=step)
-
-    #GPU = 0
-
-    ### load unembdding vectors ###
-    gamma = model.get_output_embeddings().weight.detach()
-    if GPU:
-        gamma = gamma.to('cuda')
-    # import code
-    # code.interact(local=dict(globals(), **locals()))
     W, d = gamma.shape
 
-    gamma_bar = torch.mean(gamma, dim = 0)
+    gamma_bar = torch.mean(gamma, dim=0)
     centered_gamma = gamma - gamma_bar
 
-    ### compute Cov(gamma) and tranform gamma to g ###
+    # compute Cov(gamma) and tranform gamma to g
     Cov_gamma = centered_gamma.T @ centered_gamma / W
-    # import code
-    # code.interact(local=dict(globals(), **locals()))
 
-    if GPU:
-        eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma) # for hermitian matrices
+    if use_gpu:
+        eigenvalues, eigenvectors = torch.linalg.eigh(
+            Cov_gamma
+        )  # for hermitian matrices
     else:
         eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
-    # eigenvalues, eigenvectors = torch.linalg.eig(Cov_gamma) # for not necessarily hermitian matrices
-
-    # NOTE: 
-    #     Intel oneMKL ERROR: Parameter 8 was incorrect on entry to SSYEVD.
-    # Traceback (most recent call last):
-    #   File "/home/gabe/persona-research-internship/llm_ontology/llm_ontology/store_matrices.py", line 101, in <module>
-    #     generate_unembedding_matrix(parameter_model, step, str(folder))
-    #   File "/home/gabe/persona-research-internship/llm_ontology/llm_ontology/store_matrices.py", line 62, in generate_unembedding_matrix
-    #     eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma)
-    # RuntimeError: false INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/native/BatchLinearAlgebra.cpp":1601, please report a bug to PyTorch. linalg.eigh: Argument 8 has illegal value. Most certainly there is a bug in the implementation calling the backend library.
-
-    # eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
-    if not GPU:
+    
+    if not use_gpu:
         eigenvalues = torch.from_numpy(eigenvalues)
         eigenvectors = torch.from_numpy(eigenvectors)
 
-    inv_sqrt_Cov_gamma = eigenvectors @ torch.diag(1/torch.sqrt(eigenvalues)) @ eigenvectors.T
-    # sqrt_Cov_gamma = eigenvectors @ torch.diag(torch.sqrt(eigenvalues)) @ eigenvectors.T
+    if not isinstance(eigenvalues, torch.Tensor):
+        eigenvalues = torch.from_numpy(eigenvalues)
+
+    inv_sqrt_Cov_gamma = (
+        eigenvectors @ torch.diag(1 / torch.sqrt(eigenvalues)) @ eigenvectors.T
+    )
+    
     g = centered_gamma @ inv_sqrt_Cov_gamma
 
-
-    ## Use this PATH to load g in the notebooks=
     torch.save(g, f"{output_dir}/{step}")
 
 
-def main() -> None:
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Generate unembedding matrices for OLMo models",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     
-    parameter_models = ["7B"]
+    parser.add_argument(
+        "--parameter-models",
+        type=str,
+        nargs="+",
+        default=["7B"],
+        help="Parameter models to process (e.g., 7B, 1B)"
+    )
+    
+    parser.add_argument(
+        "--steps",
+        type=str,
+        nargs="+",
+        help="Specific steps to process. If not specified, loads from olmo_7B_model_names.txt"
+    )
+    
+    parser.add_argument(
+        "--step-range",
+        type=int,
+        nargs=2,
+        metavar=("START", "END"),
+        default=[1, 15],
+        help="Range of steps to process (start, end) when loading from file"
+    )
+    
+    parser.add_argument(
+        "--single-step",
+        action="store_true",
+        help="Process only the second step from the file (index 1)"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Output directory. Defaults to /mnt/bigstorage/{user}/olmo/{model}-unembeddings"
+    )
+    
+    parser.add_argument(
+        "--user",
+        type=str,
+        default="raymond",
+        help="User name for output directory path"
+    )
+    
+    parser.add_argument(
+        "--use-gpu",
+        action="store_true",
+        help="Use GPU for computations"
+    )
+    
+    parser.add_argument(
+        "--data-dir",
+        type=str,
+        help="Data directory containing olmo_7B_model_names.txt. Defaults to ../data relative to script"
+    )
+    
+    return parser.parse_args()
 
+
+def main() -> None:
+    args = parse_args()
+    
     SCRIPT_DIR = pathlib.Path(__file__).parent
-    DATA_DIR = SCRIPT_DIR / "../data"
+    DATA_DIR = pathlib.Path(args.data_dir) if args.data_dir else SCRIPT_DIR / "../data"
     BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
-
-    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
-        steps = a.readlines()
-
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-
-    logger.info(f"Total number of steps: {len(steps)}")
-
-    newsteps = steps[1:15]
-
-    logger.info(f"Selected steps: {newsteps}")
-    logger.info(f"Number of selected steps: {len(newsteps)}")
-
-    for parameter_model in parameter_models:
-        folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
+    
+    # Load steps
+    if args.steps:
+        steps = args.steps
+    else:
+        try:
+            with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as f:
+                steps = [line.strip() for line in f.readlines()]
+            steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
+            logger.info(f"Total number of steps from file: {len(steps)}")
+            
+            if args.single_step:
+                steps = [steps[1]] if len(steps) > 1 else steps[:1]
+            else:
+                start_idx, end_idx = args.step_range
+                steps = steps[start_idx:end_idx]
+                
+        except FileNotFoundError:
+            logger.error(f"Could not find olmo_7B_model_names.txt in {DATA_DIR}")
+            logger.error("Please specify --steps manually or provide --data-dir")
+            return
+    
+    logger.info(f"Selected steps: {steps}")
+    logger.info(f"Number of selected steps: {len(steps)}")
+    
+    for parameter_model in args.parameter_models:
+        if args.output_dir:
+            folder = pathlib.Path(args.output_dir)
+        else:
+            folder = BIGSTORAGE_DIR / args.user / "olmo" / f"{parameter_model}-unembeddings"
+        
         folder.mkdir(parents=True, exist_ok=True)
-        step = steps[1]
-        # for step in newsteps:
-        logger.info(f"Processing model {parameter_model} at step {step}")
-        generate_unembedding_matrix(parameter_model, step, str(folder))
+        
+        for step in steps:
+            logger.info(f"Processing model {parameter_model} at step {step}")
+            generate_unembedding_matrix(parameter_model, step, str(folder), use_gpu=args.use_gpu)
 
-def run_single_step():
-    parameter_models = ["7B"]
-
-    SCRIPT_DIR = pathlib.Path(__file__).parent
-    DATA_DIR = SCRIPT_DIR / "../data"
-    BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
-
-    print (DATA_DIR / "olmo_7B_model_names.txt", "r")
-    with open(DATA_DIR / "olmo_7B_model_names.txt", "r") as a:
-        steps = a.readlines()
-
-    print(steps)
-    steps = list(map(lambda x: x[:-1], steps))
-    steps.sort(key=lambda x: int(x.split("-")[0].split("p")[1]))
-
-    logger.info(f"Total number of steps: {len(steps)}")
-
-    newstep = steps[1]
-
-    logger.info(f"Selected step: {newstep}")
-    logger.info(f"Number of selected step: {1}")
-
-    for parameter_model in parameter_models:
-        folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"{parameter_model}-unembeddings"
-        folder.mkdir(parents=True, exist_ok=True)
-        logger.info(f"Processing model {parameter_model} at step {newstep}")
-        generate_unembedding_matrix(parameter_model, newstep, str(folder))
-
-def generate_unembeddings_matrix_testspeed():
-    import time
-    import pathlib
-    import matplotlib.pyplot as plt
-    BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
-    folder = BIGSTORAGE_DIR / "raymond" / "olmo" / f"7B-unembeddings"
-    folder.mkdir(parents=True, exist_ok=True)
-    nonGpuTimes = []
-    gpuTimes = []
-    for i in range(5):
-        start = time.perf_counter()
-        generate_unembedding_matrix("7B", "step0-tokens0B", str(folder), 0)
-        end = time.perf_counter()
-        print(f"non GPU time {i}:", str(end - start))
-        nonGpuTimes.append(end-start)
-
-        start = time.perf_counter()
-        generate_unembedding_matrix("7B", "step0-tokens0B", str(folder), 1)
-        end = time.perf_counter()
-        print(f"GPU time {i}:", str(end - start))
-        gpuTimes.append(end-start)
-    #nonGpuTimes = [15, 15, 15, 15, 15]
-    #gpuTimes = [5, 10, 15, 12, 13]
-    print(nonGpuTimes)
-    print(gpuTimes)
-    ratioTimes = list(map(lambda non, gpu: non/gpu, nonGpuTimes, gpuTimes))
-    data = [nonGpuTimes, gpuTimes]  # Combine the lists
-    labels = ['Non-GPU', 'GPU']
-
-    # Create the histogram
-    trials = np.arange(len(nonGpuTimes))
-    trial_labels = [i+1 for i in trials]
-    width = 0.35
-
-    # Create the grouped bar chart
-    plt.figure(figsize=(10, 6))
-    plt.bar(trials - width/2, nonGpuTimes, width, label="Non-GPU")
-    plt.bar(trials + width/2, gpuTimes, width, label="GPU")
-    plt.xlabel("Trial")
-    plt.ylabel("Time (seconds)")
-    plt.title("GPU vs. Non-GPU Time Comparison")
-    plt.xticks(trials, trial_labels)  
-    plt.legend()
-    plt.savefig('gpu_vs_nongpu_times.png')
-
-    plt.figure(figsize=(10, 6))
-    plt.bar(trials, ratioTimes, width, label="Non-GPU/GPU")
-    plt.xlabel("Trial")
-    plt.ylabel("Ratio (Non-GPU/GPU times)")
-    plt.title("GPU, Non-GPU Time Comparison ratio")
-    plt.xticks(trials, trial_labels)
-    plt.legend()
-    plt.savefig('gpu_vs_nongpu_ratio_times.png')
 
 if __name__ == "__main__":
     main()
-    #run_single_step()
-    #generate_unembeddings_matrix_testspeed()
-
-
-
-# model = OLMoForCausalLM.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")
-
-# tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision="step1000-tokens4B")

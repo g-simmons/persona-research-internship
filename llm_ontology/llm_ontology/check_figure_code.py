@@ -82,7 +82,7 @@ def check_code(fig_code: str) -> FigErrors:
 
 if __name__ == "__main__":
     # get the string contents of a file
-
+    # change this so it runs all files not just a singular one
     with open("frequency_score_scatterplots.py", "r") as f:
         fig_code = f.read()
 

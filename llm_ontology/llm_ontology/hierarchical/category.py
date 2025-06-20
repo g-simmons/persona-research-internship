@@ -4,7 +4,6 @@ import networkx as nx
 import torch
 from sklearn.covariance import ledoit_wolf
 from sklearn.decomposition import PCA
-from typing import Dict, Any
 from typing import Dict, Any, Union
 
 import numpy as np
@@ -24,7 +23,7 @@ SCRIPT_PATH = Path(__file__).resolve()
 PROJECT_ROOT = SCRIPT_PATH.parent.parent.parent
 
 
-def get_categories(model_name = 'noun'):
+def get_categories(model_name = 'noun') -> None:
 
     cats = {}
     if model_name == 'pythia':
@@ -157,6 +156,10 @@ def get_words_sim_to_vec(query: torch.tensor, unembed, vocab_list, k=300):
     return [vocab_list[idx] for idx in similar_indices]
 
 def estimate_single_dir_from_embeddings(category_embeddings: torch.Tensor, device: Union[torch.device, str] = "cpu"):
+    """
+    category_embeddings is a matrix of the transformed unembedding vectors for a synset
+    
+    """
     # NOTE: What would it take to have this all on GPU?
     # Major steps:
     # 1. Get mean of category embeddings.
@@ -218,7 +221,7 @@ def estimate_single_dir_from_embeddings(category_embeddings: torch.Tensor, devic
         logger.info(cov.shape)
 
         lda_dir = lda_dir / torch.norm(lda_dir)
-        lda_dir = (category_mean @ lda_dir) * lda_dir
+        lda_dir = (category_mean @ lda_dir) * lda_dir # l_bar_w = (g_tilde_w^T * E(g_qv)) * g_tilde_w
 
     return lda_dir, category_mean
 

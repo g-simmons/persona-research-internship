@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Use paths relative to script location, not cwd
+
+description: Use paths relative to the script location, not the current working directory. This makes the code more portable and easier to reason about. If you see absolute paths, change them to paths relative to the script location.
+
+Examples:
+```python
+import pathlib
+script_path = pathlib.Path(__file__).parent
+file_path = script_path / 'file.txt'
+print(file_path)
+```

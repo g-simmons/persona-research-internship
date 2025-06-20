@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import warnings
 import json
+import argparse
 from pathlib import Path
 from utils import read_olmo_model_names, sample_from_steps
 
@@ -611,21 +612,123 @@ hierarchy_score = hierarchy_score_with_ci
 
 
 
-if __name__ == "__main__":
-    parameter_models = ["7B"]
-
-    steps = read_olmo_model_names()
-    logger.info(len(steps))
-    newsteps = sample_from_steps(steps)
-    logger.info(newsteps)
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Compute ontology scores for language models",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     
-    for parameter_model in parameter_models:
-        for step in newsteps:
-            save_wordnet_hypernym(params=parameter_model, step=step, multi=True, model_name="olmo")
-            mats = get_mats(params=parameter_model, step=step, multi=True, model_name="olmo")
+    parser.add_argument(
+        "--parameter-models",
+        type=str,
+        nargs="+",
+        default=["7B"],
+        help="Parameter models to process (e.g., 7B, 1B)"
+    )
+    
+    parser.add_argument(
+        "--steps",
+        type=str,
+        nargs="+",
+        help="Specific steps to process. If not specified, samples from available steps"
+    )
+    
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default="olmo",
+        choices=["olmo", "pythia"],
+        help="Model family name"
+    )
+    
+    parser.add_argument(
+        "--multi",
+        action="store_true",
+        default=True,
+        help="Use multi-word processing"
+    )
+    
+    parser.add_argument(
+        "--user",
+        type=str,
+        default="raymond",
+        help="User name for output paths"
+    )
+    
+    parser.add_argument(
+        "--action",
+        type=str,
+        choices=["save_hypernym", "get_mats", "both"],
+        default="both",
+        help="Action to perform"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Output directory for heatmaps. Defaults to /mnt/bigstorage/{user}/heatmaps-{model_name}/"
+    )
+    
+    parser.add_argument(
+        "--sample-steps",
+        action="store_true",
+        help="Sample a subset of steps instead of using all"
+    )
+    
+    return parser.parse_args()
 
-            torch.save(mats[0], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
-            torch.save(mats[1], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")
-            torch.save(mats[2], BIGSTORAGE_DIR / f"raymond/heatmaps-olmo/{parameter_model}/{step}-3.pt")
 
-    # get_mats("7B", "step1000", False, "olmo")
+def main():
+    args = parse_args()
+    
+    # Get steps
+    if args.steps:
+        steps_to_process = args.steps
+    else:
+        steps = read_olmo_model_names()
+        logger.info(f"Total available steps: {len(steps)}")
+        if args.sample_steps:
+            steps_to_process = sample_from_steps(steps)
+        else:
+            steps_to_process = steps
+        logger.info(f"Processing steps: {steps_to_process}")
+    
+    # Set up output directory
+    if args.output_dir:
+        output_base = Path(args.output_dir)
+    else:
+        output_base = BIGSTORAGE_DIR / args.user / f"heatmaps-{args.model_name}"
+    
+    for parameter_model in args.parameter_models:
+        for step in steps_to_process:
+            logger.info(f"Processing {args.model_name} {parameter_model} at step {step}")
+            
+            if args.action in ["save_hypernym", "both"]:
+                save_wordnet_hypernym(
+                    params=parameter_model, 
+                    step=step, 
+                    multi=args.multi, 
+                    model_name=args.model_name
+                )
+            
+            if args.action in ["get_mats", "both"]:
+                mats = get_mats(
+                    params=parameter_model, 
+                    step=step, 
+                    multi=args.multi, 
+                    model_name=args.model_name
+                )
+                
+                # Save matrices
+                output_dir = output_base / parameter_model
+                output_dir.mkdir(parents=True, exist_ok=True)
+                
+                torch.save(mats[0], output_dir / f"{step}-1.pt")
+                torch.save(mats[1], output_dir / f"{step}-2.pt")
+                torch.save(mats[2], output_dir / f"{step}-3.pt")
+                
+                logger.info(f"Saved matrices to {output_dir}/{step}-{{1,2,3}}.pt")
+
+
+if __name__ == "__main__":
+    main()

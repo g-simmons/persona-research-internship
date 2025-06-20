@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Log to file and stdout
+
+description: Set up a logger with separate handlers for file and stdout.
+
+Examples:
+```python
+import logging
+logger = logging.getLogger(__name__)
+file_handler = logging.FileHandler('file.log')
+stdout_handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+stdout_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
+```

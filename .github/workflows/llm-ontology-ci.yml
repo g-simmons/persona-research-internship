@@ -1,0 +1,65 @@
+name: LLM Ontology CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'llm_ontology/**'
+      - '.github/workflows/llm-ontology-ci.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'llm_ontology/**'
+      - '.github/workflows/llm-ontology-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+        # python-version: ["3.8", "3.9", "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+        enable-cache: true
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential
+    
+    - name: Create virtual environment and install dependencies
+      run: |
+        cd llm_ontology
+        uv venv --python 3.10
+        # Install torch first with CPU index
+        uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+        # Install other requirements (torch already installed, so it will be skipped)
+        uv pip install -r requirements.txt
+        uv pip install pytest pytest-cov
+        uv pip install -e .
+    
+    - name: Set environment variables
+      run: |
+        echo "USER=${{ github.actor }}" >> $GITHUB_ENV
+    
+    - name: Run tests
+      run: |
+        cd llm_ontology
+        uv run pytest tests/test_fast_slow_equivalence.py -v --tb=short
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./llm_ontology/coverage.xml
+        fail_ci_if_error: false

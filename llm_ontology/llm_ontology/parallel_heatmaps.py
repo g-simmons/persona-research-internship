@@ -35,6 +35,7 @@ def save_heatmaps(parameter_model, step, multi, model_name):
         torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-1.pt")
         torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-2.pt")
         torch.save(mats[2], f"/mnt/bigstorage/raymond/heatmaps-pythia/{parameter_model}/{parameter_model}-{step}-3.pt")
+
     if model_name == "olmo":
         torch.save(mats[0], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-1.pt")
         torch.save(mats[1], f"/mnt/bigstorage/raymond/heatmaps-olmo/{parameter_model}/{step}-2.pt")

@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#No string comments
+
+description: Do not use multiline strings for comments in Python. Use the proper comment syntax instead.

@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Use f-strings for string interpolation
+
+description: Use f-strings for string interpolation instead of the format method.

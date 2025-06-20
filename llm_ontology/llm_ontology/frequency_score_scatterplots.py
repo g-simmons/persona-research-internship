@@ -9,6 +9,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import altair as alt
+import argparse
 from pathlib import Path
 
 #from utils import savefig, figname_from_fig_metadata
@@ -61,13 +62,15 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
     
     # Set up the plot style
     sns.set_style("whitegrid")
-    #plt.figure(figsize=(10, 6))
+    
+    # Create figure and axis using object-oriented interface
+    fig, ax = plt.subplots(figsize=(10, 6))
     
     # Create scatterplot with seaborn
-    sns.scatterplot(x=freqs, y=term_scores, alpha=0.6)
-    plt.xscale('log')
-    plt.xlabel("Pretraining Term Frequency")
-    plt.ylabel("Term Causal Separability Score")
+    sns.scatterplot(x=freqs, y=term_scores, alpha=0.6, ax=ax)
+    ax.set_xscale('log')
+    ax.set_xlabel("Pretraining Term Frequency")
+    ax.set_ylabel("Term Causal Separability Score")
 
     if index:
         # Save plot
@@ -90,12 +93,12 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
     figures_dir = script_dir.parent / "figures"
     
     savefig(
-        fig=plt.gcf(),
+        fig=fig,
         figures_dir=figures_dir,
         figure_name=figure_name,
         formats=["png"]
     )
-    plt.clf()
+    plt.close(fig)
 
 def create_interactive_scatterplot(adj: np.ndarray, cos: np.ndarray, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path, model_name: str = "", param_model: str = "", index: str = "") -> alt.Chart:
     """Create an interactive Altair scatterplot comparing term frequencies to causal separability scores.
@@ -124,7 +127,7 @@ def create_interactive_scatterplot(adj: np.ndarray, cos: np.ndarray, row_terms_p
         term_freq = outer_dict[list(outer_dict.keys())[0]]
 
     # Calculate causal separability score
-    scores = {}  # freq: score
+    scores: dict[float, float] = {}  # freq: score
     frequencies = []
     term_scores = []
     terms = []
@@ -227,54 +230,181 @@ def generate_all_scatterplots(indices: list, model: str, ontologies: list):
             scatterplot.save(filepath)
             print(f"Interactive scatterplot saved to: {filepath}")
 
-def main() -> None:
-    param_model = "160M"
-    param_model_olmo = "7B"
-    step = "step143000"
-    step_olmo = "step150000-tokens664B"
-    model_name = "pythia"
-    adj_p = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model}/{param_model}-{step}-1.pt"), weights_only=False)
-    cos_p = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model}/{param_model}-{step}-2.pt"), weights_only=False)
-    model_name = "olmo"
-    adj_o = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model_olmo}/{step_olmo}-1.pt"), weights_only=False)
-    cos_o = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model_olmo}/{step_olmo}-2.pt"), weights_only=False)
-
-    #script_dir = pathlib.Path(__file__).parent.parent / "data/"
-    script_dir = Path("/home/logan/persona-research-internship/llm_ontology/data/")
-    row_terms_path = script_dir / "owl_row_terms/wordnet_row_terms.txt"
-    term_freq_path = script_dir / "term_frequencies/wordnet.txt-frequencies.json"
-
-    #save_scatterplot(adj_p, cos_p, row_terms_path, term_freq_path, model_name="pythia", param_model=param_model)
-    #indices = ["v4_olmoe-0125-1b-7b-instruct_llama", "v4_olmo-2-1124-13b-instruct_llama", "v4_olmo-2-0325-32b-instruct_llama", "v4_dolmasample_olmo"]
-    indices = ["v4_olmo-2-0325-32b-instruct_llama"]
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Generate frequency score scatterplots for language models",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     
-    # Get all frequency JSON files for the first index
-    base_path = script_dir / "term_frequencies/multi-word-frequencies_v4_dolmasample_olmo" / indices[0]
-    ontologies = [f.name for f in base_path.glob("*multi.txt-frequencies.json")]
-    print(ontologies)
-    generate_all_scatterplots(indices=indices, model="olmo", ontologies=ontologies)
-    """indices = ["v4_olmo-2-0325-32b-instruct_llama"]
-    for index in indices:
-        term_freq_path = script_dir/f"term_frequencies/multi-word-frequencies_v4_dolmasample_olmo/{index}/wordnet_multi.txt-frequencies.json"
-        print(term_freq_path)
-        #save_scatterplot(adj_o, cos_o, row_terms_path, term_freq_path, model_name="olmo", param_model=param_model_olmo, index=index)
+    parser.add_argument(
+        "--model-type",
+        type=str,
+        choices=["pythia", "olmo", "both"],
+        default="olmo",
+        help="Model type to generate plots for"
+    )
+    
+    parser.add_argument(
+        "--param-model-pythia",
+        type=str,
+        default="160M",
+        help="Parameter model for Pythia"
+    )
+    
+    parser.add_argument(
+        "--param-model-olmo",
+        type=str,
+        default="7B",
+        help="Parameter model for OLMo"
+    )
+    
+    parser.add_argument(
+        "--step-pythia",
+        type=str,
+        default="step143000",
+        help="Step for Pythia model"
+    )
+    
+    parser.add_argument(
+        "--step-olmo",
+        type=str,
+        default="step150000-tokens664B",
+        help="Step for OLMo model"
+    )
+    
+    parser.add_argument(
+        "--data-dir",
+        type=str,
+        help="Data directory. Defaults to ../data relative to script or /home/logan/persona-research-internship/llm_ontology/data/"
+    )
+    
+    parser.add_argument(
+        "--row-terms-path",
+        type=str,
+        help="Path to row terms file. Defaults to {data_dir}/owl_row_terms/wordnet_row_terms.txt"
+    )
+    
+    parser.add_argument(
+        "--term-freq-path",
+        type=str,
+        help="Path to term frequency file. Defaults to {data_dir}/term_frequencies/wordnet.txt-frequencies.json"
+    )
+    
+    parser.add_argument(
+        "--indices",
+        type=str,
+        nargs="+",
+        default=["v4_olmo-2-0325-32b-instruct_llama"],
+        help="Indices to process"
+    )
+    
+    parser.add_argument(
+        "--ontologies",
+        type=str,
+        nargs="+",
+        help="Specific ontologies to process. If not specified, discovers all available ontologies"
+    )
+    
+    parser.add_argument(
+        "--plot-type",
+        type=str,
+        choices=["static", "interactive", "both"],
+        default="interactive",
+        help="Type of plots to generate"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        help="Output directory for figures. Defaults to ../figures relative to script"
+    )
+    
+    parser.add_argument(
+        "--user",
+        type=str,
+        default="raymond",
+        help="User name for data paths"
+    )
+    
+    return parser.parse_args()
 
-        scatterplot = create_interactive_scatterplot(
-            adj=adj_o,
-            cos=cos_o,
-            row_terms_path=row_terms_path,
-            term_freq_path=term_freq_path,
-            model_name="olmo",
-            param_model=param_model_olmo,
-            index=index
-        )
 
-        # Save the chart as an HTML file
-        figures_dir = pathlib.Path(__file__).parent.parent / "figures"
-        figures_dir.mkdir(parents=True, exist_ok=True)
-        filepath = figures_dir / f"interactive_frequency_score_scatterplot_example_{index}.html"
-        scatterplot.save(filepath)
-        print(f"Interactive scatterplot saved to: {filepath}")"""
+def main() -> None:
+    args = parse_args()
+    
+    # Set up data directory
+    if args.data_dir:
+        script_dir = Path(args.data_dir)
+    else:
+        try:
+            script_dir = pathlib.Path(__file__).parent.parent / "data"
+            if not script_dir.exists():
+                script_dir = Path("/home/logan/persona-research-internship/llm_ontology/data/")
+        except:
+            script_dir = Path("/home/logan/persona-research-internship/llm_ontology/data/")
+    
+    # Set up paths
+    if args.row_terms_path:
+        row_terms_path = Path(args.row_terms_path)
+    else:
+        row_terms_path = script_dir / "owl_row_terms/wordnet_row_terms.txt"
+    
+    if args.term_freq_path:
+        term_freq_path = Path(args.term_freq_path)
+    else:
+        term_freq_path = script_dir / "term_frequencies/wordnet.txt-frequencies.json"
+    
+    # Load model data
+    if args.model_type in ["pythia", "both"]:
+        logger.info(f"Loading Pythia model data: {args.param_model_pythia}, {args.step_pythia}")
+        adj_p = torch.load(str(BIGSTORAGE_DIR / f"{args.user}/heatmaps-pythia/{args.param_model_pythia}/{args.param_model_pythia}-{args.step_pythia}-1.pt"), weights_only=False)
+        cos_p = torch.load(str(BIGSTORAGE_DIR / f"{args.user}/heatmaps-pythia/{args.param_model_pythia}/{args.param_model_pythia}-{args.step_pythia}-2.pt"), weights_only=False)
+    
+    if args.model_type in ["olmo", "both"]:
+        logger.info(f"Loading OLMo model data: {args.param_model_olmo}, {args.step_olmo}")
+        adj_o = torch.load(str(BIGSTORAGE_DIR / f"{args.user}/heatmaps-olmo/{args.param_model_olmo}/{args.step_olmo}-1.pt"), weights_only=False)
+        cos_o = torch.load(str(BIGSTORAGE_DIR / f"{args.user}/heatmaps-olmo/{args.param_model_olmo}/{args.step_olmo}-2.pt"), weights_only=False)
+    
+    # Determine ontologies
+    if args.ontologies:
+        ontologies = args.ontologies
+    else:
+        # Auto-discover ontologies from the first index
+        base_path = script_dir / "term_frequencies/multi-word-frequencies_v4_dolmasample_olmo" / args.indices[0]
+        if base_path.exists():
+            ontologies = [f.name for f in base_path.glob("*multi.txt-frequencies.json")]
+            logger.info(f"Discovered ontologies: {ontologies}")
+        else:
+            logger.warning(f"Auto-discovery path does not exist: {base_path}")
+            ontologies = []
+    
+    # Generate plots based on model type
+    if args.model_type == "pythia" and 'adj_p' in locals():
+        if args.plot_type in ["static", "both"]:
+            save_scatterplot(adj_p, cos_p, row_terms_path, term_freq_path, model_name="pythia", param_model=args.param_model_pythia)
+    
+    if args.model_type in ["olmo", "both"] and 'adj_o' in locals():
+        if ontologies:
+            generate_all_scatterplots(indices=args.indices, model="olmo", ontologies=ontologies)
+        else:
+            # Fallback to single scatterplot
+            if args.plot_type in ["static", "both"]:
+                save_scatterplot(adj_o, cos_o, row_terms_path, term_freq_path, model_name="olmo", param_model=args.param_model_olmo)
+            if args.plot_type in ["interactive", "both"]:
+                scatterplot = create_interactive_scatterplot(
+                    adj=adj_o,
+                    cos=cos_o,
+                    row_terms_path=row_terms_path,
+                    term_freq_path=term_freq_path,
+                    model_name="olmo",
+                    param_model=args.param_model_olmo
+                )
+                
+                figures_dir = Path(args.output_dir) if args.output_dir else pathlib.Path(__file__).parent.parent / "figures"
+                figures_dir.mkdir(parents=True, exist_ok=True)
+                filepath = figures_dir / f"interactive_frequency_score_scatterplot_olmo_{args.param_model_olmo}.html"
+                scatterplot.save(filepath)
+                logger.info(f"Interactive scatterplot saved to: {filepath}")
 
 if __name__ == "__main__":
     main()

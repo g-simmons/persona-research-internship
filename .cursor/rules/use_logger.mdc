@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+#Use logger for logging
+
+description: Use logger from the Python builtin library for logging instead of print statements. This makes it easier to control the logging output and format.
