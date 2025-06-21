@@ -7,12 +7,21 @@ import json
 from itertools import islice
 import logging
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# 1. Get a specific logger for our application
+logger = logging.getLogger("FigureCodeChecker")
+logger.setLevel(logging.INFO)
+
+# 2. Create a handler to write to standard output
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# 3. Add the handler to our logger
+if not logger.handlers:
+    logger.addHandler(handler)
+
+# 4. Optional: Prevent OpenAI's verbose logging from cluttering the output
+logging.getLogger("openai").setLevel(logging.WARNING)
 
 class FigErrors: ...
 
@@ -132,7 +141,8 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
         },
     )
 
-    print(completion.choices[0].message.content)
+    logger.info("--- API Response ---")
+    logger.info(completion.choices[0].message.content)
     # parse the response
     ...
 
