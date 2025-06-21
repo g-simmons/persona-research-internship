@@ -7,18 +7,28 @@ import json
 from itertools import islice
 import logging
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# 1. Get a specific logger for our application
+logger = logging.getLogger("FigureCodeChecker")
+logger.setLevel(logging.INFO)
+
+# 2. Create a handler to write to standard output
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# 3. Add the handler to our logger
+if not logger.handlers:
+    logger.addHandler(handler)
+
+# 4. Optional: Prevent OpenAI's verbose logging from cluttering the output
+logging.getLogger("openai").setLevel(logging.WARNING)
 
 class FigErrors: ...
 
 
 FIG_QC_PROMPT = """
-You will be given code from multiple Python files. For each file, extract the following information:
+You will be given code from 3 Python files. For each file, extract the following information:
+
 - file name
 - plot title
 - x-axis and y-axis titles
@@ -65,77 +75,80 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
         response_format={
             "type": "json_schema",
             "json_schema": {
-                "name": "axis titles",
+                "name": "figure_details_list",
                 "strict": True,
                 "schema": {
-                    "type": "object",
-                    "properties": {
-                        "file_name": {
-                            "type": "string",
-                            "description": "the name of the file",
-                        },
-                        "Title": {
-                            "type": "string",
-                            "description": "plot title",
-                        },
-                        "x-axis title": {
-                            "type": "string",
-                            "description": "the title of the x-axis",
-                        },
-                        "y-axis title": {
-                            "type": "string",
-                            "description": "the title of the y-axis",
-                        },
-                        "x-axis scale": {
-                            "type": "string",
-                            "description": "the scale of the x-axis",
-                        },
-                        "y-axis scale": {
-                            "type": "string",
-                            "description": "the scale of the y-axis",
-                        },
-                        "legend": {
-                            "type": "string",
-                            "description": "the legend of the figure",
-                        },
-                        "font size": {
-                            "type": "string",
-                            "description": "the font size of the figure",
-                        },
-                        "colors": {
-                            "type": "array",
-                            "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "file_name": {
                                 "type": "string",
-                                "description": "the colors of the figure",
+                                "description": "the name of the file",
+                            },
+                            "Title": {
+                                "type": "string",
+                                "description": "plot title",
+                            },
+                            "x-axis title": {
+                                "type": "string",
+                                "description": "the title of the x-axis",
+                            },
+                            "y-axis title": {
+                                "type": "string",
+                                "description": "the title of the y-axis",
+                            },
+                            "x-axis scale": {
+                                "type": "string",
+                                "description": "the scale of the x-axis",
+                            },
+                            "y-axis scale": {
+                                "type": "string",
+                                "description": "the scale of the y-axis",
+                            },
+                            "legend": {
+                                "type": "string",
+                                "description": "the legend of the figure",
+                            },
+                            "font size": {
+                                "type": "string",
+                                "description": "the font size of the figure",
+                            },
+                            "colors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "the colors of the figure",
+                                },
+                            },
+                            "figure size": {
+                                "type": "string",
+                                "description": "the size of the figure",
+                            },
+                            "saving the figure": {
+                                "type": "string",
+                                "description": "how to save the figure",
+                            },
+                            "matplotlib vs. altair": {
+                                "type": "string",
+                                "description": "the library used to create the figure",
                             },
                         },
-                        "figure size": {
-                            "type": "string",
-                            "description": "the size of the figure",
-                        },
-                        "saving the figure": {
-                            "type": "string",
-                            "description": "how to save the figure",
-                        },
-                        "matplotlib vs. altair": {
-                            "type": "string",
-                            "description": "the library used to create the figure",
-                        },                        
-                    },
-                    "required": ["file_name", "Title", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair'],
-                    "additionalProperties": False,
+                        "required": ["file_name", "Title", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair'],
+                    }
                 },
             },
         },
     )
 
-    print(completion.choices[0].message.content)
+    logger.info("--- API Response ---")
+    logger.info(completion.choices[0].message.content)
     # parse the response
     ...
 
 
 def check_code(fig_code: str) -> FigErrors:
-    call_ai(FIG_QC_PROMPT, fig_code, model_name="meta-llama/llama-4-maverick:free")
+    call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
 
 """
 def get_changed_py_files():
