@@ -6,5 +6,5 @@ y = [1,2,3,4,5]
 plt.plot(x,y)
 plt.title('JSON')
 plt.xlabel('PARSE')
-plt.ylabel('TEST')
+plt.ylabel('TESTING')
 plt.show()
