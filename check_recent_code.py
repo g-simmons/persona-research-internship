@@ -116,8 +116,9 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
         },
     )
 
-    message = json.loads(completion.choices[0].message.content)
-    print(message(["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]))
+    message = (completion.choices[0].message.content)
+    keys=["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]
+    print([message.get(key) for key in keys])
     # parse the response
     ...
 
