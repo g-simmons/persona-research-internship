@@ -4,7 +4,7 @@ x = [1,2,3,4,5]
 y = [1,2,3,4,5]
 
 plt.plot(x,y)
-plt.title('Checking Recent')
-plt.xlabel('Checking')
-plt.ylabel('Recent')
+plt.title('JSON')
+plt.xlabel('PARSE')
+plt.ylabel('TEST')
 plt.show()
