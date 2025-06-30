@@ -24,6 +24,7 @@ class FigErrors: ...
 # matplotlib vs. altair?
 
 FIG_QC_PROMPT = """
+Provide the items asked for in valid JSON format.
 What are the plot title, x-axis and y-axis titles,
 x-axis scale, y-axis scale, legend, font size, colors, figure size,
 how we saved the figure, and whether the figure is matplotlib or altair
@@ -117,10 +118,11 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     )
 
     message = completion.choices[0].message.content
-    print(message)
-    keys=["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]
-    print([message.get(key) for key in keys])
+    jsonform = json.loads(message)
+    #keys=["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]
+    #print([message.get(key) for key in keys])
     # parse the response
+    print(jsonform["Title"])
     ...
 
 
