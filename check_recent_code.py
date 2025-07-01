@@ -113,7 +113,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                             "description": "the library used to create the figure",
                         },                        
                     },
-                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair'],
+                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn'],
                     "additionalProperties": False,
                 },
             },
