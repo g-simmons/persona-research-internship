@@ -26,9 +26,9 @@ class FigErrors: ...
 
 FIG_QC_PROMPT = """
 Provide the items asked for in valid JSON format.
-What are the plot title, x-axis and y-axis titles,
+What are the plot type(e.g. scatterplot, bar chart, line chart, etc.), plot title, x-axis and y-axis titles,
 x-axis scale, y-axis scale, legend, font size, colors, figure size,
-how we saved the figure, and whether the figure is matplotlib or altair
+how we saved the figure, and whether the figure is matplotlib, altair, or seaborn, or
 if they exist? 
 If anything doesn't exist, return N/A.
 {fig_code}
@@ -69,7 +69,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                         },
                         "Plot type":{
                             "type": "string",
-                            "description": "the type of plot",
+                            "description": "the type of graph",
                             "example": "scatterplot, bar chart, line chart, etc.",
                         },
                         "x-axis title": {
