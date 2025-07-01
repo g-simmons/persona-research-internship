@@ -67,6 +67,11 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                             "type": "string",
                             "description": "plot title",
                         },
+                        "Plot type":{
+                            "type": "string",
+                            "description": "the type of plot",
+                            "example": "scatterplot, bar chart, line chart, etc.",
+                        },
                         "x-axis title": {
                             "type": "string",
                             "description": "the title of the x-axis",
