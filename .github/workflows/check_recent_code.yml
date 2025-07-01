@@ -28,6 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai requests
           pip install pandas
+          pip install colorama
 
       - name: Run Figure Code
         env:
