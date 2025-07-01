@@ -4,7 +4,7 @@ from pathlib import Path
 import subprocess
 import json
 import pandas as pd
-
+from colorama import Fore
 
 # None
 
@@ -133,7 +133,11 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     print("matplotlib vs. altair: " + jsonform["matplotlib vs. altair"])"""
     
     df = pd.json_normalize(jsonform)
-    print(df)
+    pd.set_option('display.max_colwidth', None)
+    mydf = df.transpose()
+    mydf.columns = mydf.iloc[0]
+    dfnew = mydf[1:]
+    print(Fore.GREEN + dfnew.to_string())
     ...
 
 
