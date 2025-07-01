@@ -137,7 +137,9 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     mydf = df.transpose()
     mydf.columns = mydf.iloc[0]
     dfnew = mydf[1:]
-    print(Fore.GREEN + dfnew.to_string())
+    lines = dfnew.to_string().splitlines()
+    green_lines = [Fore.GREEN + line for line in lines]
+    print("\n".join(green_lines))
     ...
 
 
