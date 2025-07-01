@@ -92,11 +92,8 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                             "description": "the font size of the figure",
                         },
                         "colors": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "the colors of the figure",
-                            },
+                            "type": "string",
+                            "description": "the colors of the figure",                           
                         },
                         "figure size": {
                             "type": "string",
@@ -106,7 +103,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                             "type": "string",
                             "description": "how to save the figure",
                         },
-                        "matplotlib vs. altair": {
+                        "matplotlib vs. altair vs. seaborn": {
                             "type": "string",
                             "description": "the library used to create the figure",
                         },                        
