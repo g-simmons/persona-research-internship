@@ -123,6 +123,13 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     #print([message.get(key) for key in keys])
     # parse the response
     print("Title: " + jsonform["Title"])
+    print("x-axis title: " + jsonform["x-axis title"])
+    print("y-axis title: " + jsonform["y-axis title"])
+    print("font size: " + jsonform["font size"])
+    print("colors: " + jsonform["colors"])
+    print("figure size: " + jsonform["figure size"])
+    print("saving the figure: " + jsonform["saving the figure"])
+    print("matplotlib vs. altair: " + jsonform["matplotlib vs. altair"])
     ...
 
 
