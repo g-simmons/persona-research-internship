@@ -138,8 +138,11 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     mydf.columns = mydf.iloc[0]
     dfnew = mydf[1:]
     lines = dfnew.to_string().splitlines()
-    green_lines = [Fore.GREEN + line for line in lines]
-    print("\n".join(green_lines))
+    colored_lines = [
+        (Fore.RED if "N/A" in line else Fore.GREEN) + line
+        for line in lines
+    ]
+    print("\n".join(colored_lines))
     ...
 
 
