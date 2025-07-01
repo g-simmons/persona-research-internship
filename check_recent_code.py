@@ -3,6 +3,7 @@ from openai import OpenAI
 from pathlib import Path
 import subprocess
 import json
+import pandas as pd
 
 
 # None
@@ -122,14 +123,17 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     #keys=["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]
     #print([message.get(key) for key in keys])
     # parse the response
-    print("Title: " + jsonform["Title"])
+    """print("Title: " + jsonform["Title"])
     print("x-axis title: " + jsonform["x-axis title"])
     print("y-axis title: " + jsonform["y-axis title"])
     print("font size: " + jsonform["font size"])
     print("colors: ", jsonform["colors"])
     print("figure size: " + jsonform["figure size"])
     print("saving the figure: " + jsonform["saving the figure"])
-    print("matplotlib vs. altair: " + jsonform["matplotlib vs. altair"])
+    print("matplotlib vs. altair: " + jsonform["matplotlib vs. altair"])"""
+    
+    df = pd.json_normalize(jsonform)
+    print(df)
     ...
 
 
