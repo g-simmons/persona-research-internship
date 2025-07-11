@@ -1,0 +1,184 @@
+import os
+from openai import OpenAI
+from pathlib import Path
+import subprocess
+import json
+import pandas as pd
+from colorama import Fore
+
+# None
+
+class FigErrors: ...
+
+
+# y-axis title
+# y-axis ticks
+# y-axis scale
+# x-axis title
+# x-axis ticks
+# x-axis scale
+# legend
+# font size
+# colors
+# figure size
+# saving the figure
+# matplotlib vs. altair?
+
+FIG_QC_PROMPT = """
+Provide the items asked for in valid JSON format.
+What are the plot type(e.g. scatterplot, bar chart, line chart, etc.), plot title, x-axis and y-axis titles,
+x-axis scale, y-axis scale, legend, font size, colors, figure size,
+how we saved the figure, and whether the figure is matplotlib, altair, or seaborn, or
+if they exist? 
+If anything doesn't exist, return N/A.
+{fig_code}
+
+"""
+
+
+def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
+    prompt = fig_qc_prompt.format(fig_code=fig_code)
+    # Get API key from environment variable
+    OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
+    if not OPENROUTER_API_KEY:
+        raise ValueError("OPENROUTER_API_KEY environment variable is not set")
+        
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=OPENROUTER_API_KEY,
+    )
+
+    completion = client.chat.completions.create(
+        #   extra_headers={
+        #     "HTTP-Referer": "<YOUR_SITE_URL>", # Optional. Site URL for rankings on openrouter.ai.
+        #     "X-Title": "<YOUR_SITE_NAME>", # Optional. Site title for rankings on openrouter.ai.
+        #   },
+        model=model_name,
+        messages=[{"role": "user", "content": prompt}],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "axis titles",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "Title": {
+                            "type": "string",
+                            "description": "plot title",
+                        },
+                        "Plot type":{
+                            "type": "string",
+                            "description": "the type of graph",
+                            "example": "scatterplot, bar chart, line chart, etc.",
+                        },
+                        "x-axis title": {
+                            "type": "string",
+                            "description": "the title of the x-axis",
+                        },
+                        "y-axis title": {
+                            "type": "string",
+                            "description": "the title of the y-axis",
+                        },
+                        "x-axis scale": {
+                            "type": "string",
+                            "description": "the scale of the x-axis",
+                        },
+                        "y-axis scale": {
+                            "type": "string",
+                            "description": "the scale of the y-axis",
+                        },
+                        "legend": {
+                            "type": "string",
+                            "description": "the legend of the figure",
+                        },
+                        "font size": {
+                            "type": "string",
+                            "description": "the font size of the figure",
+                        },
+                        "colors": {
+                            "type": "string",
+                            "description": "the colors of the figure",                           
+                        },
+                        "figure size": {
+                            "type": "string",
+                            "description": "the size of the figure",
+                        },
+                        "saving the figure": {
+                            "type": "string",
+                            "description": "how to save the figure",
+                        },
+                        "matplotlib vs. altair vs. seaborn": {
+                            "type": "string",
+                            "description": "the library used to create the figure",
+                        },                        
+                    },
+                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn'],
+                    "additionalProperties": False,
+                },
+            },
+        },
+    )
+
+    message = completion.choices[0].message.content
+    jsonform = json.loads(message)
+    #keys=["Title", "x-axis title", "y-axis title", "font size", "colors", "figure size", "saving the figure", "matplotlib vs. altair"]
+    #print([message.get(key) for key in keys])
+    # parse the response
+    """print("Title: " + jsonform["Title"])
+    print("x-axis title: " + jsonform["x-axis title"])
+    print("y-axis title: " + jsonform["y-axis title"])
+    print("font size: " + jsonform["font size"])
+    print("colors: ", jsonform["colors"])
+    print("figure size: " + jsonform["figure size"])
+    print("saving the figure: " + jsonform["saving the figure"])
+    print("matplotlib vs. altair: " + jsonform["matplotlib vs. altair"])"""
+    
+    df = pd.json_normalize(jsonform)
+    pd.set_option('display.max_colwidth', None)
+    mydf = df.transpose()
+    mydf.columns = mydf.iloc[0]
+    dfnew = mydf[1:]
+    lines = dfnew.to_string().splitlines()
+    colored_lines = [
+        (Fore.RED if "N/A" in line else Fore.GREEN) + line
+        for line in lines
+    ]
+    print("\n".join(colored_lines))
+    ...
+
+
+def check_code(fig_code: str) -> FigErrors:
+    call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
+
+
+
+def get_changed_py_files():
+    """Returns a list of changed .py files in the last commit."""
+    result = subprocess.run(
+        ["git", "diff", "--name-only", "HEAD~1", "HEAD"],
+        stdout=subprocess.PIPE,
+        text=True,
+        check=True,
+    )
+    changed_files = [line.strip() for line in result.stdout.splitlines()]
+    py_files = [Path(f) for f in changed_files if f.endswith(".py") and Path(f).exists()]
+    return py_files
+
+if __name__ == "__main__":
+    changed_py_files = get_changed_py_files()
+    
+    if not changed_py_files:
+        print("No changed .py files in the latest commit.")
+    else:
+        for file in changed_py_files:
+            print(changed_py_files)
+            print(f"\nProcessing: {file}")
+            with open(file, "r") as f:
+                fig_code = f.read()
+                check_code(fig_code) 
+
+    # TODO: run from GitHub Actions
+    # - Add the API key as a repository secret @gabe
+    # - How do we inform the user about the results
+    # - Extend the prompt to check for more things
