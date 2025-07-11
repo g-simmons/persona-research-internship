@@ -63,6 +63,7 @@ fig, axes = plt.subplots(2, 2)
 axes[0, 0].plot(x, y)
 axes[0, 1].scatter(x, y)
 </matplotlib-rules>
+If there are no code suggestions, return an empty array.
 {fig_code}
 
 """
