@@ -1,4 +1,5 @@
 import os
+import sys
 from openai import OpenAI
 from pathlib import Path
 import subprocess
@@ -29,14 +30,45 @@ Provide the items asked for in valid JSON format.
 What are the plot type(e.g. scatterplot, bar chart, line chart, etc.), plot title, x-axis and y-axis titles,
 x-axis scale, y-axis scale, legend, font size, colors, figure size,
 how we saved the figure, and whether the figure is matplotlib, altair, or seaborn, or
-if they exist? 
-If anything doesn't exist, return N/A.
+if they exist? If anything doesn't exist, return N/A. 
+For anything returning N/A, provide a code snippet suggestion to fix it. If there is a suggestion for matplotlib,
+refer to these rules:
+<matplotlib-rules>
+#Never use global matplotlib plt methods
+
+description: Never use global matplotlib `plt` methods for figure creation or modification. Instead, always use object-oriented matplotlib interface with `fig, ax = plt.subplots()` and call methods on the figure or axes objects.
+
+Examples:
+```python
+# BAD - Don't use global plt methods
+import matplotlib.pyplot as plt
+plt.figure()
+plt.plot(x, y)
+plt.xlabel('X Label')
+plt.ylabel('Y Label')
+plt.title('Title')
+plt.show()
+
+# GOOD - Use object-oriented interface
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.plot(x, y)
+ax.set_xlabel('X Label')
+ax.set_ylabel('Y Label')
+ax.set_title('Title')
+plt.show()  # Only global method allowed for display
+
+# For multiple subplots
+fig, axes = plt.subplots(2, 2)
+axes[0, 0].plot(x, y)
+axes[0, 1].scatter(x, y)
+</matplotlib-rules>
 {fig_code}
 
 """
 
 
-def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
+def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str) -> bool:
     prompt = fig_qc_prompt.format(fig_code=fig_code)
     # Get API key from environment variable
     OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
@@ -53,6 +85,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
         #     "HTTP-Referer": "<YOUR_SITE_URL>", # Optional. Site URL for rankings on openrouter.ai.
         #     "X-Title": "<YOUR_SITE_NAME>", # Optional. Site title for rankings on openrouter.ai.
         #   },
+        #max_tokens=1000,
         model=model_name,
         messages=[{"role": "user", "content": prompt}],
         response_format={
@@ -111,9 +144,17 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
                         "matplotlib vs. altair vs. seaborn": {
                             "type": "string",
                             "description": "the library used to create the figure",
-                        },                        
+                        },
+                        "missing code suggestion": {
+                            "type": "array",
+                            "description": "any code snippet suggestions to fix the figure",
+                            "items": {
+                                "type": "string",
+                                "description": "a code snippet suggestion to fix the figure",
+                            }
+                        }                        
                     },
-                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn'],
+                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn', 'missing code suggestion'],
                     "additionalProperties": False,
                 },
             },
@@ -140,16 +181,21 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     mydf.columns = mydf.iloc[0]
     dfnew = mydf[1:]
     lines = dfnew.to_string().splitlines()
+    
+    # Check if any lines contain N/A
+    has_na_values = any("N/A" in line for line in lines)
+    
     colored_lines = [
         (Fore.RED if "N/A" in line else Fore.GREEN) + line
         for line in lines
     ]
     print("\n".join(colored_lines))
-    ...
+    
+    return has_na_values
 
 
-def check_code(fig_code: str) -> FigErrors:
-    call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
+def check_code(fig_code: str) -> bool:
+    return call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
 
 
 
@@ -167,6 +213,7 @@ def get_changed_py_files():
 
 if __name__ == "__main__":
     changed_py_files = get_changed_py_files()
+    has_failures = False
     
     if not changed_py_files:
         print("No changed .py files in the latest commit.")
@@ -176,7 +223,19 @@ if __name__ == "__main__":
             print(f"\nProcessing: {file}")
             with open(file, "r") as f:
                 fig_code = f.read()
-                check_code(fig_code) 
+                has_na = check_code(fig_code)
+                if has_na:
+                    has_failures = True
+                    print(f"❌ Found N/A values in {file}")
+                else:
+                    print(f"✅ No N/A values found in {file}")
+    
+    # Exit with nonzero code if there were any failures
+    if has_failures:
+        print("\n❌ Figure quality check failed - found N/A values that need attention")
+        sys.exit(1)
+    else:
+        print("\n✅ All figure quality checks passed")
 
     # TODO: run from GitHub Actions
     # - Add the API key as a repository secret @gabe
