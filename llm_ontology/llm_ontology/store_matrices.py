@@ -18,6 +18,7 @@ from pathlib import Path
 from safetensors.torch import load_file
 import inspect
 import torch.nn.functional as F
+from jaxtyping import Float, Int, Bool  # or use Scalar for non-tensors
 
 
 # pip install ai2-olmo
@@ -63,15 +64,14 @@ logger.addHandler(stdout_handler)
 # torch.save(g, f"FILE_PATH")
 
 
-def get_memory_usage():
+def get_memory_usage() -> float:
     """Get current memory usage in GB"""
     process = psutil.Process(os.getpid())
     memory_gb = process.memory_info().rss / 1024 / 1024 / 1024
     return memory_gb
 
-
-def load_olmo_last_layer(model_name):
-    """Load only the last layer"""
+def load_olmo_last_layer(model_name: str) -> tuple[dict, float]:
+    """Load only the last layer weights and return them with memory usage."""
     initial_memory = get_memory_usage()
 
     # Get the model config first
@@ -95,8 +95,8 @@ def load_olmo_last_layer(model_name):
     index_file = hf_hub_download(model_name, "pytorch_model.bin.index.json")
     with open(index_file, "r") as f:
         index = json.load(f)
-
-    last_layer_weights = {}
+    
+    last_layer_weights: dict = {}
 
     # Load only last layer weights
     for key in last_layer_keys:
@@ -144,8 +144,8 @@ def generate_unembedding_matrix(
     
     W, d = gamma.shape
 
-    gamma_bar = torch.mean(gamma, dim=0)
-    centered_gamma = gamma - gamma_bar
+    gamma_bar: Float[torch.Tensor, "embedding_dim"] = torch.mean(gamma, dim=0)
+    centered_gamma: Float[torch.Tensor, "vocab_size embedding_dim"] = gamma - gamma_bar
 
     # compute Cov(gamma) and tranform gamma to g
     Cov_gamma = centered_gamma.T @ centered_gamma / W
@@ -168,7 +168,7 @@ def generate_unembedding_matrix(
         eigenvectors @ torch.diag(1 / torch.sqrt(eigenvalues)) @ eigenvectors.T
     )
     
-    g = centered_gamma @ inv_sqrt_Cov_gamma
+    g: Float[torch.Tensor, "vocab_size embedding_dim"] = centered_gamma @ inv_sqrt_Cov_gamma
 
     torch.save(g, f"{output_dir}/{step}")
 
