@@ -31,7 +31,11 @@ What are the plot type(e.g. scatterplot, bar chart, line chart, etc.), plot titl
 x-axis scale, y-axis scale, legend, font size, colors, figure size,
 how we saved the figure, and whether the figure is matplotlib, altair, or seaborn, or
 if they exist? If anything doesn't exist, return N/A. 
-For anything returning N/A, provide a code snippet suggestion to fix it. If there is a suggestion for matplotlib,
+
+IMPORTANT: If no figure code is detected in the provided code (no matplotlib, seaborn, altair, plotly imports or plotting functions), 
+set all fields to "NO_FIGURE_DETECTED" and return an empty array for missing code suggestion.
+
+For anything returning N/A (other than NO_FIGURE_DETECTED), provide a code snippet suggestion to fix it. If there is a suggestion for matplotlib,
 refer to these rules:
 <matplotlib-rules>
 #Never use global matplotlib plt methods
@@ -186,11 +190,18 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str) -> bool:
     # Check if any lines contain N/A
     has_na_values = any("N/A" in line for line in lines)
     
+    # Check if no figure was detected
+    has_no_figure = any("NO_FIGURE_DETECTED" in line for line in lines)
+    
     colored_lines = [
-        (Fore.RED if "N/A" in line else Fore.GREEN) + line
+        (Fore.YELLOW if "NO_FIGURE_DETECTED" in line else (Fore.RED if "N/A" in line else Fore.GREEN)) + line
         for line in lines
     ]
     print("\n".join(colored_lines))
+    
+    # If no figure was detected, return False (no issues)
+    if has_no_figure:
+        return False
     
     return has_na_values
 
@@ -229,7 +240,7 @@ if __name__ == "__main__":
                     has_failures = True
                     print(f"❌ Found N/A values in {file}")
                 else:
-                    print(f"✅ No N/A values found in {file}")
+                    print(f"✅ No issues found in {file}")
     
     # Exit with nonzero code if there were any failures
     if has_failures:
