@@ -13,6 +13,7 @@ from huggingface_hub import HfApi, get_safetensors_metadata
 from huggingface_hub.utils._safetensors import TensorInfo
 from joblib_progress import joblib_progress
 from safetensors import safe_open
+from jaxtyping import Float, Int
 
 
 def setup_logger() -> logging.Logger:
@@ -98,8 +99,8 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
         response = requests.get(url, headers=headers)
         response.raise_for_status()
         data = response.content
-        gamma = torch.frombuffer(data, dtype=torch.float32).reshape(tensor_info.shape).clone()
-    
+        gamma: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.frombuffer(data, dtype=torch.float32).reshape(tensor_info.shape).clone()  # type: ignore
+
     else:
         if "OLMo" in model_name:
             model = OLMoForCausalLM.from_pretrained(
@@ -116,7 +117,7 @@ def save_gamma_matrix(model_name: str, revision: str, user: str, fast: bool = Tr
         else:
             raise ValueError(f"Model {model_name} not supported")
 
-        gamma = model.get_output_embeddings().weight.detach()  # type: ignore
+        gamma: Float[torch.Tensor, "vocab_size embedding_dim"] = model.get_output_embeddings().weight.detach()  # type: ignore
 
     suffix = "" if fast else "-slow"
     torch.save(gamma, f"{model_name.split('/')[-1]}-{revision}{suffix}.pt")
@@ -134,8 +135,8 @@ def generate_unembedding_matrix(
     logger.info(f"Loading model {model_name} at step {step}")
     model = OLMoForCausalLM.from_pretrained(model_name, revision=step)
 
-    # load unembdding vectors
-    gamma: Float[Tensor, "vocab_size embedding_dim"] = model.get_output_embeddings().weight.detach()  # type: ignore
+    # load unembedding vectors
+    gamma: Float[torch.Tensor, "vocab_size embedding_dim"] = model.get_output_embeddings().weight.detach()  # type: ignore
 
     if use_gpu:
         logger.info("Moving gamma to CUDA")
@@ -144,17 +145,17 @@ def generate_unembedding_matrix(
     W, d = gamma.shape
     logger.info(f"gamma shape: {gamma.shape}")
 
-    gamma_bar = torch.mean(gamma, dim=0)
-    centered_gamma = gamma - gamma_bar
+    gamma_bar: Float[torch.Tensor, "embedding_dim"] = torch.mean(gamma, dim=0)
+    centered_gamma: Float[torch.Tensor, "vocab_size embedding_dim"] = gamma - gamma_bar
 
-    # compute Cov(gamma) and tranform gamma to g
-    Cov_gamma = centered_gamma.T @ centered_gamma / W
+    # compute Cov(gamma) and transform gamma to g
+    Cov_gamma: Float[torch.Tensor, "embedding_dim embedding_dim"] = centered_gamma.T @ centered_gamma / W
 
     if use_gpu:
         logger.info("Computing eigenvalues/eigenvectors with torch.linalg.eigh")
-        eigenvalues, eigenvectors = torch.linalg.eigh(
-            Cov_gamma
-        )  # for hermitian matrices
+        eigenvalues: Float[torch.Tensor, "embedding_dim"]
+        eigenvectors: Float[torch.Tensor, "embedding_dim embedding_dim"]
+        eigenvalues, eigenvectors = torch.linalg.eigh(Cov_gamma)  # for hermitian matrices
     else:
         logger.info("Computing eigenvalues/eigenvectors with np.linalg.eigh")
         eigenvalues, eigenvectors = np.linalg.eigh(Cov_gamma)
@@ -166,11 +167,11 @@ def generate_unembedding_matrix(
     if not isinstance(eigenvalues, torch.Tensor):
         eigenvalues = torch.from_numpy(eigenvalues)
 
-    inv_sqrt_Cov_gamma = (
+    inv_sqrt_Cov_gamma: Float[torch.Tensor, "embedding_dim embedding_dim"] = (
         eigenvectors @ torch.diag(1 / torch.sqrt(eigenvalues)) @ eigenvectors.T
     )
 
-    g = centered_gamma @ inv_sqrt_Cov_gamma
+    g: Float[torch.Tensor, "vocab_size embedding_dim"] = centered_gamma @ inv_sqrt_Cov_gamma
 
     output_path = f"{output_dir}/{step}"
     logger.info(f"Saving g matrix to {output_path}")

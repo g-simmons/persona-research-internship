@@ -11,6 +11,9 @@ import pandas as pd
 import altair as alt
 import argparse
 from pathlib import Path
+# Jaxtyping imports
+from jaxtyping import Float, Int
+from typeguard import typechecked
 
 #from utils import savefig, figname_from_fig_metadata
 from utils import savefig, figname_from_fig_metadata
@@ -28,7 +31,15 @@ if not logger.handlers:
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
 
-def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndarray, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path, model_name: str = "", param_model: str = "", index: str = "") -> None:
+def save_scatterplot(
+    adj: Float[torch.Tensor, "synset_size embedding_dim"] | Float[np.ndarray, "synset_size embedding_dim"],
+    cos: Float[torch.Tensor, "synset_size embedding_dim"] | Float[np.ndarray, "synset_size embedding_dim"],
+    row_terms_path: pathlib.Path,
+    term_freq_path: pathlib.Path,
+    model_name: str = "",
+    param_model: str = "",
+    index: str = ""
+) -> None:
     """Create and save a scatterplot comparing term frequencies to causal separability scores.
     
     Args:
@@ -43,7 +54,9 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
     
     with open(term_freq_path, 'r') as f:
         outer_dict = json.load(f)
-        term_freq = outer_dict["wordnet.txt"]  # Access the nested dictionary directly
+        print(outer_dict.keys())
+        term_freq = outer_dict[list(outer_dict.keys())[0]]
+        #print(term_freq)  # Access the nested dictionary directly
 
     # Calculate causal separability score
     #score = causal_sep_score(adj, cos)
@@ -51,10 +64,11 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
     # Map frequencies to scores
     scores = {}  # freq: score
     for i, term in enumerate(row_terms):
-        diff = cos[i] - adj[i]
-        #print(term_freq)
-        #print(row_terms)
-        scores[term_freq[term]] = float(np.linalg.norm(diff))
+        if term in term_freq:  # Check if term exists in frequency data
+            diff = cos[i] - adj[i]
+            #print(term_freq)
+            #print(row_terms)
+            scores[term_freq[term]] = float(np.linalg.norm(diff))
 
     # Create scatterplot
     freqs = list(scores.keys())
@@ -100,7 +114,15 @@ def save_scatterplot(adj: torch.Tensor | np.ndarray, cos: torch.Tensor | np.ndar
     )
     plt.close(fig)
 
-def create_interactive_scatterplot(adj: np.ndarray, cos: np.ndarray, row_terms_path: pathlib.Path, term_freq_path: pathlib.Path, model_name: str = "", param_model: str = "", index: str = "") -> alt.Chart:
+def create_interactive_scatterplot(
+    adj: Float[np.ndarray, "synset_size embedding_dim"],
+    cos: Float[np.ndarray, "synset_size embedding_dim"],
+    row_terms_path: pathlib.Path,
+    term_freq_path: pathlib.Path,
+    model_name: str = "",
+    param_model: str = "",
+    index: str = ""
+) -> alt.Chart:
     """Create an interactive Altair scatterplot comparing term frequencies to causal separability scores.
 
     Args:
@@ -203,32 +225,74 @@ def generate_all_scatterplots(indices: list, model: str, ontologies: list):
     #indices = ["v4_olmo-2-0325-32b-instruct_llama"]
     for index in indices:
         for ontology in ontologies:
-            term_freq_path = script_dir/f"term_frequencies/multi-word-frequencies_v4_dolmasample_olmo/{index}/{ontology}"
-            print(term_freq_path)
-            #save_scatterplot(adj_o, cos_o, row_terms_path, term_freq_path, model_name="olmo", param_model=param_model_olmo, index=index)
-
+            term_freq_path = script_dir / "term_frequencies/multi-word-frequencies_v4_dolmasample_olmo" / index / ontology
+            print(f"\nProcessing {ontology} for {index}")
+            
+            # Create directory structure
+            figures_dir = pathlib.Path(__file__).parent.parent / "figures"
+            output_dir = figures_dir / model / index / ontology.replace("-frequencies.json", "")
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Create interactive scatterplot
             scatterplot = create_interactive_scatterplot(
                 adj=adj_o,
                 cos=cos_o,
                 row_terms_path=row_terms_path,
                 term_freq_path=term_freq_path,
-                model_name="olmo",
+                model_name=model,
                 param_model=param_model_olmo,
                 index=index
             )
-
+            
             # Save the chart as an HTML file
-            figures_dir = pathlib.Path(__file__).parent.parent / "figures"
-            figures_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Create the full directory path
-            output_dir = figures_dir / model / index / ontology
-            output_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Save with the specified filename format
-            filepath = output_dir / f"{ontology}interactive_frequency_score_scatterplot.html"
+            filepath = output_dir / f"interactive_frequency_score_scatterplot_{index}.html"
             scatterplot.save(filepath)
             print(f"Interactive scatterplot saved to: {filepath}")
+
+def generate_all_static_scatterplots(indices: list, model: str, ontologies: list):
+    """Generate static scatterplots for all models and indices, organizing them into a structured folder hierarchy.
+    
+    Args:
+        indices: List of model indices to process
+        model: Model name (e.g., "olmo")
+        ontologies: List of ontology filenames to process
+    """
+    param_model = "160M"
+    param_model_olmo = "7B"
+    step = "step143000"
+    step_olmo = "step150000-tokens664B"
+    model_name = "pythia"
+    adj_p = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model}/{param_model}-{step}-1.pt"), weights_only=False)
+    cos_p = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model}/{param_model}-{step}-2.pt"), weights_only=False)
+    model_name = "olmo"
+    adj_o = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model_olmo}/{step_olmo}-1.pt"), weights_only=False)
+    cos_o = torch.load(str(BIGSTORAGE_DIR / f"raymond/heatmaps-{model_name}/{param_model_olmo}/{step_olmo}-2.pt"), weights_only=False)
+
+    script_dir = Path("/home/logan/persona-research-internship/llm_ontology/data/")
+    row_terms_path = script_dir / "owl_row_terms/wordnet_row_terms.txt"
+
+    # Generate static scatterplots
+    for index in indices:
+        for ontology in ontologies:
+            term_freq_path = script_dir / "term_frequencies/multi-word-frequencies_v4_dolmasample_olmo" / index / ontology
+            print(f"\nProcessing {ontology} for {index}")
+            
+            # Create directory structure
+            figures_dir = pathlib.Path(__file__).parent.parent / "figures"
+            output_dir = figures_dir / model / index / ontology.replace("-frequencies.json", "")
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Save static scatterplot
+            save_scatterplot(
+                adj=adj_o,
+                cos=cos_o,
+                row_terms_path=row_terms_path,
+                term_freq_path=term_freq_path,
+                model_name=model,
+                param_model=param_model_olmo,
+                index=index
+            )
+            print(f"Static scatterplot saved in: {output_dir}")
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -328,7 +392,6 @@ def parse_args():
     
     return parser.parse_args()
 
-
 def main() -> None:
     args = parse_args()
     
@@ -385,7 +448,10 @@ def main() -> None:
     
     if args.model_type in ["olmo", "both"] and 'adj_o' in locals():
         if ontologies:
-            generate_all_scatterplots(indices=args.indices, model="olmo", ontologies=ontologies)
+            if args.plot_type in ["interactive", "both"]:
+                generate_all_scatterplots(indices=args.indices, model="olmo", ontologies=ontologies)
+            if args.plot_type in ["static", "both"]:
+                generate_all_static_scatterplots(indices=args.indices, model="olmo", ontologies=ontologies)
         else:
             # Fallback to single scatterplot
             if args.plot_type in ["static", "both"]:
@@ -405,6 +471,14 @@ def main() -> None:
                 filepath = figures_dir / f"interactive_frequency_score_scatterplot_olmo_{args.param_model_olmo}.html"
                 scatterplot.save(filepath)
                 logger.info(f"Interactive scatterplot saved to: {filepath}")
+        # Save the chart as an HTML file
+        figures_dir = pathlib.Path(__file__).parent.parent / "figures"
+        figures_dir.mkdir(parents=True, exist_ok=True)
+        #filepath = figures_dir / f"interactive_frequency_score_scatterplot_example_{indices}.html"
+        filepath = figures_dir / f"interactive_frequency_score_scatterplot_example.html"
+        scatterplot.save(filepath)
+        print(f"Interactive scatterplot saved to: {filepath}")
+    
 
 if __name__ == "__main__":
     main()

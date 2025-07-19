@@ -11,6 +11,11 @@ from seaborn.axisgrid import FacetGrid
 import altair as alt
 import logging
 
+# Jaxtyping imports
+from jaxtyping import Float, Int
+import torch
+import numpy as np
+
 # Set up logger
 logger = logging.getLogger(__name__)
 
@@ -58,7 +63,7 @@ def savefig(
     overwrite=True,
     data: Optional[pd.DataFrame] = None,
     tight_layout=True,
-):
+) -> None:
     """
     This function saves a figure in specified formats. It supports both matplotlib and altair charts.
 

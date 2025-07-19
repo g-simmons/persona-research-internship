@@ -22,6 +22,7 @@ from typing import List, Tuple
 import matplotlib.pyplot as plt
 import hierarchical as hrc
 import warnings
+from jaxtyping import Float
 
 warnings.filterwarnings("ignore")
 
@@ -256,7 +257,7 @@ def get_mats(
         / step,
     )
 
-    g = torch.load(
+    g: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(
         BIGSTORAGE_DIR / "raymond" / "pythia" / f"{params}-unembeddings" / step
     ).to(
         device

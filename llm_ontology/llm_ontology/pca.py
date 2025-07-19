@@ -8,6 +8,8 @@ from transformers import AutoTokenizer
 from hf_olmo import OLMoForCausalLM, OLMoTokenizerFast
 from sklearn.decomposition import PCA
 import logging
+# Jaxtyping imports
+from jaxtyping import Float, Int
 
 
 import hierarchical as hrc
@@ -24,7 +26,11 @@ random.seed(0)
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename=f"pca_scores.log", level=logging.INFO)
 
-def load_raw_unembedding_matrix_and_tokenizer(params: str, step: str, model_name: str) -> torch.Tensor:
+def load_raw_unembedding_matrix_and_tokenizer(
+    params: str,
+    step: str,
+    model_name: str
+) -> tuple[Float[torch.Tensor, "vocab_size embedding_dim"], object]:
 
     device = torch.device("cpu")
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
@@ -36,27 +42,29 @@ def load_raw_unembedding_matrix_and_tokenizer(params: str, step: str, model_name
             cache_dir=f"/mnt/bigstorage/raymond/huggingface_cache/pythia-{params}-deduped/{step}",
         )
 
-        g = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(
-            device
-        )  # 'FILE_PATH' in store_matrices.py
+        g: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(f"/mnt/bigstorage/raymond/pythia/{params}-unembeddings/{step}").to(device)
 
     elif model_name == "olmo":
         tokenizer = OLMoTokenizerFast.from_pretrained("allenai/OLMo-7B", revision=step)
-        g = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/{step}")
+        g: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(f"/mnt/bigstorage/raymond/olmo/7B-unembeddings/{step}")
     
     return g, tokenizer
 
-def pca_unembedding_matrix(g: torch.Tensor, new_dim: int):
-        pca = PCA(n_components = new_dim)
-        g = pca.fit_transform(g)
-        g = torch.tensor(g)
+def pca_unembedding_matrix(
+    g: Float[torch.Tensor, "vocab_size embedding_dim"],
+    new_dim: int,
+    output_dir: str = None
+) -> Float[torch.Tensor, "vocab_size new_dim"]:
+    pca = PCA(n_components=new_dim)
+    g_pca = pca.fit_transform(g)
+    g_pca = torch.tensor(g_pca)
+    if output_dir is not None:
         with open(output_dir, "a") as f:
             f.write("[")
             for i in range(len(pca.explained_variance_ratio_)):
                 f.write(str(pca.explained_variance_ratio_[i]) + ", ")
             f.write("], ")
-        
-        return g
+    return g_pca
 
 
 def get_mats_lol(params: str, step: str, multi: bool, model_name: str, new_dim: int, output_dir: str, apply_pca: bool = True):
@@ -64,7 +72,7 @@ def get_mats_lol(params: str, step: str, multi: bool, model_name: str, new_dim: 
     g, tokenizer = load_raw_unembedding_matrix_and_tokenizer(params, step, model_name)
 
     if apply_pca:
-        g = pca_unembedding_matrix(g, new_dim)
+        g = pca_unembedding_matrix(g, new_dim, output_dir=output_dir)
 
     vocab_dict = tokenizer.get_vocab()
 
@@ -107,8 +115,8 @@ def get_mats_lol(params: str, step: str, multi: bool, model_name: str, new_dim: 
     adj_mat = nx.adjacency_matrix(tc_G, nodelist=sorted_keys).todense()
     adj_mat = adj_mat + adj_mat.T
 
-    lda_dirs = torch.stack([v["lda"] for k, v in dirs.items()])
-    lda_dirs: torch.Tensor = lda_dirs / lda_dirs.norm(dim=1).unsqueeze(1)
+    lda_dirs: Float[torch.Tensor, "synset_size new_dim"] = torch.stack([v["lda"] for k, v in dirs.items()])
+    lda_dirs = lda_dirs / lda_dirs.norm(dim=1).unsqueeze(1)
 
     child_parent = {}
 
@@ -130,7 +138,7 @@ def get_mats_lol(params: str, step: str, multi: bool, model_name: str, new_dim: 
         else:
             logger.info(f"ERROR2: {node}")
 
-    lda_diff = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])
+    lda_diff: Float[torch.Tensor, "synset_size new_dim"] = torch.stack([lda_dirs[0]] + [v for k, v in child_parent.items()])
     lda_diff = lda_diff / lda_diff.norm(dim=1).unsqueeze(1)
 
     # multiplying by transpose to get cosine similarity

@@ -44,6 +44,7 @@ import pandas as pd
 from utils import savefig
 import argparse
 from pathlib import Path
+from jaxtyping import Float, Int, Bool
 
 BIGSTORAGE_DIR = Path("/mnt/bigstorage")
 SCRIPT_DIR = Path(__file__).parent
@@ -59,7 +60,7 @@ def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
         cache_dir=BIGSTORAGE_DIR / f"raymond/huggingface_cache/pythia-{params}-deduped/{step}"
     )
 
-    g = torch.load(BIGSTORAGE_DIR / f'raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
+    g: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(BIGSTORAGE_DIR / f'raymond/pythia/{params}-unembeddings/{step}').to(device) # 'FILE_PATH' in store_matrices.py
 
     # g = torch.load('FILE_PATH').to(device)
 
@@ -92,7 +93,12 @@ def save_row_terms(ontology_name: str, params: str, step: str, filter: int, mult
 
 
 # based off the row terms and heatmaps, returns the depth, scores, terms, and term classes
-def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms_txt_dir: str, ontology: ontology_class.Onto, score: str):
+def get_data(adj: Float[torch.Tensor, "synset_size synset_size"],
+    cos: Float[torch.Tensor, "synset_size synset_size"],
+    hier: Float[torch.Tensor, "synset_size synset_size"],
+    row_terms_txt_dir: str,
+    ontology: ontology_class.Onto,
+    score: str):
     size = cos.shape
     with open(row_terms_txt_dir, "r") as f:
         row_terms = f.readlines()
@@ -116,7 +122,7 @@ def get_data(adj: torch.Tensor, cos: torch.Tensor, hier: torch.Tensor, row_terms
     # freqs = []
     for i in range(size[0]):
         if score == "sep":
-            diff = cos[i] - adj[i]
+            diff: Float[torch.Tensor, "synset_size"] = cos[i] - adj[i]
             scores.append(np.linalg.norm(diff))
         elif score == "hier":
             scores.append(np.linalg.norm(hier[i]))

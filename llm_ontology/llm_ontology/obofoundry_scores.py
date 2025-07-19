@@ -12,6 +12,8 @@ import inflect
 import warnings
 import pathlib
 #import huggingface_hub
+# Jaxtyping imports
+from jaxtyping import Float, Int
 
 warnings.filterwarnings('ignore')
 
@@ -137,7 +139,7 @@ def generate_noun_heatmaps(params: str, step: str):
         cache_dir=BIGSTORAGE_DIR / "raymond" / "huggingface_cache" / f"pythia-{params}-deduped" / step
     )
 
-    g = torch.load(BIGSTORAGE_DIR / "raymond" / f"{params}-unembeddings" / step).to(device)
+    g: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(BIGSTORAGE_DIR / "raymond" / f"{params}-unembeddings" / step).to(device)
 
     vocab_dict = tokenizer.get_vocab()
     new_vocab_dict = {key.replace(" ", "_"): value for key, value in vocab_dict.items()}
@@ -161,7 +163,7 @@ def generate_noun_heatmaps(params: str, step: str):
     adj_mat = nx.adjacency_matrix(tc_G, nodelist=sorted_keys).todense()
     adj_mat = adj_mat + adj_mat.T
 
-    lda_dirs = torch.stack([v['lda'] for k, v in dirs.items()])
+    lda_dirs: Float[torch.Tensor, "synset_size embedding_dim"] = torch.stack([v['lda'] for k, v in dirs.items()])
     lda_dirs = lda_dirs / lda_dirs.norm(dim=1).unsqueeze(1)
 
     child_parent = {}
@@ -175,10 +177,10 @@ def generate_noun_heatmaps(params: str, step: str):
         else:
             print("reject: " + node)
 
-    lda_diff = torch.stack([lda_dirs[0]] + [v for v in child_parent.values()])
+    lda_diff: Float[torch.Tensor, "synset_size embedding_dim"] = torch.stack([lda_dirs[0]] + [v for v in child_parent.values()])
     lda_diff = lda_diff / lda_diff.norm(dim=1).unsqueeze(1)
 
-    hi = (lda_diff @ lda_diff.T).cpu().numpy()
+    hi: Float[np.ndarray, "synset_size synset_size"] = (lda_diff @ lda_diff.T).cpu().numpy()
     mats = [adj_mat, (lda_dirs @ lda_dirs.T).cpu().numpy(), hi]
     return mats
 

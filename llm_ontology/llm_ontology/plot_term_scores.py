@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import altair as alt
 import json
+# Jaxtyping imports
+from jaxtyping import Float, Int
 
 # Define models, steps, and chosen terms
 models = ["70M", "160M", "1.4B"]
@@ -25,15 +27,15 @@ for model in models:
         base_path = f"/mnt/bigstorage/raymond/heatmaps-pythia/{model}/{model}-step{step}"
         
         # Load tensors from disk
-        adj = torch.load(f"{base_path}-1.pt", weights_only=False)
-        cos = torch.load(f"{base_path}-2.pt", weights_only=False)
-        hier = torch.load(f"{base_path}-3.pt", weights_only=False)
-        linear = torch.load(f"{base_path}-4.pt", weights_only=False).numpy()
-        
+        adj: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(f"{base_path}-1.pt", weights_only=False)
+        cos: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(f"{base_path}-2.pt", weights_only=False)
+        hier: Float[torch.Tensor, "vocab_size embedding_dim"] = torch.load(f"{base_path}-3.pt", weights_only=False)
+        linear: Float[np.ndarray, "vocab_size"] = torch.load(f"{base_path}-4.pt", weights_only=False).numpy()
+
         # Compute per-term scores for the chosen indices by slicing the tensors
-        causal_sep_scores = np.sum((adj[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
-        hierarchy_scores = np.sum((hier[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
-        linear_rep_scores = linear[filtered_indices]  # Each value represents the score per term
+        causal_sep_scores: Float[np.ndarray, "num_terms"] = np.sum((adj[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
+        hierarchy_scores: Float[np.ndarray, "num_terms"] = np.sum((hier[filtered_indices] - cos[filtered_indices]) ** 2, axis=1)
+        linear_rep_scores: Float[np.ndarray, "num_terms"] = linear[filtered_indices]  # Each value represents the score per term
 
         # Store scores in a DataFrame for the chosen terms only
         df_scores = pd.DataFrame({
@@ -45,7 +47,7 @@ for model in models:
             "step": step,
             "model": model
         })
-        
+
         all_scores.append(df_scores)
 
 # Combine all results into one DataFrame

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 import altair as alt
 import pandas as pd
 import torch
@@ -13,6 +14,8 @@ from .ontology_scores import (
     linear_rep_score_simple as linear_rep_score
 )
 from utils import read_olmo_model_names, sample_from_steps
+# Jaxtyping imports
+from jaxtyping import Float, Int
 
 # Global paths
 BIGSTORAGE_DIR = pathlib.Path("/mnt/bigstorage")
@@ -26,7 +29,12 @@ if not logger.handlers:
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-def load_scores(parameter_models: list[str], steps: list[str], model_name: str, score: str):
+def load_scores(
+    parameter_models: list[str],
+    steps: list[str],
+    model_name: str,
+    score: str
+) -> list[list[float]]:
     scores = []     # each element is a list of scores for a parameter model
 
     for parameter_model in parameter_models:
