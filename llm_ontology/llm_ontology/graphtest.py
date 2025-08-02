@@ -9,7 +9,6 @@ fig.subplots_adjust(bottom=0.15, left=0.2)
 ax.plot(x1, y1, color='blue')
 ax.set_title('Damped oscillation',fontsize=14)
 ax.legend(['Damped oscillation curve'])
-ax.set_xlabel('Time (s)', fontsize=12)
 ax.set_ylabel('Amplitude (V)', fontsize=12)
 fig.savefig('damped_oscillation.png', dpi=300, bbox_inches='tight')
 
