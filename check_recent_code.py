@@ -223,6 +223,42 @@ def get_changed_py_files():
     py_files = [Path(f) for f in changed_files if f.endswith(".py") and Path(f).exists()]
     return py_files
 
+def get_blame_info(file_path: Path, figure_code: str) -> set:
+    """
+    Returns a set of authors responsible for the lines in `figure_code` using `git blame`.
+    """
+    # Find the line numbers in the file that match figure code lines
+    with open(file_path, 'r') as f:
+        file_lines = f.readlines()
+    
+    figure_lines = figure_code.strip().splitlines()
+    matched_line_numbers = []
+
+    for fig_line in figure_lines:
+        fig_line = fig_line.strip()
+        for i, file_line in enumerate(file_lines):
+            if fig_line and fig_line.strip() in file_line.strip():
+                matched_line_numbers.append(i + 1)  # 1-indexed for git blame
+
+    authors = set()
+    for line_num in set(matched_line_numbers):
+        try:
+            result = subprocess.run(
+                ["git", "blame", "-L", f"{line_num},{line_num}", "--line-porcelain", str(file_path)],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            for line in result.stdout.splitlines():
+                if line.startswith("author "):
+                    author = line.replace("author ", "").strip()
+                    authors.add(author)
+                    break
+        except subprocess.CalledProcessError as e:
+            print(Fore.RED + f"Failed to get git blame for line {line_num} in {file_path}: {e}")
+    return authors
+
+
 if __name__ == "__main__":
     changed_py_files = get_changed_py_files()
     has_failures = False
@@ -239,6 +275,11 @@ if __name__ == "__main__":
                 if has_na:
                     has_failures = True
                     print(f"❌ Found N/A values in {file}")
+                    authors = get_blame_info(file, fig_code)
+                    if authors:
+                        print(Fore.YELLOW + f"🔍 Responsible figure authors: {', '.join(authors)}")
+                    else:
+                        print(Fore.YELLOW + "⚠️  Could not determine figure authors.")
                 else:
                     print(f"✅ No issues found in {file}")
     
