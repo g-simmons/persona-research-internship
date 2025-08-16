@@ -35,6 +35,9 @@ if they exist? If anything doesn't exist, return N/A.
 IMPORTANT: If no figure code is detected in the provided code (no matplotlib, seaborn, altair, plotly imports or plotting functions), 
 set all fields to "NO_FIGURE_DETECTED" and return an empty array for missing code suggestion.
 
+Also include a list of line numbers in the code (1-indexed) where figure-related code appears.
+These should be lines where plotting or figure creation functions are called, such as .plot(), .scatter(), .bar(), etc.
+
 For anything returning N/A (other than NO_FIGURE_DETECTED), provide a code snippet suggestion to fix it. If there is a suggestion for matplotlib,
 refer to these rules:
 <matplotlib-rules>
@@ -157,9 +160,16 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str) -> bool:
                                 "type": "string",
                                 "description": "a code snippet suggestion to fix the figure",
                             }
+                        },
+                        "figure line numbers": {
+                            "type": "array",
+                            "description": "line numbers in the code where figure generation or plotting happens",
+                            "items": {
+                                "type": "integer"
+                            }
                         }                        
                     },
-                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn', 'missing code suggestion'],
+                    "required": ["Title", "Plot type", "x-axis title", "y-axis title", 'font size', 'colors', 'figure size', 'saving the figure', 'matplotlib vs. altair vs. seaborn', 'missing code suggestion', 'figure line numbers'],
                     "additionalProperties": False,
                 },
             },
@@ -203,10 +213,10 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str) -> bool:
     if has_no_figure:
         return False
     
-    return has_na_values
+    return has_na_values, jsonform
 
 
-def check_code(fig_code: str) -> bool:
+def check_code(fig_code: str):
     return call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
 
 
@@ -223,25 +233,9 @@ def get_changed_py_files():
     py_files = [Path(f) for f in changed_files if f.endswith(".py") and Path(f).exists()]
     return py_files
 
-def get_blame_info(file_path: Path, figure_code: str) -> set:
-    """
-    Returns a set of authors responsible for the lines in `figure_code` using `git blame`.
-    """
-    # Find the line numbers in the file that match figure code lines
-    with open(file_path, 'r') as f:
-        file_lines = f.readlines()
-    
-    figure_lines = figure_code.strip().splitlines()
-    matched_line_numbers = []
-
-    for fig_line in figure_lines:
-        fig_line = fig_line.strip()
-        for i, file_line in enumerate(file_lines):
-            if fig_line and fig_line.strip() in file_line.strip():
-                matched_line_numbers.append(i + 1)  # 1-indexed for git blame
-
+def get_blame_info(file_path: Path, line_numbers: list[int]) -> set:
     authors = set()
-    for line_num in set(matched_line_numbers):
+    for line_num in set(line_numbers):
         try:
             result = subprocess.run(
                 ["git", "blame", "-L", f"{line_num},{line_num}", "--line-porcelain", str(file_path)],
@@ -259,6 +253,7 @@ def get_blame_info(file_path: Path, figure_code: str) -> set:
     return authors
 
 
+
 if __name__ == "__main__":
     changed_py_files = get_changed_py_files()
     has_failures = False
@@ -271,11 +266,11 @@ if __name__ == "__main__":
             print(f"\nProcessing: {file}")
             with open(file, "r") as f:
                 fig_code = f.read()
-                has_na = check_code(fig_code)
+                has_na, ai_response = check_code(fig_code)
                 if has_na:
-                    has_failures = True
                     print(f"❌ Found N/A values in {file}")
-                    authors = get_blame_info(file, fig_code)
+                    line_numbers = ai_response.get("figure line numbers", [])
+                    authors = get_blame_info(file, line_numbers)
                     if authors:
                         print(Fore.YELLOW + f"🔍 Responsible figure authors: {', '.join(authors)}")
                     else:
