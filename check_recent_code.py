@@ -76,7 +76,7 @@ If there are no code suggestions, return an empty array.
 """
 
 
-def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str) -> bool:
+def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     prompt = fig_qc_prompt.format(fig_code=fig_code)
     # Get API key from environment variable
     OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
