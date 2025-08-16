@@ -211,7 +211,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
     
     # If no figure was detected, return False (no issues)
     if has_no_figure:
-        return False
+        return False, jsonform 
     
     return has_na_values, jsonform
 
