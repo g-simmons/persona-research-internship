@@ -41,7 +41,7 @@ import obo_ontology_heatmaps
 import altair as alt
 import pandas as pd
 
-from utils import savefig
+from utils import savefig, set_huggingface_cache, figname_from_fig_metadata
 import argparse
 from pathlib import Path
 from jaxtyping import Float, Int, Bool
@@ -49,6 +49,10 @@ from jaxtyping import Float, Int, Bool
 BIGSTORAGE_DIR = Path("/mnt/bigstorage")
 SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR.parent / "data"
+
+
+HF_CACHE = set_huggingface_cache(workstation=False)
+
 
 # returns the synsets that make it through the filter, in order of heatmap row
 def get_mat_dim(ontology_name: str, params: str, step: str, filter: int):
@@ -140,7 +144,7 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
     logger.info(f"Saving depth scatterplot for {ontology_name}")
     ontology_dir = BIGSTORAGE_DIR / f"raymond/owl/{ontology_name}.owl"
 
-    term_txt_dir = "owl_row_terms/" + ontology_name + "_row_terms.txt"
+    term_txt_dir = "../data/owl_row_terms/" + ontology_name + "_row_terms.txt"
 
     obo_ontology_heatmaps.save_ontology_hypernym(params, step, ontology_name, multi)
     mats = obo_ontology_heatmaps.get_mats(params, step, multi, filter, ontology_name)
@@ -159,8 +163,23 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         "color": "Term Class",
         "tooltip": ["Term", "Depth", "Score", "Term Class"]
     }
-    # TODO define other vis ideas
-    vis_ideas = [vis_idea_1]
+
+
+    vis_idea_2 = {
+        "x": "Score",
+        "y": "Depth",
+        "color": "Term Class",
+        "tooltip": ["Term", "Depth", "Score", "Term Class"]
+    }
+
+    vis_idea_3 = {
+        "x": "Depth",
+        "y": "Score",
+        "color": "Term",
+        "tooltip": ["Term", "Depth", "Score"]
+    }
+
+    vis_ideas = [vis_idea_1, vis_idea_2, vis_idea_3] 
 
     for vis_idea in vis_ideas:
         logger.info(f"Saving depth scatterplot for {ontology_name} with vis idea {vis_idea}")
@@ -169,10 +188,14 @@ def save_depth_scatterplot(ontology_name: str, params: str, step: str, filter: i
         # TODO uniquely name the file associated with the vis idea
         # TODO extend savefig from https://github.com/g-simmons/persona-research-internship/issues/230 function to handle altair charts
         # TODO call savefig with the chart and filename
-        chart.save(f"figures/depth_scatterplots_3_html/{ontology_name}_depth_scatterplot.html")
-        chart.save(f"figures/depth_scatterplots_3_png/{ontology_name}_depth_scatterplot.png")
-
-
+        metadata_str = figname_from_fig_metadata(vis_idea)
+        savefig(
+            fig=chart, 
+            figure_name=f"depth_scatterplots_3/{ontology_name}_depth_scatterplot_{metadata_str}",
+            figures_dir=SCRIPT_DIR / "../figures/", 
+            formats=["html"], 
+            overwrite=True
+            )
 
 if __name__ == "__main__":
     # # SETTINGS

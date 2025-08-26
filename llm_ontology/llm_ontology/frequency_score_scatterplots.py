@@ -110,7 +110,8 @@ def save_scatterplot(
         fig=fig,
         figures_dir=figures_dir,
         figure_name=figure_name,
-        formats=["png"]
+        formats=["png"],
+        overwrite=True
     )
     plt.close(fig)
 
