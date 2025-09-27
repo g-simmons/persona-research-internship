@@ -271,6 +271,7 @@ if __name__ == "__main__":
                     print(f"❌ Found N/A values in {file}")
                     line_numbers = ai_response.get("figure line numbers", [])
                     authors = get_blame_info(file, line_numbers)
+                    has_failures=True
                     if authors:
                         print(Fore.YELLOW + f"🔍 Responsible figure authors: {', '.join(authors)}")
                     else:
