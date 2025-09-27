@@ -217,7 +217,7 @@ def call_ai(fig_qc_prompt: str, fig_code: str, model_name: str):
 
 
 def check_code(fig_code: str):
-    return call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3-0324:free")
+    return call_ai(FIG_QC_PROMPT, fig_code, model_name="deepseek/deepseek-chat-v3.1:free")
 
 
 
